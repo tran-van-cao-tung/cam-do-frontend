@@ -1,0 +1,18 @@
+.layout{
+    position: absolute;
+    top: 118px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.grid-content{
+    padding-left: 0px !important;
+    
+}
+.containers{
+    padding-bottom: 20px;
+    background-color: #b9c9cd;
+    height: 100%;
+    position: relative;
+}
