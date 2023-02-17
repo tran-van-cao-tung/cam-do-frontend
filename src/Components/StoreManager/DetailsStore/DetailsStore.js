@@ -19,7 +19,7 @@ function Commodity() {
         <Grid container spacing={8}>
           <Grid item xs={6}>
             <Item className="item-detail">
-              <div className="information chill1">Thông tin vốn</div>
+              <div className="information chill-1">Thông tin vốn</div>
               <div className="text">
                 <p>Vốn đầu tư</p>
                 <p>Quỹ tiền mặt</p>
@@ -34,7 +34,7 @@ function Commodity() {
           </Grid>
           <Grid item xs={6}>
             <Item className="item-detail">
-            <div className="information chill2">Thông tin lãi</div>
+            <div className="information chill-2">Thông tin lãi</div>
               <div className="text">
                 <p>Lãi dự kiến</p>
                 <p>lãi đã thu</p>
@@ -47,7 +47,7 @@ function Commodity() {
           </Grid>
           <Grid item xs={6}>
             <Item className="item-detail">
-            <div className="information chill3">Thông tin chi tiết cầm đồ</div>
+            <div className="information chill-3">Thông tin chi tiết cầm đồ</div>
               <div className="text">
                 <p>Tiền cho vay</p>
                 <p>Lãi dự kiến</p>
@@ -64,7 +64,7 @@ function Commodity() {
           </Grid>
           <Grid item xs={6}>
             <Item className="item-detail">
-            <div className="information chill4">Thông tin hợp đồng cầm đồ</div>
+            <div className="information chill-4">Thông tin hợp đồng cầm đồ</div>
               <div className="text">
                 <p>Số hợp đồng</p>
                 <p>Hợp đồng mở</p>

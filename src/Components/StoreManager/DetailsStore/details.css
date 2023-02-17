@@ -9,6 +9,10 @@
     position: relative;
 }
 
+.heading{
+    margin-bottom: 20px;
+}
+
 .conten .item-detail .text,
 .conten .item-detail .number {
     display: grid;
@@ -38,15 +42,15 @@
     padding: 0 20px;
     color: var(--color-text);
 }
-.conten .item-detail .chill1{
+.conten .item-detail .chill-1{
     background: #8BF0BA;
 }
-.conten .item-detail .chill2{
+.conten .item-detail .chill-2{
     background: #F9BDEB;
 }
-.conten .item-detail .chill3{
+.conten .item-detail .chill-3{
     background: #8BD8F0;
 }
-.conten .item-detail .chill4{
+.conten .item-detail .chill-4{
     background: #CEC7F9;
 }
