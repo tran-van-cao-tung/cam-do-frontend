@@ -1,14 +1,15 @@
 import React from "react";
-
-const HeaderPawn = () => {
+import './DetaisPawn.css'
+const HeaderPawn = ({setShowAddContract}) => {
   return (
-    <div>
+    <div className="header">
       <h1>Hợp đồng cầm đồ</h1>
-      <div>
-        <button>Thêm mới</button>
-        <button>Xuất file excel</button>
-        <button>Mẫu hợp đồng</button>
+      <div className="btn">
+        <button onClick={()=>setShowAddContract(true)} className="btn-click addnew">Thêm mới</button>
+        <button className="btn-click export">Xuất file excel</button>
+        <button className="btn-click contract">Mẫu hợp đồng</button>
       </div>
+    
     </div>
   );
 };

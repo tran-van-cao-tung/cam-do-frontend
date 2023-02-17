@@ -27,9 +27,10 @@ const LayoutDefault = ({children}) => {
             <Grid item xs={8} md={9.2} className='grid-content'>
               <Item><div className="containers">{children}</div></Item>
             </Grid>
-          </Grid>
+          </Grid> 
         </Box>
       </div>
+     
     </div>
   );
 };

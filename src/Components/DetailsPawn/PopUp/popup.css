@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap");
+.add-contract {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(82, 77, 77, 0.31);
+  z-index: 2;
+  cursor: pointer;
+}
+.content-contract {
+  background-color: #ffffff;
+  height: 100%;
+  border-radius: 7px;
+  width: 80%;
+  margin: 0 10%;
+  animation: dropTop 0.4s linear;
+}
+@keyframes dropTop {
+  0% {
+    transform: translateY(-100%) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%) scale(1);
+    opacity: 1;
+  }
+}
+.heading-contract {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 10% 19px 4%;
+  border-bottom: 1px solid;
+}
+.heading-contract h1 {
+  font-family: "Francois One";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 35px;
+}
+.sub-heading {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Frank Ruhl Libre";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  gap: 27px;
+}
+.start-red {
+  color: red;
+}
+.contents{
+    width: 90%;
+    margin: 0 5%;
+    
+}
+.heading-info-user{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 28px;
+}
+.heading-user{
+    
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    
+}
+.titile-user{
+    font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 30px;
+color: #000000;
+
+}
+.btn-radio-user.heading-info-user p{
+    font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 25px;
+color: #000000;
+}
