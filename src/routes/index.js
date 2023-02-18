@@ -1,5 +1,7 @@
 import Home from "./../Components/Home/Home";
 import DetailsPawn from './../Components/DetailsPawn/DetailsPawn';
+import ListEmployees from "../Components/DetailsEmployees/ListEmployees";
+import AuthEmployees from "../Components/DetailsEmployees/AuthEmployees";
 
 const publicRoutes = [
   {
@@ -9,7 +11,15 @@ const publicRoutes = [
   {
     path:'/detaipawn',
     component:DetailsPawn
-  }
+  },
+  {
+    path:'/listemployees',
+    component:ListEmployees
+  },
+  {
+    path:'/authemployees',
+    component:AuthEmployees
+  },
 ];
 
 const privateRoutes = [];

@@ -119,10 +119,10 @@ const NavMenu = () => {
             show2 && (
               <ul className={`submenu ${show1}`}>
               <li className="subtext">
-                <NavLink to="/home">&#128900; Danh sách nhân viên</NavLink>
+                <NavLink to="/listemployees">&#128900; Danh sách nhân viên</NavLink>
               </li>
               <li className="subtext">
-                <NavLink to="/ccc" className="subtext">
+                <NavLink to="/authemployees" className="subtext">
                   &#128900; Phân quyền nhân viên
                 </NavLink>
               </li>
