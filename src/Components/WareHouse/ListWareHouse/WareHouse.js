@@ -17,7 +17,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 import "./WareHouse.css";
-import editIcon from "../../asset/img/edit.png";
+import editIcon from "../../../asset/img/edit.png";
 import { useState } from "react";
 
 const WareHouse = () => {
@@ -64,7 +64,11 @@ const WareHouse = () => {
 
                 <div className="wareh-content">
                     <div className="actions-section">
-                        <Button variant="contained" className="add-btn">
+                        <Button
+                            href="/warehouse/add"
+                            variant="contained"
+                            className="add-btn"
+                        >
                             Thêm mới
                         </Button>
                     </div>
