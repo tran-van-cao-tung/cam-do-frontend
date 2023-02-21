@@ -6,11 +6,9 @@ import {
   TableRow,
 } from "@mui/material";
 import React from "react";
-import account from "./../../../asset/img/employees/account.png";
+import deletee from "./../../../asset/img/employees/delete.png";
 import edit from "./../../../asset/img/employees/edit.png";
 import ext from "./../../../asset/img/employees/ext.png";
-import seach from "./../../../asset/img/employees/search.png";
-import deletee from "./../../../asset/img/employees/delete.png";
 
 import "./liststore.css";
 

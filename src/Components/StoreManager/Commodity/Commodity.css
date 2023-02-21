@@ -1,0 +1,174 @@
+:root {
+    --color-text: #000000;
+    --color-all:#AD00FF;
+    --color-active:#14A87B;
+    --color-stop:#F65151;
+}
+
+.liststore {
+    margin: 29px 46px;
+    position: absolute;
+    background: #fff;
+    width: 95%;
+    height: 90%;
+    border-radius: 10px;
+}
+
+.liststore h1 {
+    font-weight: 400;
+    font-size: 45px;
+    line-height: 64px;
+    color: #1A3B42;
+}
+
+.liststorebody {
+    padding-left: 18px;
+}
+
+.liststorebody .addliststore {
+    background: #50C2DA;
+    border-radius: 10px;
+    width: 335px;
+    height: 60px;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: var(--color-text);
+    border: none;
+}
+
+.liststorebody .status {
+    position: absolute;
+    margin-top: 14px;
+    background: rgba(217, 217, 217, 0.3);
+    width: 95%;
+    height: 50px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.liststorebody .status span {
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 35px;
+    color: var(--color-text);
+}
+
+.status .fromstatus {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.status .fromstatus input {
+    margin-left: 12px;
+}
+
+.status .fromstatus p:nth-of-type(1) {
+    color: var(--color-all)
+}
+
+.status .fromstatus p:nth-of-type(2) {
+    color: var(--color-active)
+}
+
+.status .fromstatus p:nth-of-type(3) {
+    color: var(--color-stop)
+}
+
+.status .fromstatus p {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+}
+
+.liststorebody .searchinput input {
+    width: 300px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.34);
+    opacity: 0.6;
+    border: 1px solid #000000;
+    border-radius: 7px;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+
+.status .buttonsearch button{
+    width: 100px;
+    height: 38px;
+    font-size: 18px;
+    font-weight: 400;
+    background:#50C2DA;
+    border-radius: 10px;
+    border: none;
+    color: var(--color-text);
+}
+
+
+/* Table */
+.table{
+    margin: 90px 2% 0;
+}
+.MuiTable-bordered {
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    color: #000000;
+    margin-top: 53px;
+    display: flex;
+}
+
+.MuiTable-bordered th,
+.MuiTable-bordered td {
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 22px;
+    text-align: center;
+}
+.MuiTableHead-root {
+    background-color: #D9D9D9;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.MuiTableHead-root th{
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+   
+}
+.MuiTableBody_root-name span{
+    color:#2137FF;
+}
+
+.MuiTableBody_root-status {
+    width: 121px;
+    height: 24px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F65151;
+    color: #FFFFFF
+}
+
+.activity {
+    background: #14A87B;
+}
+
+.MuiTableBody_root-itemLast {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
