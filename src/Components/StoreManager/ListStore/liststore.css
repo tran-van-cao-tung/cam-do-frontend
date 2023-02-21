@@ -115,3 +115,58 @@
 .table{
     margin: 90px 2% 0;
 }
+.MuiTable-bordered {
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    color: #000000;
+    margin-top: 53px;
+    display: flex;
+}
+
+.MuiTable-bordered th,
+.MuiTable-bordered td {
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 22px;
+    text-align: center;
+}
+.MuiTableHead-root {
+    background-color: #D9D9D9;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.MuiTableHead-root th{
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+   
+}
+
+
+.MuiTableBody_root-status {
+    width: 121px;
+    height: 24px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F65151;
+    color: #FFFFFF
+}
+
+.activity {
+    background: #14A87B;
+}
+
+.MuiTableBody_root-itemLast {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}

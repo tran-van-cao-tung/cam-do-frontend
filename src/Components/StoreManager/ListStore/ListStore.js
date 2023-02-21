@@ -1,4 +1,17 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import React from "react";
+import account from "./../../../asset/img/employees/account.png";
+import edit from "./../../../asset/img/employees/edit.png";
+import ext from "./../../../asset/img/employees/ext.png";
+import seach from "./../../../asset/img/employees/search.png";
+import deletee from "./../../../asset/img/employees/delete.png";
+
 import "./liststore.css";
 
 const ListStore = () => {
@@ -36,7 +49,68 @@ const ListStore = () => {
           </div>
         </div>
         {/* Table Store */}
-        <div className="table">helo</div>
+        <div className="table">
+          <Table className="MuiTable-bordered">
+            <TableHead className="MuiTableHead-root">
+              <TableRow>
+                <TableCell>STT</TableCell>
+                <TableCell>Cửa hàng</TableCell>
+                <TableCell>Địa Chỉ</TableCell>
+                <TableCell>Số điện thoại</TableCell>
+                <TableCell>Vốn đầu tư</TableCell>
+                <TableCell>Ngày tạo</TableCell>
+                <TableCell>Tình trạng</TableCell>
+                <TableCell>Chức năng</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody className="MuiTableBody-root">
+              <TableRow>
+                <TableCell>1</TableCell>
+                <TableCell>S1</TableCell>
+                <TableCell>
+                  <span>180/6/8 Gò Dầu, Tân Quý, Tân Phú, TP.Hồ Chí Minh</span>
+                </TableCell>
+                <TableCell>0958394293</TableCell>
+                <TableCell>1,000,000,000</TableCell>
+                <TableCell>22/12/2022</TableCell>
+                <TableCell>
+                  <div className="MuiTableBody_root-status activity">
+                    Đang làm việc
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="MuiTableBody_root-itemLast">
+                    <img src={ext} alt="" />
+                    <img src={edit} alt="" />
+                    <img src={deletee} alt="" />
+                  </div>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>2</TableCell>
+                <TableCell>S2</TableCell>
+                <TableCell className="MuiTableBody_root-name">
+                  <span>
+                    100 Trần Bá Giao, Phường 5, Gò Vấp, TP.Hồ Chí Minh
+                  </span>
+                </TableCell>
+                <TableCell>0984736284</TableCell>
+                <TableCell>1,000,000,000</TableCell>
+                <TableCell>22/12/2022</TableCell>
+                <TableCell>
+                  <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                </TableCell>
+                <TableCell>
+                  <div className="MuiTableBody_root-itemLast">
+                    <img src={ext} alt="" />
+                    <img src={edit} alt="" />
+                    <img src={deletee} alt="" />
+                  </div>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </>
   );
