@@ -16,7 +16,9 @@ function Commodity() {
           <h1>Danh sách cửa hàng</h1>
           <div className="liststorebody">
             {/* Button  Add */}
+            <a href='/commodity/add'>
             <button className="addliststore">Thêm mới cửa hàng</button>
+            </a>
             {/* Status */}
             <div className="status">
               <span>Tình Trạng</span>

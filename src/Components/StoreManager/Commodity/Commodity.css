@@ -4,6 +4,9 @@
     --color-active:#14A87B;
     --color-stop:#F65151;
 }
+*{
+    text-decoration: none;
+}
 
 .liststore {
     margin: 29px 46px;

@@ -13,13 +13,16 @@ import ext from "./../../../asset/img/employees/ext.png";
 import "./liststore.css";
 
 const ListStore = () => {
+  
   return (
     <>
       <div className="liststore">
         <h1>Danh sách cửa hàng</h1>
         <div className="liststorebody">
           {/* Button  Add */}
-          <button className="addliststore">Thêm mới cửa hàng</button>
+          <a href="/Addliststore/add">
+            <button className="addliststore">Thêm mới cửa hàng</button>
+          </a>
           {/* Status */}
           <div className="status">
             <span>Tình Trạng</span>
