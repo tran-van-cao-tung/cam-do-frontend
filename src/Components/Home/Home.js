@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import "./home.css";
+import TablePawn from './../DetailsPawn/TablePawn';
 const Home = () => {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -94,10 +95,10 @@ const Home = () => {
                     <span>Tạo bởi: User1</span>
                   </div>
                 </div>
-                
               </div>
             </Item>
           </Grid>
+          
         </Grid>
       </div>
     </div>

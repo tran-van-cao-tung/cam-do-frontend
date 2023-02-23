@@ -1,12 +1,12 @@
 import React from "react";
 import Menuh from "../Menu/Menu";
 import NavMenu from "./../Menu/NavMenu";
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import './layoutDefault.css'
-const LayoutDefault = ({children}) => {
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import "./layoutDefault.css";
+const LayoutDefault = ({ children }) => {
     const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -21,15 +21,16 @@ const LayoutDefault = ({children}) => {
       <div className="layout">
         <Box sx={{ flexGrow: 1 }} style={{height:'100%'}} >
           <Grid container spacing={1} style={{height:'100%'}}>
-            <Grid item xs={4} md={2.8} className='grid-content' >
+            <Grid item xs={0.5} md={2.8} className='grid-content' >
               <Item><NavMenu/></Item>
             </Grid>
-            <Grid item xs={8} md={9.2} className='grid-content'>
+            <Grid item xs={11.5} md={9.2} className='grid-content'>
               <Item><div className="containers">{children}</div></Item>
             </Grid>
-          </Grid>
+          </Grid> 
         </Box>
       </div>
+     
     </div>
   );
 };

@@ -1,4 +1,4 @@
-.layout{
+.layout {
     position: absolute;
     top: 118px;
     left: 0;
@@ -6,13 +6,14 @@
     bottom: 0;
 }
 
-.grid-content{
+.grid-content {
     padding-left: 0px !important;
-    
 }
-.containers{
+.containers {
     padding-bottom: 20px;
     background-color: #b9c9cd;
     height: 100%;
     position: relative;
+    padding: 15px 30px;
+    /* padding: 40px 40px 0 40px; */
 }
