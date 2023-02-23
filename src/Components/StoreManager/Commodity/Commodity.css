@@ -1,10 +1,10 @@
 :root {
     --color-text: #000000;
-    --color-all:#AD00FF;
-    --color-active:#14A87B;
-    --color-stop:#F65151;
+    --color-all: #ad00ff;
+    --color-active: #14a87b;
+    --color-stop: #f65151;
 }
-*{
+* {
     text-decoration: none;
 }
 
@@ -21,7 +21,7 @@
     font-weight: 400;
     font-size: 45px;
     line-height: 64px;
-    color: #1A3B42;
+    color: #1a3b42;
 }
 
 .liststorebody {
@@ -29,7 +29,7 @@
 }
 
 .liststorebody .addliststore {
-    background: #50C2DA;
+    background: #50c2da;
     border-radius: 10px;
     width: 335px;
     height: 60px;
@@ -73,15 +73,15 @@
 }
 
 .status .fromstatus p:nth-of-type(1) {
-    color: var(--color-all)
+    color: var(--color-all);
 }
 
 .status .fromstatus p:nth-of-type(2) {
-    color: var(--color-active)
+    color: var(--color-active);
 }
 
 .status .fromstatus p:nth-of-type(3) {
-    color: var(--color-stop)
+    color: var(--color-stop);
 }
 
 .status .fromstatus p {
@@ -101,21 +101,19 @@
     color: rgba(0, 0, 0, 0.6);
 }
 
-
-.status .buttonsearch button{
+.status .buttonsearch button {
     width: 100px;
     height: 38px;
     font-size: 18px;
     font-weight: 400;
-    background:#50C2DA;
+    background: #50c2da;
     border-radius: 10px;
     border: none;
     color: var(--color-text);
 }
 
-
 /* Table */
-.table{
+.table {
     margin: 90px 2% 0;
 }
 .MuiTable-bordered {
@@ -129,30 +127,29 @@
 .MuiTable-bordered th,
 .MuiTable-bordered td {
     border: 1px solid rgba(0, 0, 0, 0.6);
-    font-family: 'Frank Ruhl Libre';
+    font-family: "Frank Ruhl Libre";
     font-style: normal;
     font-weight: 400;
     font-size: 17px;
     line-height: 22px;
     text-align: center;
 }
-.MuiTableHead-root {
-    background-color: #D9D9D9;
+.MuiTableHead-root-wrap {
+    background-color: #d9d9d9;
     display: flex;
     align-items: center;
     text-align: center;
 }
 
-.MuiTableHead-root th{
-    font-family: 'Frank Ruhl Libre';
+.MuiTableHead-root-wrap th {
+    font-family: "Frank Ruhl Libre";
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-   
 }
-.MuiTableBody_root-name span{
-    color:#2137FF;
+.MuiTableBody_root-name span {
+    color: #2137ff;
 }
 
 .MuiTableBody_root-status {
@@ -162,12 +159,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #F65151;
-    color: #FFFFFF
+    background: #f65151;
+    color: #ffffff;
 }
 
 .activity {
-    background: #14A87B;
+    background: #14a87b;
 }
 
 .MuiTableBody_root-itemLast {
