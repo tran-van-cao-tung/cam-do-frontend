@@ -9,6 +9,8 @@ import AddList from "../Components/StoreManager/AddListStore/AddList";
 import Addcommondity from "../Components/StoreManager/AddCommondity/Addcommondity";
 import WareHouse from "../Components/WareHouse/ListWareHouse";
 import AddWareHouse from "../Components/WareHouse/AddWareHouse";
+import ListEmployees from "../Components/DetailsEmployees/ListEmployees";
+import AuthEmployees from "../Components/DetailsEmployees/AuthEmployees";
 
 const publicRoutes = [
     {
@@ -54,6 +56,15 @@ const publicRoutes = [
     {
         path: "/warehouse/add",
         component: AddWareHouse,
+    },
+
+    {
+        path: "/listemployees",
+        component: ListEmployees,
+    },
+    {
+        path: "/authemployees",
+        component: AuthEmployees,
     },
 ];
 
