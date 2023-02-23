@@ -1,69 +1,73 @@
-import Home from "./../Components/Home/Home";
-import DetailsPawn from "./../Components/DetailsPawn/DetailsPawn";
-import ChainStores from "../Components/StoreManager/ChainStores/ChainStores";
-import Commodity from "../Components/StoreManager/Commodity/Commodity";
-import DetailsStore from "../Components/StoreManager/DetailsStore/DetailsStore";
-import ListStore from "../Components/StoreManager/ListStore/ListStore";
-import Money from "../Components/StoreManager/Money/Money";
-import AddList from "../Components/StoreManager/AddListStore/AddList";
-import Addcommondity from "../Components/StoreManager/AddCommondity/Addcommondity";
-import WareHouse from "../Components/WareHouse/ListWareHouse";
-import AddWareHouse from "../Components/WareHouse/AddWareHouse";
-import ListEmployees from "../Components/DetailsEmployees/ListEmployees";
-import AuthEmployees from "../Components/DetailsEmployees/AuthEmployees";
+import Home from './../Components/Home/Home';
+import DetailsPawn from './../Components/DetailsPawn/DetailsPawn';
+import ChainStores from '../Components/StoreManager/ChainStores/ChainStores';
+import Commodity from '../Components/StoreManager/Commodity/Commodity';
+import DetailsStore from '../Components/StoreManager/DetailsStore/DetailsStore';
+import ListStore from '../Components/StoreManager/ListStore/ListStore';
+import Money from '../Components/StoreManager/Money/Money';
+import AddList from '../Components/StoreManager/AddListStore/AddList';
+import Addcommondity from '../Components/StoreManager/AddCommondity/Addcommondity';
+import WareHouse from '../Components/WareHouse/ListWareHouse';
+import AddWareHouse from '../Components/WareHouse/AddWareHouse';
+import UpdateWareHouse from '../Components/WareHouse/UpdateWareHouse';
+import ListEmployees from '../Components/DetailsEmployees/ListEmployees';
+import AuthEmployees from '../Components/DetailsEmployees/AuthEmployees';
 
 const publicRoutes = [
     {
-        path: "/",
+        path: '/',
         component: Home,
     },
     {
-        path: "/detaipawn",
+        path: '/detaipawn',
         component: DetailsPawn,
     },
     {
-        path: "/chainstores",
+        path: '/chainstores',
         component: ChainStores,
     },
     {
-        path: "/commodity",
+        path: '/commodity',
         component: Commodity,
     },
     {
-        path: "/commodity/add",
+        path: '/commodity/add',
         component: Addcommondity,
     },
     {
-        path: "/detailsStore",
+        path: '/detailsStore',
         component: DetailsStore,
     },
     {
-        path: "/liststore",
+        path: '/liststore',
         component: ListStore,
     },
     {
-        path: "/Addliststore/add",
+        path: '/Addliststore/add',
         component: AddList,
     },
     {
-        path: "/money",
+        path: '/money',
         component: Money,
     },
     {
-        path: "/warehouse",
+        path: '/warehouse',
         component: WareHouse,
     },
     {
-        path: "/warehouse/add",
+        path: '/warehouse/add',
         component: AddWareHouse,
     },
-
     {
-        path: "/listemployees",
+        path: '/warehouse/update',
+        component: UpdateWareHouse,
+    },
+    {
+        path: '/listemployees',
         component: ListEmployees,
     },
     {
-        path: "/authemployees",
+        path: '/authemployees',
         component: AuthEmployees,
     },
 ];

@@ -49,11 +49,10 @@
 }
 
 .add-input-group {
-    position: relative;
     display: flex;
     flex-direction: row;
     align-items: baseline;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .add-input-group .label {
@@ -63,20 +62,11 @@
     font-weight: bold;
 }
 
-.add-wareh-section .add-input {
+.add-input {
     flex: 1;
     padding: 2px 15px;
     border: 1px solid #8a8888;
     border-radius: 6px;
-}
-.add-wareh-section .add-input.Mui-error {
-    border: 1px solid #d32f2f;
-}
-
-.add-input-group .wareh-input-error {
-    position: absolute;
-    bottom: -20px;
-    right: 0;
 }
 
 .add-actions {
