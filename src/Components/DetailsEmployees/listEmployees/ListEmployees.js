@@ -1,24 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { styled } from "@mui/material/styles";
-import { Grid, InputAdornment, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@mui/material';
+import { Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import Paper from "@mui/material/Paper";
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import search from './../../asset/img/employees/search.png';
-import account from './../../asset/img/employees/account.png';
-import edit from './../../asset/img/employees/edit.png';
+import search from './../../../asset/img/employees/search.png';
+import account from './../../../asset/img/employees/account.png';
+import edit from './../../../asset/img/employees/edit.png';
 import "./employee.css";
+import { useNavigate } from 'react-router-dom';
 
 
 
 
 function ListEmployees() {
-    const [age, setAge] = useState(10);
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
+    const history = useNavigate();
 
 
 
@@ -37,7 +31,7 @@ function ListEmployees() {
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Item>
-                        <button className='employee_button'>Thêm mới</button>
+                        <button className='employee_button' onClick={() => { history('/addemployee') }}>Thêm mới</button>
                         <form className='employee_search'>
                             <div >
                                 <div className='employee_search-check'>
@@ -50,29 +44,12 @@ function ListEmployees() {
                                     <label className='check3'>Tạm khóa</label>
                                 </div >
                                 <div className='employee_search-select'>
-                                    <FormControl sx={{ width: '100%' }}>
-                                        <Select
-                                            className='employee_search-option'
-                                            value={age}
-                                            onChange={handleChange}
-                                        >
-                                            <MenuItem value={10} >TP. Hồ Chí Minh</MenuItem>
-                                            <MenuItem value={20}>TP. Đà Nẵng</MenuItem>
-                                            <MenuItem value={30}>TP. Hà Nội</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    <TextField
-                                        variant="outlined"
-                                        placeholder='Tìm kiếm...'
-                                        className='employee_search-input'
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="start">
-                                                    <img src={search} alt='search' />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
+                                    <select className='employee_search-option'>
+                                        <option>TP. Hồ Chí Minh</option>
+                                        <option>TP. Đà Nẵng</option>
+                                        <option>TP. Hà Nội</option>
+                                    </select>
+                                    <input type='text' placeholder='Tìm kiếm...' className='employee_search-input' />
                                 </div >
                             </div >
                             <button className='employee_search-btn' >
@@ -108,7 +85,7 @@ function ListEmployees() {
                                         <TableCell >
                                             <div className='MuiTableBody_root-itemLast'>
                                                 <img src={account} alt='' />
-                                                <img src={edit} alt='' />
+                                                <img src={edit} alt='' onClick={() => { history('/editemployee/1') }} />
                                             </div>
                                         </TableCell>
                                     </TableRow>
@@ -123,8 +100,8 @@ function ListEmployees() {
                                         <TableCell><div className='MuiTableBody_root-status '>Tạm khóa</div ></TableCell>
                                         <TableCell >
                                             <div className='MuiTableBody_root-itemLast'>
-                                                <img src={account} alt='' />
-                                                <img src={edit} alt='' />
+                                                <img src={account} alt='phân quyền' onClick={()=>{history('/authorization')}}/>
+                                                <img src={edit} alt='chỉnh sửa' onClick={() => { history('/editemployee/2') }} />
                                             </div>
                                         </TableCell>
                                     </TableRow>
