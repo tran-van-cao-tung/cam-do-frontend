@@ -1,5 +1,6 @@
 import Home from "./../Components/Home/Home";
 import DetailsPawn from './../Components/DetailsPawn/DetailsPawn';
+import UpdateContract from './../Components/DetailsPawn/PopUp/UpdateContract';
 
 const publicRoutes = [
   {
@@ -9,7 +10,8 @@ const publicRoutes = [
   {
     path:'/detaipawn',
     component:DetailsPawn
-  }
+  },
+  
 ];
 
 const privateRoutes = [];
