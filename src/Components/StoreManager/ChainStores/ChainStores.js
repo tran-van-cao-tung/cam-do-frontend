@@ -8,13 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import * as React from "react";
 import "./chainstores.css";
 
-function createData(name, money, capital, pawnloan, expected, collected) {
-  return { name, money, capital, pawnloan, expected, collected };
+function createData(name, money, capital, pawnloan, collected) {
+  return { name, money, capital, pawnloan, collected };
 }
 
 const rows = [
-  createData("S1", 890000000, 1000000000, 110000000, 0, 0),
-  createData("S2", 1000000000, 1000000000, 0, 0, 0),
+  createData("S1", 890000000, 1000000000, 110000000, 0),
+  createData("S2", 1000000000, 1000000000, 0, 0),
 ];
 
 export default function ChainStores() {
@@ -30,7 +30,6 @@ export default function ChainStores() {
               <TableCell align="center">Quỹ tiền mặt</TableCell>
               <TableCell align="center">Vốn đầu tư</TableCell>
               <TableCell align="center">Cho vay cầm đồ</TableCell>
-              <TableCell align="center">Lãi dự kiến</TableCell>
               <TableCell align="center">Lãi đã thu</TableCell>
             </TableRow>
           </TableHead>
@@ -43,7 +42,6 @@ export default function ChainStores() {
                 <TableCell align="center">{row.money}</TableCell>
                 <TableCell align="center">{row.capital}</TableCell>
                 <TableCell align="center">{row.pawnloan}</TableCell>
-                <TableCell align="center">{row.expected}</TableCell>
                 <TableCell align="center">{row.collected}</TableCell>
               </TableRow>
             ))}
