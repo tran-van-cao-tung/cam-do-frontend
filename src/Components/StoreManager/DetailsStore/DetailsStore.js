@@ -36,11 +36,11 @@ function Commodity() {
             <Item className="item-detail">
             <div className="information chill-2">Thông tin lãi</div>
               <div className="text">
-                <p>Lãi dự kiến</p>
-                <p>lãi đã thu</p>
+                {/* <p>Lãi dự kiến</p> */}
+                <p>Lãi đã thu</p>
               </div>
               <div className="number">
-                <p>0</p>
+                {/* <p>0</p> */}
                 <p>0</p>
               </div>
             </Item>
@@ -50,13 +50,13 @@ function Commodity() {
             <div className="information chill-3">Thông tin chi tiết cầm đồ</div>
               <div className="text">
                 <p>Tiền cho vay</p>
-                <p>Lãi dự kiến</p>
+                {/* <p>Lãi dự kiến</p> */}
                 <p>Lãi đã thu</p>
                 <p>Tiền khách nợ</p>
               </div>
               <div className="number">
                 <p>110,000,000</p>
-                <p>1,700,000</p>
+                {/* <p>1,700,000</p> */}
                 <p>100,000</p>
                 <p>0</p>
               </div>

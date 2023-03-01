@@ -40,13 +40,11 @@
 }
 
 
-.add-section .add-status-group {
-    transform: translateX(-110px);
+.add-commodity-left .add-status-group {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin-bottom: 10px;
-    margin-top: 50px;
 }
 
 .add-status-group .label {
@@ -82,7 +80,7 @@
     border-radius: 6px;
 }
 
-.add-actions {
+.Addcommondity .add-actions {
     width: 30vw;
     min-width: 430px;
     display: flex;

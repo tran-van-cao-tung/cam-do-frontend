@@ -139,7 +139,7 @@ const Addcommondity = () => {
               Lưu lại
             </Button>
 
-            <Button className="back-btn" variant="contained" href="/warehouse">
+            <Button className="back-btn" variant="contained" href="/commodity">
               Quay lại
             </Button>
           </div>
