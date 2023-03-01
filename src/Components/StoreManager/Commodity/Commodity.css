@@ -4,6 +4,7 @@
     --color-active: #14a87b;
     --color-stop: #f65151;
 }
+
 * {
     text-decoration: none;
 }
@@ -15,6 +16,13 @@
     width: 95%;
     height: 90%;
     border-radius: 10px;
+}
+
+.liststore-h1 {
+    font-weight: 400;
+    font-size: 45px;
+    line-height: 64px;
+    color: #1a3b42;
 }
 
 .liststore h1 {
@@ -116,6 +124,7 @@
 .table {
     margin: 90px 2% 0;
 }
+
 .MuiTable-bordered {
     border-collapse: collapse;
     border: 1px solid #ddd;
@@ -134,11 +143,17 @@
     line-height: 22px;
     text-align: center;
 }
+
 .MuiTableHead-root-wrap {
     background-color: #d9d9d9;
     display: flex;
     align-items: center;
     text-align: center;
+}
+
+.MuiTableBody-root .MuiTableBody_root-iteam {
+    display: flex;
+    justify-content: center;
 }
 
 .MuiTableHead-root-wrap th {
@@ -148,6 +163,7 @@
     font-size: 20px;
     line-height: 26px;
 }
+
 .MuiTableBody_root-name span {
     color: #2137ff;
 }

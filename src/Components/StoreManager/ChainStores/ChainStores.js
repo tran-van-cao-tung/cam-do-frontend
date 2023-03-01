@@ -19,37 +19,39 @@ const rows = [
 
 export default function ChainStores() {
   return (
+    <>
+      <h1 className="heading">Tổng quát các cửa hàng</h1>
       <div className="tableChainStores">
-      <TableContainer component={Paper}>
-        <h1 className="heading">Tổng quát các cửa hàng</h1>
-        <div className="transaction"></div>
-        <Table sx={{ minWidth: 650 }} aria-label="caption table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Tên cửa hàng</TableCell>
-              <TableCell align="center">Quỹ tiền mặt</TableCell>
-              <TableCell align="center">Vốn đầu tư</TableCell>
-              <TableCell align="center">Cho vay cầm đồ</TableCell>
-              <TableCell align="center">Lãi dự kiến</TableCell>
-              <TableCell align="center">Lãi đã thu</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="center">{row.money}</TableCell>
-                <TableCell align="center">{row.capital}</TableCell>
-                <TableCell align="center">{row.pawnloan}</TableCell>
-                <TableCell align="center">{row.expected}</TableCell>
-                <TableCell align="center">{row.collected}</TableCell>
+        <TableContainer component={Paper}>
+          <div className="transaction"></div>
+          <Table sx={{ minWidth: 650 }} aria-label="caption table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Tên cửa hàng</TableCell>
+                <TableCell align="center">Quỹ tiền mặt</TableCell>
+                <TableCell align="center">Vốn đầu tư</TableCell>
+                <TableCell align="center">Cho vay cầm đồ</TableCell>
+                <TableCell align="center">Lãi dự kiến</TableCell>
+                <TableCell align="center">Lãi đã thu</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow key={row.name}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="center">{row.money}</TableCell>
+                  <TableCell align="center">{row.capital}</TableCell>
+                  <TableCell align="center">{row.pawnloan}</TableCell>
+                  <TableCell align="center">{row.expected}</TableCell>
+                  <TableCell align="center">{row.collected}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
+    </>
   );
 }

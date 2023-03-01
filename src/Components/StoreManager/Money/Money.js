@@ -14,18 +14,18 @@ import "./Money.css";
 const Money = () => {
   return (
     <>
+      <h1 className="money-h1">S1</h1>
       <div className="liststore">
-        <h1>S1</h1>
         <div className="bodyText">
           <div className="bodyheader">
             <div className="texth">
               <p>QUỸ TIỀN MẶT</p>
               <p>10,000,000</p>
             </div>
-            <div className="texth">
+            {/* <div className="texth">
               <p>TIỀN ĐẦU NGÀY</p>
               <p>10,000,000</p>
-            </div>
+            </div> */}
             <div className="texth">
               <p>VỐN ĐẦU TƯ</p>
               <p>10,000,000</p>
@@ -45,7 +45,7 @@ const Money = () => {
                 </button>
               </div>
             </div>
-            <div>
+            {/* <div>
               <div className="imgbody">
                 <img src={moneyy} alt="" /> <span>Nhập tiền đầu ngày</span>
               </div>
@@ -57,7 +57,7 @@ const Money = () => {
                   <img src={save} alt="" /> <span>Lưu lại</span>
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="bodyfoter">
             <div className="imgbody">
@@ -82,18 +82,18 @@ const Money = () => {
                   </TableCell>
                   <TableCell className='MuiTableBody_root-name'>
                     <span>+10,000,000</span>
-                    </TableCell>
+                  </TableCell>
                   <TableCell>Cập nhật tiền đầu ngày</TableCell>
                 </TableRow>
                 <TableRow>
-                <TableCell>1</TableCell>
+                  <TableCell>1</TableCell>
                   <TableCell>3/1/2023</TableCell>
                   <TableCell className='MuiTableBody_root-name'>
                     <span>Admin1</span>
                   </TableCell>
                   <TableCell className='MuiTableBody_root-name'>
                     <span>+10,000,000</span>
-                    </TableCell>
+                  </TableCell>
                   <TableCell>Nhập lại quỹ tiền mặt</TableCell>
                 </TableRow>
               </TableBody>

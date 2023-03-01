@@ -7,6 +7,12 @@
     height: 90%;
     border-radius: 10px;
 }
+.money-h1{
+    font-weight: 400;
+    font-size: 45px;
+    line-height: 64px;
+    color: #1a3b42;
+}
 
 .bodyText .bodyheader {
     display: flex;

@@ -14,7 +14,7 @@
     border-radius: 10px;
 }
 
-.liststore h1 {
+.liststorebody-h1 {
     font-weight: 400;
     font-size: 45px;
     line-height: 64px;
@@ -28,6 +28,7 @@
 .liststorebody .addliststore {
     background: #50c2da;
     border-radius: 10px;
+    margin-top: 20px;
     width: 335px;
     height: 60px;
     font-weight: 400;
