@@ -70,8 +70,14 @@
     display: flex;
     flex-direction: row;
 }
-.radio-item .radio-all{
-    color: red;
+.radio-item .radio-all > span{
+    color: var(--color-all);
+}
+.radio-item .radio-active > span{
+    color: var(--color-active);
+}
+.radio-item .radio-stop > span{
+    color: var(--color-stop);
 }
 .status .fromstatus p {
     font-weight: 400;
