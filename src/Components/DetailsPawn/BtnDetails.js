@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
+
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -13,21 +11,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import {AiOutlineSearch} from 'react-icons/ai'
-=======
->>>>>>> 0f6f24a6c77d5116fe180c8937a266274b985fc3
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React from "react";
-import { AiOutlineSearch } from 'react-icons/ai';
-<<<<<<< HEAD
-=======
->>>>>>> Vi
->>>>>>> 0f6f24a6c77d5116fe180c8937a266274b985fc3
+
 const BtnDetails = () => {
     const [value, setValue] = React.useState();
 
