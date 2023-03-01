@@ -3,10 +3,14 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow,
+  TableRow
 } from "@mui/material";
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 import React from "react";
-import deletee from "./../../../asset/img/employees/delete.png";
+import { Link } from "react-router-dom";
 import edit from "./../../../asset/img/employees/edit.png";
 import ext from "./../../../asset/img/employees/ext.png";
 
@@ -26,14 +30,30 @@ const ListStore = () => {
           <div className="status">
             <span>Tình Trạng</span>
             {/* From status  */}
-            <div className="fromstatus">
-              <input name="gender" type="radio" value="Tất cả" />
-              <p>Tất cả</p>
-              <input name="gender" type="radio" value="Đang hoạt động" />
-              <p>Đang hoạt động</p>
-              <input name="gender" type="radio" value="Đã tạm dừng" />
-              <p>Đã tạm dừng</p>
-            </div>
+            <span className="fromstatus">
+              <FormControl className="form-iteam">
+                <RadioGroup className="radio-item">
+                  <FormControlLabel
+                    value="all"
+                    control={<Radio />}
+                    label="Tất cả"
+                    className="radio-all"
+                  />
+                  <FormControlLabel
+                    value="active"
+                    control={<Radio />}
+                    label="Đang hoạt động"
+                    className="radio-active"
+                  />
+                  <FormControlLabel
+                    value="stop"
+                    control={<Radio />}
+                    label="Đã tạm dừng"
+                    className="radio-stop"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </span>
             {/* Search */}
             <div className="searchinput">
               <input
@@ -80,19 +100,19 @@ const ListStore = () => {
                 </TableCell>
                 <TableCell>
                   <div className="MuiTableBody_root-itemLast">
-                    <a href="#">
+                    <Link to="#">
                       <img src={ext} alt="" />
-                    </a>
-                    <a href="#">
+                    </Link>
+                    <Link to="/editliststore/edit">
                       <img src={edit} alt="" />
-                    </a>
+                    </Link>
                   </div>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>2</TableCell>
                 <TableCell>S2</TableCell>
-                <TableCell className="MuiTableBody_root-name">
+                <TableCell>
                   <span>
                     100 Trần Bá Giao, Phường 5, Gò Vấp, TP.Hồ Chí Minh
                   </span>
@@ -105,12 +125,12 @@ const ListStore = () => {
                 </TableCell>
                 <TableCell>
                   <div className="MuiTableBody_root-itemLast">
-                    <a href="#">
+                    <Link to="#">
                       <img src={ext} alt="" />
-                    </a>
-                    <a href="#">
+                    </Link>
+                    <Link to="/editliststore/edit">
                       <img src={edit} alt="" />
-                    </a>
+                    </Link>
                   </div>
                 </TableCell>
               </TableRow>

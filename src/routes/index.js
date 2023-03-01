@@ -1,16 +1,18 @@
-import Home from "./../Components/Home/Home";
-import DetailsPawn from "./../Components/DetailsPawn/DetailsPawn";
+import AuthEmployees from "../Components/DetailsEmployees/AuthEmployees";
+import ListEmployees from "../Components/DetailsEmployees/ListEmployees";
+import Addcommondity from "../Components/StoreManager/AddCommondity/Addcommondity";
+import AddList from "../Components/StoreManager/AddListStore/AddList";
 import ChainStores from "../Components/StoreManager/ChainStores/ChainStores";
 import Commodity from "../Components/StoreManager/Commodity/Commodity";
 import DetailsStore from "../Components/StoreManager/DetailsStore/DetailsStore";
+import EditCommondity from "../Components/StoreManager/EditCommondity/EditCommondity";
+import EditListStore from "../Components/StoreManager/EditListStore/EditListStore";
 import ListStore from "../Components/StoreManager/ListStore/ListStore";
 import Money from "../Components/StoreManager/Money/Money";
-import AddList from "../Components/StoreManager/AddListStore/AddList";
-import Addcommondity from "../Components/StoreManager/AddCommondity/Addcommondity";
-import WareHouse from "../Components/WareHouse/ListWareHouse";
 import AddWareHouse from "../Components/WareHouse/AddWareHouse";
-import ListEmployees from "../Components/DetailsEmployees/ListEmployees";
-import AuthEmployees from "../Components/DetailsEmployees/AuthEmployees";
+import WareHouse from "../Components/WareHouse/ListWareHouse";
+import DetailsPawn from "./../Components/DetailsPawn/DetailsPawn";
+import Home from "./../Components/Home/Home";
 
 const publicRoutes = [
     {
@@ -30,6 +32,10 @@ const publicRoutes = [
         component: Commodity,
     },
     {
+        path: "/commodity/edit",
+        component: EditCommondity,
+    },
+    {
         path: "/commodity/add",
         component: Addcommondity,
     },
@@ -44,6 +50,10 @@ const publicRoutes = [
     {
         path: "/Addliststore/add",
         component: AddList,
+    },
+    {
+        path: "/editliststore/edit",
+        component: EditListStore,
     },
     {
         path: "/money",

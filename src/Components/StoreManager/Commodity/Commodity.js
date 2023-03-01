@@ -1,5 +1,11 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Link } from "react-router-dom";
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+
 import "./Commodity.css";
 
 function Commodity() {
@@ -16,14 +22,30 @@ function Commodity() {
                     <div className="status">
                         <span>Tình Trạng</span>
                         {/* From status  */}
-                        <div className="fromstatus">
-                            <input name="gender" type="radio" value="Tất cả" />
-                            <p>Tất cả</p>
-                            <input name="gender" type="radio" value="Đang hoạt động" />
-                            <p>Đang hoạt động</p>
-                            <input name="gender" type="radio" value="Khoá" />
-                            <p>Khoá</p>
-                        </div>
+                        <span className="fromstatus">
+                            <FormControl className="form-iteam">
+                                <RadioGroup className="radio-item">
+                                    <FormControlLabel
+                                        value="all"
+                                        control={<Radio />}
+                                        label="Tất cả"
+                                        className="radio-all"
+                                    />
+                                    <FormControlLabel
+                                        value="active"
+                                        control={<Radio />}
+                                        label="Đang hoạt động"
+                                        className="radio-active"
+                                    />
+                                    <FormControlLabel
+                                        value="stop"
+                                        control={<Radio />}
+                                        label="Đã tạm dừng"
+                                        className="radio-stop"
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                        </span>
                         {/* Search */}
                         <div className="searchinput">
                             <input
@@ -59,10 +81,14 @@ function Commodity() {
                                 <TableCell>1</TableCell>
                                 <TableCell>Cầm đồ</TableCell>
                                 <TableCell className="MuiTableBody_root-name">
-                                    <span>Xe máy</span>
+                                    <Link to="/commodity/edit">
+                                        <span>Xe máy</span>
+                                    </Link>
                                 </TableCell>
                                 <TableCell className="MuiTableBody_root-name">
-                                    <span>XM</span>
+                                    <Link to="/commodity/edit">
+                                        <span>XM</span>
+                                    </Link>
                                 </TableCell>
                                 {/* <TableCell>0</TableCell>
                                 <TableCell>3%/1 tuần</TableCell>
@@ -78,10 +104,14 @@ function Commodity() {
                                 <TableCell>1</TableCell>
                                 <TableCell>Cầm đồ</TableCell>
                                 <TableCell className="MuiTableBody_root-name">
-                                    <span>Ô tô</span>
+                                    <Link to="/commodity/edit">
+                                        <span>Xe máy</span>
+                                    </Link>
                                 </TableCell>
                                 <TableCell className="MuiTableBody_root-name">
-                                    <span>OTO</span>
+                                    <Link to="/commodity/edit">
+                                        <span>XM</span>
+                                    </Link>
                                 </TableCell>
                                 {/* <TableCell>0</TableCell>
                                 <TableCell>3%/1 tuần</TableCell>
