@@ -105,7 +105,7 @@ const AddList = () => {
                         className="back-btn"
                         variant="contained"
 
-                        href="/warehouse"
+                        href="/liststore"
                     >
                         Quay lại
                     </Button>

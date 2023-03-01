@@ -14,7 +14,7 @@
     border-radius: 10px;
 }
 
-.liststore h1 {
+.liststorebody-h1 {
     font-weight: 400;
     font-size: 45px;
     line-height: 64px;
@@ -28,6 +28,7 @@
 .liststorebody .addliststore {
     background: #50c2da;
     border-radius: 10px;
+    margin-top: 20px;
     width: 335px;
     height: 60px;
     font-weight: 400;
@@ -59,28 +60,25 @@
     color: var(--color-text);
 }
 
-.status .fromstatus {
+.liststore .liststorebody .status .fromstatus {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    flex-direction: row;
 }
-
-.status .fromstatus input {
-    margin-left: 12px;
+.liststore .liststorebody .status .fromstatus .radio-item{
+    display: flex;
+    flex-direction: row;
 }
-
-.status .fromstatus p:nth-of-type(1) {
+.radio-item .radio-all > span{
     color: var(--color-all);
 }
-
-.status .fromstatus p:nth-of-type(2) {
+.radio-item .radio-active > span{
     color: var(--color-active);
 }
-
-.status .fromstatus p:nth-of-type(3) {
+.radio-item .radio-stop > span{
     color: var(--color-stop);
 }
-
 .status .fromstatus p {
     font-weight: 400;
     font-size: 20px;
@@ -113,6 +111,7 @@
 .table {
     margin: 90px 2% 0;
 }
+
 .MuiTable-bordered {
     border-collapse: collapse;
     border: 1px solid #ddd;
