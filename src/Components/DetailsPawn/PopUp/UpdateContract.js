@@ -89,8 +89,8 @@ const UpdateContract = ({setShowUpdateContract}) => {
                       <p>Số CMND/Hộ chiếu:</p>
                     </div>
                     <div className="user__info-input">
-                      <input type="text"  placeholder="Nhập tên khách hàng" />
-                      <input type="text" placeholder="Nhập CMND/Hộ chiếu" />
+                      <p>Nguyen Van A</p>
+                      <p className="flend">Nhập số CMND/Hộ chiếu</p>
                     </div>
                   </div>
                 </Grid>
@@ -103,13 +103,11 @@ const UpdateContract = ({setShowUpdateContract}) => {
                       <p>
                         Địa chỉ <span class="start-red">*</span>:
                       </p>
+                      <p></p>
                     </div>
                     <div className="user__info-input">
-                      <input type="text" placeholder="Nhập số điện thoại" />
-                      <input
-                        type="text"
-                        placeholder="Nhập địa chỉ khách hàng"
-                      />
+                      <p>0929485930</p>
+                      <p className="flend">15 Lò Lu, Trường Thạnh, TP. Thủ Đức</p>
                     </div>
                   </div>
                 </Grid>
@@ -151,25 +149,14 @@ const UpdateContract = ({setShowUpdateContract}) => {
                       </p>
                     </div>
                     <div className="user__info-input">
-                      <select>
-                        <option>--Loại TS--</option>
-                        <option>loại 1</option>
-                        <option>loại 2</option>
-                      </select>
-                      <input type="text" placeholder="Nhập tên tài sản" />
-                      <div className="box__input">
-                        <input type="number" placeholder="0" />
-                        <span>VNĐ</span>
-                      </div>
-                      <div className="box__input">
-                        <input type="number" placeholder="0" />
-                        <span>VNĐ</span>
-                      </div>
-                      <div className="box__input">
-                        <input type="number" placeholder="0" />
-                        <span>VNĐ</span>
-                      </div>
-                      <input type="text" placeholder="NV thu tiền" />
+                     <p>Xe máy</p>
+                     <p>Xe SH trămhs</p>
+                     <p>100,000</p>
+                     <p>100,000</p>
+                     <p className="flend">100,000</p>
+                     <p className="flend">User1</p>
+
+
                     </div>
                   </div>
                 </Grid>
