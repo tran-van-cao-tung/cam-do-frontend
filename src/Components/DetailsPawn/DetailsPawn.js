@@ -34,6 +34,7 @@ const [showliquidation,setShowliquidation] = useState(false)
       {
         showliquidation && <Liquidation setShowliquidation={setShowliquidation}/>
       }
+      
       </div>
       
   );

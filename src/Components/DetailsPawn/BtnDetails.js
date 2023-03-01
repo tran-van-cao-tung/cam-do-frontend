@@ -1,17 +1,14 @@
 import React from "react";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import {AiOutlineSearch} from 'react-icons/ai'
+import { AiOutlineSearch } from "react-icons/ai";
 const BtnDetails = () => {
-    const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState();
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -25,7 +22,7 @@ const BtnDetails = () => {
     <div className="btn-detail">
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <div className="search-hd">
               <input placeholder="Tìm Kiếm HĐ" />
               <AiOutlineSearch className="icon-search" />
@@ -40,7 +37,7 @@ const BtnDetails = () => {
                   value={value}
                   onChange={handleChange}
                   renderInput={(params) => <TextField {...params} />}
-                  className='since'
+                  className="since"
                 />
               </Stack>
             </LocalizationProvider>
@@ -54,7 +51,7 @@ const BtnDetails = () => {
                   value={value1}
                   onChange={handleChange1}
                   renderInput={(params) => <TextField {...params} />}
-                  className='since'
+                  className="since"
                 />
               </Stack>
             </LocalizationProvider>
@@ -73,15 +70,15 @@ const BtnDetails = () => {
               <option>loại 2</option>
             </select>
           </Grid>
-          <Grid item xs={2}>
-          <div className="search-hd">
-              <input placeholder="Tìm Kiếm" />
-              <AiOutlineSearch className="icon-search" />
+          <Grid item xs={1}>
+            <div className="search-hd">
+              <button className="btn__click-search">
+                <AiOutlineSearch className="icon-search posi__none" />
+              </button>
             </div>
           </Grid>
         </Grid>
       </Box>
-      
     </div>
   );
 };
