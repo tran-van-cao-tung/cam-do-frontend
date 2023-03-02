@@ -1,13 +1,15 @@
-*{
+* {
     text-decoration: none;
 }
+
 .liststore {
     margin: 29px 46px;
     width: 95%;
     height: 90%;
     border-radius: 10px;
 }
-.money-h1{
+
+.money-h1 {
     font-weight: 400;
     font-size: 45px;
     line-height: 64px;
@@ -67,7 +69,19 @@
     align-items: center;
     margin-top: 20px;
 }
-
+.bodyText .bodyTT .bodyTT-2 .input-total{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+}
+.bodyText .bodyTT .bodyTT-2 .input-total p{
+    position: absolute;
+    right: 8px;
+    font-size: 20px;
+    font-weight: 600;
+}
 .bodyText .bodyTT .bodyTT-2 span {
     font-weight: 400;
     font-size: 25px;
@@ -81,18 +95,24 @@
     border-radius: 6px;
     width: 270px;
     height: 37px;
+    padding-left: 10px;
+    font-size: 15px;
 }
 
 .bodyText .bodyTT .bodyTT-2 button {
     background: #50C2DA;
     border-radius: 5px;
     border: none;
+    display: flex;
+    align-items: center;
 }
-
+.bodyText .bodyTT .bodyTT-2 button>img{
+    margin-right: 5px;
+}
 .bodyText .bodyfoter .imgbody {
     margin-top: 35px;
 }
 
-.MuiTableBody_root-name span{
-    color:#2137FF;
+.MuiTableBody_root-name span {
+    color: #2137FF;
 }

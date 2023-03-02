@@ -21,7 +21,12 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.table-name{
+.table-name {
     margin-top: 15px;
     padding: 35px;
+}
+
+.table-name th,
+.table-name td {
+    font-size: 25px;
 }

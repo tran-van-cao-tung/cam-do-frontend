@@ -38,7 +38,10 @@ const Money = () => {
               </div>
               <div className="bodyTT-2">
                 <span>Số tiền</span>
+                <div className="input-total">
                 <input type="text" placeholder="Gõ vào đây số tiền VNĐ"></input>
+                <p>VNĐ</p>
+                </div>
 
                 <button>
                   <img src={save} alt="" /> <span>Lưu lại</span>
@@ -61,7 +64,7 @@ const Money = () => {
           </div>
           <div className="bodyfoter">
             <div className="imgbody">
-              <img src={day} alt="" /> <span>Lịch sử nhạp quỹ đầu ngày</span>
+              <img src={day} alt="" /> <span>Lịch sử nhập quỹ đầu ngày</span>
             </div>
             <Table className="MuiTable-bordered">
               <TableHead className="MuiTableHead-root">
