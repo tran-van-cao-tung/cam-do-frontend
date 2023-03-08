@@ -1,5 +1,7 @@
-import AuthEmployees from "../Components/DetailsEmployees/AuthEmployees";
-import ListEmployees from "../Components/DetailsEmployees/ListEmployees";
+import AuthEmployee from "../Components/DetailsEmployees/authEmployee/AuthEmployee";
+import ListEmployees from "../Components/DetailsEmployees/listEmployees/ListEmployees";
+import EditEmployee from "../Components/DetailsEmployees/editEmployee/EditEmployee";
+import AddEmployee from "../Components/DetailsEmployees/addEmployee/AddEmployee";
 import Addcommondity from "../Components/StoreManager/AddCommondity/Addcommondity";
 import AddList from "../Components/StoreManager/AddListStore/AddList";
 import ChainStores from "../Components/StoreManager/ChainStores/ChainStores";
@@ -69,13 +71,21 @@ const publicRoutes = [
     },
 
     {
-        path: "/listemployees",
-        component: ListEmployees,
-    },
-    {
-        path: "/authemployees",
-        component: AuthEmployees,
-    },
+        path:'/listemployees',
+        component:ListEmployees
+      },
+      {
+        path:'/addemployee',
+        component:AddEmployee
+      },
+      {
+        path:'/editemployee/:id',
+        component:EditEmployee
+      },
+      {
+        path:'/authorization',
+        component:AuthEmployee
+      },
 ];
 
 const privateRoutes = [];
