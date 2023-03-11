@@ -6,12 +6,10 @@
     padding: 15px;
 }
 
-
 .wareh-wrapper {
     height: 100%;
     display: flex;
     flex-direction: column;
-
 }
 
 .wareh-title {
@@ -36,9 +34,8 @@
     justify-content: flex-start;
     align-items: flex-end;
     flex-direction: column;
-    gap: 10px
+    gap: 10px;
 }
-
 
 .add-section .add-status-group {
     transform: translateX(-110px);
@@ -56,20 +53,18 @@
 }
 
 .add-status-group .radio-available {
-    color: #14A87B;
+    color: #14a87b;
 }
 
 .add-status-group .radio-closed {
-    color: #F65151;
+    color: #f65151;
 }
 
 .add-section .add-input-group {
     display: flow-root;
-
 }
 
 .add-input-group .label {
-
     margin-right: 20px;
     text-align: right;
     font-weight: bold;
@@ -114,7 +109,6 @@
     background-color: #eaec81;
 }
 
-
 .wareh-content .add-content {
     display: flex;
     justify-content: space-around;
@@ -132,7 +126,6 @@
 .wareh-content .add-content .add-commodity-left .add-input-group,
 .wareh-content .add-content .add-commodity-right .add-input-group {
     display: flow-root;
-    
 }
 
 .add-commodity-right .add-action .add-btn {
@@ -145,8 +138,8 @@
 }
 
 .add-commodity-right .edit-btn {
-    color: #FFFFFF;
-    background: #F07070;
+    color: #ffffff;
+    background: #f07070;
     border-radius: 10px;
     margin-left: 25px;
 }

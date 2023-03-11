@@ -1,0 +1,68 @@
+.report-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.report-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.report-content {
+    display: block;
+    flex: 1;
+    padding: 15px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.report-content .search-section {
+    width: 30vw;
+    min-width: 430px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 20px;
+    margin-left: 60px;
+}
+
+.search-icon {
+    font-size: 26px;
+}
+
+.report-content .select-box .MuiOutlinedInput-input {
+    padding: 8px 14px;
+}
+
+.report-content .search-btn {
+    margin-left: 20px;
+    margin-top: unset;
+    width: 130px;
+    background-color: #4fcce6;
+    color: black;
+}
+
+.search-btn:hover {
+    opacity: 0.9;
+    background-color: #4fcce6;
+}
+
+/* Table section */
+.table-section {
+    margin-top: 30px;
+}
+
+.table-header-cell {
+    background: #d9d9d9;
+    border-right: 1px solid white;
+}
+
+.table-header-cell:last-child {
+    border-right: none;
+}
+
+.edit-action-btn img {
+    width: 20px;
+    height: 20px;
+}

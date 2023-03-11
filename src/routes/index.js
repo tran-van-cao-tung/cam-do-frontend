@@ -10,6 +10,7 @@ import Addcommondity from '../Components/StoreManager/AddCommondity/Addcommondit
 import WareHouse from '../Components/WareHouse/ListWareHouse';
 import AddWareHouse from '../Components/WareHouse/AddWareHouse';
 import UpdateWareHouse from '../Components/WareHouse/UpdateWareHouse';
+import AnnualReport from '../Components/Report/AnnualReport';
 import ListEmployees from '../Components/DetailsEmployees/ListEmployees';
 import AuthEmployees from '../Components/DetailsEmployees/AuthEmployees';
 
@@ -69,6 +70,10 @@ const publicRoutes = [
     {
         path: '/authemployees',
         component: AuthEmployees,
+    },
+    {
+        path: '/reports/annual',
+        component: AnnualReport,
     },
 ];
 
