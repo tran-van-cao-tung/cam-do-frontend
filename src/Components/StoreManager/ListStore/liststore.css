@@ -74,6 +74,7 @@
 .liststore .liststorebody .status .fromstatus .radio-item{
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
 }
 .radio-item .radio-all > span{
     color: var(--color-all);

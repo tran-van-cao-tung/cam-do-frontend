@@ -11,12 +11,12 @@ import "./Commodity.css";
 function Commodity() {
     return (
         <>
-            <h1 className="liststore-h1">Danh sách cửa hàng</h1>
+            <h1 className="liststore-h1">Cấu hình hàng hóa</h1>
             <div className="liststore">
                 <div className="liststorebody">
                     {/* Button  Add */}
                     <a href="/commodity/add">
-                        <button className="addliststore">Thêm mới cửa hàng</button>
+                        <button className="addliststore">Thêm mới hàng hóa</button>
                     </a>
                     {/* Status */}
                     <div className="status">
