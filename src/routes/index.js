@@ -18,7 +18,7 @@ import Home from "./../Components/Home/Home";
 
 const publicRoutes = [
     {
-        path: "/",
+        path: "/home",
         component: Home,
     },
     {
