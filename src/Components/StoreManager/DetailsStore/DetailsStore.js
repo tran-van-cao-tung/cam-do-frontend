@@ -33,34 +33,7 @@ function Commodity() {
             <h1 className="heading">{detail.branchName}</h1>
             <div>
                 <Grid container spacing={8}>
-                    <Grid item xs={6}>
-                        <Item className="item-detail">
-                            <div className="information chill-1">Thông tin vốn</div>
-                            <div className="text">
-                                <p>Vốn đầu tư</p>
-                                <p>Quỹ tiền mặt</p>
-                                <p>Tiền đang cho vay</p>
-                            </div>
-                            <div className="number">
-                                <p>0</p>
-                                <p>{detail.fund}</p>
-                                <p>0</p>
-                            </div>
-                        </Item>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Item className="item-detail">
-                            <div className="information chill-2">Thông tin lãi</div>
-                            <div className="text">
-                                {/* <p>Lãi dự kiến</p> */}
-                                <p>Lãi đã thu</p>
-                            </div>
-                            <div className="number">
-                                {/* <p>0</p> */}
-                                <p>0</p>
-                            </div>
-                        </Item>
-                    </Grid>
+                    {/* Thông tin chi tiết cầm đồ */}
                     <Grid item xs={6}>
                         <Item className="item-detail">
                             <div className="information chill-3">Thông tin chi tiết cầm đồ</div>
@@ -78,6 +51,7 @@ function Commodity() {
                             </div>
                         </Item>
                     </Grid>
+                    {/* Thông tin hợp đồng cầm đồ */}
                     <Grid item xs={6}>
                         <Item className="item-detail">
                             <div className="information chill-4">Thông tin hợp đồng cầm đồ</div>
@@ -93,6 +67,37 @@ function Commodity() {
                             </div>
                         </Item>
                     </Grid>
+                    {/* Thông tin vốn */}
+                    <Grid item xs={6}>
+                        <Item className="item-detail item-detail__chill1">
+                            <div className="information chill-1">Thông tin vốn</div>
+                            <div className="text">
+                                <p>Vốn đầu tư</p>
+                                <p>Quỹ tiền mặt</p>
+                                <p>Tiền đang cho vay</p>
+                            </div>
+                            <div className="number">
+                                <p>0</p>
+                                <p>{detail.fund}</p>
+                                <p>0</p>
+                            </div>
+                        </Item>
+                    </Grid>
+                    {/* <Grid item xs={6}>
+                        <Item className="item-detail">
+                            <div className="information chill-2">Thông tin lãi</div>
+                            <div className="text">
+                                <p>Lãi dự kiến</p>
+                                <p>Lãi đã thu</p>
+                            </div>
+                            <div className="number">
+                                <p>0</p>
+                                <p>0</p>
+                            </div>
+                        </Item>
+                    </Grid> */}
+                    
+                    
                 </Grid>
             </div>
         </div>
