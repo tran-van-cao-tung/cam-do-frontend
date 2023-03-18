@@ -16,6 +16,7 @@ const EditListStore = () => {
     const params = useParams();
 
     // Axios
+    // GET api để tìm ID
     useEffect(() => {
         async function callAPI() {
             await axios({
@@ -24,15 +25,13 @@ const EditListStore = () => {
             }).then((res) => {
                 setItem(res.data);
                 console.log(res.data);
-                // console.log('aaaaa', res.data);
             });
         }
         callAPI();
     }, []);
 
+    // PUT api 
     const [item, setItem] = useState([]);
-
-    console.log('aaaaaaaaaaaaaaaaaaaaaaa', item);
 
     const handleSubmitEdit = () => {
         axios({

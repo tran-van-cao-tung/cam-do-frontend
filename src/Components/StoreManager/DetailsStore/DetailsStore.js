@@ -24,7 +24,6 @@ function Commodity() {
             url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/detail/1',
         }).then((res) => {
             setDetail(res.data);
-            console.log('aaaaa', res.data);
         });
     }, []);
 
