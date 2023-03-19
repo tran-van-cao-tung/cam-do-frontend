@@ -96,29 +96,53 @@
 }
 
 .employee_search-option {
-    width: 753px;
-    height: 100%;
+    width: 740px;
+    height: 53px;
+    left: 488px;
+    top: 403px;
     background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.6);
     border-radius: 6px;
-    font-family: 'Frank Ruhl Libre' !important;
+    font-family: 'Frank Ruhl Libre';
     font-style: normal;
     font-weight: 400;
     font-size: 25px;
+    line-height: 32px;
+    display: flex;
+    align-items: center;
     color: #000000;
     margin-bottom: 18px;
+    padding-left: 14px;
+    /* Ẩn icon mặc định */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Thay đổi icon */
+    background-image: url('/src/asset/img/employees/down.png');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
 }
 
 .employee_search-input {
-    width: 753px;
-    height: 100%;
-    font-family: 'Frank Ruhl Libre' !important;
+    width: 741px;
+    height: 56px;
+    background: rgba(123, 125, 155, 0.34);
+    border-radius: 7px;
+    font-family: 'Frank Ruhl Libre';
     font-style: normal;
     font-weight: 400;
-    font-size: 25px;
-    color: #000000;
-    background: rgba(123, 125, 155, 0.34);
+    font-size: 30px;
+    line-height: 39px;
+    color: rgba(0, 0, 0, 0.6);
     opacity: 0.6;
-    border-radius: 7px;
+    border: none;
+    padding-left: 14px;
+}
+
+.employee_search-input {
+    background-image: url('/src/asset/img/employees/search.png');
+    background-repeat: no-repeat;
+    background-position: right center;
 }
 
 .employee_search-input>div,
@@ -174,16 +198,17 @@
     text-align: center;
 }
 
-.MuiTableHead-root th{
+.MuiTableHead-root th {
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-   
+
 }
-.MuiTableBody_root-name span{
-    color:#2137FF;
+
+.MuiTableBody_root-name span {
+    color: #2137FF;
 }
 
 .MuiTableBody_root-status {
@@ -205,4 +230,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    cursor: pointer;
 }
+
+
