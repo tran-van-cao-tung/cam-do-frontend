@@ -19,7 +19,7 @@ const ListStore = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/chain',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/getChain',
         }).then((res) => {
             setList(res.data);
             // console.log('aaaaa', res.data);

@@ -64,7 +64,7 @@ const Money = () => {
           </div>
           <div className="bodyfoter">
             <div className="imgbody">
-              <img src={day} alt="" /> <span>Lịch sử nhập quỹ đầu ngày</span>
+              <img src={day} alt="" /> <span>Lịch sử nhập quỹ tiền mặt</span>
             </div>
             <Table className="MuiTable-bordered">
               <TableHead className="MuiTableHead-root">
@@ -73,7 +73,7 @@ const Money = () => {
                   <TableCell>Ngày</TableCell>
                   <TableCell>Người tạo</TableCell>
                   <TableCell>Số tiền</TableCell>
-                  <TableCell>hoạt động</TableCell>
+                  <TableCell>Hoạt động</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody className="MuiTableBody-root">
@@ -86,7 +86,7 @@ const Money = () => {
                   <TableCell className='MuiTableBody_root-name'>
                     <span>+10,000,000</span>
                   </TableCell>
-                  <TableCell>Cập nhật tiền đầu ngày</TableCell>
+                  <TableCell>Nhập lại quỹ tiền mặt</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>1</TableCell>
@@ -97,7 +97,7 @@ const Money = () => {
                   <TableCell className='MuiTableBody_root-name'>
                     <span>+10,000,000</span>
                   </TableCell>
-                  <TableCell>Nhập lại quỹ tiền mặt</TableCell>
+                  <TableCell>Nhập lại quỹ tiền mặt</TableCell>
                 </TableRow>
               </TableBody>
             </Table>

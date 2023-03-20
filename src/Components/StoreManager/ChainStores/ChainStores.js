@@ -5,10 +5,24 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import axios from 'axios';
 import * as React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import './chainstores.css';
 
-export default function ChainStores() {
+const ChainStores = () => {
+    // Axios
+    const [chainstores, setchainstores] = useState([]);
+    // Axios
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/getDetailById/1',
+        }).then((res) => {
+            setchainstores(res.data);
+        });
+    }, []);
     return (
         <div className="tableChainStores">
             <TableContainer component={Paper}>
@@ -25,21 +39,28 @@ export default function ChainStores() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableCell>S1</TableCell>
-                        <TableCell align="center">100000000</TableCell>
-                        <TableCell align="center">1000000</TableCell>
-                        <TableCell align="center">100000000</TableCell>
-                        <TableCell align="center">102000000</TableCell>
+                        <TableRow>
+                            <TableCell>{chainstores.branchName}</TableCell>
+                            <TableCell align="center">{chainstores.fund}</TableCell>
+                            <TableCell align="center">{chainstores.loanContract}</TableCell>
+                            <TableCell align="center">100000000</TableCell>
+                            <TableCell align="center">{chainstores.recveivedInterest}</TableCell>
+                        </TableRow>
                     </TableBody>
+
                     <TableBody>
-                        <TableCell>S2</TableCell>
-                        <TableCell align="center">100000000</TableCell>
-                        <TableCell align="center">1000000</TableCell>
-                        <TableCell align="center">100000000</TableCell>
-                        <TableCell align="center">102000000</TableCell>
+                        <TableRow>
+                            <TableCell>S2</TableCell>
+                            <TableCell align="center">100000000</TableCell>
+                            <TableCell align="center">1000000</TableCell>
+                            <TableCell align="center">100000000</TableCell>
+                            <TableCell align="center">102000000</TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
         </div>
     );
 }
+
+export default ChainStores
