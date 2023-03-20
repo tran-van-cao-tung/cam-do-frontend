@@ -5,15 +5,19 @@ import wallet from "../../asset/img/wallet.png";
 import subwallet from "../../asset/img/subwallet.png";
 import deletes from "../../asset/img/delete.png";
 
-const TablePawn = ({ setShowUpdateContract,setShowliquidation }) => {
+const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract }) => {
   const handleShow = (id) => {
     setShowUpdateContract(true);
     console.log(id);
   };
-  const handleShowLiquidation =(id)=>{
+  const handleShowLiquidation = (id) => {
     setShowliquidation(true);
     console.log(id);
-  }
+  };
+  const handleShowDetailContract = (id) => {
+    setshowdetailContract(true);
+    console.log(id);
+  };
   const columns = [
     { field: "id", headerName: "#", width: 10, textAlign: "center" },
     { field: "maHD", headerName: "Mã HĐ", with: 20 },
@@ -59,14 +63,13 @@ const TablePawn = ({ setShowUpdateContract,setShowliquidation }) => {
       field: "tinhTrang",
       headerName: "Tình Trạng",
       valueGetter: (params) =>
-        `${
-          params.row.tinhTrang === 0
-            ? "Đang Cầm"
-            : params.row.tinhTrang === 1
+        `${params.row.tinhTrang === 0
+          ? "Đang Cầm"
+          : params.row.tinhTrang === 1
             ? "Trễ hẹn"
             : params.row.tinhTrang === 2
-            ? "Thanh lý"
-            : ""
+              ? "Thanh lý"
+              : ""
         }`,
       width: 140,
     },
@@ -75,16 +78,16 @@ const TablePawn = ({ setShowUpdateContract,setShowliquidation }) => {
       headerName: "Chức năng",
       type: "actions",
       getActions: (params, index) => [
-        <GridActionsCellItem icon={<img src={cash} />} />,
+        <GridActionsCellItem icon={<img src={cash} />} onClick={(e) => handleShowDetailContract(params.id)} />,
         // <Link to={`/updateContract/${params.id}`} ><GridActionsCellItem icon={<img src={wallet} />} onClick={(params)=>handleShow(params)} /></Link>,
         <GridActionsCellItem
           icon={<img src={wallet} />}
           onClick={(e) => handleShow(params.id)}
         />,
-        <GridActionsCellItem icon={<img src={subwallet}  onClick={(e) => handleShowLiquidation(params.id)} />} />,
-        <GridActionsCellItem icon={<img src={deletes} />} />,
+        <GridActionsCellItem icon={<img src={subwallet} />} onClick={(e) => handleShowLiquidation(params.id)} />,
+        // <GridActionsCellItem icon={<img src={deletes} />} />,
       ],
-      
+
       width: 160,
     },
   ];

@@ -7,10 +7,12 @@ import TablePawn from "./TablePawn";
 import AddContract from './PopUp/AddContract';
 import UpdateContract from "./PopUp/UpdateContract";
 import Liquidation from "./PopUp/Liquidation";
+import DetailContract from "./PopUp/DetailContract"
 const DetailsPawn = () => {
 const [showAddContract,setShowAddContract] = useState(false)
 const [showUpdateContract,setShowUpdateContract] = useState(false)
 const [showliquidation,setShowliquidation] = useState(false)
+const [showdetailContract,setshowdetailContract] = useState(false)
 
 
 
@@ -24,7 +26,8 @@ const [showliquidation,setShowliquidation] = useState(false)
           <ContentPawn />
           <BtnDetails />
         </div>
-      <TablePawn setShowUpdateContract={setShowUpdateContract} setShowliquidation={setShowliquidation}/>
+        
+      <TablePawn setShowUpdateContract={setShowUpdateContract} setShowliquidation={setShowliquidation} setshowdetailContract={setshowdetailContract} />
       {
         showAddContract && <AddContract setShowAddContract={setShowAddContract}/>
       }
@@ -34,7 +37,9 @@ const [showliquidation,setShowliquidation] = useState(false)
       {
         showliquidation && <Liquidation setShowliquidation={setShowliquidation}/>
       }
-      
+      {
+        showdetailContract && <DetailContract setshowdetailContract={setshowdetailContract}/>
+      }
       </div>
       
   );
