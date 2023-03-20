@@ -35,6 +35,17 @@ border-radius: 10px;
 
 color: #FFFBFB;
 }
+.btn__click-search{
+  background-color: #50C2DA;
+  border-radius: 10px;
+  border: none;
+}
+.posi__none{
+  position: relative !important;
+  padding: 3px;
+
+  
+}
 .addnew{
     background-color: #50c2da;
 }
