@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+
+.tableChainStores {
+    padding: 30px 31px 23px 26px;
+}
+
+.heading {
+    font-family: 'Francois One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 45px;
+    margin-bottom: 2px;
+    line-height: 64px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 19px 29px;
+}
+
+.transaction {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.table-name {
+    margin-top: 15px;
+    padding: 35px;
+}
+
+.table-name th,
+.table-name td {
+    font-size: 25px;
+}

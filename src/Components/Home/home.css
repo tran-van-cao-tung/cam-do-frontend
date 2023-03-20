@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+
+.heading{
+font-family: 'Francois One';
+font-style: normal;
+font-weight: 400;
+font-size: 45px;
+margin-bottom: 23px; 
+}
+.title{
+    font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 40px;
+color: #000000;
+}
+.transaction{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+.transaction h1{
+    font-family: 'Francois One';
+font-style: normal;
+font-weight: 400;
+font-size: 45px;
+color: #1A3B42;
+}
+.content{
+    padding: 22px 0 0 11px;
+}
+.detai-content{
+    display: flex;
+    margin: 38px 0;
+}
+.timme{
+    text-align: center;
+}
+.timme>p{
+    font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 32px;
+color: #355A93;
+}
+.timme span{
+    font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+
+color: #000000;
+
+opacity: 0.6;
+Display: block;
+    margin-top: -13px;
+}
+.create-new p{
+    font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+color: #355A93
+}
+.create-new p b {
+    color: #000000;
+    font-size: 20px;
+}
+.create-new p span{
+    color: #E83A3A;
+    font-size: 20px;
+}
+.create-new span{
+    font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+color: rgba(0, 0, 0, 0.6);
+
+opacity: 0.6;
+}
+.colum-blue,.colum-red,.colum-yellow{
+    width: 6px;
+    height: 50px;
+    display: block;
+    margin: 0 15px 0 7px;
+    border-radius: 15px;
+}
+.colum-blue{
+    background-color: #50C2DA;
+}
+.colum-yellow{
+    background-color: #D4D05C;
+}
+.colum-red{
+    background-color: #D45C5C;
+}

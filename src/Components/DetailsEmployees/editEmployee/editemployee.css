@@ -1,0 +1,29 @@
+.employee_username {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 17px;
+}
+
+.employee_username>span {
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 32px;
+    color: #000000;
+    width: 18%;
+    display: flex;
+    justify-content: right;
+}
+
+.employee_username>span > span {
+    color: #E93636;
+}
+.employee_username>span:last-child{
+    width: 576px;
+    height: 51px;
+    padding-left: 50px;
+    justify-content: start;
+    align-items: center;
+}

@@ -1,0 +1,118 @@
+* {
+    text-decoration: none;
+}
+
+.liststore {
+    margin: 29px 46px;
+    width: 95%;
+    height: 90%;
+    border-radius: 10px;
+}
+
+.money-h1 {
+    font-weight: 400;
+    font-size: 45px;
+    line-height: 64px;
+    color: #1a3b42;
+}
+
+.bodyText .bodyheader {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.bodyText .bodyheader .texth p:first-child {
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 45px;
+    color: #000000;
+}
+
+.bodyText .bodyheader .texth p:last-child {
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 45px;
+    color: #6EC199;
+}
+
+.bodyText .bodyTT {
+    margin-top: 25px;
+    gap: 35px;
+    display: grid;
+}
+
+.bodyText .bodyTT .imgbody,
+.bodyText .bodyfoter .imgbody {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 20px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+    gap: 10px;
+}
+
+.bodyText .bodyTT .imgbody span,
+.bodyText .bodyfoter .imgbody span {
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 32px;
+}
+
+.bodyText .bodyTT .bodyTT-2 {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 20px;
+}
+.bodyText .bodyTT .bodyTT-2 .input-total{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+}
+.bodyText .bodyTT .bodyTT-2 .input-total p{
+    position: absolute;
+    right: 8px;
+    font-size: 20px;
+    font-weight: 600;
+}
+.bodyText .bodyTT .bodyTT-2 span {
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 32px;
+}
+
+.bodyText .bodyTT .bodyTT-2 input {
+    background: linear-gradient(270deg, rgba(129, 153, 159, 0.6) 18.83%, rgba(235, 219, 219, 0.249236) 19.06%, rgba(255, 255, 255, 0) 19.29%);
+    opacity: 0.6;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    width: 270px;
+    height: 37px;
+    padding-left: 10px;
+    font-size: 15px;
+}
+
+.bodyText .bodyTT .bodyTT-2 button {
+    background: #50C2DA;
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+.bodyText .bodyTT .bodyTT-2 button>img{
+    margin-right: 5px;
+}
+.bodyText .bodyfoter .imgbody {
+    margin-top: 35px;
+}
+
+.MuiTableBody_root-name span {
+    color: #2137FF;
+}

@@ -1,0 +1,148 @@
+.employeeAdd {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.employee_input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 17px;
+}
+
+.employee_input>span {
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 32px;
+    color: #000000;
+    width: 18%;
+    display: flex;
+    justify-content: right;
+}
+
+.employee_input>span>span,
+.employee_search-heading>span {
+    color: #E93636;
+}
+
+.employee_input input {
+    width: 576px;
+    height: 51px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
+    margin-left: 35px;
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 32px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+    padding-left: 15px;
+}
+
+.employee_input select {
+    width: 577px;
+    height: 51px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
+    margin-left: 35px;
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 32px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+    padding-left: 15px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Thay đổi icon */
+    background-image: url('/src/asset/img/employees/down.png');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.employee_heading-add {
+    font-family: 'Francois One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 45px;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 22px 0 22px 27px
+}
+
+.password-input {
+    position: relative;
+}
+
+
+.password-input button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.password-input button:focus {
+    outline: none;
+}
+
+.password-input button svg {
+    font-size: 18px;
+    color: #aaa;
+}
+
+.employee_style-check {
+    justify-content: center;
+}
+
+.employee_style-search {
+    padding-top: 0;
+    margin-bottom: 30px;
+}
+
+.employee-btn {
+    border-top: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.employee_btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.employee_btn-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 25px;
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    margin: 50px 20px 0 20px;
+}
+
+.employee_btn-item:first-child {
+    background: #50C2DA;
+}
+
+.employee_btn-item:last-child {
+    background: #EAEC81;
+}

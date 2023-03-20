@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+.details-pawn {
+  background-color: #ffffff;
+  position: relative;
+}
+.header {
+  border-bottom: 1px solid #000000;
+  opacity: 0.6;
+  padding: 22px 0 20px 70px;
+  display: flex;
+  justify-content: space-between;
+}
+.header h1 {
+  font-family: "Francois One";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 45px;
+  line-height: 64px;
+  color: #1A3B42;
+}
+.btn{
+    margin-right: 74px;
+    display: flex;
+    align-items: center;
+}
+.btn-click{
+    border: none;
+    margin-right: 7px;
+    font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 35px;
+border-radius: 10px;
+
+color: #FFFBFB;
+}
+.btn__click-search{
+  background-color: #50C2DA;
+  border-radius: 10px;
+  border: none;
+}
+.posi__none{
+  position: relative !important;
+  padding: 3px;
+
+  
+}
+.addnew{
+    background-color: #50c2da;
+}
+.export{
+    background-color: #50da98;
+}
+.contract{
+    background-color: #50c2da;
+}
+.content-details{
+  padding: 11px 204px 28px 137px;
+}
+.details-content{
+  font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 35px;
+
+text-align: center;
+
+color: #000000;
+
+}
+.search-hd{
+  display: flex;
+  position: relative;
+}
+.search-hd input{
+  width: 100%;
+  padding: 11px 0 10px 5px;
+  border: none;
+  background: rgba(123, 125, 155, 0.34);
+opacity: 0.6;
+border-radius: 7px;
+font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+color: rgba(0, 0, 0, 0.6);
+
+opacity: 0.6;
+}
+
+.icon-search{
+  position: absolute;
+  right: 0;
+  height: 100%;
+  font-size: 255%;
+  color: rgba(0, 0, 0, 0.6);
+
+opacity: 0.6;
+cursor: pointer;
+}
+.btn-detail{
+  padding: 0px 22px 28px 22px;
+}
+.since div{
+  font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 39px;
+
+color: rgba(0, 0, 0, 0.6);
+background: rgba(123, 125, 155, 0.34);
+opacity: 0.6;
+}
+.since div input {
+  padding: 10px 0 9px 5px;
+  border: none;
+}
+.lts{
+  font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+text-align: center;
+width: 100%;
+color: rgba(0, 0, 0, 0.6);
+background: rgba(123, 125, 155, 0.34);
+opacity: 0.6;
+border-radius: 7px;
+opacity: 0.6;
+padding: 10px 0 9px 5px;
+}
+div[title='Đang Cầm']{
+  background-color: #50c2da;
+}
+div[title='Trễ hẹn']{
+  background-color: #d4d05c;
+}
+div[title='Thanh lý']{
+  background-color: #d45c5c;
+}
+
+div[title='Trễ hẹn'],
+div[title='Thanh lý'],
+div[title='Đang Cầm']{
+  border-radius: 7px;
+  font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 17px;
+padding: 5px;
+}

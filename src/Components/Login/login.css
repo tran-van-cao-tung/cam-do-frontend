@@ -1,0 +1,37 @@
+a,button{
+    cursor: pointer;
+}
+.container{
+display: grid;
+width: 30%;
+margin-left: 35%;
+}
+.container h1{
+    color: rgba(80, 157, 168, 0.6);
+    text-align: center;
+    margin: 40px 0;
+    font-size: 50px;
+}
+.content form{
+    background-color: rgba(80, 157, 168, 0.6);
+    display: grid;
+    padding: 30px;
+    border-radius: 30px;
+    
+}
+.content form input{
+    border-radius: 30px;
+    border: 0px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+.btn_login{
+        width: 30%;
+    border-radius: 30px;
+    padding: 9px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    border: none;
+    color: rgba(80, 157, 168, 0.6);
+    font-size: 20px;
+}

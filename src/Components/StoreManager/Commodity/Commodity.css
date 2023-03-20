@@ -1,0 +1,187 @@
+:root {
+    --color-text: #000000;
+    --color-all: #ad00ff;
+    --color-active: #14a87b;
+    --color-stop: #f65151;
+}
+* {
+    text-decoration: none;
+}
+
+.liststore {
+    margin: 29px 46px;
+    position: absolute;
+    background: #fff;
+    width: 95%;
+    height: 90%;
+    border-radius: 10px;
+}
+
+.liststore-h1 {
+    font-weight: 400;
+    font-size: 45px;
+    line-height: 64px;
+    color: #1a3b42;
+}
+
+.liststore h1 {
+    font-weight: 400;
+    font-size: 45px;
+    line-height: 64px;
+    color: #1a3b42;
+}
+
+.liststorebody {
+    padding-left: 18px;
+}
+
+.liststorebody .addliststore {
+    background: #50c2da;
+    border-radius: 10px;
+    width: 335px;
+    height: 60px;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: var(--color-text);
+    border: none;
+}
+
+.liststorebody .status {
+    position: absolute;
+    margin-top: 14px;
+    background: rgba(217, 217, 217, 0.3);
+    width: 95%;
+    height: 50px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.liststorebody .status span {
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 35px;
+    color: var(--color-text);
+}
+
+.status .fromstatus {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.status .fromstatus input {
+    margin-left: 12px;
+}
+
+.status .fromstatus p:nth-of-type(1) {
+    color: var(--color-all);
+}
+
+.status .fromstatus p:nth-of-type(2) {
+    color: var(--color-active);
+}
+
+.status .fromstatus p:nth-of-type(3) {
+    color: var(--color-stop);
+}
+
+.status .fromstatus p {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+}
+
+.liststorebody .searchinput input {
+    width: 300px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.34);
+    opacity: 0.6;
+    border: 1px solid #000000;
+    border-radius: 7px;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.status .buttonsearch button {
+    width: 100px;
+    height: 38px;
+    font-size: 18px;
+    font-weight: 400;
+    background: #50c2da;
+    border-radius: 10px;
+    border: none;
+    color: var(--color-text);
+}
+
+/* Table */
+.table {
+    margin: 90px 2% 0;
+}
+
+.MuiTable-bordered {
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    color: #000000;
+    margin-top: 53px;
+    display: flex;
+}
+
+.MuiTable-bordered th,
+.MuiTable-bordered td {
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    font-family: "Frank Ruhl Libre";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 22px;
+    text-align: center;
+}
+.MuiTableHead-root-wrap {
+    background-color: #d9d9d9;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.MuiTableBody-root .MuiTableBody_root-iteam {
+    display: flex;
+    justify-content: center;
+}
+
+.MuiTableHead-root-wrap th {
+    font-family: "Frank Ruhl Libre";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+}
+.MuiTableBody_root-name span {
+    color: #2137ff;
+}
+
+.MuiTableBody_root-status {
+    width: 121px;
+    height: 24px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f65151;
+    color: #ffffff;
+}
+
+.activity {
+    background: #14a87b;
+}
+
+.MuiTableBody_root-itemLast {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}

@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Forum&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Frank+Ruhl+Libre&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.menu{
+    display: flex;
+    justify-content: space-between;
+    height: 118px;
+    width: 100%;
+    
+}
+.content1{
+    display: flex;
+}
+.ouline{
+    width: 58px;
+    height: 43px;
+    color: #000000;
+    opacity: 0.6;
+    margin-top: 3px;
+}
+.logos{
+    display: flex;
+    padding: 26px 112px 29px 52px;
+}
+.logo{
+    font-size: 70px;
+    font-weight: 400;
+    font-family: 'Forum', cursive;
+    color: #537E87;
+    line-height: 55.28px;
+}
+.select_option{
+    display: flex;
+    padding: 26px 0 42px 0;
+}
+.select_option img{
+    width: 62px;
+    height: 50px;
+    opacity: 0.6;
+}
+.select_option select, .select_option section:focus-visible{
+    border: none !important;
+    outline: none;
+    font-size: 35px;
+    font-weight: 400;
+    font-family: 'Frank Ruhl Libre', serif;
+}
+.content2{
+    display: flex;
+    padding: 30px 21px 26px 0;
+}
+.content2 .icon img{
+    width: 60px;
+    height: 60px;
+    margin-right: 37px;
+    cursor: pointer;
+    }
+.content2 .icon span{
+position: absolute;
+background-color: red;
+    border-radius: 50%;
+   height: 28px;
+    width: 31px;
+    padding: 4px 0 0 0;
+    text-align: center;
+    transform: translateX(-54px) translateY(-13px);
+}
+.account{
+    display: flex;
+    margin-left: 128px;
+    
+    
+}
+.avata{
+    width: 43px;
+    height: 45px;
+}
+.setting{
+    transform: translateY(-9%);
+
+}
+#basic-button{
+    font-size: 35px;
+    font-weight: 400;
+    font-family: 'Frank Ruhl Libre', serif;
+}
+
+/* navMenu */
+.menu-conten{
+    background-color:rgba(234, 246, 249, 0.65);
+    height: 100%;
+    padding-bottom: 20px;
+
+}
+.iconMenu{
+    width: 54px;
+    height: 64px;
+}
+.menu-text{
+    padding: 46px 0 0 0;
+}
+.text-menu{
+    font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 25px;
+color: #000000;
+width: 100%;
+display: inline-block;
+padding: 4px 0 0 13px;
+}
+.text-menu span{
+    position: absolute;
+    margin: 18px;
+}
+.text-menu.active{
+    font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 35px;
+padding: 0 0 0 16px;
+background-color: rgba(80, 157, 168, 0.6);
+}
+.text-menu.home{
+    border-bottom: 1px solid;
+}
+.submenu{
+    width: 80%;
+    list-style-type: none;
+}
+.submenu li a{
+    font-family: 'Frank Ruhl Libre';
+font-style: normal;
+font-weight: 400;
+font-size: 25px;
+text-decoration: none;
+color: #000000;
+display: inline-block;
+width: 100%;
+padding: 0 0 0 26%;
+}
+.submenu li::marker {
+    color: black;
+    font-size: 25px;
+}
+.active{
+    background-color: rgba(80, 157, 168, 0.6);
+    opacity: 0.6;
+}
+.submenu.hide{
+    display: none;
+}
+.submenu.show{
+    display: block;
+}
+.arrow{
+    width: 30px;
+    height: 26px;
+    position: absolute;
+    padding: 1.5% 0 0 17%;
+}
