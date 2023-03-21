@@ -7,13 +7,16 @@ import menu4 from "../../asset/img/menu4.png";
 import menu5 from "../../asset/img/menu5.png";
 import menu6 from "../../asset/img/menu6.png";
 import menu7 from "../../asset/img/menu7.png";
-import {MdKeyboardArrowRight,MdKeyboardArrowDown} from 'react-icons/md'
+import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
 const NavMenu = () => {
   const [show1, setShow1] = useState(
     JSON.parse(localStorage.getItem("show1")) || false
   );
   const [show2, setShow2] = useState(
     JSON.parse(localStorage.getItem("show2")) || false
+  );
+  const [show3, setShow3] = useState(
+    JSON.parse(localStorage.getItem("show3")) || false
   );
 
   const clickShow = () => {
@@ -22,19 +25,23 @@ const NavMenu = () => {
   const clickShow1 = () => {
     setShow2(!show2);
   };
-  
+  const clickShow2 = () => {
+    setShow3(!show3);
+  };
+
   useEffect(() => {
     localStorage.setItem("show1", JSON.stringify(show1));
     localStorage.setItem("show2", JSON.stringify(show2));
-
-  }, [show1,show2]);  
-  const clickHide = ()=>{
+    localStorage.setItem("show3", JSON.stringify(show3));
+  }, [show1, show2, show3]);
+  const clickHide = () => {
     localStorage.setItem("show1", JSON.stringify(false));
     localStorage.setItem("show2", JSON.stringify(false));
-    setShow1(false)
-    setShow2(false)
-  }
- 
+    localStorage.setItem("show3", JSON.stringify(false));
+    setShow1(false);
+    setShow2(false);
+    setShow3(false);
+  };
 
   return (
     <div className="menu-conten">
@@ -51,101 +58,112 @@ const NavMenu = () => {
             {" "}
             <img src={menu2} className="iconMenu" />
             <span>Cầm đồ</span>
-            <MdKeyboardArrowRight className="arrow"/>
+            <MdKeyboardArrowRight className="arrow" />
           </NavLink>
-          
         </li>
-        <li >
+        <li>
           <a className="text-menu" onClick={clickShow}>
             {" "}
             <img src={menu3} className="iconMenu" />
             <span>Quản lý cửa hàng</span>
-            {
-              show1 === true ? <MdKeyboardArrowDown className="arrow"/> : 
-
-            <MdKeyboardArrowRight className="arrow"/>
-            }
+            {show1 === true ? (
+              <MdKeyboardArrowDown className="arrow" />
+            ) : (
+              <MdKeyboardArrowRight className="arrow" />
+            )}
           </a>
-          
-          {show1 && show1? (
+
+          {show1 && show1 ? (
             <ul className={`submenu ${show1}`}>
               <li className="subtext">
-                <NavLink to="/home">&#128900; Chuỗi cửa hàng</NavLink>
+                <NavLink to="/home"> Chuỗi cửa hàng</NavLink>
               </li>
               <li className="subtext">
                 <NavLink to="/ccc" className="subtext">
-                  &#128900; Chi tiết cửa hàng
+                  Chi tiết cửa hàng
                 </NavLink>
               </li>
               <li className="subtext">
                 <NavLink to="/a" className="subtext">
-                  &#128900; Danh sách cửa hàng
+                  Danh sách cửa hàng
                 </NavLink>
               </li>
               <li className="subtext">
                 <NavLink to="/c" className="subtext">
-                  &#128900; Cấu hình hàng hóa 
+                  Cấu hình hàng hóa
                 </NavLink>
               </li>
               <li className="subtext">
                 <NavLink to="/e" className="subtext">
-                  &#128900; Tiền quỹ đầu ngày
+                  Tiền quỹ đầu ngày
                 </NavLink>
               </li>
             </ul>
-          ):(<></>)}
+          ) : (
+            <></>
+          )}
         </li>
-        
+
         <li>
           <a className="text-menu">
             {" "}
             <img src={menu4} className="iconMenu" />
             <span>Quản lý kho</span>
-            <MdKeyboardArrowRight className="arrow"/>
+            <MdKeyboardArrowRight className="arrow" />
           </a>
-
         </li>
         <li>
           <a className="text-menu" onClick={clickShow1}>
             <img src={menu5} className="iconMenu" />
             <span>Quản lý nhân viên</span>
-            {
-              show2 === true ? <MdKeyboardArrowDown className="arrow"/> : 
-
-            <MdKeyboardArrowRight className="arrow"/>
-            }
+            {show2 === true ? (
+              <MdKeyboardArrowDown className="arrow" />
+            ) : (
+              <MdKeyboardArrowRight className="arrow" />
+            )}
           </a>
-          {
-            show2 && (
-              <ul className={`submenu ${show1}`}>
+          {show2 && (
+            <ul className={`submenu ${show1}`}>
               <li className="subtext">
-                <NavLink to="/home">&#128900; Danh sách nhân viên</NavLink>
+                <NavLink to="/home"> Danh sách nhân viên</NavLink>
               </li>
               <li className="subtext">
                 <NavLink to="/ccc" className="subtext">
-                  &#128900; Phân quyền nhân viên
+                  Phân quyền nhân viên
                 </NavLink>
               </li>
-              
             </ul>
-            )
-          }
+          )}
         </li>
         <li>
-          <a className="text-menu">
-            {" "}
+          <NavLink to="/customer-manager" className="text-menu">
             <img src={menu6} className="iconMenu" />
             <span>Quản lý khách hàng</span>
-            <MdKeyboardArrowRight className="arrow"/>
-          </a>
+          </NavLink>
         </li>
         <li>
-          <a className="text-menu">
+          <a className="text-menu" onClick={clickShow2}>
             <img src={menu7} className="iconMenu" />
-            
+
             <span>Báo cáo</span>
-            <MdKeyboardArrowRight className="arrow"/>
+            {show3 === true ? (
+              <MdKeyboardArrowDown className="arrow" />
+            ) : (
+              <MdKeyboardArrowRight className="arrow" />
+            )}
           </a>
+          {show3 && (
+            <ul className={`submenu ${show3}`}>
+              <li className="subtext">
+                <NavLink to="/total-report"> Tổng giao dịch</NavLink>
+              </li>
+              <li className="subtext">
+                <NavLink to="/report-years" className="subtext">
+                  Báo cáo năm
+                </NavLink>
+              </li>
+            </ul>
+          )}
         </li>
       </ul>
     </div>

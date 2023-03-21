@@ -5,15 +5,15 @@ import wallet from "../../asset/img/wallet.png";
 import subwallet from "../../asset/img/subwallet.png";
 import deletes from "../../asset/img/delete.png";
 
-const TablePawn = ({ setShowUpdateContract,setShowliquidation }) => {
+const TablePawn = ({ setShowUpdateContract, setShowliquidation }) => {
   const handleShow = (id) => {
     setShowUpdateContract(true);
     console.log(id);
   };
-  const handleShowLiquidation =(id)=>{
+  const handleShowLiquidation = (id) => {
     setShowliquidation(true);
     console.log(id);
-  }
+  };
   const columns = [
     { field: "id", headerName: "#", width: 10, textAlign: "center" },
     { field: "maHD", headerName: "Mã HĐ", with: 20 },
@@ -81,10 +81,17 @@ const TablePawn = ({ setShowUpdateContract,setShowliquidation }) => {
           icon={<img src={wallet} />}
           onClick={(e) => handleShow(params.id)}
         />,
-        <GridActionsCellItem icon={<img src={subwallet}  onClick={(e) => handleShowLiquidation(params.id)} />} />,
+        <GridActionsCellItem
+          icon={
+            <img
+              src={subwallet}
+              onClick={(e) => handleShowLiquidation(params.id)}
+            />
+          }
+        />,
         <GridActionsCellItem icon={<img src={deletes} />} />,
       ],
-      
+
       width: 160,
     },
   ];

@@ -6,8 +6,9 @@ import usera from "../../asset/img/usera.png";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import './menu.css'
-import { AiOutlineDown,AiOutlineAlignRight } from "react-icons/ai";
+import "./menu.css";
+import { AiOutlineDown, AiOutlineAlignRight } from "react-icons/ai";
+import { Link } from "react-router-dom";
 const Menuh = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -22,7 +23,7 @@ const Menuh = () => {
       <div className="content1">
         <div className="logos">
           <p className="logo">PawnS</p>
-          <AiOutlineAlignRight className="ouline"/>
+          <AiOutlineAlignRight className="ouline" />
         </div>
         <div className="select_option">
           <img src={homemenu} alt="Home" />
@@ -35,10 +36,16 @@ const Menuh = () => {
       </div>
       <div className="content2">
         <div className="icon">
-          <img src={user} alt=''/>
-          <span>1</span>
-          <img src={bike} alt=''/>
-          <span>123</span>
+          <Link to="/report-customer">
+            <div className="iconUser">
+              <img src={user} alt="" />
+              <span>1</span>
+            </div>
+          </Link>
+          <div className="iconBike">
+            <img src={bike} alt="" />
+            <span>123</span>
+          </div>
         </div>
         <div className="account">
           <img src={usera} alt="user" className="avata" />
@@ -50,7 +57,7 @@ const Menuh = () => {
               aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
             >
-              Admin1 <AiOutlineDown/>
+              Admin1 <AiOutlineDown />
             </Button>
             <Menu
               id="basic-menu"

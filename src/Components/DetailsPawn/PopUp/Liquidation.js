@@ -53,9 +53,13 @@ const Liquidation = ({ setShowliquidation }) => {
                       <th className="start-red">0 VNĐ</th>
                     </tr>
                     <tr>
-                      <th>Gốc còn nợ: <span className="start-red">8,000,000 VNĐ</span></th>
-                      <th>Nợ lãi cũ: <span className="start-red">0 VNĐ</span></th>
-                      
+                      <th>
+                        Gốc còn nợ:{" "}
+                        <span className="start-red">8,000,000 VNĐ</span>
+                      </th>
+                      <th>
+                        Nợ lãi cũ: <span className="start-red">0 VNĐ</span>
+                      </th>
                     </tr>
                     <tr>
                       <th>Trạng thái</th>
@@ -70,15 +74,20 @@ const Liquidation = ({ setShowliquidation }) => {
         <div className="info__asset">
           <div className="asset">
             <div className="w30 text__right">
-              <p><b>Loại tài sản:</b></p>
               <p>
-                <b>Tên tài sản <span className="start-red">*</span>:</b>
+                <b>Loại tài sản:</b>
+              </p>
+              <p>
+                <b>
+                  Tên tài sản <span className="start-red">*</span>:
+                </b>
               </p>
 
               <p>
-                <b>Số tiền thanh lý<span className="start-red">*</span>:</b>
+                <b>
+                  Số tiền thanh lý<span className="start-red">*</span>:
+                </b>
               </p>
-              
 
               <b>Ngày thanh lý:</b>
             </div>
