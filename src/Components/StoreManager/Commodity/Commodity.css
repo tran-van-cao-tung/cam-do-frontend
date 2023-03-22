@@ -134,7 +134,7 @@
 
 .MuiTable-bordered th,
 .MuiTable-bordered td {
-    border: 1px solid rgba(0, 0, 0, 0.6);
+    
     font-family: "Frank Ruhl Libre";
     font-style: normal;
     font-weight: 400;
@@ -149,11 +149,6 @@
     text-align: center;
 }
 
-.MuiTableBody-root .MuiTableBody_root-iteam {
-    display: flex;
-    justify-content: center;
-}
-
 .MuiTableHead-root-wrap th {
     font-family: "Frank Ruhl Libre";
     font-style: normal;
@@ -161,11 +156,19 @@
     font-size: 20px;
     line-height: 26px;
 }
-.MuiTableBody_root-name span {
-    color: #2137ff;
+
+.MuiTableBody_working-status {
+    width: 121px;
+    height: 24px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #14a87b;
+    color: #ffffff;
 }
 
-.MuiTableBody_root-status {
+.MuiTableBody_stop-status {
     width: 121px;
     height: 24px;
     border-radius: 10px;
@@ -176,9 +179,6 @@
     color: #ffffff;
 }
 
-.activity {
-    background: #14a87b;
-}
 
 .MuiTableBody_root-itemLast {
     display: flex;

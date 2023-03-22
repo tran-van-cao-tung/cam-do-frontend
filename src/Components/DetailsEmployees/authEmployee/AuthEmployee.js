@@ -1,17 +1,33 @@
-import ReplyIcon from '@mui/icons-material/Reply';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import { Grid, Paper } from '@mui/material';
-import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import React, { useEffect, useState } from 'react'
 import { styled } from "@mui/material/styles";
-import React, { useState } from 'react';
+import { Grid, Paper } from '@mui/material'
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Box from '@mui/material/Box';
+import ReplyIcon from '@mui/icons-material/Reply';
 import { useNavigate } from 'react-router-dom';
-import file from '../../../asset/img/employees/file.png';
-import './authemployee.css';
+import file from '../../../asset/img/file.png'
+import './authemployee.css'
+import axios from 'axios';
 
 function AuthEmployee() {
     const history = useNavigate();
+    const [employeeList, setEmployeeList] = useState([]);
+
+    // Axios
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/1',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            },
+        }).then((res) => {
+            setEmployeeList(res.data[0].fullName);
+            // console.log('aaaaa', res.data);
+        });
+    }, []);
 
     //Cầm đồ
     const [checkedPlus, setCheckPlus] = useState(false);
@@ -81,7 +97,7 @@ function AuthEmployee() {
         const { id, checked } = event.target;
         setChildCheckboxes(
             childCheckboxes.map((checkbox) =>
-                checkbox.id === id ? { ...checkbox, isChecked: checked } : checkbox
+                checkbox.id == id ? { ...checkbox, isChecked: checked } : checkbox
             )
         );
         setParentCheckbox(
@@ -89,7 +105,7 @@ function AuthEmployee() {
         );
     };
     const handleCheckPlus = (e) => {
-        if (e.target.innerHTML === '+') {
+        if (e.target.innerHTML == '+') {
             setTextPlus('-')
         }
         else {
@@ -139,7 +155,7 @@ function AuthEmployee() {
         const { id, checked } = event.target;
         setChildCheckboxes2(
             childCheckboxes2.map((checkbox) =>
-                checkbox.id === id ? { ...checkbox, isChecked: checked } : checkbox
+                checkbox.id == id ? { ...checkbox, isChecked: checked } : checkbox
             )
         );
         setParentCheckbox2(
@@ -148,7 +164,7 @@ function AuthEmployee() {
     };
 
     const handleCheckPlus2 = (e) => {
-        if (e.target.innerHTML === '+') {
+        if (e.target.innerHTML == '+') {
             setTextPlus2('-')
         }
         else {
@@ -200,7 +216,7 @@ function AuthEmployee() {
         const { id, checked } = event.target;
         setChildCheckboxes3(
             childCheckboxes3.map((checkbox) =>
-                checkbox.id === id ? { ...checkbox, isChecked: checked } : checkbox
+                checkbox.id == id ? { ...checkbox, isChecked: checked } : checkbox
             )
         );
         setParentCheckbox3(
@@ -209,7 +225,7 @@ function AuthEmployee() {
     };
 
     const handleCheckPlus3 = (e) => {
-        if (e.target.innerHTML === '+') {
+        if (e.target.innerHTML == '+') {
             setTextPlus3('-')
         }
         else {
@@ -252,7 +268,7 @@ function AuthEmployee() {
 
 
     const handleCheckPlus4 = (e) => {
-        if (e.target.innerHTML === '+') {
+        if (e.target.innerHTML == '+') {
             setTextPlus4('-')
         }
         else {
@@ -268,7 +284,7 @@ function AuthEmployee() {
 
 
     const handleCheckPlus5 = (e) => {
-        if (e.target.innerHTML === '+') {
+        if (e.target.innerHTML == '+') {
             setTextPlus5('-')
         }
         else {

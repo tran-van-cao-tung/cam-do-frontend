@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+.headerCustomerName {
+    font-family: 'Francois One';
+    font-style: nomal;
+    font-weight: 400;
+    font-size: 45px;
+    margin-bottom: 23px;
+}
+
+.parperCustomer {
+    height: 90%;
+}
+
+.searchBar {
+    font-family: Frank Ruhl Libre;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 39px;
+    letter-spacing: 0em;
+    text-align: center;
+    margin-right: 15px;
+}
+
+div[title='A'] {
+    background-color: #d4d05c;
+}
+
+div[title='B'] {
+    background-color: #50c2da;
+}
+
+div[title='C'] {
+    background-color: #d45c5c;
+}
+
+div[title='F'] {
+    background-color: black;
+}
+
+div[title='A'],
+div[title='B'],
+div[title='C'],
+div[title='F'] {
+    text-align: center;
+    border-radius: 7px;
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    padding: 5px;
+    width: 100%;
+    color: white
+}
