@@ -6,19 +6,19 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { Chip, IconButton, MenuItem, Select, StyledEngineProvider } from "@mui/material";
+import { MenuItem, Select, StyledEngineProvider } from "@mui/material";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 
 import "./WareHouse.css";
-import editIcon from "../../../asset/img/edit.png";
-import { useState } from "react";
+import editIcon from "./../../../asset/img/edit.png";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const WareHouse = () => {
     const [cityFilter, setCityFilter] = useState("HoChiMinh");
@@ -32,31 +32,17 @@ const WareHouse = () => {
         setStatusFilter(e.target.value);
     };
 
-    function createData(name, address, status, actions) {
-        return { name, address, status, actions };
-    }
-
-    const rows = [
-        createData(
-            "Kho 1",
-            "120 Gò Dầu, Tân Quý, Tân Phú, TP.Hồ Chí Minh",
-            "Còn chỗ",
-            "Chức năng"
-        ),
-        createData(
-            "Kho 2",
-            "500 Tân Kỳ Tân Quý, Bình Hưng Hòa, Bình Tân, TP.Hồ Chí Minh",
-            "Hết chỗ",
-            "Chức năng"
-        ),
-        createData(
-            "Kho 3",
-            "185 Tân Kỳ Tân Quý, Bình Hưng Hòa, Bình Tân, TP.Hồ Chí Minh",
-            "Tạm đóng",
-            "Chức năng"
-        ),
-    ];
-
+    // Axios
+    const [listWarehouse, setListWarehouse] = useState([]);
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/warehouse/GetAll/1',
+        }).then((res) => {
+            setListWarehouse(res.data);
+            // console.log('aaaaa', res.data);
+        });
+    }, []);
     return (
         <StyledEngineProvider injectFirst>
             <div className="wareh-wrapper">
@@ -136,112 +122,42 @@ const WareHouse = () => {
                         </Button>
                     </div>
 
-                    <div className="table-section">
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell
-                                            align="center"
-                                            className="table-header-cell"
-                                        >
-                                            STT
+                    <div className="table">
+                        <Table className="MuiTable-bordered">
+                            <TableHead className="MuiTableHead-root-wrap">
+                                <TableRow>
+                                    <TableCell>STT</TableCell>
+                                    <TableCell>Cửa hàng</TableCell>
+                                    <TableCell>Địa Chỉ</TableCell>
+                                    <TableCell>Tình trạng</TableCell>
+                                    <TableCell>Chức năng</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            {/* =================================== */}
+                            <TableBody className="MuiTableBody-root">
+                                {listWarehouse.map((i) => (
+                                    <TableRow key={i.warehouseId}>
+                                        <TableCell>{i.warehouseId}</TableCell>
+                                        <TableCell>{i.warehouseName}</TableCell>
+                                        <TableCell>{i.warehouseAddress}</TableCell>
+                                        <TableCell>
+                                            {i.status === 1 ? (
+                                                <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                            ) : (
+                                                <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
+                                            )}
                                         </TableCell>
-                                        <TableCell
-                                            align="center"
-                                            className="table-header-cell"
-                                        >
-                                            Tên kho
-                                        </TableCell>
-                                        <TableCell
-                                            align="center"
-                                            className="table-header-cell"
-                                        >
-                                            Địa chỉ
-                                        </TableCell>
-                                        <TableCell
-                                            align="center"
-                                            className="table-header-cell"
-                                        >
-                                            Tình trạng
-                                        </TableCell>
-                                        <TableCell
-                                            align="center"
-                                            className="table-header-cell"
-                                        >
-                                            Chức năng
+                                        <TableCell>
+                                            <div className="MuiTableBody_root-itemLast">
+                                                <Link to={`/editliststore/edit/${i.branchId}`}>
+                                                    <img src={editIcon} alt="Edit" />
+                                                </Link>
+                                            </div>
                                         </TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {rows.map((row, index) => (
-                                        <TableRow
-                                            key={row.name}
-                                            sx={{
-                                                "&:last-child td, &:last-child th": {
-                                                    border: 0,
-                                                },
-                                            }}
-                                        >
-                                            <TableCell component="th" scope="row">
-                                                {index + 1}
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                {row.name}
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                {row.address}
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                {row.status === "Còn chỗ" ? (
-                                                    <Chip
-                                                        label="Còn chỗ"
-                                                        sx={{
-                                                            background:
-                                                                "var(--color-success)",
-                                                            color: "white",
-                                                            minWidth: "100px",
-                                                        }}
-                                                    />
-                                                ) : row.status === "Hết chỗ" ? (
-                                                    <Chip
-                                                        label="Hết chỗ"
-                                                        sx={{
-                                                            background:
-                                                                "var(--color-warning)",
-                                                            color: "white",
-                                                            minWidth: "100px",
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    <Chip
-                                                        label="Tạm đóng"
-                                                        sx={{
-                                                            background:
-                                                                "var(--color-error)",
-                                                            color: "white",
-                                                            minWidth: "100px",
-                                                        }}
-                                                    />
-                                                )}
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                <IconButton
-                                                    aria-label="edit"
-                                                    color="primary"
-                                                    className="edit-action-btn"
-                                                >
-                                                    <img
-                                                        alt="edit-action"
-                                                        src={editIcon}
-                                                    />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                                ))}
+                            </TableBody>
+                        </Table>
                     </div>
                 </div>
             </div>

@@ -16,22 +16,23 @@ const EditListStore = () => {
     const params = useParams();
 
     // Axios
-    // GET api để tìm ID
     useEffect(() => {
         async function callAPI() {
             await axios({
                 method: 'get',
-                url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/${params.id}`,
+                url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/getById/${params.id}`,
             }).then((res) => {
                 setItem(res.data);
                 console.log(res.data);
+                // console.log('aaaaa', res.data);
             });
         }
         callAPI();
     }, []);
 
-    // PUT api 
     const [item, setItem] = useState([]);
+
+    console.log('aaaaaaaaaaaaaaaaaaaaaaa', item);
 
     const handleSubmitEdit = () => {
         axios({

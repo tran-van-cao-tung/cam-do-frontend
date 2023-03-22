@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./popup.css";
-
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import axios from "axios";
 
 const DetailContract = ({ setshowdetailContract }) => {
   // Function active button (Button Deatail Contract)
+
+  const [detailPawn, setDetailPawn] = useState([]);
+  // Axios
+  useEffect(() => {
+    axios({
+      method: 'get',
+      url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/detail' + localStorage.getItem("PawnDetailID"),
+    }).then((res) => {
+      setDetailPawn(res.data);
+      // console.log('aaaaa', res.data);
+    });
+  }, []);
 
   return (
     <div className="add-contract" onClick={() => setshowdetailContract(false)}>
@@ -18,14 +30,15 @@ const DetailContract = ({ setshowdetailContract }) => {
         <div className="contents">
           <div className="box__liquidation">
             <Box sx={{ flexGrow: 1 }}>
+            {detailPawn.map((i) => (
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <table className="table__liquidation">
                     <tr>
                       <th>Khách hàng</th>
                       <th colSpan="2">
-                        <span className="start-red">Nguyễn Trần Khánh Hoa</span>{" "}
-                        - 098989898
+                        <span className="start-red">{i.customerName}</span>
+                        - {i.phone}
                       </th>
                     </tr>
                     <tr>
@@ -66,7 +79,8 @@ const DetailContract = ({ setshowdetailContract }) => {
                     </tr>
                   </table>
                 </Grid>
-              </Grid>
+                </Grid>
+                ))}
             </Box>
             {/* Button Deatail Contract */}
             <div className="btn-detailContract" >

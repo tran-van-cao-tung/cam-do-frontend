@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import cash from "../../asset/img/cash.png";
 import wallet from "../../asset/img/wallet.png";
-import subwallet from "../../asset/img/subwallet.png";
-import deletes from "../../asset/img/delete.png";
+import thanhly from "../../asset/img/thanhly.png";
+import axios from "axios";
 
-const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract }) => {
+var count = 0;
+const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract}) => {
   const handleShow = (id) => {
     setShowUpdateContract(true);
     console.log(id);
@@ -17,135 +18,84 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
   const handleShowDetailContract = (id) => {
     setshowdetailContract(true);
     console.log(id);
+    localStorage.setItem("PawnDetailID", id)
   };
   const columns = [
-    { field: "id", headerName: "#", width: 10, textAlign: "center" },
-    { field: "maHD", headerName: "Mã HĐ", with: 20 },
-    { field: "khachHang", headerName: "Khách Hàng", width: 200 },
+    { field: "id", headerName: "#", width: 10, textAlign: "center"},
+    { field: "contractCode", headerName: "Mã HĐ", with: 20 },
+    { field: "customerName", headerName: "Khách Hàng", width: 200 },
     {
-      field: "maTS",
+      field: "commodityCode",
       headerName: " Mã TS",
     },
     {
-      field: "taiSan",
+      field: "contractAssetName",
       headerName: "Tài Sản",
       width: 160,
     },
     {
-      field: "tienCam",
+      field: "loan",
       headerName: "Tiền Cầm",
       width: 160,
     },
     {
-      field: "ngayCam",
+      field: "contractStartDate",
       headerName: "Ngày Cầm",
     },
     {
-      field: "lai",
-      headerName: "Lãi Đã Đóng",
-      type: "number",
+      field: "contractEndDate",
+      headerName: "Ngày Đến Hạn",
     },
     {
-      field: "tienNo",
-      headerName: "Tiền Nợ",
-      type: "number",
-    },
-
-    {
-      field: "laiDenNay",
-      headerName: "Lãi Đến Hôm Nay",
+      field: "warehouseName",
+      headerName: "Kho",
     },
     {
-      field: "ngayDongLai",
-      headerName: "Ngày Đóng Lãi",
-    },
-    {
-      field: "tinhTrang",
+      field: "status",
       headerName: "Tình Trạng",
       valueGetter: (params) =>
-        `${params.row.tinhTrang === 0
+        `${params.row.status === 1
           ? "Đang Cầm"
-          : params.row.tinhTrang === 1
+          : params.row.status === 2
             ? "Trễ hẹn"
-            : params.row.tinhTrang === 2
+            : params.row.status === 3
               ? "Thanh lý"
               : ""
         }`,
       width: 140,
     },
     {
-      field: "ChucNangw",
+      field: "ChucNang",
       headerName: "Chức năng",
       type: "actions",
       getActions: (params, index) => [
         <GridActionsCellItem icon={<img src={cash} />} onClick={(e) => handleShowDetailContract(params.id)} />,
-        // <Link to={`/updateContract/${params.id}`} ><GridActionsCellItem icon={<img src={wallet} />} onClick={(params)=>handleShow(params)} /></Link>,
         <GridActionsCellItem
           icon={<img src={wallet} />}
           onClick={(e) => handleShow(params.id)}
         />,
-        <GridActionsCellItem icon={<img src={subwallet} />} onClick={(e) => handleShowLiquidation(params.id)} />,
-        // <GridActionsCellItem icon={<img src={deletes} />} />,
+        <GridActionsCellItem icon={<img style={{width: '30px'}} src={thanhly} />} onClick={(e) => handleShowLiquidation(params.id)} />,
       ],
 
       width: 160,
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      maHD: "CĐ-0001",
-      khachHang: "Nguyen Tran Khanh Hoa",
-      maTS: "XM",
-      taiSan: "Xe SH Trắng",
-      tienCam: "10000000",
-      ngayCam: "23/12/2022",
-      lai: "35000",
-      tienNo: "0",
-      laiDenNay: "23/12/2022",
-      ngayDongLai: "29/12/2022",
-      tinhTrang: 0,
-      firstName: "Jon",
-      age: 35,
-    },
-    {
-      id: 2,
-      maHD: "CĐ-0002",
-      khachHang: "Nguyen Tran Khanh Hoa",
-      maTS: "XM",
-      taiSan: "Xe SH Trắng",
-      tienCam: "10000000",
-      ngayCam: "23/12/2022",
-      lai: "35000",
-      tienNo: "0",
-      laiDenNay: "23/12/2022",
-      ngayDongLai: "29/12/2022",
-      tinhTrang: 1,
-      firstName: "Jon",
-      age: 35,
-    },
-    {
-      id: 3,
-      maHD: "CĐ-0003",
-      khachHang: "Nguyen Tran Khanh Hoa",
-      maTS: "XM",
-      taiSan: "Xe SH Trắng",
-      tienCam: "10000000",
-      ngayCam: "23/12/2022",
-      lai: "35000",
-      tienNo: "0",
-      laiDenNay: "23/12/2022",
-      ngayDongLai: "29/12/2022",
-      tinhTrang: 2,
-      firstName: "Jon",
-      age: 35,
-    },
-  ];
+  const [contractList, setContractList] = useState([]);
+  useEffect(() => {
+    axios({
+        method: 'get',
+        url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/contracts/0',
+    }).then((res) => {
+      setContractList(res.data);
+        // console.log('aaaaa', res.data);
+    });
+}, []);
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 400, width: "99%" }}>
       <DataGrid
-        rows={rows}
+        // rows={rows}
+        rows={contractList.map((item,index)=>{return {id:index+1,...item}})}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}

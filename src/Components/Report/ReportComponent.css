@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+.reportTitle {
+    font-family: 'Francois One';
+    font-style: nomal;
+    font-weight: 400;
+    font-size: 45px;
+    margin-bottom: 23px;
+}
+
+.reportYearContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.yearOption {
+    margin-right: 20px;
+    width: 10%;
+}
+
+.btn__click-search {
+    padding: 0px 20px;
+}
+
+.tableYearReport {
+    margin: 50px 27px 0 0;
+}
+
+table,
+td,
+th {
+    border: 1px solid black;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td,
+th {
+    padding: 5px 0;
+    margin: 5px 0;
+}
+
+th {
+    font-size: larger;
+    background-color: rgb(172, 172, 172);
+}
+
+.tableLosses {
+    background-color: red;
+    color: white;
+    border-radius: 15px;
+}
+
+.tableProfit {
+    background-color: green;
+    color: white;
+    border-radius: 15px;
+}
+
+.tableStatus {
+    height: 25px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 5px;
+}
