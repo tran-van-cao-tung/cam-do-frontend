@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 
 import funcEdit from "../../asset/img/function.png";
+import axios from "axios";
 
 const ListCustomerReport = () => {
   const handleUpdateInformation = (id) => {
     // setShowUpdateContract(true);
     console.log(id);
   };
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url:
+        "http://tranvancaotung-001-site1.ftempurl.com/api/v1/customer/activelist/0",
+    }).then((response) => {
+      setList(response.data);
+    });
+  }, []);
 
   const columns = [
-    { field: "stt", headerName: "STT", minWidth: 20, align: "center" },
-    { field: "store", headerName: "Cửa Hàng", minWidth: 100, align: "center" },
+    { field: "numerical", headerName: "STT", minWidth: 20, align: "center" },
+    {
+      field: "nameBranch",
+      headerName: "Cửa Hàng",
+      minWidth: 100,
+      align: "center",
+    },
     {
       field: "fullName",
       headerName: "Họ và Tên",
@@ -20,7 +37,7 @@ const ListCustomerReport = () => {
       align: "center",
     },
     {
-      field: "cmnd",
+      field: "cccd",
       headerName: "CMND/CCCD",
       align: "center",
       minWidth: 170,
@@ -39,17 +56,17 @@ const ListCustomerReport = () => {
     },
 
     {
-      field: "hangId",
+      field: "point",
       headerName: "Hạng ID",
       valueGetter: (params) =>
         `${
-          params.row.hangId === 0
+          params.row.point === 0
             ? "A"
-            : params.row.hangId === 1
+            : params.row.point === 1
             ? "B"
-            : params.row.hangId === 2
+            : params.row.point === 2
             ? "C"
-            : params.row.hangId === 3
+            : params.row.point === 3
             ? "F"
             : ""
         }`,
@@ -63,7 +80,7 @@ const ListCustomerReport = () => {
       align: "center",
     },
     {
-      field: "ChucNang",
+      field: "status",
       headerName: "Chức năng",
       type: "actions",
       getActions: (params, index) => [
@@ -81,45 +98,47 @@ const ListCustomerReport = () => {
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      stt: 1,
-      store: "S1",
-      fullName: "Nguyen Tran Khanh Hoa",
-      cmnd: "123456789101",
-      phone: "0909100443",
-      address: "Số 10 nguyên du,BTT quận 2, TP Thủ Đưc",
-      dateCreate: "23/12/2022",
-      hangId: 3,
-    },
-    {
-      id: 2,
-      stt: 2,
-      store: "S1",
-      fullName: "Nguyen Tran Khanh Hoa",
-      cmnd: "123456789101",
-      phone: "0909100443",
-      address: "Số 10 nguyên du,BTT quận 2, TP Thủ Đưc",
-      dateCreate: "23/12/2022",
-      hangId: 3,
-    },
-    {
-      id: 3,
-      stt: 3,
-      store: "S1",
-      fullName: "Nguyen Tran Khanh Hoa",
-      cmnd: "123456789101",
-      phone: "0909100443",
-      address: "Số 10 nguyên du,BTT quận 2, TP Thủ Đưc",
-      dateCreate: "23/12/2022",
-      hangId: 3,
-    },
-  ];
+  // const rows = [
+  //   {
+  //     id: 1,
+  //     stt: 1,
+  //     store: "S1",
+  //     fullName: "Nguyen Tran Khanh Hoa",
+  //     cmnd: "123456789101",
+  //     phone: "0909100443",
+  //     address: "Số 10 nguyên du,BTT quận 2, TP Thủ Đưc",
+  //     dateCreate: "23/12/2022",
+  //     hangId: 3,
+  //   },
+  //   {
+  //     id: 2,
+  //     stt: 2,
+  //     store: "S1",
+  //     fullName: "Nguyen Tran Khanh Hoa",
+  //     cmnd: "123456789101",
+  //     phone: "0909100443",
+  //     address: "Số 10 nguyên du,BTT quận 2, TP Thủ Đưc",
+  //     dateCreate: "23/12/2022",
+  //     hangId: 3,
+  //   },
+  //   {
+  //     id: 3,
+  //     stt: 3,
+  //     store: "S1",
+  //     fullName: "Nguyen Tran Khanh Hoa",
+  //     cmnd: "123456789101",
+  //     phone: "0909100443",
+  //     address: "Số 10 nguyên du,BTT quận 2, TP Thủ Đưc",
+  //     dateCreate: "23/12/2022",
+  //     hangId: 3,
+  //   },
+  // ];
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        rows={list.map((item) => {
+          return { id: item.customerId, ...item };
+        })}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
