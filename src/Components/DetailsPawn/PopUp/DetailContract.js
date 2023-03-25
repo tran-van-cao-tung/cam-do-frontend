@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./popup.css";
-
+import { useParams } from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import axios from "axios";
 
 const DetailContract = ({ setshowdetailContract }) => {
   // Function active button (Button Deatail Contract)
+  const slug = useParams();
+  console.log(slug)
+  useEffect(() => {
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getContractDetail/15`).then(res => {
+      console.log(res.data)
+    })
+  }, [])
 
   return (
     <div className="add-contract" onClick={() => setshowdetailContract(false)}>

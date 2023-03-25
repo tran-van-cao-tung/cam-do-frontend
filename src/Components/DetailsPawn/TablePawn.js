@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import cash from "../../asset/img/cash.png";
 import wallet from "../../asset/img/wallet.png";
 import subwallet from "../../asset/img/subwallet.png";
 import deletes from "../../asset/img/delete.png";
+import axios from "axios";
 
 const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract }) => {
   const handleShow = (id) => {
@@ -92,6 +93,10 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
     },
   ];
 
+
+  useEffect(() => {
+    axios.get(``)
+  })
   const rows = [
     {
       id: 1,
