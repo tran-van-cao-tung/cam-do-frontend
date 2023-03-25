@@ -52,7 +52,7 @@
     -moz-appearance: none;
     appearance: none;
     /* Thay đổi icon */
-    background-image: url('/src/asset/img/employees/down.png');
+    background-image: url('/src/asset/img/down.png');
     background-repeat: no-repeat;
     background-position: right 10px center;
 }
@@ -130,4 +130,3 @@ checkbox-container input[type='checkbox']:checked+label:before {
 .img_file{
     padding-right: 10px;
 }
-

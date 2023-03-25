@@ -8,9 +8,6 @@
     align-items: center;
     position: relative;
 }
-.conten .item-detail__chill1{
-    transform: translateX(55%);
-}
 
 .heading{
     margin-bottom: 20px;

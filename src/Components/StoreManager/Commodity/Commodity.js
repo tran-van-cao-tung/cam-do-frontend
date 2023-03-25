@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { Link } from "react-router-dom";
 import FormControl from '@mui/material/FormControl';
@@ -7,11 +7,52 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 
 import "./Commodity.css";
+import axios from "axios";
+
 
 function Commodity() {
+    const [commodity, setCommodity] = useState([]);
+    useEffect(() => {
+        axios.get("http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getAll/1").then((response) => {
+            console.log(response.data);
+            setCommodity(response.data);
+        });
+    }, []);
+
+    const renderCommodityData = () => {
+        return commodity?.map((val) => (
+            <TableBody className="MuiTableBody-root" >
+                <TableRow>
+                    <TableCell>{val.pawnableProductId}</TableCell>
+                    <TableCell>Cầm đồ</TableCell>
+                    <TableCell>
+                        <Link to="/commodity/edit">
+                            {val.typeOfProduct}
+                        </Link>
+                    </TableCell>
+                    <TableCell>
+                        <Link to="/commodity/edit">
+                            {val.commodityCode}
+                        </Link>
+                    </TableCell>
+                    <TableCell>
+                        {val.status === 1 ? (
+                            <div className="MuiTableBody_working-status">
+                                <p>Đang hoạt động</p>
+                            </div>
+                        ) : (
+                            <div className="MuiTableBody_stop-status">
+                                <p>Đã tạm dừng</p>
+                            </div>
+                        )}
+                    </TableCell>
+                </TableRow>
+            </TableBody>
+        ));
+    };
     return (
         <>
-            <h1 className="liststore-h1">Cấu hình hàng hóa</h1>
+            <h1 className="liststore-h1">Danh sách hàng hóa</h1>
             <div className="liststore">
                 <div className="liststorebody">
                     {/* Button  Add */}
@@ -76,52 +117,7 @@ function Commodity() {
                                 <TableCell>Tình trạng</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody className="MuiTableBody-root">
-                            <TableRow>
-                                <TableCell>1</TableCell>
-                                <TableCell>Cầm đồ</TableCell>
-                                <TableCell className="MuiTableBody_root-name">
-                                    <Link to="/commodity/edit">
-                                        <span>Xe máy</span>
-                                    </Link>
-                                </TableCell>
-                                <TableCell className="MuiTableBody_root-name">
-                                    <Link to="/commodity/edit">
-                                        <span>XM</span>
-                                    </Link>
-                                </TableCell>
-                                {/* <TableCell>0</TableCell>
-                                <TableCell>3%/1 tuần</TableCell>
-                                <TableCell>7 ngày</TableCell>
-                                <TableCell>2 tuàn quá hạng</TableCell> */}
-                                <TableCell className="MuiTableBody_root-iteam">
-                                    <span className="MuiTableBody_root-status activity">
-                                        Đang làm việc
-                                    </span>
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>1</TableCell>
-                                <TableCell>Cầm đồ</TableCell>
-                                <TableCell className="MuiTableBody_root-name">
-                                    <Link to="/commodity/edit">
-                                        <span>Xe máy</span>
-                                    </Link>
-                                </TableCell>
-                                <TableCell className="MuiTableBody_root-name">
-                                    <Link to="/commodity/edit">
-                                        <span>XM</span>
-                                    </Link>
-                                </TableCell>
-                                {/* <TableCell>0</TableCell>
-                                <TableCell>3%/1 tuần</TableCell>
-                                <TableCell>7 ngày</TableCell>
-                                <TableCell>2 tuàn quá hạng</TableCell> */}
-                                <TableCell className="MuiTableBody_root-iteam">
-                                    <div className="MuiTableBody_root-status">Khoá</div>
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
+                        {renderCommodityData()}
                     </Table>
                 </div>
             </div>

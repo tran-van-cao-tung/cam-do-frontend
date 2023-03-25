@@ -6,9 +6,9 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
-import moneyy from "./../../../asset/img/employees/money.png";
-import day from "./../../../asset/img/employees/day.png";
-import save from "./../../../asset/img/employees/save.png";
+import moneyy from "./../../../asset/img/money.png";
+import day from "./../../../asset/img/day.png";
+import save from "./../../../asset/img/save.png";
 import "./Money.css";
 
 const Money = () => {

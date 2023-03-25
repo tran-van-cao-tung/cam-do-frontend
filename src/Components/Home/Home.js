@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import "./home.css";
 import TablePawn from './../DetailsPawn/TablePawn';
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
+  const history = useNavigate();
+  useEffect(()=>{
+    if(!localStorage.getItem("accessToken")){
+      history('/login')
+    }else{
+      console.log("Login with token")
+    }
+    },[]);
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -12,6 +21,8 @@ const Home = () => {
     borderRadius: "10px",
     color: theme.palette.text.secondary,
   }));
+
+ 
   return (
     <div className="conten">
       <h1 className="heading">Trang chủ</h1>

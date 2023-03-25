@@ -17,6 +17,10 @@ const Menuh = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const deleteToken = () =>{
+    localStorage.removeItem("accessToken");
+    window.location.reload(false);
+  };
   return (
     <div className="menu">
       <div className="content1">
@@ -63,7 +67,7 @@ const Menuh = () => {
             >
               <MenuItem onClick={handleClose}>Profile</MenuItem>
               <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              <MenuItem onClick={deleteToken}>Logout</MenuItem>
             </Menu>
           </div>
         </div>

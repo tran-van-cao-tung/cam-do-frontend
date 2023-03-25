@@ -5,13 +5,12 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import edit from './../../../asset/img/employees/edit.png';
-import ext from './../../../asset/img/employees/ext.png';
+import edit from './../../../asset/img/edit.png';
+import ext from './../../../asset/img/ext.png';
 import axios from 'axios';
 import moment from 'moment';
 import './liststore.css';
 
-// Axios API
 const ListStore = () => {
     //
     const [list, setList] = useState([]);
@@ -19,7 +18,7 @@ const ListStore = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/chain',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/getChain',
         }).then((res) => {
             setList(res.data);
             // console.log('aaaaa', res.data);

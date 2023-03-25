@@ -35,19 +35,19 @@ const ContentPawn = () => {
           </Grid>
           <Grid item xs={4}>
             <Item>
-              <p className="details-content">Quỹ tiền mặt</p>
+              <p className="details-content">Tiền nợ</p>
               <span className="details-content">0</span>
             </Item>
           </Grid>
           <Grid item xs={4}>
             <Item>
-              <p className="details-content">Quỹ tiền mặt</p>
+              <p className="details-content">Lãi dự kiến</p>
               <span className="details-content">0</span>
             </Item>
           </Grid>
           <Grid item xs={4}>
             <Item>
-              <p className="details-content">Quỹ tiền mặt</p>
+              <p className="details-content">Lãi đã thu</p>
               <span className="details-content">0</span>
             </Item>
           </Grid>

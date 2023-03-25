@@ -96,12 +96,12 @@
 }
 
 .employee_search-option {
-    width: 740px;
+    width: 753px;
     height: 53px;
     left: 488px;
     top: 403px;
     background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(0, 0, 0, 0.6);
+    
     border-radius: 6px;
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
@@ -118,7 +118,7 @@
     -moz-appearance: none;
     appearance: none;
     /* Thay đổi icon */
-    background-image: url('/src/asset/img/employees/down.png');
+    background-image: url('/src/asset/img/down.png');
     background-repeat: no-repeat;
     background-position: right 10px center;
 }
@@ -140,7 +140,7 @@
 }
 
 .employee_search-input {
-    background-image: url('/src/asset/img/employees/search.png');
+    background-image: url('/src/asset/img/search.png');
     background-repeat: no-repeat;
     background-position: right center;
 }
@@ -182,7 +182,7 @@
 
 .MuiTable-bordered th,
 .MuiTable-bordered td {
-    border: 1px solid rgba(0, 0, 0, 0.6);
+    
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
     font-weight: 400;
@@ -232,5 +232,4 @@
     justify-content: space-around;
     cursor: pointer;
 }
-
 
