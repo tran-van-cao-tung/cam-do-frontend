@@ -17,10 +17,11 @@ import TableRow from "@mui/material/TableRow";
 import "./WareHouse.css";
 import editIcon from "./../../../asset/img/edit.png";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const WareHouse = () => {
+    const history = useNavigate();
     const [cityFilter, setCityFilter] = useState("HoChiMinh");
     const [statusFilter, setStatusFilter] = useState("available");
 
@@ -46,82 +47,17 @@ const WareHouse = () => {
     return (
         <StyledEngineProvider injectFirst>
             <div className="wareh-wrapper">
-                <h4 className="wareh-title">Danh sách kho</h4>
+                <h1 className="employee_heading">Danh sách kho</h1>
 
                 <div className="wareh-content">
-                    <div className="actions-section">
-                        <Button
-                            href="/warehouse/add"
-                            variant="contained"
-                            className="add-btn"
-                        >
-                            Thêm mới
-                        </Button>
-                    </div>
-
-                    <div className="search-section">
-                        <FormControl className="status-group">
-                            <FormLabel className="label">Tình trạng</FormLabel>
-                            <RadioGroup
-                                row
-                                defaultValue={statusFilter}
-                                name="status"
-                                value={statusFilter}
-                                onChange={handleStatusFilter}
-                            >
-                                <FormControlLabel
-                                    value="available"
-                                    control={<Radio />}
-                                    label="Còn chỗ"
-                                    className="radio-available"
-                                />
-                                <FormControlLabel
-                                    value="full"
-                                    control={<Radio />}
-                                    label="Hết chỗ"
-                                    className="radio-full"
-                                />
-                                <FormControlLabel
-                                    value="closed"
-                                    control={<Radio />}
-                                    label="Tạm đóng"
-                                    className="radio-closed"
-                                />
-                            </RadioGroup>
-                        </FormControl>
-
-                        <FormControl className="city-group" sx={{ minWidth: 100 }}>
-                            <Select
-                                value={cityFilter}
-                                onChange={handleCityFilter}
-                                displayEmpty
-                                inputProps={{ "aria-label": "Without label" }}
-                                className="select-box"
-                            >
-                                <MenuItem value="HoChiMinh">TP.Hồ Chí Minh</MenuItem>
-                                <MenuItem value={"CanTho"}>Cần Thơ</MenuItem>
-                                <MenuItem value={"CaMau"}>Cà Mau</MenuItem>
-                            </Select>
-                        </FormControl>
-
-                        <FormControl className="search-box">
-                            <InputBase
-                                placeholder="Tìm kiếm …"
-                                inputProps={{ "aria-label": "search" }}
-                                className="search-input"
-                            />
-                            <SearchIcon className="search-icon" />
-                        </FormControl>
-
-                        <Button
-                            className="search-btn"
-                            variant="contained"
-                            endIcon={<SearchIcon />}
-                        >
-                            Tìm kiếm
-                        </Button>
-                    </div>
-
+                    <button
+                        className="employee_button"
+                        onClick={() => {
+                            history('/warehouse/add');
+                        }}
+                    >
+                        Thêm mới
+                    </button>
                     <div className="table">
                         <Table className="MuiTable-bordered">
                             <TableHead className="MuiTableHead-root-wrap">

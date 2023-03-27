@@ -9,7 +9,7 @@ import "./employee.css";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
-let count = 1;
+
 function ListEmployees() {
     const history = useNavigate();
     const Item = styled(Paper)(({ theme }) => ({
@@ -26,14 +26,17 @@ function ListEmployees() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/2',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0',
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
             },
         }).then((res) => {
             setListEmployee(res.data);
             console.log('aaaaa', res.data);
-        });
+        }).catch((err) => {
+            alert('Token đã hết hạn, vui lòng đăng nhập lại');
+            history('/')
+          });
     }, []);
     return (
         <div className="box_employee">
@@ -90,9 +93,9 @@ function ListEmployees() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody className="MuiTableBody-root">
-                                    {listEmployees.map((i) => (
-                                        <TableRow key={i.branchId}>
-                                            <TableCell>{count++}</TableCell>
+                                    {listEmployees.map((i, index) => (
+                                        <TableRow key={index+1}>
+                                            <TableCell>{index+1}</TableCell>
                                             <TableCell>{i.branchId}</TableCell>
                                             <TableCell>{i.fullName}</TableCell>
                                             <TableCell>{i.userName}</TableCell>

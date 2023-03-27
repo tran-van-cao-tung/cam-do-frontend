@@ -3,17 +3,16 @@ import "./popup.css";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import axios from "axios";
-
+import API from "../../../API.js"
 const DetailContract = ({ setshowdetailContract }) => {
   // Function active button (Button Deatail Contract)
 
   const [detailPawn, setDetailPawn] = useState([]);
   // Axios
   useEffect(() => {
-    axios({
+    API({
       method: 'get',
-      url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/detail' + localStorage.getItem("PawnDetailID"),
+      url: 'contract/getContractDetail/' + localStorage.getItem("PawnDetailID"),
     }).then((res) => {
       setDetailPawn(res.data);
       // console.log('aaaaa', res.data);
@@ -29,30 +28,26 @@ const DetailContract = ({ setshowdetailContract }) => {
         </div>
         <div className="contents">
           <div className="box__liquidation">
+
             <Box sx={{ flexGrow: 1 }}>
-            {detailPawn.map((i) => (
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <table className="table__liquidation">
                     <tr>
                       <th>Khách hàng</th>
                       <th colSpan="2">
-                        <span className="start-red">{i.customerName}</span>
-                        - {i.phone}
+                        <span className="start-red">{detailPawn.customerName} </span>
+                        - {detailPawn.phone}
                       </th>
                     </tr>
                     <tr>
                       <th>Tiền cầm</th>
-                      <th colSpan="2">10,000,000 VNĐ</th>
+                      <th colSpan="2">{detailPawn.loan}</th>
                     </tr>
                     <tr>
                       <th>Vay từ ngày</th>
-                      <th>23/12/2022</th>
-                      <th>01/01/2022</th>
-                    </tr>
-                    <tr>
-                      <th>Ngày trả lãi gần nhất</th>
-                      <th colSpan="2"></th>
+                      <th>{detailPawn.contractStartDate}</th>
+                      <th>{detailPawn.contractEndDate}</th>
                     </tr>
                   </table>
                 </Grid>
@@ -61,26 +56,24 @@ const DetailContract = ({ setshowdetailContract }) => {
                     <tr>
                       <th>Lãi xuất</th>
                       <th colSpan="2">
-                        <span className="start-red">5k/ngày</span>
+                        <span className="start-red">{detailPawn.packageInterest}%</span>
                       </th>
                     </tr>
                     <tr>
                       <th>Tiền lãi đã đóng</th>
-                      <th className="start-red">0 VNĐ</th>
+                      <th className="start-red">{detailPawn.interestPaid} VND</th>
                     </tr>
                     <tr>
-                      <th>Gốc còn nợ: <span className="start-red">8,000,000 VNĐ</span></th>
-                      <th>Nợ lãi cũ: <span className="start-red">0 VNĐ</span></th>
-
-                    </tr>
-                    <tr>
-                      <th>Trạng thái</th>
-                      <th>Đang cầm</th>
+                      <th>Nợ lãi cũ: <span className="start-red">{detailPawn.interestDebt} VND</span></th>
+                      <th>Trạng thái: {detailPawn.status === 1 ? (
+                        <span>Đang Cầm</span>
+                      ) : (
+                        <span>Trễ hẹn</span>
+                      )} </th>
                     </tr>
                   </table>
                 </Grid>
-                </Grid>
-                ))}
+              </Grid>
             </Box>
             {/* Button Deatail Contract */}
             <div className="btn-detailContract" >

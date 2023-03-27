@@ -3,22 +3,32 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import cash from "../../asset/img/cash.png";
 import wallet from "../../asset/img/wallet.png";
 import thanhly from "../../asset/img/thanhly.png";
-import axios from "axios";
-
-var count = 0;
+import API from "../../API.js"
 const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract}) => {
+  const [contractList, setContractList] = useState([]);
+  useEffect(() => {
+    API({
+        method: 'get',
+        url: 'contract/getAll/0',
+    }).then((res) => {
+      setContractList(res.data);
+        console.log('aaaaa', res.data);
+    });
+}, []);
   const handleShow = (id) => {
     setShowUpdateContract(true);
+    localStorage.setItem("PawnDetailID", id)
     console.log(id);
   };
   const handleShowLiquidation = (id) => {
     setShowliquidation(true);
     console.log(id);
   };
-  const handleShowDetailContract = (id) => {
+  
+  const handleShowDetailContract = (contractId) => {
     setshowdetailContract(true);
-    console.log(id);
-    localStorage.setItem("PawnDetailID", id)
+    console.log(contractId);
+    localStorage.setItem("PawnDetailID", contractId);
   };
   const columns = [
     { field: "id", headerName: "#", width: 10, textAlign: "center"},
@@ -60,7 +70,8 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
             ? "Trễ hẹn"
             : params.row.status === 3
               ? "Thanh lý"
-              : ""
+              : params.row.status === 4
+              ? "Đóng hợp đồng":""
         }`,
       width: 140,
     },
@@ -69,33 +80,28 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
       headerName: "Chức năng",
       type: "actions",
       getActions: (params, index) => [
-        <GridActionsCellItem icon={<img src={cash} />} onClick={(e) => handleShowDetailContract(params.id)} />,
+        <GridActionsCellItem icon={<img src={cash} alt="CA"/>} onClick={(e) => handleShowDetailContract(params.row.contractId)} />,
         <GridActionsCellItem
-          icon={<img src={wallet} />}
-          onClick={(e) => handleShow(params.id)}
+          icon={<img src={wallet} alt="VI" />}
+          onClick={(e) => handleShow(params.row.contractId)}
         />,
-        <GridActionsCellItem icon={<img style={{width: '30px'}} src={thanhly} />} onClick={(e) => handleShowLiquidation(params.id)} />,
+        <GridActionsCellItem icon={<img style={{width: '30px'}} src={thanhly} alt="TL"/>} onClick={(e) => handleShowLiquidation(params.row.contractId)} />,
       ],
 
       width: 160,
     },
   ];
 
-  const [contractList, setContractList] = useState([]);
-  useEffect(() => {
-    axios({
-        method: 'get',
-        url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/contracts/0',
-    }).then((res) => {
-      setContractList(res.data);
-        // console.log('aaaaa', res.data);
-    });
-}, []);
+
   return (
     <div style={{ height: 400, width: "99%" }}>
       <DataGrid
-        // rows={rows}
-        rows={contractList.map((item,index)=>{return {id:index+1,...item}})}
+        // rows={contractList.map((item,index)=>{return {id:index+1,...item}})}
+        rows={contractList
+          .filter((item) => item.status !== 4)
+          .map((item, index) => {
+            return { id: index + 1, ...item };
+          })}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}

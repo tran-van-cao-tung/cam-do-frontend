@@ -3,8 +3,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import TablePawn from './TablePawn';
-
+import API from "../../API.js"
 const ContentPawn = () => {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -15,7 +14,17 @@ const ContentPawn = () => {
     backgroundColor: "#D9D9D9",
     borderRadius: "15px",
   }));
-  
+
+  try {
+    API({
+      url:"branch/getDetailById/1",
+      method: 'get'
+    }).then((res) => {
+      console.log(res);
+    })
+  } catch (e) {
+    console.error(e);
+  }
   return (
     <div className="content-details">
       <Box sx={{ flexGrow: 1 }}>
@@ -51,7 +60,6 @@ const ContentPawn = () => {
               <span className="details-content">0</span>
             </Item>
           </Grid>
-          
           
         </Grid>
       </Box>
