@@ -8,42 +8,40 @@ import AddContract from './PopUp/AddContract';
 import UpdateContract from "./PopUp/UpdateContract";
 import Liquidation from "./PopUp/Liquidation";
 import DetailContract from "./PopUp/DetailContract"
-
 const DetailsPawn = () => {
-
-  const [showAddContract, setShowAddContract] = useState(false)
-  const [showUpdateContract, setShowUpdateContract] = useState(false)
-  const [showliquidation, setShowliquidation] = useState(false)
-  const [showdetailContract, setshowdetailContract] = useState(false)
+const [showAddContract,setShowAddContract] = useState(false)
+const [showUpdateContract,setShowUpdateContract] = useState(false)
+const [showliquidation,setShowliquidation] = useState(false)
+const [showdetailContract,setshowdetailContract] = useState(false)
 
 
 
   return (
-
-    <div className="details-pawn">
-      <div>
-        <HeaderPawn setShowAddContract={setShowAddContract} />
-      </div>
-      <div>
-        <ContentPawn />
-        <BtnDetails />
-      </div>
-
+   
+      <div className="details-pawn">
+        <div>
+          <HeaderPawn setShowAddContract={setShowAddContract}/>
+        </div>
+        <div>
+          <ContentPawn />
+          <BtnDetails />
+        </div>
+        
       <TablePawn setShowUpdateContract={setShowUpdateContract} setShowliquidation={setShowliquidation} setshowdetailContract={setshowdetailContract} />
       {
-        showAddContract && <AddContract setShowAddContract={setShowAddContract} />
+        showAddContract && <AddContract setShowAddContract={setShowAddContract}/>
       }
       {
-        showUpdateContract && <UpdateContract setShowUpdateContract={setShowUpdateContract} />
+        showUpdateContract && <UpdateContract setShowUpdateContract={setShowUpdateContract}/>
       }
       {
-        showliquidation && <Liquidation setShowliquidation={setShowliquidation} />
+        showliquidation && <Liquidation setShowliquidation={setShowliquidation}/>
       }
       {
-        showdetailContract && <DetailContract onClick={handleSlug} setshowdetailContract={setshowdetailContract} />
+        showdetailContract && <DetailContract setshowdetailContract={setshowdetailContract}/>
       }
-    </div>
-
+      </div>
+      
   );
 };
 

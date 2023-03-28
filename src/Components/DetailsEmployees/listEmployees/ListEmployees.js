@@ -22,7 +22,15 @@ function ListEmployees() {
 
     const [listEmployees, setListEmployee] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    
+    const searchedProduct = listEmployees.filter((item) => {
+        if (searchTerm.value === "") return item;
+        if (
+          item.fullName
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
+        )
+          return item;
+      })
     // Axios
     useEffect(() => {
         axios({
@@ -57,7 +65,7 @@ function ListEmployees() {
                             <div>
                                 <div className="employee_search-check">
                                     <span className="employee_search-heading">Tình trạng:</span>
-                                    <input type="radio" name="radio" value="all" />
+                                    <input type="radio" name="radio" value="all"/>
                                     <label className="check1">Tất cả</label>
                                     <input type="radio" name="radio" value="all" />
                                     <label className="check2">Đang làm việc</label>
@@ -70,7 +78,13 @@ function ListEmployees() {
                                         <option>TP. Đà Nẵng</option>
                                         <option>TP. Hà Nội</option>
                                     </select>
-                                    <input type="text" placeholder="Tìm kiếm..." className="employee_search-input" />
+                                    {/* <input type="text" placeholder="Tìm kiếm..." className="employee_search-input" /> */}
+                                    <input
+                  type="text"
+                  placeholder="I'm looking for...."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
                                 </div>
                             </div>
                             <button className="employee_search-btn">
@@ -94,7 +108,7 @@ function ListEmployees() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody className="MuiTableBody-root">
-                                    {listEmployees.map((i, index) => (
+                                    {searchedProduct.map((i, index) => (
                                         <TableRow key={index+1}>
                                             <TableCell>{index+1}</TableCell>
                                             <TableCell>{i.branchId}</TableCell>
