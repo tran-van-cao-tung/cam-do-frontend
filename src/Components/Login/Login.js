@@ -14,11 +14,10 @@ const Login = () => {
             userName: userName,
             password: password,
         }
-        console.log(data)
         axios.post(`
         http://tranvancaotung-001-site1.ftempurl.com/api/authentication/login/create`, data).then(res => {
             localStorage.setItem('accessToken', res.data.accessToken)
-            history('/home')
+            history('/')
         }).catch(err => { console.log(err) })
         
     }

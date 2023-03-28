@@ -21,7 +21,7 @@ function Commodity() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/detail/1',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/getDetailById/1',
         }).then((res) => {
             setDetail(res.data);
         });
@@ -95,8 +95,6 @@ function Commodity() {
                             </div>
                         </Item>
                     </Grid> */}
-                    
-                    
                 </Grid>
             </div>
         </div>
