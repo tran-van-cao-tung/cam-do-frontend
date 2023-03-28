@@ -155,11 +155,11 @@ const NavMenu = () => {
           {show3 && (
             <ul className={`submenu ${show3}`}>
               <li className="subtext">
-                <NavLink to="/total-report">&#128900;Tổng giao dịch</NavLink>
+                <NavLink to="/total-report">&#128900; Tổng giao dịch</NavLink>
               </li>
               <li className="subtext">
                 <NavLink to="/report-years" className="subtext">
-                &#128900;Báo cáo năm
+                &#128900; Báo cáo năm
                 </NavLink>
               </li>
             </ul>

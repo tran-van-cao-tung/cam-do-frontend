@@ -22,7 +22,8 @@ import Money from "../Components/StoreManager/Money/Money";
 //Warehouse
 import AddWareHouse from "../Components/WareHouse/AddWareHouse";
 import WareHouse from "../Components/WareHouse/ListWareHouse/WareHouse";
-import EditWarehouse from "../Components/WareHouse/EditWareHouse/EditWarehouse"
+import EditWarehouse from "../Components/WareHouse/EditWareHouse/EditWarehouse";
+import ViewProduct from "../Components/WareHouse/ViewProduct/ViewProduct";
 
 //Customer + Report
 import CustomerManager from "../Components/CustomerManager/CustomerManager";
@@ -111,6 +112,10 @@ const publicRoutes = [
         path: '/editwarehouse/edit/:id',
         component: EditWarehouse
     },
+    {
+        path: "/viewproduct",
+        component: ViewProduct,
+      },
     {
         path: "/customer-manager",
         component: CustomerManager,

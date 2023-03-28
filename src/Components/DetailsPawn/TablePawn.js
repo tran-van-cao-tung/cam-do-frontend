@@ -15,6 +15,7 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
         console.log('aaaaa', res.data);
     });
 }, []);
+
   const handleShow = (id) => {
     setShowUpdateContract(true);
     localStorage.setItem("PawnDetailID", id)
@@ -94,7 +95,7 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
 
 
   return (
-    <div style={{ height: 400, width: "99%" }}>
+    <div style={{ height: 510, width: "99%" }}>
       <DataGrid
         // rows={contractList.map((item,index)=>{return {id:index+1,...item}})}
         rows={contractList
@@ -103,8 +104,8 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
             return { id: index + 1, ...item };
           })}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={7}
+        rowsPerPageOptions={[7]}
         style={{ textAlign: "center" }}
       />
     </div>

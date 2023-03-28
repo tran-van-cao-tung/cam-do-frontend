@@ -4,9 +4,24 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import API from "../../../API.js"
+import { Uploader } from "uploader";
+import { UploadDropzone } from "react-uploader";
 const DetailContract = ({ setshowdetailContract }) => {
   // Function active button (Button Deatail Contract)
+  const uploader = Uploader({ apiKey: "public_kW15bAuFTht5jafbjpkWCsBg1M4s" }); // Your real API key.
+  const uploaderOptions = {
+  multi: true,
 
+  // Comment out this line & use 'onUpdate' instead of
+  // 'onComplete' to have the dropzone close after upload.
+  showFinishButton: true,
+
+  styles: {
+    colors: {
+      primary: "#377dff"
+    }
+  }
+}
   const [detailPawn, setDetailPawn] = useState([]);
   // Axios
   useEffect(() => {
@@ -17,8 +32,39 @@ const DetailContract = ({ setshowdetailContract }) => {
       setDetailPawn(res.data);
       // console.log('aaaaa', res.data);
     });
-  }, []);
 
+    // API({
+    //   method: 'get',
+    //   url: 'https://api.upload.io/'
+    // }).then((res) =>{
+
+    // });
+  }, []);
+  async function getUploadPart(params) {  
+    const baseUrl  = "https://api.upload.io";
+    const path     = `/v2/accounts/${params.accountId}/uploads/${params.uploadId}/parts/${params.uploadPartIndex}`;
+    const entries  = obj => Object.entries(obj).filter(([,val]) => (val ?? null) !== null);
+    const response = await fetch(`${baseUrl}${path}`, {
+      method: "GET",
+      headers: Object.fromEntries(entries({
+        "Authorization": `Bearer ${params.apiKey}`,
+      }))
+    });
+    const result = await response.json();
+    if (Math.floor(response.status / 100) !== 2)
+      throw new Error(`Upload API Error: ${JSON.stringify(result)}`);
+    return result;
+  }
+  
+  getUploadPart({
+    accountId: "kW15bAu",
+    apiKey: "public_kW15bAuFTht5jafbjpkWCsBg1M4s",
+    uploadId: "Kd759aLFxttm69kZ",
+    uploadPartIndex: 7
+  }).then(
+    response => console.log(`Success: ${JSON.stringify(response)}`),
+    error => console.error(error)
+  );
   return (
     <div className="add-contract" onClick={() => setshowdetailContract(false)}>
       <div className="content-contract" onClick={(e) => e.stopPropagation()}>
@@ -85,7 +131,7 @@ const DetailContract = ({ setshowdetailContract }) => {
           </div>
         </div>
         {/* Lịch sử đóng tiền lãi */}
-        <div className="contents">
+        {/* <div className="contents">
           <h2> Lịch sử đóng tiền lãi</h2>
           <Table className="table-detailContract">
             <TableHead>
@@ -111,7 +157,14 @@ const DetailContract = ({ setshowdetailContract }) => {
               <TableCell>Ghi Chú</TableCell>
             </TableBody>
           </Table>
-        </div>
+        </div> */}
+        {/* Chứng từ */}
+        <UploadDropzone uploader={uploader}
+                  options={uploaderOptions}
+                  onUpdate={files => console.log(files.map(x => x.fileUrl).join("\n"))}
+                  onComplete={files => alert(files.map(x => x.fileUrl).join("\n"))}
+                  width="600px"
+                  height="375px" />
       </div>
     </div>
   );

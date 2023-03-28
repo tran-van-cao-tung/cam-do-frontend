@@ -11,7 +11,7 @@ function ListCustomer({ numPage }) {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios.get(
-                `http://tranvancaotung-001-site1.ftempurl.com/api/v1/customer/activelist/${0}`,
+                `http://tranvancaotung-001-site1.ftempurl.com/api/v1/customer/getAll/0`,
             );
             setCustomers(result.data);
         };

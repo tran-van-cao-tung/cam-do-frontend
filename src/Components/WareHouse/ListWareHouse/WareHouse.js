@@ -63,7 +63,7 @@ const WareHouse = () => {
                             <TableHead className="MuiTableHead-root-wrap">
                                 <TableRow>
                                     <TableCell>STT</TableCell>
-                                    <TableCell>Cửa hàng</TableCell>
+                                    <TableCell>Tên kho</TableCell>
                                     <TableCell>Địa Chỉ</TableCell>
                                     <TableCell>Tình trạng</TableCell>
                                     <TableCell>Chức năng</TableCell>
@@ -74,7 +74,11 @@ const WareHouse = () => {
                                 {listWarehouse.map((i) => (
                                     <TableRow key={i.warehouseId}>
                                         <TableCell>{i.warehouseId}</TableCell>
-                                        <TableCell>{i.warehouseName}</TableCell>
+                                        <TableCell>
+                                        <Link to={`/viewproduct/`}>
+                                        {i.warehouseName}
+                                        </Link>
+                                            </TableCell>
                                         <TableCell>{i.warehouseAddress}</TableCell>
                                         <TableCell>
                                             {i.status === 1 ? (
@@ -85,7 +89,7 @@ const WareHouse = () => {
                                         </TableCell>
                                         <TableCell>
                                             <div className="MuiTableBody_root-itemLast">
-                                                <Link to={`/editliststore/edit/${i.branchId}`}>
+                                                <Link to={`/editwarehouse/edit/${i.warehouseId}`}>
                                                     <img src={editIcon} alt="Edit" />
                                                 </Link>
                                             </div>
