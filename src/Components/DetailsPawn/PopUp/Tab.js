@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Ransom from './Ransom';
+import Certificate from './Certificate';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -65,7 +66,7 @@ export default function BasicTabs() {
                 Item One
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item Two
+                <Certificate/>
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <Ransom />

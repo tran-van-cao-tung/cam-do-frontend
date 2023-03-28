@@ -20,8 +20,9 @@ function ListEmployees() {
         color: theme.palette.text.secondary,
     }));
 
-
     const [listEmployees, setListEmployee] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    
     // Axios
     useEffect(() => {
         axios({

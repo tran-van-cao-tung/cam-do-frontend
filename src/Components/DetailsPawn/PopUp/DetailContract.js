@@ -131,35 +131,6 @@ const DetailContract = ({ setshowdetailContract }) => {
                         <BasicTabs />
                     </div>
                 </div>
-                {/* Lịch sử đóng tiền lãi */}
-                {/* <div className="contents">
-          <h2> Lịch sử đóng tiền lãi</h2>
-          <Table className="table-detailContract">
-            <TableHead>
-              <TableRow>
-                <TableCell>STT</TableCell>
-                <TableCell>Ngày</TableCell>
-                <TableCell>Tiền lãi</TableCell>
-                <TableCell>Tiền khác</TableCell>
-                <TableCell>Tổng tiền</TableCell>
-                <TableCell>Tiền khách trả</TableCell>
-                <TableCell>...</TableCell>
-                <TableCell>Ghi Chú</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableCell>1</TableCell>
-              <TableCell>1/12/2022 - 7/12/2022</TableCell>
-              <TableCell>1.000.000</TableCell>
-              <TableCell>0</TableCell>
-              <TableCell>1.000.000</TableCell>
-              <TableCell>1.000.000</TableCell>
-              <TableCell>...</TableCell>
-              <TableCell>Ghi Chú</TableCell>
-            </TableBody>
-          </Table>
-        </div> */}
-                {/* Chứng từ */}
             </div>
         </div>
     );
