@@ -1,119 +1,17 @@
-.wareh-wrapper {
-    height: 100%;
+.box_employee {
+    margin: 0 29px;
+}
+
+.employee_heading {
+    font-family: 'Francois One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    color: #000000;
     display: flex;
-    flex-direction: column;
-}
-.wareh-title {
-    font-size: 24px;
-    margin-bottom: 16px;
-}
-
-.wareh-content {
-    display: block;
-    flex: 1;
-    padding: 15px;
-    background-color: white;
-    border-radius: 5px;
-}
-
-.actions-section .add-btn {
-    border-radius: 5px;
-    background-color: #4fcce6;
-    color: black;
-}
-
-.actions-section .add-btn:hover {
-    opacity: 0.9;
-    background-color: #4fcce6;
-}
-
-.search-section {
-    width: 30vw;
-    min-width: 430px;
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    margin-left: 60px;
-}
-
-.status-group {
-    flex-direction: row;
     align-items: center;
-    margin-bottom: 10px;
-}
-
-.status-group .label {
-    margin-right: 20px;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.status-group .radio-available {
-    color: var(--color-success);
-}
-.status-group .radio-full {
-    color: var(--color-warning);
-}
-.status-group .radio-closed {
-    color: var(--color-error);
-}
-
-.select-box .MuiOutlinedInput-input {
-    padding: 10px 14px;
-}
-
-.search-box {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: row;
-    margin-top: 10px;
-    background: rgba(206, 207, 221, 0.34);
-    padding: 10px 6px 10px 14px;
-    border-radius: 5px;
-}
-
-.search-input {
-    flex: 1;
-}
-
-.search-input .MuiInputBase-input {
-    padding: 0;
-}
-
-.search-icon {
-    font-size: 26px;
-}
-
-.search-btn {
-    margin-top: 10px;
-    width: 130px;
-    background-color: #4fcce6;
-    color: black;
-}
-
-.search-btn:hover {
-    opacity: 0.9;
-    background-color: #4fcce6;
-}
-
-/* Table section */
-.table-section {
-    margin-top: 30px;
-}
-
-.table-header-cell {
-    background: #d9d9d9;
-    border-right: 1px solid white;
-}
-
-.table-header-cell:last-child {
-    border-right: none;
-}
-
-.edit-action-btn img {
-    width: 20px;
-    height: 20px;
+    text-align: center;
+    padding: 22px 0 22px 27px
 }
 
 .employee_button {
@@ -273,3 +171,20 @@
     color: #FFFBFB;
     margin-top: 18px;
 }
+
+div[title='Lưu kho']{
+    background-color: #50c2da;
+  }
+  div[title='Thanh lý']{
+    background-color: #d4d05c;
+  }
+  div[title='Lưu kho'],
+  div[title='Thanh lý']{
+    border-radius: 7px;
+    font-family: 'Frank Ruhl Libre';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  padding: 5px;
+  }
+

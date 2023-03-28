@@ -110,7 +110,7 @@ const NavMenu = () => {
           </NavLink>
         </li>
         <li>
-          <a className="text-menu" onClick={clickShow1}>
+          <a className="text-menu home" onClick={clickShow1}>
             <img src={menu5} className="iconMenu" />
             <span>Quản lý nhân viên</span>
             {
@@ -136,13 +136,13 @@ const NavMenu = () => {
           }
         </li>
         <li>
-          <NavLink to="/customer-manager" className="text-menu">
+          <NavLink to="/customer-manager" className="text-menu home">
             <img src={menu6} className="iconMenu" />
             <span>Quản lý khách hàng</span>
           </NavLink>
         </li>
         <li>
-          <a className="text-menu" onClick={clickShow2}>
+          <a className="text-menu home" onClick={clickShow2}>
             <img src={menu7} className="iconMenu" />
 
             <span>Báo cáo</span>
@@ -155,11 +155,11 @@ const NavMenu = () => {
           {show3 && (
             <ul className={`submenu ${show3}`}>
               <li className="subtext">
-                <NavLink to="/total-report"> Tổng giao dịch</NavLink>
+                <NavLink to="/total-report">&#128900; Tổng giao dịch</NavLink>
               </li>
               <li className="subtext">
                 <NavLink to="/report-years" className="subtext">
-                  Báo cáo năm
+                &#128900; Báo cáo năm
                 </NavLink>
               </li>
             </ul>

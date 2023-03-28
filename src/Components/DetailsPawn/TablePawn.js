@@ -1,92 +1,92 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import cash from "../../asset/img/cash.png";
 import wallet from "../../asset/img/wallet.png";
-import subwallet from "../../asset/img/subwallet.png";
-import deletes from "../../asset/img/delete.png";
-import axios from "axios";
+import thanhly from "../../asset/img/thanhly.png";
+import API from "../../API.js"
+const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract}) => {
+  const [contractList, setContractList] = useState([]);
+  useEffect(() => {
+    API({
+        method: 'get',
+        url: 'contract/getAll/0',
+    }).then((res) => {
+      setContractList(res.data);
+        console.log('aaaaa', res.data);
+    });
+}, []);
 
-const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract }) => {
   const handleShow = (id) => {
     setShowUpdateContract(true);
+    localStorage.setItem("PawnDetailID", id)
     console.log(id);
   };
   const handleShowLiquidation = (id) => {
     setShowliquidation(true);
     console.log(id);
   };
-  const handleShowDetailContract = (id) => {
+  
+  const handleShowDetailContract = (contractId) => {
     setshowdetailContract(true);
-    console.log(id);
+    console.log(contractId);
+    localStorage.setItem("PawnDetailID", contractId);
   };
   const columns = [
-    { field: "id", headerName: "#", width: 10, textAlign: "center" },
-    { field: "maHD", headerName: "Mã HĐ", with: 20 },
-    { field: "khachHang", headerName: "Khách Hàng", width: 200 },
+    { field: "id", headerName: "#", width: 10, textAlign: "center"},
+    { field: "contractCode", headerName: "Mã HĐ", with: 20 },
+    { field: "customerName", headerName: "Khách Hàng", width: 200 },
     {
-      field: "maTS",
+      field: "commodityCode",
       headerName: " Mã TS",
     },
     {
-      field: "taiSan",
+      field: "contractAssetName",
       headerName: "Tài Sản",
       width: 160,
     },
     {
-      field: "tienCam",
+      field: "loan",
       headerName: "Tiền Cầm",
       width: 160,
     },
     {
-      field: "ngayCam",
+      field: "contractStartDate",
       headerName: "Ngày Cầm",
     },
     {
-      field: "lai",
-      headerName: "Lãi Đã Đóng",
-      type: "number",
+      field: "contractEndDate",
+      headerName: "Ngày Đến Hạn",
     },
     {
-      field: "tienNo",
-      headerName: "Tiền Nợ",
-      type: "number",
-    },
-
-    {
-      field: "laiDenNay",
-      headerName: "Lãi Đến Hôm Nay",
+      field: "warehouseName",
+      headerName: "Kho",
     },
     {
-      field: "ngayDongLai",
-      headerName: "Ngày Đóng Lãi",
-    },
-    {
-      field: "tinhTrang",
+      field: "status",
       headerName: "Tình Trạng",
       valueGetter: (params) =>
-        `${params.row.tinhTrang === 0
+        `${params.row.status === 1
           ? "Đang Cầm"
-          : params.row.tinhTrang === 1
+          : params.row.status === 2
             ? "Trễ hẹn"
-            : params.row.tinhTrang === 2
+            : params.row.status === 3
               ? "Thanh lý"
-              : ""
+              : params.row.status === 4
+              ? "Đóng hợp đồng":""
         }`,
       width: 140,
     },
     {
-      field: "ChucNangw",
+      field: "ChucNang",
       headerName: "Chức năng",
       type: "actions",
       getActions: (params, index) => [
-        <GridActionsCellItem icon={<img src={cash} />} onClick={(e) => handleShowDetailContract(params.id)} />,
-        // <Link to={`/updateContract/${params.id}`} ><GridActionsCellItem icon={<img src={wallet} />} onClick={(params)=>handleShow(params)} /></Link>,
+        <GridActionsCellItem icon={<img src={cash} alt="CA"/>} onClick={(e) => handleShowDetailContract(params.row.contractId)} />,
         <GridActionsCellItem
-          icon={<img src={wallet} />}
-          onClick={(e) => handleShow(params.id)}
+          icon={<img src={wallet} alt="VI" />}
+          onClick={(e) => handleShow(params.row.contractId)}
         />,
-        <GridActionsCellItem icon={<img src={subwallet} />} onClick={(e) => handleShowLiquidation(params.id)} />,
-        // <GridActionsCellItem icon={<img src={deletes} />} />,
+        <GridActionsCellItem icon={<img style={{width: '30px'}} src={thanhly} alt="TL"/>} onClick={(e) => handleShowLiquidation(params.row.contractId)} />,
       ],
 
       width: 160,
@@ -94,66 +94,18 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
   ];
 
 
-  useEffect(() => {
-    axios.get(``)
-  })
-  const rows = [
-    {
-      id: 1,
-      maHD: "CĐ-0001",
-      khachHang: "Nguyen Tran Khanh Hoa",
-      maTS: "XM",
-      taiSan: "Xe SH Trắng",
-      tienCam: "10000000",
-      ngayCam: "23/12/2022",
-      lai: "35000",
-      tienNo: "0",
-      laiDenNay: "23/12/2022",
-      ngayDongLai: "29/12/2022",
-      tinhTrang: 0,
-      firstName: "Jon",
-      age: 35,
-    },
-    {
-      id: 2,
-      maHD: "CĐ-0002",
-      khachHang: "Nguyen Tran Khanh Hoa",
-      maTS: "XM",
-      taiSan: "Xe SH Trắng",
-      tienCam: "10000000",
-      ngayCam: "23/12/2022",
-      lai: "35000",
-      tienNo: "0",
-      laiDenNay: "23/12/2022",
-      ngayDongLai: "29/12/2022",
-      tinhTrang: 1,
-      firstName: "Jon",
-      age: 35,
-    },
-    {
-      id: 3,
-      maHD: "CĐ-0003",
-      khachHang: "Nguyen Tran Khanh Hoa",
-      maTS: "XM",
-      taiSan: "Xe SH Trắng",
-      tienCam: "10000000",
-      ngayCam: "23/12/2022",
-      lai: "35000",
-      tienNo: "0",
-      laiDenNay: "23/12/2022",
-      ngayDongLai: "29/12/2022",
-      tinhTrang: 2,
-      firstName: "Jon",
-      age: 35,
-    },
-  ];
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 510, width: "99%" }}>
       <DataGrid
-        rows={rows}
+        // rows={contractList.map((item,index)=>{return {id:index+1,...item}})}
+        rows={contractList
+          .filter((item) => item.status !== 4)
+          .map((item, index) => {
+            return { id: index + 1, ...item };
+          })}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={7}
+        rowsPerPageOptions={[7]}
         style={{ textAlign: "center" }}
       />
     </div>

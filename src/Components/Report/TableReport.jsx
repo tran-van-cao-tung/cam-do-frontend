@@ -11,20 +11,13 @@ const TableReport = ({ setShowUpdateContract }) => {
 
   const columns = [
     { field: "stt", headerName: "#", minWidth: 10, align: "center" },
-
     {
       field: "idContract",
       headerName: "Mã HĐ",
-      minWidth: 100,
-      align: "center",
-    },
-    {
-      field: "detailContrac",
-      headerName: "Xem HĐ",
       type: "actions",
       getActions: (params, index) => [
         <GridActionsCellItem
-          icon={<span>chi tiết</span>}
+          icon={<span>CD-001</span>}
           onClick={(e) => handleShow(params.id)}
         />,
       ],

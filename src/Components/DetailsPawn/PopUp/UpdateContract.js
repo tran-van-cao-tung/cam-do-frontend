@@ -1,9 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./popup.css";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
 import user from "../../../asset/img/userpagedetai.png";
 import bike from "../../../asset/img/bike.png";
 import save from "../../../asset/img/save1.png";
@@ -11,12 +7,51 @@ import close from "../../../asset/img/close1.png";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-
+import API from "../../../API.js"
 const UpdateContract = ({ setShowUpdateContract }) => {
   const [nameImg, setNameImg] = useState("");
   const [img, setImg] = useState("");
   const imginput = useRef();
+  const [detailContract, setDetailContract] = useState([]);
+  const [warehouse, setWarehouse] = useState([]);
+  const [items, setItem] = useState([]);
+  const saveContract = () => {
+    API({
+      method: 'put',
+      url: '/contract/updateContract/' + localStorage.getItem("PawnDetailID"),
+      data: {
+        insuranceFee: detailContract.insuranceFee,
+        storageFee: detailContract.storageFee,
+        loan: detailContract.loan,
+        warehouseId: warehouse.warehouseId
+      },
+    })
+      .then((res) => {
+        console.log('Success Full');
+        alert('Lưu Thành Công');
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  };
+
   useEffect(() => {
+    API({
+      method: 'get',
+      url: '/contract/getContractInfoByContractId/' + localStorage.getItem("PawnDetailID"),
+    }).then((res) => {
+      setDetailContract(res.data);
+      // console.log('aaaaa', res.data);
+    });
+
+    API({
+      method: 'get',
+      url: '/warehouse/GetAll/0',
+    }).then((res) => {
+      setWarehouse(res.data);
+      // console.log('aaaaa', res.data);
+    });
+
     return () => {
       img && URL.revokeObjectURL(img.preview);
     };
@@ -30,8 +65,6 @@ const UpdateContract = ({ setShowUpdateContract }) => {
     file.preview = URL.createObjectURL(file);
     setImg(file.preview);
   };
-
-  
   return (
     <div>
       <div className="add-contract" onClick={() => setShowUpdateContract(false)}>
@@ -42,9 +75,8 @@ const UpdateContract = ({ setShowUpdateContract }) => {
             <h1>Cập nhật hợp đồng</h1>
             <div className="sub-heading">
               <p>
-                Mã hợp đồng <span className="start-red">*</span>: CĐ-0007
+                Mã hợp đồng:  {detailContract.contractCode}
               </p>
-              <p>Điểm tín dụng: 0</p>
             </div>
           </div>
           <div className="contents">
@@ -55,29 +87,6 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                   <img src={user} alt="hk" />
                   <h1 className="titile-user">Thông tin khách hàng</h1>
                 </div>
-                <div className="heading-info-user btn-radio-user">
-                  <p>
-                    Khách hàng <span className="start-red">*</span>:{" "}
-                  </p>
-                  <FormControl>
-                    <RadioGroup
-                      row
-                      aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="row-radio-buttons-group"
-                    >
-                      <FormControlLabel
-                        value="Khách hàng mới"
-                        control={<Radio />}
-                        label="Khách hàng mới"
-                      />
-                      <FormControlLabel
-                        value="Khách hàng cũ"
-                        control={<Radio />}
-                        label="Khách hàng cũ"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </div>
               </div>
               <div className="box__user">
                 <Box sx={{ flexGrow: 1 }}>
@@ -86,13 +95,13 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                       <div className="user__info">
                         <div className="user__info-label">
                           <p>
-                            Tên khách hàng <span class="start-red">*</span>:
+                            Tên khách hàng :
                           </p>
                           <p>Số CMND/Hộ chiếu:</p>
                         </div>
                         <div className="user__info-input">
-                          <input type="text" placeholder="Nhập tên khách hàng" />
-                          <input type="text" placeholder="Nhập CMND/Hộ chiếu" />
+                          <p>{detailContract.customerName}</p>
+                          <p>{detailContract.cccd}</p>
                         </div>
                       </div>
                     </Grid>
@@ -100,18 +109,15 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                       <div className="user__info">
                         <div className="user__info-label">
                           <p>
-                            Số điện thoại <span class="start-red">*</span>:
+                            Số điện thoại :
                           </p>
                           <p>
-                            Địa chỉ <span class="start-red">*</span>:
+                            Địa chỉ :
                           </p>
                         </div>
                         <div className="user__info-input">
-                          <input type="text" placeholder="Nhập số điện thoại" />
-                          <input
-                            type="text"
-                            placeholder="Nhập địa chỉ khách hàng"
-                          />
+                          <p>{detailContract.phoneNumber}</p>
+                          <p>{detailContract.address}</p>
                         </div>
                       </div>
                     </Grid>
@@ -134,44 +140,37 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                       <div className="user__info">
                         <div className="user__info-label">
                           <p>
-                            Loại tài sản<span class="start-red">*</span>:
+                            Loại tài sản:
                           </p>
                           <p>
-                            Tên tài sản <span class="start-red">*</span>:
+                            Tên tài sản :
                           </p>
                           <p>
-                            Phí bảo hiểm<span class="start-red">*</span>:
+                            Phí bảo hiểm:
                           </p>
                           <p>
-                            Phí lưu kho<span class="start-red">*</span>:
+                            Phí lưu kho:
                           </p>
                           <p>
-                            Tổng số tiền vay<span class="start-red">*</span>:
+                            Tổng số tiền vay:
                           </p>
                           <p>
-                            NV thu tiền<span class="start-red">*</span>:
+                            NV thu tiền:
                           </p>
                         </div>
                         <div className="user__info-input">
-                          <select>
-                            <option>--Loại TS--</option>
-                            <option>loại 1</option>
-                            <option>loại 2</option>
-                          </select>
-                          <input type="text" placeholder="Nhập tên tài sản" />
+                          <p>{detailContract.typeOfProduct}</p>
+                          <p>{detailContract.assetName}</p>
                           <div className="box__input">
-                            <input type="number" placeholder="0" />
-                            <span>VNĐ</span>
+                            <p>{detailContract.insuranceFee} VND</p>
                           </div>
                           <div className="box__input">
-                            <input type="number" placeholder="0" />
-                            <span>VNĐ</span>
+                            <p>{detailContract.storageFee} VND</p>
                           </div>
                           <div className="box__input">
-                            <input type="number" placeholder="0" />
-                            <span>VNĐ</span>
+                            <p>{detailContract.loan} VND</p>
                           </div>
-                          <input type="text" placeholder="NV thu tiền" />
+                          <p>{detailContract.userName} </p>
                         </div>
                       </div>
                     </Grid>
@@ -184,17 +183,21 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                           <p>Kỳ lãi:</p>
                           <p>Ngày vay:</p>
                           <p>Số tháng vay:</p>
-                          <p>Lãi : </p>
                           <p>Số tiền lãi dự kiến :</p>
+                          <p>Kho: </p>
                         </div>
                         <div className="user__info-input">
-                          <p>Lãi tháng  (6/9/12 tháng)</p>
-
-                          <p className="flcenter">1 tuần</p>
-                          <input type="date" />
-                          <p className="flcenter">3</p>
-                          <input type="number" />
-                          <p className="flend">1.000.000 VNĐ</p>
+                          <p>{detailContract.packageName}</p>
+                          <p className="flcenter">{detailContract.paymentPeriod}</p>
+                          <p className="flcenter">{detailContract.packageInterest}</p>
+                          <p className="flcenter">{detailContract.totalProfit}</p>
+                          <select>
+                            {
+                              warehouse.map((item, index) => {
+                                return <option key={index} value={item.warehouseId}>{item.warehouseName}</option>
+                              })
+                            }
+                          </select>
                         </div>
                       </div>
                     </Grid>
@@ -218,10 +221,10 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                       <div className="user__info">
                         <div className="user__info-label">
                           <p>
-                            Số seri <span class="start-red">*</span>:
+                            Số seri :
                           </p>
                           <p>
-                            Hình hảnh <span class="start-red">*</span>:
+                            Hình ảnh :
                           </p>
                         </div>
                         <div className="user__info-input">
@@ -239,7 +242,7 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                     </Grid>
                     <Grid item xs={12} md={6}>
                       <div className="btn__group">
-                        <button className="btn btn__save">
+                        <button className="btn btn__save" >
                           <img src={save} alt="" />
                           Lưu lại
                         </button>

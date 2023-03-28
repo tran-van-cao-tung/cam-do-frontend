@@ -8,6 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import './menu.css'
 import { AiOutlineDown,AiOutlineAlignRight } from "react-icons/ai";
+import { Link } from "react-router-dom";
 const Menuh = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -39,7 +40,9 @@ const Menuh = () => {
       </div>
       <div className="content2">
         <div className="icon">
-          <img src={user} alt=''/>
+          <Link to={`/report-customer`}>
+          <img src={user} alt='' />
+          </Link>
           <span>1</span>
           <img src={bike} alt=''/>
           <span>123</span>
