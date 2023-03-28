@@ -95,8 +95,6 @@ function Commodity() {
                             </div>
                         </Item>
                     </Grid> */}
-                    
-                    
                 </Grid>
             </div>
         </div>

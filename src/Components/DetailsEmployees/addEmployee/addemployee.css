@@ -31,7 +31,7 @@
     width: 576px;
     height: 51px;
     background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(0, 0, 0, 0.6);
+    
     border-radius: 6px;
     margin-left: 35px;
     font-family: 'Frank Ruhl Libre';
@@ -46,10 +46,10 @@
 }
 
 .employee_input select {
-    width: 577px;
+    width: 593px;
     height: 51px;
     background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(0, 0, 0, 0.6);
+    
     border-radius: 6px;
     margin-left: 35px;
     font-family: 'Frank Ruhl Libre';
@@ -65,7 +65,7 @@
     -moz-appearance: none;
     appearance: none;
     /* Thay đổi icon */
-    background-image: url('/src/asset/img/employees/down.png');
+    background-image: url('/src/asset/img/down.png');
     background-repeat: no-repeat;
     background-position: right 10px center;
 }

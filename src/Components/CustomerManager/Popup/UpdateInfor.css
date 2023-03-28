@@ -1,0 +1,327 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap");
+html {
+    box-sizing: border-box;
+}
+
+.infoCustomer {
+    margin-top: 20px;
+}
+
+.userInfo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    align-content: center;
+}
+
+.userInfoLabel {
+    display: grid;
+    grid-gap: 20px;
+    text-align: right;
+    padding-right: 30px;
+    line-height: 50px;
+    width: 40%;
+    font-size: 20px;
+}
+
+.userInfoInput {
+    display: grid;
+    grid-gap: 20px;
+    width: 50%;
+}
+
+.userInfoInput>input {
+    width: 80%;
+    font-size: 20px;
+    line-height: 37px;
+}
+
+.chungtu {
+    display: flex;
+}
+
+.chungtu button {
+    padding: 10px 20px;
+    background-color: aqua;
+    border-radius: 8px;
+    margin-right: 5%;
+    font-size: 18px;
+    border: none;
+}
+
+.starRed {
+    color: red;
+}
+
+.creditPointUser {
+    display: flex;
+    align-items: center;
+}
+
+.creditPointUser span {
+    font-size: 25px;
+    max-height: 42.96px;
+    margin-right: 40px;
+}
+
+.creditPointUser button {
+    padding: 10px 20px;
+    background-color: rgb(0, 255, 81);
+    border-radius: 8px;
+    margin-right: 5%;
+    font-size: 18px;
+    border: none;
+}
+
+.creditPointUser button:hover,
+.chungtu button:hover {
+    /* background-color: gray; */
+    opacity: 0.5;
+}
+
+.radioStatus {
+    display: flex;
+    max-height: 50px;
+    font-size: 25px !important;
+}
+
+.radioStatus div {
+    margin-right: 30px;
+}
+
+.radioContent label {
+    padding: 0 10px;
+}
+
+.radioWorkJob {
+    display: flex;
+    margin: 10px 0;
+    font-size: 20px !important;
+}
+
+.radioContentWorkJob {
+    margin: 0 10px;
+}
+
+.radioContentWorkJob label {
+    padding: 0 10px;
+}
+
+.comfirmBtn {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.saveBtn,
+.returnBtn {
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.saveBtn {
+    background-color: aqua;
+}
+
+.saveBtn img,
+.returnBtn img {
+    margin-right: 10px;
+}
+
+.returnBtn {
+    background-color: yellowgreen;
+}
+
+.saveBtn:hover,
+.returnBtn:hover {
+    transition: all ease-in-out 0.5s;
+    scale: 1.1;
+}
+
+.headerCredit {
+    position: relative;
+}
+
+.creditPoint {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+}
+
+.creditInfo {
+    display: flex;
+    justify-content: left;
+    align-content: center;
+    border-right: 1px solid #ccc;
+    padding-bottom: 40px;
+}
+
+.creditInfoLabel {
+    display: grid;
+    grid-gap: 20px;
+    align-items: center;
+    max-height: 33.33px;
+    padding-right: 30px;
+    /* line-height: 50px; */
+    width: 35%;
+    font-size: 18px;
+}
+
+.creditInfoLabel p {
+    text-align: right;
+}
+
+.creditInfoInput {
+    display: grid;
+    grid-gap: 10px;
+    width: 100%;
+}
+
+.creditInfoInput>input {
+    width: 70%;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.chungtuCredit {
+    display: flex;
+    align-items: center;
+}
+
+.chungtuCredit button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: aqua;
+    margin-right: 20px;
+}
+
+.chungtuCredit button:hover {
+    opacity: 0.8;
+}
+
+
+/* .creditInfoDiff {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+
+
+.creditInfoDiff {
+    display: grid;
+    grid-gap: 10px;
+    width: 100%;
+} */
+
+.creditInfoDiff {
+    display: flex;
+    justify-content: center;
+    margin: 0px auto;
+    align-content: center;
+    width: 100%;
+    border-top: 1px solid #ccc;
+    padding-top: 30px;
+}
+
+.creditInfoLabelDiff {
+    display: grid;
+    grid-gap: 20px;
+    align-items: center;
+    max-height: 33.33px;
+    padding-right: 30px;
+    /* line-height: 50px; */
+    width: 50%;
+    font-size: 18px;
+}
+
+.creditInfoLabelDiff p {
+    text-align: right;
+}
+
+.creditInfoInputDiff {
+    display: grid;
+    grid-gap: 10px;
+    width: 50%;
+}
+
+.creditInfoInputDiff input {
+    width: 50%;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+
+/* Ban Some One CPNs */
+
+.reasonContainer {
+    background-color: rgba(45, 45, 45, 0.328);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reasonContent {
+    text-align: center;
+    background-color: white;
+    height: 250px;
+    border-radius: 10px;
+    width: 800px;
+}
+
+.reasonContent h1 {
+    margin: 30px auto;
+}
+
+.reasonChange {
+    font-size: 30px;
+    line-height: 25px;
+    margin-bottom: 30px;
+}
+
+.reasonChange input {
+    font-size: 30px;
+    line-height: 25px;
+    width: 60%;
+}
+
+.btnReason {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.btnReason button {
+    padding: 10px 20px;
+    font-size: 30px;
+}
+
+.banBtn {
+    background-color: red;
+}
+
+.closeBtn {
+    background-color: yellow;
+}
+
+.banBtn,
+.closeBtn {
+    border: none;
+    border-radius: 5px;
+}
+
+.banBtn:hover,
+.closeBtn:hover {
+    opacity: 0.8;
+    transform: scale(1.1);
+    transition: ease-in-out 0.8s;
+}

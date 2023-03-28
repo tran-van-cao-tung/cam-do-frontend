@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import './AddList.css';
 
 import Button from '@mui/material/Button';
@@ -10,7 +10,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import axios from 'axios';
 
-import { Divider, Link } from '@mui/material';
+import { Divider} from '@mui/material';
 
 const AddList = () => {
     // const [id, setId] = useState();
@@ -24,7 +24,10 @@ const AddList = () => {
         // e.preventDefault();
         axios({
             method: 'post',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/CreateBranch',
+            headers: {
+                "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
+            },
             data: {
                 // "branchId": id,
                 branchName: name,

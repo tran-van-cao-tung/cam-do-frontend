@@ -1,12 +1,12 @@
 import React from "react";
 import Menuh from "../Menu/Menu";
 import NavMenu from "./../Menu/NavMenu";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import "./layoutDefault.css";
-const LayoutDefault = ({ children }) => {
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import './layoutDefault.css'
+const LayoutDefault = ({children}) => {
     const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,

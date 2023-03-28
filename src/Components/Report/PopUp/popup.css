@@ -1,0 +1,301 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap");
+.mgb21 {
+    margin-bottom: 21px;
+}
+
+.add-contract {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(82, 77, 77, 0.31);
+    z-index: 2;
+    cursor: pointer;
+}
+
+.content-contract {
+    background-color: #ffffff;
+    height: 100%;
+    border-radius: 7px;
+    width: 80%;
+    margin: 0 10%;
+    animation: dropTop 0.4s linear;
+    overflow-y: auto;
+}
+
+@keyframes dropTop {
+    0% {
+        transform: translateY(-100%) scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0%) scale(1);
+        opacity: 1;
+    }
+}
+
+.heading-contract {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 10% 19px 4%;
+    border-bottom: 1px solid;
+}
+
+.heading-contract h1 {
+    font-family: "Francois One";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    color: #000000;
+}
+
+.sub-heading {
+    display: flex;
+    justify-content: space-between;
+    font-family: "Frank Ruhl Libre";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    gap: 27px;
+}
+
+.start-red {
+    color: red;
+}
+
+.contents {
+    width: 90%;
+    margin: 0 5%;
+}
+
+.heading-info-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 28px;
+}
+
+.heading-user {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.titile-user {
+    font-family: "Frank Ruhl Libre";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    color: #000000;
+}
+
+.btn-radio-user.heading-info-user p {
+    font-family: "Frank Ruhl Libre";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    color: #000000;
+}
+
+.box__user {
+    margin-top: 19px;
+}
+
+.user__info {
+    display: flex;
+    width: 100%;
+    gap: 5%;
+}
+
+.user__info-label {
+    width: 40%;
+    text-align: right;
+    display: grid;
+    grid-gap: 30px;
+}
+
+.user__info-input {
+    display: grid;
+    width: 55%;
+    grid-gap: 12px;
+}
+
+.user__info-input input,
+.user__info-input select {
+    background: rgba(255, 255, 255, 0.6);
+    opacity: 0.6;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    padding: 0 0 0 5%;
+    box-sizing: border-box;
+}
+
+.user__info-input,
+.user__info-label {
+    font-family: "Frank Ruhl Libre";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 32px;
+    color: #000000;
+}
+
+.box__input {
+    height: 75%;
+    width: 100%;
+    position: relative;
+}
+
+.box__input input {
+    height: 100%;
+    width: 100%;
+}
+
+.box__input span {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 25px;
+    display: flex;
+    top: 0;
+    align-items: center;
+    padding: 0 6px 0 6px;
+    justify-content: center;
+    border-radius: 0 6px 6px 0;
+    background-color: #d2dadd;
+    border: 0.5px solid;
+}
+
+.flcenter {
+    display: flex;
+    align-items: center;
+}
+
+.flend {
+    display: flex;
+    align-items: end;
+}
+
+.input__img {
+    border: 1px solid;
+    border-radius: 6px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input__img p {
+    position: absolute;
+}
+
+.input__img input {
+    visibility: hidden;
+}
+
+.btn__group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    height: 100%;
+}
+
+.btn {
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 32px;
+    padding: 9px 15px;
+    margin: 0;
+    border-radius: 5px;
+    color: #000000;
+    border: none;
+}
+
+.btn img {
+    margin-right: 10px;
+}
+
+.btn__save {
+    background-color: #50C2DA;
+}
+
+.btn__close {
+    background-color: #EAEC81;
+}
+
+.table__liquidation,
+.table__liquidation tr th {
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    ;
+    border-collapse: collapse;
+}
+
+.table__liquidation tr th {
+    padding: 2% 0;
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 32px;
+}
+
+.table__liquidation {
+    width: 100%;
+    color: #000000;
+}
+
+.box__liquidation {
+    padding: 35px 0 50px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.info__asset {
+    padding: 5% 0 2% 0;
+}
+
+.asset {
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 2.7;
+    display: flex;
+    color: #000000;
+    gap: 19px;
+    justify-content: center;
+}
+
+.w30 {
+    width: 30%;
+}
+
+.text__right {
+    text-align: right;
+}
+
+.w30>.box__input>input {
+    background: rgba(255, 255, 255, 0.6);
+    opacity: 0.6;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    padding: 0 0 0 5%;
+    box-sizing: border-box;
+    position: absolute;
+}
+
+.w30>.box__input {
+    height: 20%;
+    width: 64%;
+    position: relative;
+}
+
+.w30>.line__height {
+    line-height: 3.8;
+}
+
+.btn__group.btn__group-liquidation {
+    height: 0;
+}
