@@ -7,7 +7,6 @@ import API from '../../../API.js';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
 import { display } from '@mui/system';
-import { NumberFormatBase } from 'react-number-format';
 import CurrencyFormat from 'react-currency-format';
 const Ransom = ({ setshowdetailContract }) => {
     // Function active button (Button Deatail Contract)
