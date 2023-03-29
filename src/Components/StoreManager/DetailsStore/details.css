@@ -28,7 +28,9 @@
     text-align: right;
     padding-right: 53px;
 }
-
+.conten .TTV {
+    transform: translateX(50%);
+}
 .conten .item-detail .information {
     position: absolute;
     top: 0;

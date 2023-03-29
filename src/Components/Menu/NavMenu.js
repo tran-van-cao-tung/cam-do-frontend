@@ -79,7 +79,7 @@ const NavMenu = () => {
                 <NavLink to="/chainstores">&#128900; Chuỗi cửa hàng</NavLink>
               </li>
               <li className="subtext">
-                <NavLink to="/detailsStore" className="subtext">
+                <NavLink to="/detailsStore/1" className="subtext">
                   &#128900; Chi tiết cửa hàng
                 </NavLink>
               </li>
@@ -95,7 +95,7 @@ const NavMenu = () => {
               </li>
               <li className="subtext">
                 <NavLink to="/money" className="subtext">
-                  &#128900; Tiền quỹ đầu ngày
+                  &#128900; Nhập quỹ tiền mặt
                 </NavLink>
               </li>
             </ul>

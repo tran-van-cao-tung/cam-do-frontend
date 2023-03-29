@@ -1,4 +1,3 @@
-import React from 'react';
 import './AddCommondity.css';
 
 import Button from '@mui/material/Button';
@@ -10,8 +9,47 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 
 import { Divider } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 
 const Addcommondity = () => {
+
+    const [code, setCode] = useState('');
+    const [name, setName] = useState('');
+    const [status, setStatus] = useState(0);
+
+    const handleOnChangeName = (e) => {
+        setName(e.target.value);
+    };
+    const handleOnChangeCode = (e) => {
+        setCode(e.target.value);
+    };
+
+    const handleOnChangeStatus = (e) => {
+        setStatus(e.target.value);
+    };
+
+    const handleSumbitCommondy = (e) => {
+        axios({
+            method: 'post',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/createPawnable',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            data: {
+                typeOfProduct: name,
+                commodityCode: code,
+                status: status,
+            },
+        })
+            .then((res) => {
+                console.log('Success Full');
+                alert('Lưu Thành Công');
+            })
+            .catch((err) => console.log(err));
+    };
+
     return (
         <>
             <div className="Addcommondity">
@@ -30,6 +68,8 @@ const Addcommondity = () => {
                                     placeholder="XM"
                                     inputProps={{ 'aria-label': 'search' }}
                                     className="add-input"
+                                    name='commodityCode'
+                                    onChange={handleOnChangeCode}
                                 />
                             </FormControl>
 
@@ -41,25 +81,29 @@ const Addcommondity = () => {
                                     placeholder="Xe máy SH"
                                     inputProps={{ 'aria-label': 'search' }}
                                     className="add-input"
+                                    name='typeOfProduct'
+                                    onChange={handleOnChangeName}
                                 />
                             </FormControl>
                             <FormControl className="add-status-group">
                                 <FormLabel className="label">
                                     Tình trạng&nbsp;<label style={{ color: 'red' }}>*</label>:
                                 </FormLabel>
-                                <RadioGroup row name="status">
+                                <RadioGroup row name="status" defaultValue={0}>
                                     <FormControlLabel
-                                        value="available"
+                                        value="0"
                                         control={<Radio />}
                                         label="Đang hoạt động"
                                         className="radio-available"
+                                        onChange={handleOnChangeStatus}
                                     />
 
                                     <FormControlLabel
-                                        value="closed"
+                                        value="1"
                                         control={<Radio />}
                                         label="Khoá"
                                         className="radio-closed"
+                                        onChange={handleOnChangeStatus}
                                     />
                                 </RadioGroup>
                             </FormControl>
@@ -134,7 +178,7 @@ const Addcommondity = () => {
                     <Divider />
 
                     <div className="add-actions">
-                        <Button className="save-btn" variant="contained">
+                        <Button className="save-btn" variant="contained" onClick={handleSumbitCommondy}>
                             Lưu lại
                         </Button>
 
@@ -149,7 +193,3 @@ const Addcommondity = () => {
 };
 
 export default Addcommondity;
-
-
-//Thêm API cấu hình hàng hoá
-// API cấu hình hàng hoá : http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getAll/1

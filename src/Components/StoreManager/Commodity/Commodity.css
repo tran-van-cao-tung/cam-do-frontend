@@ -122,6 +122,8 @@
 /* Table */
 .table {
     margin: 90px 2% 0;
+    width: 100%;
+    align-items: center;
 }
 
 .MuiTable-bordered {
@@ -158,8 +160,9 @@
 }
 
 .MuiTableBody_working-status {
-    width: 121px;
-    height: 24px;
+    padding: 15px;
+    width: 160px;
+    height: 35px;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -169,8 +172,9 @@
 }
 
 .MuiTableBody_stop-status {
-    width: 121px;
-    height: 24px;
+    padding: 15px;
+    width: 160px;
+    height: 35px;
     border-radius: 10px;
     display: flex;
     align-items: center;

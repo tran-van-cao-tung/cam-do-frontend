@@ -39,8 +39,8 @@ const Money = () => {
               <div className="bodyTT-2">
                 <span>Số tiền</span>
                 <div className="input-total">
-                <input type="text" placeholder="Gõ vào đây số tiền VNĐ"></input>
-                <p>VNĐ</p>
+                  <input type="text" placeholder="Gõ vào đây số tiền VNĐ"></input>
+                  <p>VNĐ</p>
                 </div>
 
                 <button>
@@ -66,41 +66,41 @@ const Money = () => {
             <div className="imgbody">
               <img src={day} alt="" /> <span>Lịch sử nhập quỹ tiền mặt</span>
             </div>
-            <Table className="MuiTable-bordered">
-              <TableHead className="MuiTableHead-root">
-                <TableRow>
-                  <TableCell>STT</TableCell>
-                  <TableCell>Ngày</TableCell>
-                  <TableCell>Người tạo</TableCell>
-                  <TableCell>Số tiền</TableCell>
-                  <TableCell>Hoạt động</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody className="MuiTableBody-root">
-                <TableRow>
-                  <TableCell>1</TableCell>
-                  <TableCell>3/1/2023</TableCell>
-                  <TableCell className='MuiTableBody_root-name'>
-                    <span>Admin1</span>
-                  </TableCell>
-                  <TableCell className='MuiTableBody_root-name'>
-                    <span>+10,000,000</span>
-                  </TableCell>
-                  <TableCell>Nhập lại quỹ tiền mặt</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>1</TableCell>
-                  <TableCell>3/1/2023</TableCell>
-                  <TableCell className='MuiTableBody_root-name'>
-                    <span>Admin1</span>
-                  </TableCell>
-                  <TableCell className='MuiTableBody_root-name'>
-                    <span>+10,000,000</span>
-                  </TableCell>
-                  <TableCell>Nhập lại quỹ tiền mặt</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            {/* ================================ */}
+            {/* =            Table Show        = */}
+            {/* ================================ */}
+            <table className="responstable">
+              <tr>
+                <th>STT</th>
+                <th data-th="Driver details"><span>Ngày</span></th>
+                <th>Người tạo</th>
+                <th>Số tiền</th>
+                <th>Hoạt động</th>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>3/1/2023</td>
+                <td className='MuiTableBody_root-name'>
+                  <span>Admin1</span>
+                </td>
+                <td className='MuiTableBody_root-name'>
+                  <span>+10,000,000</span>
+                </td>
+                <td>Nhập lại quỹ tiền mặt</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>3/1/2023</td>
+                <td className='MuiTableBody_root-name'>
+                  <span>Admin1</span>
+                </td>
+                <td className='MuiTableBody_root-name'>
+                  <span>+10,000,000</span>
+                </td>
+                <td>Nhập lại quỹ tiền mặt</td>
+              </tr>
+            </table>
+
           </div>
         </div>
       </div>
