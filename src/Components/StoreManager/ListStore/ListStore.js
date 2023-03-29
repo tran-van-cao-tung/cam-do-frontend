@@ -86,10 +86,7 @@ const ListStore = () => {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        {/* Button Search */}
-                        {/* <span className="buttonsearch">
-                            <button>Tìm Kiếm</button>
-                        </span> */}
+                        
                     </div>
                 </div>
                 {/* ================================ */}
@@ -113,8 +110,8 @@ const ListStore = () => {
                                     <td>{i.branchId}</td>
                                     <td>{i.branchName}</td>
                                     <td>{i.address}</td>
-                                    <td>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(i.phoneNumber)}</td>
-                                    <td>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(i.fund)}</td>
+                                    <td>{i.phoneNumber}</td>
+                                    <td>{i.fund}</td>
                                     <td>{moment(i.createDate).format('DD/MM/YYYY')}</td>
                                     <td>
                                         {i.status === 1 ? (

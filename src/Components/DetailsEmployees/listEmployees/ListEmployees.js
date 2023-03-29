@@ -73,11 +73,11 @@ function ListEmployees() {
                                     <label className="check3">Tạm khóa</label>
                                 </div>
                                 <div className="employee_search-select">
-                                    <select className="employee_search-option">
+                                    {/* <select className="employee_search-option">
                                         <option>TP. Hồ Chí Minh</option>
                                         <option>TP. Đà Nẵng</option>
                                         <option>TP. Hà Nội</option>
-                                    </select>
+                                    </select> */}
                                     {/* <input type="text" placeholder="Tìm kiếm..." className="employee_search-input" /> */}
                                     <input
                                         type="text"
@@ -87,10 +87,10 @@ function ListEmployees() {
                                     />
                                 </div>
                             </div>
-                            <button className="employee_search-btn">
+                            {/* <button className="employee_search-btn">
                                 <span>Tìm kiếm </span>
                                 <img src={search} alt="search" />
-                            </button>
+                            </button> */}
                         </form>
                         {/* ================================ */}
                         {/* =            Table Show        = */}

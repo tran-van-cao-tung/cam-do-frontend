@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+
 import axios from 'axios';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import edit from './../../asset/img/edit.png';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import edit from './../../asset/img/edit.png';
+
+
 
 
 function ListCustomer({ numPage }) {
@@ -21,42 +23,66 @@ function ListCustomer({ numPage }) {
 
     return (
         <>
-            {/* ================================ */}
-            {/* =            Table Show        = */}
-            {/* ================================ */}
-            <div className="table">
-                <table className="responstable">
-                    <tr>
-                        <th>STT</th>
-                        <th><span>Cửa hàng</span></th>
-                        <th>Họ và tên</th>
-                        <th>CMND/CCCD</th>
-                        <th>Số điện thoại</th>
-                        <th>Địa chỉ</th>
-                        <th>Ngày tạo</th>
-                        <th>Hạng TD</th>
-                        <th>Chức năng</th>
-                    </tr>
-                    {
-                        customers.map((customer) => (
-                            <tr key={customer.id}>
-                                <td>{customer.numerical}</td>
-                                <td>{customer.nameBranch}</td>
-                                <td>{customer.fullName}</td>
-                                <td>{customer.cccd}</td>
-                                <td>{customer.phone}</td>
-                                <td>{customer.address}</td>
-                                <td>{moment(customer.createTime).format('MM/DD/YYYY')}</td>
-                                <td>{customer.point}</td>
-                                <td>
-                                    <Link to={`/customer-manager/updateinfo/`}>
-                                        <img src={edit} alt="Edit" />
-                                    </Link>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </table>
+            <div className="ListCustomerr">
+                {/* ===================================== */}
+                {/* |             Add and Search        | */}
+                {/* ===================================== */}
+                <div className="ListCustomer">
+                    {/* Button  Add */}
+                    <a href="#">
+                        <button className="addliststore">Thêm mới khách hàng</button>
+                    </a>
+                    {/* Status */}
+                    <div className="status">
+                        {/* Search */}
+                        <div className="searchinput">
+                            <input type="text" class="searchTerm" placeholder="Tìm kiếm..."></input>
+                            {/* <input
+                                type="text"
+                                placeholder="Tìm kiếm cửa hàng..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            /> */}
+                        </div>
+                    </div>
+                </div>
+                {/* ================================ */}
+                {/* =            Table Show        = */}
+                {/* ================================ */}
+                <div className="table">
+                    <table className="responstable">
+                        <tr>
+                            <th>STT</th>
+                            <th><span>Cửa hàng</span></th>
+                            <th>Họ và tên</th>
+                            <th>CMND/CCCD</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                            <th>Ngày tạo</th>
+                            <th>Hạng TD</th>
+                            <th>Chức năng</th>
+                        </tr>
+                        {
+                            customers.map((customer) => (
+                                <tr key={customer.id}>
+                                    <td>{customer.numerical}</td>
+                                    <td>{customer.nameBranch}</td>
+                                    <td>{customer.fullName}</td>
+                                    <td>{customer.cccd}</td>
+                                    <td>{customer.phone}</td>
+                                    <td>{customer.address}</td>
+                                    <td>{moment(customer.createdDate).format('DD/MM/YYYY')}</td>
+                                    <td>{customer.point}</td>
+                                    <td>
+                                        <Link to={`/customer-manager/updateinfo/`}>
+                                            <img src={edit} alt="Edit" />
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </table>
+                </div>
             </div>
         </>
     );

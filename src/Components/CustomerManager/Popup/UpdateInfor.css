@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap");
+
 html {
     box-sizing: border-box;
 }
@@ -325,7 +326,58 @@ html {
     transform: scale(1.1);
     transition: ease-in-out 0.8s;
 }
-/* Table Show */
-.headerCustomer .table .responstable{
+
+.ListCustomerr {
+    margin: 0;
+    width: 92%;
+    border-radius: 10px;
+}
+
+/* =====================================*/
+/* |             Add and Search        |*/
+/* =====================================*/
+.ListCustomer {
+    padding-left: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ListCustomer .addliststore {
+    background: #50c2da;
+    border-radius: 10px;
+    width: 335px;
+    height: 60px;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: var(--color-text);
+    border: none;
+}
+
+.ListCustomer .status .searchinput input {
+    width: 300px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.34);
+    opacity: 0.6;
+    padding-left: 10px;
+    border: 1px solid #000000;
+    border-radius: 7px;
+    font-size: 20px;
+}
+
+
+/* =====================================*/
+/* |              Table Show           |*/
+/* =====================================*/
+.headerCustomer .table {
+    margin: 0;
+    width: 115%;
+}
+
+.headerCustomer .table .responstable {
     font-size: 15px;
-   }
+}

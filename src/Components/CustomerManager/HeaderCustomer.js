@@ -1,8 +1,7 @@
-import React from "react";
-import { styled } from "@mui/material/styles";
-import "./CustomerManager.css";
 import Paper from "@mui/material/Paper";
-import SearchBar from "./SearchBar";
+import { styled } from "@mui/material/styles";
+import React from "react";
+import "./CustomerManager.css";
 import ListCustomer from "./ListCustomer";
 // import Grid from "@mui/material/Grid";
 const HeaderCustomer = () => {
@@ -21,7 +20,6 @@ const HeaderCustomer = () => {
         {/* <Grid container spacing={2}>
           <Grid item xs={12}> */}
         <Item className="parperCustomer">
-          <SearchBar />
           <ListCustomer />
         </Item>
         {/* </Grid>
