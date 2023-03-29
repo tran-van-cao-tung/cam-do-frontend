@@ -1,12 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import cash from "../../asset/img/cash.png";
 import wallet from "../../asset/img/wallet.png";
 import subwallet from "../../asset/img/subwallet.png";
 import deletes from "../../asset/img/delete.png";
 import axios from "axios";
+import moment from "moment";
 
-const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract }) => {
+/* function BirthdayColumn({ field, value }) {
+  const formattedValue =moment(value).format('MM/DD/YYYY');;
+
+  return <div>{formattedValue}</div>;
+} */
+
+const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract, setShowContractId }) => {
   const handleShow = (id) => {
     setShowUpdateContract(true);
     console.log(id);
@@ -17,58 +24,76 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
   };
   const handleShowDetailContract = (id) => {
     setshowdetailContract(true);
-    console.log(id);
+    setShowContractId(id);
   };
+
+  const [rows, setContract] = useState([]);
+  useEffect(() => {
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`).then((res) => {
+      setContract(res.data);
+      console.log(res.data)
+    });
+  }, [])
+
+  //Ép kiểu dữ liệu date
+  const formatDate = (value) => {
+    return moment(value).format('MM/DD/YYYY');
+  }
+
+  /* const formattedValue = moment(rows.contractEndDate).format('MM/DD/YYYY'); */
+
   const columns = [
-    { field: "id", headerName: "#", width: 10, textAlign: "center" },
-    { field: "maHD", headerName: "Mã HĐ", with: 20 },
-    { field: "khachHang", headerName: "Khách Hàng", width: 200 },
     {
-      field: "maTS",
+      field: '#', headerName: "#", width: 10, textAlign: "center", valueGetter: (params) => {
+        for (let i = 0; i < rows.length; i++) {
+          if (params.row.contractCode === rows[i].contractCode) {
+            return (i + 1)
+          }
+        }
+      },
+      sortable: false
+    },
+    { field: "contractCode", headerName: "Mã HĐ", with: 20 },
+    { field: "customerName", headerName: "Khách Hàng", width: 200 },
+    {
+      field: "commodityCode",
       headerName: " Mã TS",
     },
     {
-      field: "taiSan",
+      field: "contractAssetName",
       headerName: "Tài Sản",
       width: 160,
     },
     {
-      field: "tienCam",
+      field: "loan",
       headerName: "Tiền Cầm",
       width: 160,
     },
     {
-      field: "ngayCam",
+      field: "contractEndDate",
       headerName: "Ngày Cầm",
+      width: 150,
+      valueFormatter: (params) => formatDate(params.value)
     },
     {
-      field: "lai",
-      headerName: "Lãi Đã Đóng",
-      type: "number",
+      field: "contractStartDate",
+      headerName: "Ngày đến hạn",
+      width: 150,
+      valueFormatter: (params) => formatDate(params.value)
     },
     {
-      field: "tienNo",
-      headerName: "Tiền Nợ",
-      type: "number",
-    },
-
-    {
-      field: "laiDenNay",
-      headerName: "Lãi Đến Hôm Nay",
+      field: "warehouseName",
+      headerName: "Kho",
     },
     {
-      field: "ngayDongLai",
-      headerName: "Ngày Đóng Lãi",
-    },
-    {
-      field: "tinhTrang",
+      field: "status",
       headerName: "Tình Trạng",
       valueGetter: (params) =>
-        `${params.row.tinhTrang === 0
+        `${params.row.status === 0
           ? "Đang Cầm"
-          : params.row.tinhTrang === 1
+          : params.row.status === 1
             ? "Trễ hẹn"
-            : params.row.tinhTrang === 2
+            : params.row.status === 2
               ? "Thanh lý"
               : ""
         }`,
@@ -94,10 +119,7 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
   ];
 
 
-  useEffect(() => {
-    axios.get(``)
-  })
-  const rows = [
+  /* const rows = [
     {
       id: 1,
       maHD: "CĐ-0001",
@@ -146,11 +168,14 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
       firstName: "Jon",
       age: 35,
     },
-  ];
+  ]; */
+
+
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={rows}
+        getRowId={(row) => row.contractCode}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}

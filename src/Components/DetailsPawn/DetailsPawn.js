@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BtnDetails from "./BtnDetails";
 import ContentPawn from "./ContentPawn";
 
@@ -15,11 +15,13 @@ const DetailsPawn = () => {
   const [showUpdateContract, setShowUpdateContract] = useState(false)
   const [showliquidation, setShowliquidation] = useState(false)
   const [showdetailContract, setshowdetailContract] = useState(false)
+  const [showContractId,setShowContractId] = useState();
 
-
+  /* useEffect(()=>{
+    console.log(showContractId)
+  },[showContractId]) */
 
   return (
-
     <div className="details-pawn">
       <div>
         <HeaderPawn setShowAddContract={setShowAddContract} />
@@ -29,7 +31,8 @@ const DetailsPawn = () => {
         <BtnDetails />
       </div>
 
-      <TablePawn setShowUpdateContract={setShowUpdateContract} setShowliquidation={setShowliquidation} setshowdetailContract={setshowdetailContract} />
+      <TablePawn setShowUpdateContract={setShowUpdateContract} setShowliquidation={setShowliquidation} setshowdetailContract={setshowdetailContract} 
+      setShowContractId={setShowContractId}/>
       {
         showAddContract && <AddContract setShowAddContract={setShowAddContract} />
       }
@@ -40,7 +43,8 @@ const DetailsPawn = () => {
         showliquidation && <Liquidation setShowliquidation={setShowliquidation} />
       }
       {
-        showdetailContract && <DetailContract onClick={handleSlug} setshowdetailContract={setshowdetailContract} />
+        showdetailContract && <DetailContract  setshowdetailContract={setshowdetailContract}
+        showContractId={showContractId} />
       }
     </div>
 

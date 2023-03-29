@@ -1,37 +1,74 @@
-<<<<<<< HEAD
-import React, { useEffect } from "react";
-import "./popup.css";
-import { useParams } from 'react-router-dom';
-=======
+
 import React, { useEffect, useState } from "react";
 import "./popup.css";
->>>>>>> b5517abc96b90f78129780129a9b292211b6fe5a
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import axios from "axios";
+import moment from "moment";
+import History from "./History";
+import BasicTabs from "./Tab";
 
-const DetailContract = ({ setshowdetailContract }) => {
+const DetailContract = ({ setshowdetailContract, showContractId }) => {
   // Function active button (Button Deatail Contract)
-  const slug = useParams();
-  console.log(slug)
+
+  const [check, setCheck] = useState();
+  const [show, setShow] = useState([]);
+  const [paidMoney, setPaidMoney] = useState();
+  const [contractDetail, setContractDetail] = useState([]);
   useEffect(() => {
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getContractDetail/15`).then(res => {
-      console.log(res.data)
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`).then(res => {
+      setContractDetail(res.data.filter((item, index) => {
+        return item.contractCode == showContractId;
+      })[0])
     })
-  }, [])
+  }, [showContractId])
+
+
 
   const [detailPawn, setDetailPawn] = useState([]);
-  // Axios
   useEffect(() => {
-    axios({
-      method: 'get',
-      url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/detail' + localStorage.getItem("PawnDetailID"),
-    }).then((res) => {
-      setDetailPawn(res.data);
-      // console.log('aaaaa', res.data);
+    const id = contractDetail.contractId;
+    console.log(id);
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getContractDetail/${id}`).then(res => {
+      setDetailPawn(res.data)
+    })
+  }, [contractDetail.contractId])
+
+
+  const [interestDiary, setInterestDiary] = useState([])
+  useEffect(() => {
+    const id = contractDetail.contractId;
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/getInterestDiariesByContractId${id}`).then(res => {
+      setInterestDiary(res.data);
     });
-  }, []);
+  }, [contractDetail.contractId])
+
+
+  const [dis, setDis] = useState(false);
+  const handleCheckbox = (e, id) => {
+    if (e.target.checked) {
+      setCheck(id);
+      setShow({ ...show, [id]: id });
+      setDis(true);
+    }
+    else {
+      setShow({ ...show, [id]: 0 });
+      setDis(false);
+    }
+
+  }
+  const [value, setValue] = useState([]);
+  useEffect(() => {
+    const id = check;
+    axios.put(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/updateInterestDiary/${id}?paidMoney=${paidMoney}`).then(res => {
+      if (res.data) {
+        setValue({ ...value, [id]: paidMoney })
+      }
+    })
+  }, [dis, check])
+
+
+
 
   return (
     <div className="add-contract" onClick={() => setshowdetailContract(false)}>
@@ -43,94 +80,59 @@ const DetailContract = ({ setshowdetailContract }) => {
         <div className="contents">
           <div className="box__liquidation">
             <Box sx={{ flexGrow: 1 }}>
-            {detailPawn.map((i) => (
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <table className="table__liquidation">
                     <tr>
                       <th>Khách hàng</th>
                       <th colSpan="2">
-                        <span className="start-red">{i.customerName}</span>
-                        - {i.phone}
+                        <span className="start-red">{detailPawn.customerName}</span>
+                        - {detailPawn.phone}
                       </th>
                     </tr>
                     <tr>
                       <th>Tiền cầm</th>
-                      <th colSpan="2">10,000,000 VNĐ</th>
+                      <th colSpan="2">{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(detailPawn.loan)}</th>
                     </tr>
                     <tr>
                       <th>Vay từ ngày</th>
-                      <th>23/12/2022</th>
-                      <th>01/01/2022</th>
+                      <th>{moment(detailPawn.contractStartDate).format('MM/DD/YYYY')}</th>
+                      <th>{moment(detailPawn.contractEndDate).format('MM/DD/YYYY')}</th>
                     </tr>
-                    <tr>
-                      <th>Ngày trả lãi gần nhất</th>
-                      <th colSpan="2"></th>
-                    </tr>
+
                   </table>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <table className="table__liquidation">
                     <tr>
-                      <th>Lãi xuất</th>
+                      <th>Lãi suất</th>
                       <th colSpan="2">
-                        <span className="start-red">5k/ngày</span>
+                        <span className="start-red">{detailPawn.packageInterest}%</span>
                       </th>
                     </tr>
                     <tr>
                       <th>Tiền lãi đã đóng</th>
-                      <th className="start-red">0 VNĐ</th>
+                      <th className="start-red">{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(detailPawn.interestPaid)}</th>
                     </tr>
                     <tr>
-                      <th>Gốc còn nợ: <span className="start-red">8,000,000 VNĐ</span></th>
-                      <th>Nợ lãi cũ: <span className="start-red">0 VNĐ</span></th>
-
-                    </tr>
-                    <tr>
-                      <th>Trạng thái</th>
-                      <th>Đang cầm</th>
+                      <th>Nợ lãi cũ: <span className="start-red">{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(detailPawn.interestDebt)}</span></th>
+                      <th>Trạng thái: <span className="start-red">{detailPawn.status === 0
+                        ? "Đang Cầm"
+                        : detailPawn.status === 1
+                          ? "Trễ hẹn"
+                          : detailPawn.status === 2
+                            ? "Thanh lý"
+                            : ""}</span></th>
                     </tr>
                   </table>
                 </Grid>
-                </Grid>
-                ))}
+              </Grid>
             </Box>
             {/* Button Deatail Contract */}
-            <div className="btn-detailContract" >
-              <button>Đóng tiền lãi</button>
-              <button>Chứng từ</button>
-              <button>Chuộc đồ</button>
-              <button>Lịch sử</button>
+            <div sx={{ alignItems: 'center', alignContent: 'center' }}>
+              <BasicTabs showContractId={showContractId}/>
             </div>
           </div>
-        </div>
-        {/* Lịch sử đóng tiền lãi */}
-        <div className="contents">
-          <h2> Lịch sử đóng tiền lãi</h2>
-          <Table className="table-detailContract">
-            <TableHead>
-              <TableRow>
-                <TableCell>STT</TableCell>
-                <TableCell>Ngày</TableCell>
-                <TableCell>Tiền lãi</TableCell>
-                <TableCell>Tiền khác</TableCell>
-                <TableCell>Tổng tiền</TableCell>
-                <TableCell>Tiền khách trả</TableCell>
-                <TableCell>...</TableCell>
-                <TableCell>Ghi Chú</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableCell>1</TableCell>
-              <TableCell>1/12/2022 - 7/12/2022</TableCell>
-              <TableCell>1.000.000</TableCell>
-              <TableCell>0</TableCell>
-              <TableCell>1.000.000</TableCell>
-              <TableCell>1.000.000</TableCell>
-              <TableCell>...</TableCell>
-              <TableCell>Ghi Chú</TableCell>
-            </TableBody>
-          </Table>
         </div>
       </div>
     </div>
