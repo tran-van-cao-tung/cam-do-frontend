@@ -325,3 +325,7 @@ html {
     transform: scale(1.1);
     transition: ease-in-out 0.8s;
 }
+/* Table Show */
+.headerCustomer .table .responstable{
+    font-size: 15px;
+   }
