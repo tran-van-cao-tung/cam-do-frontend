@@ -8,14 +8,13 @@ import AddContract from './PopUp/AddContract';
 import UpdateContract from "./PopUp/UpdateContract";
 import Liquidation from "./PopUp/Liquidation";
 import DetailContract from "./PopUp/DetailContract"
-
 const DetailsPawn = () => {
 
   const [showAddContract, setShowAddContract] = useState(false)
   const [showUpdateContract, setShowUpdateContract] = useState(false)
   const [showliquidation, setShowliquidation] = useState(false)
   const [showdetailContract, setshowdetailContract] = useState(false)
-  const [showContractId,setShowContractId] = useState();
+  const [showContractId, setShowContractId] = useState();
 
   /* useEffect(()=>{
     console.log(showContractId)
@@ -31,8 +30,8 @@ const DetailsPawn = () => {
         <BtnDetails />
       </div>
 
-      <TablePawn setShowUpdateContract={setShowUpdateContract} setShowliquidation={setShowliquidation} setshowdetailContract={setshowdetailContract} 
-      setShowContractId={setShowContractId}/>
+      <TablePawn setShowUpdateContract={setShowUpdateContract} setShowliquidation={setShowliquidation} setshowdetailContract={setshowdetailContract}
+        setShowContractId={setShowContractId} />
       {
         showAddContract && <AddContract setShowAddContract={setShowAddContract} />
       }
@@ -43,8 +42,8 @@ const DetailsPawn = () => {
         showliquidation && <Liquidation setShowliquidation={setShowliquidation} />
       }
       {
-        showdetailContract && <DetailContract  setshowdetailContract={setshowdetailContract}
-        showContractId={showContractId} />
+        showdetailContract && <DetailContract setshowdetailContract={setshowdetailContract}
+          showContractId={showContractId} />
       }
     </div>
 

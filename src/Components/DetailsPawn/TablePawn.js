@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import cash from "../../asset/img/cash.png";
 import wallet from "../../asset/img/wallet.png";
+import thanhly from "../../asset/img/thanhly.png";
+import API from "../../API.js"
 import subwallet from "../../asset/img/subwallet.png";
 import deletes from "../../asset/img/delete.png";
 import axios from "axios";
 import moment from "moment";
 
-/* function BirthdayColumn({ field, value }) {
-  const formattedValue =moment(value).format('MM/DD/YYYY');;
-
-  return <div>{formattedValue}</div>;
-} */
 
 const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract, setShowContractId }) => {
   const handleShow = (id) => {
@@ -22,6 +19,7 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
     setShowliquidation(true);
     console.log(id);
   };
+
   const handleShowDetailContract = (id) => {
     setshowdetailContract(true);
     setShowContractId(id);
@@ -30,8 +28,9 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
   const [rows, setContract] = useState([]);
   useEffect(() => {
     axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`).then((res) => {
-      setContract(res.data);
-      console.log(res.data)
+      setContract(res.data.filter((item, index) => {
+        return item.status != 4
+      }));
     });
   }, [])
 
@@ -70,13 +69,13 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
       width: 160,
     },
     {
-      field: "contractEndDate",
+      field: "contractStartDate",
       headerName: "Ngày Cầm",
       width: 150,
       valueFormatter: (params) => formatDate(params.value)
     },
     {
-      field: "contractStartDate",
+      field: "contractEndDate",
       headerName: "Ngày đến hạn",
       width: 150,
       valueFormatter: (params) => formatDate(params.value)
@@ -89,96 +88,45 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
       field: "status",
       headerName: "Tình Trạng",
       valueGetter: (params) =>
-        `${params.row.status === 0
+        `${params.row.status === 1
           ? "Đang Cầm"
-          : params.row.status === 1
+          : params.row.status === 2
             ? "Trễ hẹn"
-            : params.row.status === 2
+            : params.row.status === 3
               ? "Thanh lý"
-              : ""
+              : params.row.status === 4
+                ? "Đóng hợp đồng" : ""
         }`,
       width: 140,
     },
     {
-      field: "ChucNangw",
+      field: "ChucNang",
       headerName: "Chức năng",
       type: "actions",
       getActions: (params, index) => [
-        <GridActionsCellItem icon={<img src={cash} />} onClick={(e) => handleShowDetailContract(params.id)} />,
-        // <Link to={`/updateContract/${params.id}`} ><GridActionsCellItem icon={<img src={wallet} />} onClick={(params)=>handleShow(params)} /></Link>,
+        <GridActionsCellItem icon={<img src={cash} />} onClick={(e) => handleShowDetailContract(params.row.contractId)} />,
         <GridActionsCellItem
           icon={<img src={wallet} />}
           onClick={(e) => handleShow(params.id)}
         />,
         <GridActionsCellItem icon={<img src={subwallet} />} onClick={(e) => handleShowLiquidation(params.id)} />,
-        // <GridActionsCellItem icon={<img src={deletes} />} />,
       ],
 
       width: 160,
     },
   ];
 
-
-  /* const rows = [
-    {
-      id: 1,
-      maHD: "CĐ-0001",
-      khachHang: "Nguyen Tran Khanh Hoa",
-      maTS: "XM",
-      taiSan: "Xe SH Trắng",
-      tienCam: "10000000",
-      ngayCam: "23/12/2022",
-      lai: "35000",
-      tienNo: "0",
-      laiDenNay: "23/12/2022",
-      ngayDongLai: "29/12/2022",
-      tinhTrang: 0,
-      firstName: "Jon",
-      age: 35,
-    },
-    {
-      id: 2,
-      maHD: "CĐ-0002",
-      khachHang: "Nguyen Tran Khanh Hoa",
-      maTS: "XM",
-      taiSan: "Xe SH Trắng",
-      tienCam: "10000000",
-      ngayCam: "23/12/2022",
-      lai: "35000",
-      tienNo: "0",
-      laiDenNay: "23/12/2022",
-      ngayDongLai: "29/12/2022",
-      tinhTrang: 1,
-      firstName: "Jon",
-      age: 35,
-    },
-    {
-      id: 3,
-      maHD: "CĐ-0003",
-      khachHang: "Nguyen Tran Khanh Hoa",
-      maTS: "XM",
-      taiSan: "Xe SH Trắng",
-      tienCam: "10000000",
-      ngayCam: "23/12/2022",
-      lai: "35000",
-      tienNo: "0",
-      laiDenNay: "23/12/2022",
-      ngayDongLai: "29/12/2022",
-      tinhTrang: 2,
-      firstName: "Jon",
-      age: 35,
-    },
-  ]; */
+  console.log(rows)
 
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 510, width: "99%" }}>
       <DataGrid
         rows={rows}
         getRowId={(row) => row.contractCode}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={7}
+        rowsPerPageOptions={[7]}
         style={{ textAlign: "center" }}
       />
     </div>

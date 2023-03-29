@@ -1,10 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Checkbox, imageListItemBarClasses, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import CreateIcon from '@mui/icons-material/Create';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -13,6 +8,11 @@ import Ransom from './Ransom';
 import axios from 'axios';
 import moment from 'moment';
 import History from './History';
+import { Button, Checkbox, imageListItemBarClasses, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import CreateIcon from '@mui/icons-material/Create';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Certificate from './Certificate';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -46,9 +46,6 @@ function a11yProps(index) {
     };
 }
 
-
-
-
 export default function BasicTabs({ showContractId }) {
     const [value, setValue] = React.useState(0);
 
@@ -64,25 +61,14 @@ export default function BasicTabs({ showContractId }) {
     const [contractDetail, setContractDetail] = React.useState([]);
 
     React.useEffect(() => {
+        const id = showContractId;
         axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`).then(res => {
-            setContractDetail(res.data.filter((item, index) => {
-                return item.contractCode == showContractId;
+            setContractDetail(res.data.filter((item) => {
+                return item.contractId === id;
             })[0])
             console.log(res.data)
         })
     }, [showContractId])
-
-
-    /* 
-        const [detailPawn, setDetailPawn] = React.useState([]);
-        React.useEffect(() => {
-            const id = contractDetail.contractId;
-            console.log(id);
-            axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getContractDetail/${id}`).then(res => {
-                setDetailPawn(res.data)
-            })
-        }, [contractDetail.contractId]) */
-
 
     console.log(contractDetail)
     const [interestDiary, setInterestDiary] = React.useState([])
@@ -183,7 +169,7 @@ export default function BasicTabs({ showContractId }) {
                 </div>
             </TabPanel>
             <TabPanel value={value} index={1}>
-
+                <Certificate />
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <Ransom />
