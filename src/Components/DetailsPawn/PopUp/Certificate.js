@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import API from '../../../API.js';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
+import styled from '@emotion/styled';
 const Certificate = ({ setshowdetailContract }) => {
     // Function active button (Button Deatail Contract)
     const Item = styled(Box)(({ theme }) => ({

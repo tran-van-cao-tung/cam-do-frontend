@@ -14,6 +14,16 @@ import './liststore.css';
 const ListStore = () => {
     //
     const [list, setList] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const searchedProduct = list.filter((item) => {
+        if (searchTerm.value === "") return item;
+        if (
+            item.branchName
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+        )
+            return item;
+    })
     // Axios
     useEffect(() => {
         axios({
@@ -64,7 +74,13 @@ const ListStore = () => {
                         </span>
                         {/* Search */}
                         <div className="searchinput">
-                            <input type="text" class="searchTerm" placeholder="Tìm kiếm..."></input>
+                            {/* <input type="text" class="searchTerm" placeholder="Tìm kiếm..."></input> */}
+                            <input
+                                type="text"
+                                placeholder="I'm looking for...."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
                         </div>
                         {/* Button Search */}
                         <span className="buttonsearch">
@@ -89,7 +105,7 @@ const ListStore = () => {
                         </TableHead>
                         {/* =================================== */}
                         <TableBody className="MuiTableBody-root">
-                            {list.map((i) => (
+                            {searchedProduct.map((i) => (
                                 <TableRow key={i.branchId}>
                                     <TableCell>{i.branchId}</TableCell>
                                     <TableCell>{i.branchName}</TableCell>
