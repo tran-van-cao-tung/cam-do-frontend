@@ -353,3 +353,22 @@
   line-height: 22px;
   text-align: center;
 }
+
+/* Certificate css */
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+  padding-left: 10%;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.certificateImg{
+  width: 300px;
+  height: 300px;
+}
