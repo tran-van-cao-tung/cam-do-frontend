@@ -38,7 +38,7 @@ const WareHouse = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/warehouse/GetAll/1',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/warehouse/GetAll/0',
         }).then((res) => {
             setListWarehouse(res.data);
             // console.log('aaaaa', res.data);
@@ -75,16 +75,16 @@ const WareHouse = () => {
                                     <tr key={i.warehouseId}>
                                         <td>{i.warehouseId}</td>
                                         <td>
-                                            <Link to={`/viewproduct/`}>
+                                            <Link to={`/viewproduct/${i.warehouseId}`}>
                                                 {i.warehouseName}
                                             </Link>
                                         </td>
                                         <td>{i.warehouseAddress}</td>
                                         <td>
                                             {i.status === 1 ? (
-                                                <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                                <div className="MuiTableBody_root-status">Đang hoạt động</div>
                                             ) : (
-                                                <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
+                                                <div className="MuiTableBody_root-status activity">Đã tạm dừng</div>
                                             )}
                                         </td>
                                         <td>
