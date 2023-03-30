@@ -169,7 +169,7 @@ export default function BasicTabs({ showContractId }) {
                 </div>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <Certificate />
+                <Certificate showContractId={showContractId}/>
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <Ransom />
