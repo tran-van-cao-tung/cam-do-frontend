@@ -12,6 +12,7 @@ import { Divider, FormHelperText, StyledEngineProvider } from "@mui/material";
 import "./AddWareHouse.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const WareHouse = () => {
     const [statusFilter, setStatusFilter] = useState("available");
@@ -20,6 +21,39 @@ const WareHouse = () => {
         setStatusFilter(e.target.value);
     };
 
+    // ================================
+    // |         Add Ware Home         |
+    // ================================
+
+    const [Name, seteName] = useState('')
+    const [Address, setAddress] = useState('')
+    const handleSubmit =(e)=>{
+        axios({
+            method: 'post',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/warehouse/createWarehouse',
+            headers: {
+                "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            data: {
+                // "branchId": id,
+                warehouseName: Name,
+                warehouseAddress: Address,
+            },
+        })
+            .then((res) => {
+                console.log('Success Full');
+                alert('Lưu Thành Công');
+            })
+            .catch((err) => console.log(err));
+    }
+
+    const handleOnChangeName = (e) =>{
+        seteName(e.target.value);
+    }
+
+    const handleOnChangeAddress =(e)=>{
+        setAddress(e.target.value);
+    }
     return (
         <StyledEngineProvider injectFirst>
             <div className="wareh-wrapper">
@@ -35,6 +69,7 @@ const WareHouse = () => {
                                 placeholder="Nhập tên kho …"
                                 inputProps={{ "aria-label": "search" }}
                                 className="add-input"
+                                onChange={handleOnChangeName}
                             />
                             {/* <FormHelperText id="component-error-text">
                                 Error
@@ -49,6 +84,7 @@ const WareHouse = () => {
                                 placeholder="Nhập địa chỉ …"
                                 inputProps={{ "aria-label": "search" }}
                                 className="add-input"
+                                onChange={handleOnChangeAddress}
                             />
                         </FormControl>
 
@@ -92,6 +128,7 @@ const WareHouse = () => {
                             className="save-btn"
                             variant="contained"
                             startIcon={<SearchIcon />}
+                            onClick={handleSubmit}
                         >
                             Lưu lại
                         </Button>
