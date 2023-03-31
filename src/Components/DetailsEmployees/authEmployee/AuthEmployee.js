@@ -19,12 +19,12 @@ function AuthEmployee() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/1',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
-            },
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0',
+            // headers: {
+            //     "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            // },
         }).then((res) => {
-            setEmployeeList(res.data[0].fullName);
+            setEmployeeList(res.data.fullName);
             // console.log('aaaaa', res.data);
         });
     }, []);
@@ -328,9 +328,11 @@ function AuthEmployee() {
                                         Nhân viên <span className='auth_input-star'>*</span>:
                                     </span>
                                     <select>
-                                        <option>nguyenvana</option>
-                                        <option>S2</option>
-                                        <option>S3</option>
+                                        {
+                              employeeList.map((item, index) => {
+                                return <option key={index} value={item.userId} >{item.fullName}</option>
+                              })
+                            }
                                     </select>
                                 </div>
                             </div >
