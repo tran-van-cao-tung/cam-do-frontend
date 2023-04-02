@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { styled } from "@mui/material/styles";
+import React, { useEffect, useState } from 'react';
+import { styled } from '@mui/material/styles';
 import { Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import Paper from "@mui/material/Paper";
+import Paper from '@mui/material/Paper';
 import search from './../../../asset/img/search.png';
 import account from './../../../asset/img/account.png';
 import edit from './../../../asset/img/edit.png';
-import "./employee.css";
+import './employee.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
@@ -13,39 +13,36 @@ import moment from 'moment';
 function ListEmployees() {
     const history = useNavigate();
     const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,
-        padding: "22px 19px 22px 27px",
-        borderRadius: "10px",
+        padding: '22px 19px 22px 27px',
+        borderRadius: '10px',
         color: theme.palette.text.secondary,
     }));
 
     const [listEmployees, setListEmployee] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState('');
     const searchedProduct = listEmployees.filter((item) => {
-        if (searchTerm.value === "") return item;
-        if (
-          item.fullName
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
-        )
-          return item;
-      })
+        if (searchTerm.value === '') return item;
+        if (item.fullName.toLowerCase().includes(searchTerm.toLowerCase())) return item;
+    });
     // Axios
     useEffect(() => {
         axios({
             method: 'get',
             url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0',
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },
-        }).then((res) => {
-            setListEmployee(res.data);
-            console.log('aaaaa', res.data);
-        }).catch((err) => {
-            alert('Token đã hết hạn, vui lòng đăng nhập lại');
-            history('/')
-          });
+        })
+            .then((res) => {
+                setListEmployee(res.data);
+                console.log('aaaaa', res.data);
+            })
+            .catch((err) => {
+                alert('Token đã hết hạn, vui lòng đăng nhập lại');
+                history('/');
+            });
     }, []);
     return (
         <div className="box_employee">
@@ -65,7 +62,7 @@ function ListEmployees() {
                             <div>
                                 <div className="employee_search-check">
                                     <span className="employee_search-heading">Tình trạng:</span>
-                                    <input type="radio" name="radio" value="all"/>
+                                    <input type="radio" name="radio" value="all" />
                                     <label className="check1">Tất cả</label>
                                     <input type="radio" name="radio" value="all" />
                                     <label className="check2">Đang làm việc</label>
@@ -80,11 +77,11 @@ function ListEmployees() {
                                     </select>
                                     {/* <input type="text" placeholder="Tìm kiếm..." className="employee_search-input" /> */}
                                     <input
-                  type="text"
-                  placeholder="I'm looking for...."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+                                        type="text"
+                                        placeholder="I'm looking for...."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
                                 </div>
                             </div>
                             <button className="employee_search-btn">
@@ -109,8 +106,8 @@ function ListEmployees() {
                                 </TableHead>
                                 <TableBody className="MuiTableBody-root">
                                     {searchedProduct.map((i, index) => (
-                                        <TableRow key={index+1}>
-                                            <TableCell>{index+1}</TableCell>
+                                        <TableRow key={index + 1}>
+                                            <TableCell>{index + 1}</TableCell>
                                             <TableCell>{i.branchId}</TableCell>
                                             <TableCell>{i.fullName}</TableCell>
                                             <TableCell>{i.userName}</TableCell>
@@ -145,4 +142,4 @@ function ListEmployees() {
     );
 }
 
-export default ListEmployees
+export default ListEmployees;

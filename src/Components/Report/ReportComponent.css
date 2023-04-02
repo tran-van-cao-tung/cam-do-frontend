@@ -8,6 +8,8 @@
     margin-bottom: 23px;
 }
 
+.search-hd {}
+
 .reportYearContainer {
     display: flex;
     width: 100%;
@@ -20,7 +22,7 @@
 }
 
 .btn__click-search {
-    padding: 0px 20px;
+    padding: 5px 20px;
 }
 
 .tableYearReport {
