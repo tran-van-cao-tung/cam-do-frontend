@@ -66,6 +66,7 @@ function ViewProduct() {
         }).catch((err) => {
             alert('Ko thấy product trong warehouse');
         });
+        
         axios({
             method: 'get',
             url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/warehouse/GetAllDetail/${params.id},0`,

@@ -14,6 +14,7 @@ import axios from 'axios';
 function AuthEmployee() {
     const history = useNavigate();
     const [employeeList, setEmployeeList] = useState([]);
+    const [employeePermission, setEmployeePermission] = useState([]);
 
     // Axios
     useEffect(() => {
@@ -24,10 +25,29 @@ function AuthEmployee() {
             //     "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
             // },
         }).then((res) => {
-            setEmployeeList(res.data.fullName);
+            setEmployeeList(res.data);
             // console.log('aaaaa', res.data);
         });
     }, []);
+
+    function getPermission(e){
+        console.log("log at get permission",e.target.value)
+        // setEmployeeList(e.target.value);
+        axios({
+            method: 'post',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/permission/showpermission',
+            // headers: {
+            //     "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            // },
+            data: {
+                userId: e.target.value,
+                nameUser: "string"
+              }
+        }).then((res) => {
+            setEmployeePermission(res.data);
+            console.log('employee permis:', res.data);
+        });
+    }
 
     //Cầm đồ
     const [checkedPlus, setCheckPlus] = useState(false);
@@ -327,10 +347,13 @@ function AuthEmployee() {
                                     <span>
                                         Nhân viên <span className='auth_input-star'>*</span>:
                                     </span>
-                                    <select>
+                                    <select value={employeeList.fullName} onChange={getPermission}>
                                         {
                               employeeList.map((item, index) => {
-                                return <option key={index} value={item.userId} >{item.fullName}</option>
+                                return <option 
+                                key={index} 
+                                value={item.userId} 
+                                >{item.fullName}</option>
                               })
                             }
                                     </select>
