@@ -11,7 +11,7 @@ const ContentPawn = () => {
 
     useEffect(() => {
         axios
-            .get('http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/homepage')
+            .get('http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/homepage/' + localStorage.getItem("branchId"))
             .then((response) => {
                 setData(response.data);
             })
@@ -36,7 +36,7 @@ const ContentPawn = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={5.7}>
                         <Item>
-                            <p className="details-content">Quỹ tiền mặt</p>
+                            <p className="details-content">Tổng số vốn</p>
                             <span className="details-content">{data ? data.fund : '0'}</span>
                         </Item>
                     </Grid>

@@ -13,7 +13,8 @@ import moment from "moment";
 const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract, setShowContractId }) => {
   const handleShow = (id) => {
     setShowUpdateContract(true);
-    console.log(id);
+    localStorage.setItem("PawnDetailID", id)
+    console.log("Update",id);
   };
   const handleShowLiquidation = (id) => {
     setShowliquidation(true);
@@ -107,9 +108,9 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
         <GridActionsCellItem icon={<img src={cash} />} onClick={(e) => handleShowDetailContract(params.row.contractId)} />,
         <GridActionsCellItem
           icon={<img src={wallet} />}
-          onClick={(e) => handleShow(params.id)}
+          onClick={(e) => handleShow(params.row.contractId)}
         />,
-        <GridActionsCellItem icon={<img src={subwallet} />} onClick={(e) => handleShowLiquidation(params.id)} />,
+        <GridActionsCellItem icon={<img src={thanhly}  />} onClick={(e) => handleShowLiquidation(params.row.contractId)} />,
       ],
 
       width: 160,

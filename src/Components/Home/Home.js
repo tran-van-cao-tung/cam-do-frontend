@@ -3,7 +3,6 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import "./home.css";
-import TablePawn from './../DetailsPawn/TablePawn';
 import { useNavigate } from 'react-router-dom';
 const Home = () => {
   const history = useNavigate();
@@ -30,7 +29,7 @@ const Home = () => {
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Item>
-              <p className="title">Tổng quỹ tiền mặt</p>
+              <p className="title">Tổng số vốn</p>
               <span className="title">1.000.000.000</span>
             </Item>
           </Grid>

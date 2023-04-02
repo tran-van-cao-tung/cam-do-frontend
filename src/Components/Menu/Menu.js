@@ -22,6 +22,11 @@ const Menuh = () => {
     localStorage.removeItem("accessToken");
     window.location.reload(false);
   };
+  const setBranchid = () =>{
+    localStorage.removeItem("accessToken");
+    window.location.reload(false);
+  };
+
   return (
     <div className="menu">
       <div className="content1">
