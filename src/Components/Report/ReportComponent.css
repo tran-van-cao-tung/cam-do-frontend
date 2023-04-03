@@ -20,15 +20,17 @@
 }
 
 .btn__click-search {
-    padding: 0px 20px;
+    padding: 5px 20px;
 }
 
 .tableYearReport {
     margin: 50px 27px 0 0;
 }
-.tableYearReport .table .responstable{
- font-size: 15px;
+
+.tableYearReport .table .responstable {
+    font-size: 15px;
 }
+
 table,
 td,
 th {
