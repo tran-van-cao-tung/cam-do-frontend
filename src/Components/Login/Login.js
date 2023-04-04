@@ -3,23 +3,30 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
 
-
 const Login = () => {
     const [userName, setUserName] = useState()
     const [password, setPassword] = useState()
     const history = useNavigate();
     const hanldeSubmit = (e) => {
         e.preventDefault();
-        const data = {
-            userName: userName,
-            password: password,
-        }
-        axios.post(`
-        http://tranvancaotung-001-site1.ftempurl.com/api/authentication/login/create`, data).then(res => {
-            localStorage.setItem('accessToken', res.data.accessToken)
+        // axios.post(`
+        // http://tranvancaotung-001-site1.ftempurl.com/api/authentication/login/login`, data).then(res => {
+        //     localStorage.setItem('accessToken', res.data.accessToken)
+        //     history('/')
+        // }).catch(err => { console.log(err) })
+        axios({
+            method: 'post',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/authentication/login',
+            data: {
+                userName: userName,
+                password: password,
+                remember: true
+            }
+        }).then((res) => {
+            localStorage.setItem('accessToken', res.data.token.accessToken)
+            console.log('accessToken', res.data.token.accessToken);
             history('/')
-        }).catch(err => { console.log(err) })
-        
+        });
     }
 
     return (

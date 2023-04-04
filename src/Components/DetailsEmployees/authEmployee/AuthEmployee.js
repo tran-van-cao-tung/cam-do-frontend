@@ -15,15 +15,19 @@ function AuthEmployee() {
     const history = useNavigate();
     const [employeeList, setEmployeeList] = useState([]);
     const [employeePermission, setEmployeePermission] = useState([]);
-
+    const [value, setValue] = useState();
+    
+    const updateValue = ({ target }) => {
+        setValue(target.value);
+      };
     // Axios
     useEffect(() => {
         axios({
             method: 'get',
             url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0',
-            // headers: {
-            //     "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
-            // },
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            },
         }).then((res) => {
             setEmployeeList(res.data);
             // console.log('aaaaa', res.data);
@@ -31,24 +35,61 @@ function AuthEmployee() {
     }, []);
 
     function getPermission(e){
+        updateValue(e);
         console.log("log at get permission",e.target.value)
         // setEmployeeList(e.target.value);
         axios({
             method: 'post',
             url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/permission/showpermission',
-            // headers: {
-            //     "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
-            // },
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            },
             data: {
                 userId: e.target.value,
                 nameUser: "string"
               }
         }).then((res) => {
             setEmployeePermission(res.data);
-            console.log('employee permis:', res.data);
+            for (let i = 0; i < 5; i++) {
+                localStorage.setItem("permis "+ i, res.data[i].status);
+                console.log('employee permis:', res.data[i].status);
+            }
+            setPermission();
         });
     }
 
+    function setPermission (){
+        if (JSON.parse(localStorage.getItem("permis 0")) == true){
+            console.log('Có cầm đồ');
+            childCheckboxes.every((checkbox) => checkbox.isChecked)
+        }else{
+            console.log('Ko có cầm đồ');
+        }
+        if (JSON.parse(localStorage.getItem("permis 1")) == true){
+            console.log('Có cửa hàng');
+            childCheckboxes2.every((checkbox) => checkbox.isChecked)
+        }else{
+            console.log('Ko có cửa hàng');
+        }
+        if (JSON.parse(localStorage.getItem("permis 2")) == true){
+            console.log('Có kho');
+            childCheckboxes3.every((checkbox) => checkbox.isChecked)
+        }else{
+            console.log('Ko có kho');
+        }
+        if (JSON.parse(localStorage.getItem("permis 3")) == true){
+            console.log('Có nhân viên');
+        }else{
+            setParentCheckbox4(true)
+            console.log('Ko có nhân viên');
+        }
+        if (JSON.parse(localStorage.getItem("permis 4")) == true){
+            console.log('Có khách hàng');
+        }else{
+            setParentCheckbox5(true)
+            console.log('Ko có khách hàng');
+        }
+    };
     //Cầm đồ
     const [checkedPlus, setCheckPlus] = useState(false);
     const [textPlus, setTextPlus] = useState('+');
@@ -347,7 +388,7 @@ function AuthEmployee() {
                                     <span>
                                         Nhân viên <span className='auth_input-star'>*</span>:
                                     </span>
-                                    <select value={employeeList.fullName} onChange={getPermission}>
+                                    <select value={value} onChange={getPermission}>
                                         {
                               employeeList.map((item, index) => {
                                 return <option 

@@ -39,6 +39,9 @@ const WareHouse = () => {
         axios({
             method: 'get',
             url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/warehouse/GetAll/0',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            },
         }).then((res) => {
             setListWarehouse(res.data);
             // console.log('aaaaa', res.data);
