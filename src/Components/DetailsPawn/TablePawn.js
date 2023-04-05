@@ -28,7 +28,7 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
 
   const [rows, setContract] = useState([]);
   useEffect(() => {
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`).then((res) => {
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then((res) => {
       setContract(res.data.filter((item, index) => {
         return item.status != 4
       }));

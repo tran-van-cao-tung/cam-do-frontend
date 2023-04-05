@@ -62,7 +62,7 @@ export default function BasicTabs({ showContractId }) {
 
     React.useEffect(() => {
         const id = showContractId;
-        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`).then(res => {
+        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
             setContractDetail(res.data.filter((item) => {
                 return item.contractId === id;
             })[0])
@@ -74,7 +74,7 @@ export default function BasicTabs({ showContractId }) {
     const [interestDiary, setInterestDiary] = React.useState([])
     React.useEffect(() => {
         const id = contractDetail.contractId;
-        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/getInterestDiariesByContractId${id}`).then(res => {
+        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/getInterestDiariesByContractId${id}`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
             setInterestDiary(res.data);
         });
     }, [contractDetail.contractId])
@@ -96,7 +96,7 @@ export default function BasicTabs({ showContractId }) {
     const [values, setValues] = React.useState([]);
     React.useEffect(() => {
         const id = check;
-        axios.put(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/updateInterestDiary/${id}?paidMoney=${paidMoney}`).then(res => {
+        axios.put(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/updateInterestDiary/${id}?paidMoney=${paidMoney}`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
             if (res.data) {
                 setValues({ ...values, [id]: paidMoney })
             }
@@ -142,7 +142,7 @@ export default function BasicTabs({ showContractId }) {
                                         <TableRow>
                                             <TableCell>{index}</TableCell>
                                             <TableCell>{moment(item.dueDate).format('MM/DD/YYYY')} - {moment(item.nextDueDate).format('MM/DD/YYYY')}</TableCell>
-                                            <TableCell>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.interestDebt)}</TableCell>
+                                            <TableCell>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.payment)}</TableCell>
                                             <TableCell>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.penalty)}</TableCell>
                                             <TableCell>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.totalPay)}</TableCell>
                                             <TableCell>{
@@ -172,7 +172,7 @@ export default function BasicTabs({ showContractId }) {
                 <Certificate showContractId={showContractId}/>
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <Ransom />
+                <Ransom setshowdetailContract = {showContractId}/>
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <History />

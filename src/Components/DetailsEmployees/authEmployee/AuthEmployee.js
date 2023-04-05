@@ -60,36 +60,45 @@ function AuthEmployee() {
 
     function setPermission (){
         if (JSON.parse(localStorage.getItem("permis 0")) == true){
+            setParentCheckbox(true)
             console.log('Có cầm đồ');
-            childCheckboxes.every((checkbox) => checkbox.isChecked)
         }else{
+            setParentCheckbox(false)
             console.log('Ko có cầm đồ');
         }
         if (JSON.parse(localStorage.getItem("permis 1")) == true){
+            setParentCheckbox2(true)
             console.log('Có cửa hàng');
-            childCheckboxes2.every((checkbox) => checkbox.isChecked)
         }else{
+            setParentCheckbox2(false)
             console.log('Ko có cửa hàng');
         }
         if (JSON.parse(localStorage.getItem("permis 2")) == true){
+            setParentCheckbox3(true)
             console.log('Có kho');
-            childCheckboxes3.every((checkbox) => checkbox.isChecked)
         }else{
+            setParentCheckbox3(false)
             console.log('Ko có kho');
         }
         if (JSON.parse(localStorage.getItem("permis 3")) == true){
+            setParentCheckbox4(true)
             console.log('Có nhân viên');
         }else{
-            setParentCheckbox4(true)
+            setParentCheckbox4(false)
             console.log('Ko có nhân viên');
         }
         if (JSON.parse(localStorage.getItem("permis 4")) == true){
             console.log('Có khách hàng');
-        }else{
             setParentCheckbox5(true)
+        }else{
+            setParentCheckbox5(false)
             console.log('Ko có khách hàng');
         }
     };
+    function savePermission (){
+        alert('Ko có khách hàng');
+    }
+
     //Cầm đồ
     const [checkedPlus, setCheckPlus] = useState(false);
     const [textPlus, setTextPlus] = useState('+');
@@ -401,7 +410,7 @@ function AuthEmployee() {
                                 </div>
                             </div >
                             <div className='employee_btn-group' style={{ marginLeft: "10%" }} >
-                                <button type='submit' className='employee_btn-item auth_btn-item aqua'><SaveAltIcon /><span>Lưu lại</span></button >
+                                <button type='submit' className='employee_btn-item auth_btn-item aqua' onClick={savePermission}><SaveAltIcon /><span>Lưu lại</span></button >
                                 <button className='employee_btn-item auth_btn-item yellow' onClick={() => { history('/listemployees') }}><ReplyIcon /><span>Quay lại</span></button >
                             </div >
                         </div >

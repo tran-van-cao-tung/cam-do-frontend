@@ -89,6 +89,15 @@ function AddEmployee() {
                   </span>
                   <input type="text" name='name' />
                 </div>
+                <div className='employee_input'>
+                <span>
+                    Chức vụ <span>*</span>:
+                  </span>
+                <select>
+                  <option>Quản lý</option>
+                  <option>Nhân viên</option>
+                </select>
+                </div>
                 <div className='employee_search employee_style-search'>
                   <div className='employee_search-check employee_style-check'>
                     <span className='employee_search-heading'>Tình trạng<span>*</span>:</span>

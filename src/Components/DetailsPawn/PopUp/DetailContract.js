@@ -13,7 +13,7 @@ const DetailContract = ({ setshowdetailContract, showContractId }) => {
   console.log(showContractId)
   const [contractDetail, setContractDetail] = useState([]);
   useEffect(() => {
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`).then(res => {
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
 
       setContractDetail(res.data.filter((item, index) => {
         return item.contractId == showContractId;
@@ -25,7 +25,7 @@ const DetailContract = ({ setshowdetailContract, showContractId }) => {
   const [detailPawn, setDetailPawn] = useState([]);
   useEffect(() => {
     const id = contractDetail.contractId;
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getContractDetail/${id}`).then(res => {
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getContractDetail/${id}`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
       setDetailPawn(res.data)
     })
   }, [contractDetail.contractId])
