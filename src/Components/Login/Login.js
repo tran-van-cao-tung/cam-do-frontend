@@ -2,24 +2,33 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
-
+import API from '../../API';
 
 const Login = () => {
     const [userName, setUserName] = useState()
     const [password, setPassword] = useState()
     const history = useNavigate();
+
+
     const hanldeSubmit = (e) => {
         e.preventDefault();
         const data = {
             userName: userName,
             password: password,
         }
-        axios.post(`
-        http://tranvancaotung-001-site1.ftempurl.com/api/authentication/login/create`, data).then(res => {
-            localStorage.setItem('accessToken', res.data.accessToken)
+        API({
+            method: 'post',
+            url: `authentication/login`,
+            data: data
+        }).then(res => {
+            localStorage.setItem('accessToken', res.data.token.accessToken)
+            localStorage.setItem('userName', res.data.account.userName);
+            if (res.data.account.userId) {
+                localStorage.setItem('userId', res.data.account.userId);
+            }
             history('/')
-        }).catch(err => { console.log(err) })
-        
+            window.location.reload(false);
+        });
     }
 
     return (

@@ -14,7 +14,6 @@ const UpdateContract = ({ setShowUpdateContract }) => {
   const imginput = useRef();
   const [detailContract, setDetailContract] = useState([]);
   const [warehouse, setWarehouse] = useState([]);
-  const [items, setItem] = useState([]);
   const saveContract = () => {
     API({
       method: 'put',

@@ -9,6 +9,7 @@ import "./employee.css";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
+import callAPI from '../../../API';
 
 function ListEmployees() {
     const history = useNavigate();
@@ -37,16 +38,31 @@ function ListEmployees() {
             method: 'get',
             url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0',
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+                "Authorization": `Bearer  ${localStorage.getItem('accessToken')}`
             },
         }).then((res) => {
             setListEmployee(res.data);
             console.log('aaaaa', res.data);
+
         }).catch((err) => {
             alert('Token đã hết hạn, vui lòng đăng nhập lại');
-            history('/')
+            console.log("Authorization", `Bearer${localStorage.getItem('accessToken')}`);
         });
     }, []);
+
+    const [branch, setBranch] = useState([]);
+    useEffect(() => {
+        callAPI({
+            method: 'get',
+            url: `branch/getChain`,
+        }).then((res) => {
+            setBranch(res.data);
+        });
+    }, [])
+
+    console.log(branch)
+
+    console.log(searchedProduct)
     return (
         <div className="box_employee">
             <h1 className="employee_heading">Danh sách nhân viên</h1>
@@ -108,8 +124,8 @@ function ListEmployees() {
                                     <th>Tình trạng</th>
                                     <th>Chức năng</th>
                                 </tr>
-                                {
-                                    searchedProduct.map((i, index) => (
+                                {searchedProduct.map((i, index) => {
+                                    return (
                                         <tr key={index + 1}>
                                             <td>{index + 1}</td>
                                             <td>{i.branchId}</td>
@@ -119,24 +135,26 @@ function ListEmployees() {
                                             <td>{i.address}</td>
                                             <td>{moment(i.createTime).format('MM/DD/YYYY')}</td>
                                             <td>
-                                                {i.status === 1 ? (
-                                                    <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                                                ) : (
-                                                    <div className="MuiTableBody_root-status activity">
-                                                        Đang hoạt động
-                                                    </div>
-                                                )}
+                                                {
+                                                    i.status === 2 ? (
+                                                        <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                                    ) : (
+                                                        <div className="MuiTableBody_root-status activity">
+                                                            Đang hoạt động
+                                                        </div>
+                                                    )
+                                                }
                                             </td>
                                             <td>
-                                            <div className="MuiTableBody_root-itemLast">
+                                                <div className="MuiTableBody_root-itemLast">
                                                     <Link to={`/editemployee/${i.userId}`}>
                                                         <img src={edit} alt="Edit" />
                                                     </Link>
                                                 </div>
                                             </td>
                                         </tr>
-                                    ))
-                                }
+                                    )
+                                })}
                             </table>
                         </div>
                     </Item>

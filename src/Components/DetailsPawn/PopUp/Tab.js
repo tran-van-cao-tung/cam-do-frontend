@@ -5,14 +5,10 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Ransom from './Ransom';
-import axios from 'axios';
-import moment from 'moment';
 import History from './History';
-import { Button, Checkbox, imageListItemBarClasses, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import CreateIcon from '@mui/icons-material/Create';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Certificate from './Certificate';
+import PayInterest from './PayInterest';
+import axios from 'axios';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -62,7 +58,7 @@ export default function BasicTabs({ showContractId }) {
 
     React.useEffect(() => {
         const id = showContractId;
-        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`).then(res => {
+        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
             setContractDetail(res.data.filter((item) => {
                 return item.contractId === id;
             })[0])
@@ -74,7 +70,7 @@ export default function BasicTabs({ showContractId }) {
     const [interestDiary, setInterestDiary] = React.useState([])
     React.useEffect(() => {
         const id = contractDetail.contractId;
-        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/getInterestDiariesByContractId${id}`).then(res => {
+        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/getInterestDiariesByContractId${id}`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
             setInterestDiary(res.data);
         });
     }, [contractDetail.contractId])
@@ -96,7 +92,7 @@ export default function BasicTabs({ showContractId }) {
     const [values, setValues] = React.useState([]);
     React.useEffect(() => {
         const id = check;
-        axios.put(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/updateInterestDiary/${id}?paidMoney=${paidMoney}`).then(res => {
+        axios.put(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/updateInterestDiary/${id}?paidMoney=${paidMoney}`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
             if (res.data) {
                 setValues({ ...values, [id]: paidMoney })
             }
@@ -119,63 +115,16 @@ export default function BasicTabs({ showContractId }) {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                {/* Lịch sử đóng tiền lãi */}
-                <div className="contents">
-                    <h2> Lịch sử đóng tiền lãi</h2>
-                    <Table className="table-detailContract">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>STT</TableCell>
-                                <TableCell>Ngày</TableCell>
-                                <TableCell>Tiền lãi</TableCell>
-                                <TableCell>Tiền khác</TableCell>
-                                <TableCell>Tổng tiền</TableCell>
-                                <TableCell>Tiền khách trả</TableCell>
-                                <TableCell></TableCell>
-                                <TableCell>Ghi Chú</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {
-                                interestDiary.map((item, index) => {
-                                    return (
-                                        <TableRow>
-                                            <TableCell>{index}</TableCell>
-                                            <TableCell>{moment(item.dueDate).format('MM/DD/YYYY')} - {moment(item.nextDueDate).format('MM/DD/YYYY')}</TableCell>
-                                            <TableCell>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.interestDebt)}</TableCell>
-                                            <TableCell>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.penalty)}</TableCell>
-                                            <TableCell>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.totalPay)}</TableCell>
-                                            <TableCell>{
-                                                show[item.interestDiaryId] === item.interestDiaryId ?
-                                                    <span>{values[item.interestDiaryId] ? Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(values[item.interestDiaryId]) : Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.paidMoney)}</span>
-                                                    :
-                                                    <input
-                                                        type="text"
-                                                        placeholder="0"
-                                                        style={{ padding: "5px" }}
-                                                        onChange={(e) => { setPaidMoney(e.target.value) }} />
-                                            }</TableCell>
-                                            <TableCell>
-                                                <FormGroup onClick={(e) => handleCheckbox(e, item.interestDiaryId)}>
-                                                    <FormControlLabel control={<Checkbox />} />
-                                                </FormGroup></TableCell>
-                                            <TableCell><Button ><CreateIcon /></Button ></TableCell>
-                                        </TableRow>
-                                    )
-                                })
-                            }
-                        </TableBody>
-                    </Table>
-                </div>
+                <PayInterest showContractId={showContractId} />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Certificate showContractId={showContractId}/>
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <Ransom />
+                <Ransom setshowdetailContract = {showContractId}/>
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <History />
+                <History showContractId={showContractId} />
             </TabPanel>
         </Box>
     );
