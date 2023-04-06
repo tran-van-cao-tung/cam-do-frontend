@@ -43,7 +43,7 @@ function ListEmployees() {
         }).then((res) => {
             setListEmployee(res.data);
             console.log('aaaaa', res.data);
-            
+
         }).catch((err) => {
             alert('Token đã hết hạn, vui lòng đăng nhập lại');
             console.log("Authorization", `Bearer${localStorage.getItem('accessToken')}`);
@@ -135,13 +135,15 @@ function ListEmployees() {
                                             <td>{i.address}</td>
                                             <td>{moment(i.createTime).format('MM/DD/YYYY')}</td>
                                             <td>
-                                                i.status === 1 ? (
-                                                <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                                                ) : i.status === 1 ? (
-                                                <div className="MuiTableBody_root-status activity">
-                                                    Đang hoạt động
-                                                </div>
-                                                )
+                                                {
+                                                    i.status === 2 ? (
+                                                        <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                                    ) : (
+                                                        <div className="MuiTableBody_root-status activity">
+                                                            Đang hoạt động
+                                                        </div>
+                                                    )
+                                                }
                                             </td>
                                             <td>
                                                 <div className="MuiTableBody_root-itemLast">
