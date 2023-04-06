@@ -9,6 +9,7 @@ import './employee.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
+import callAPI from '../../../API';
 
 function ListEmployees() {
     const history = useNavigate();
@@ -44,6 +45,20 @@ function ListEmployees() {
                 history('/');
             });
     }, []);
+
+    const [branch, setBranch] = useState([]);
+    useEffect(() => {
+        callAPI({
+            method: 'get',
+            url: `branch/getChain`,
+        }).then((res) => {
+            setBranch(res.data);
+        });
+    }, []);
+
+    console.log(branch);
+
+    console.log(searchedProduct);
     return (
         <div className="box_employee">
             <h1 className="employee_heading">Danh sách nhân viên</h1>
@@ -70,11 +85,11 @@ function ListEmployees() {
                                     <label className="check3">Tạm khóa</label>
                                 </div>
                                 <div className="employee_search-select">
-                                    <select className="employee_search-option">
+                                    {/* <select className="employee_search-option">
                                         <option>TP. Hồ Chí Minh</option>
                                         <option>TP. Đà Nẵng</option>
                                         <option>TP. Hà Nội</option>
-                                    </select>
+                                    </select> */}
                                     {/* <input type="text" placeholder="Tìm kiếm..." className="employee_search-input" /> */}
                                     <input
                                         type="text"
@@ -84,56 +99,58 @@ function ListEmployees() {
                                     />
                                 </div>
                             </div>
-                            <button className="employee_search-btn">
+                            {/* <button className="employee_search-btn">
                                 <span>Tìm kiếm </span>
                                 <img src={search} alt="search" />
-                            </button>
+                            </button> */}
                         </form>
-                        <div>
-                            <Table className="MuiTable-bordered">
-                                <TableHead className="MuiTableHead-root">
-                                    <TableRow>
-                                        <TableCell>STT</TableCell>
-                                        <TableCell>Cửa hàng</TableCell>
-                                        <TableCell>Họ và tên</TableCell>
-                                        <TableCell>Tài khoản</TableCell>
-                                        <TableCell>Số điện thoại</TableCell>
-                                        <TableCell>Nơi làm việc</TableCell>
-                                        <TableCell>Ngày tạo</TableCell>
-                                        <TableCell>Tình trạng</TableCell>
-                                        <TableCell>Chức năng</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody className="MuiTableBody-root">
-                                    {searchedProduct.map((i, index) => (
-                                        <TableRow key={index + 1}>
-                                            <TableCell>{index + 1}</TableCell>
-                                            <TableCell>{i.branchId}</TableCell>
-                                            <TableCell>{i.fullName}</TableCell>
-                                            <TableCell>{i.userName}</TableCell>
-                                            <TableCell>{i.phone}</TableCell>
-                                            <TableCell>{i.address}</TableCell>
-                                            <TableCell>{moment(i.createTime).format('MM/DD/YYYY')}</TableCell>
-                                            <TableCell>
-                                                {i.status === 1 ? (
+
+                        <div className="table _table-Listemoloyess">
+                            <table className="responstable">
+                                <tr>
+                                    <th>STT</th>
+                                    <th data-th="Driver details">
+                                        <span>Cửa hàng</span>
+                                    </th>
+                                    <th>Họ và tên</th>
+                                    <th>Tài khoản</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Nơi làm việc</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Tình trạng</th>
+                                    <th>Chức năng</th>
+                                </tr>
+                                {searchedProduct.map((i, index) => {
+                                    return (
+                                        <tr key={index + 1}>
+                                            <td>{index + 1}</td>
+                                            <td>{i.branchId}</td>
+                                            <td>{i.fullName}</td>
+                                            <td>{i.userName}</td>
+                                            <td>{i.phone}</td>
+                                            <td>{i.address}</td>
+                                            <td>{moment(i.createTime).format('MM/DD/YYYY')}</td>
+                                            <td>
+                                                {i.status === 2 ? (
                                                     <div className="MuiTableBody_root-status">Đã tạm đừng</div>
                                                 ) : (
                                                     <div className="MuiTableBody_root-status activity">
                                                         Đang hoạt động
                                                     </div>
                                                 )}
-                                            </TableCell>
-                                            <TableCell>
+                                            </td>
+                                            <td>
+                                                {/* >>>>>>> re-main */}
                                                 <div className="MuiTableBody_root-itemLast">
                                                     <Link to={`/editemployee/${i.userId}`}>
                                                         <img src={edit} alt="Edit" />
                                                     </Link>
                                                 </div>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </table>
                         </div>
                     </Item>
                 </Grid>

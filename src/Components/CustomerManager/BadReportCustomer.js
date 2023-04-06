@@ -1,10 +1,9 @@
-import React from "react";
-import { styled } from "@mui/material/styles";
-import "./CustomerManager.css";
 import Paper from "@mui/material/Paper";
-import SearchBar from "./SearchBar";
+import { styled } from "@mui/material/styles";
+import React from "react";
+import "./CustomerManager.css";
+import BadCustomerList from "./BadCustomerList.js";
 
-import ListCustomerReport from "./ListCutomerReport";
 // import Grid from "@mui/material/Grid";
 const BadReportCustomer = () => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -22,8 +21,7 @@ const BadReportCustomer = () => {
         {/* <Grid container spacing={2}>
           <Grid item xs={12}> */}
         <Item className="parperCustomer">
-          <SearchBar />
-          <ListCustomerReport />
+          <BadCustomerList/>
         </Item>
         {/* </Grid>
         </Grid> */}

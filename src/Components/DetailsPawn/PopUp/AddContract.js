@@ -46,7 +46,7 @@ const AddContract = ({ setShowAddContract }) => {
     e.preventDefault();
     const data = {
       customerId: customer.customerId,
-      userId: "8b4a4977-2eb7-4f3b-914f-08db27adccad",
+      userId: "678ab687-ad77-4723-9154-08db27adccae",
       branchId: 1,
       totalProfit: 0,
       warehouseId: 1,
@@ -62,14 +62,15 @@ const AddContract = ({ setShowAddContract }) => {
       description: "string",
     }
     console.log(data);
-    axios.post(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/createContract`, data).then(res => {
+    axios.post(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/createContract`, data, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       console.log("thành công");
+      window.location.reload(false);
     })
   }
 
   //get dữ liệu pawnableProduct
   useEffect(() => {
-    axios.get('http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getAll/0').then(res => {
+    axios.get('http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getAll/0', { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setPawnableProduct(res.data);
     })
   }, [])
@@ -77,20 +78,19 @@ const AddContract = ({ setShowAddContract }) => {
 
   //get dữu liệu package
   useEffect(() => {
-    axios.get('http://tranvancaotung-001-site1.ftempurl.com/api/v1/package/getAll/0').then(res => {
+    axios.get('http://tranvancaotung-001-site1.ftempurl.com/api/v1/package/getAll/0', { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setPackage(res.data);
     })
   }, [])
 
   //get dữ liệu Lấy userId 
-  const handleUserName = (e) => {
-    let name = e.target.value;
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0`).then(res => {
+  useEffect(() => {
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setUser(res.data.filter((item, index) => {
-        return item.fullName == name;
-      }))
+        return item.userId === localStorage.getItem("userId");
+      })[0])
     }).catch(err => console.log(err));
-  }
+  }, [])
 
 
   const hanldePackageItem = (e) => {
@@ -135,7 +135,7 @@ const AddContract = ({ setShowAddContract }) => {
   //Get dữ liệu customer bằng cccd
   const handleCustomer = (e) => {
     let value = e.target.value;
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/customer/getByCCCD/${value}`).then(res => {
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/customer/getByCCCD/${value}`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setCustomer(res.data);
     }).catch(err => console.log(err));
   }
@@ -143,9 +143,9 @@ const AddContract = ({ setShowAddContract }) => {
 
   //get dữ liệu seri bằng dựa vào loại tài sản
   const handleSeri = (e) => {
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getPawnAbleProductById/${e.target.value}`).then(res => {
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getPawnAbleProductById/${e.target.value}`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setAttributes(res.data.attributes);
-      setContract({...contract,"pawnableProductId":e.target.value})
+      setContract({ ...contract, "pawnableProductId": e.target.value })
     }).catch(err => console.log(err));
     console.log(attributes);
   }
@@ -164,6 +164,7 @@ const AddContract = ({ setShowAddContract }) => {
     setContractAttributes(newArray);
     console.log(contractAttributes);
   }
+
 
 
   return (
@@ -311,7 +312,7 @@ const AddContract = ({ setShowAddContract }) => {
                               onChange={(e) => { handleSum(e) }} placeholder="0" />
                             <span>VNĐ</span>
                           </div>
-                          <input type="text" onMouseOut={e => handleUserName(e)} name="userId" placeholder="NV thu tiền" />
+                          <span style={{ width: "100%", height: "10px" }}>{user ? user.fullName : ""}</span>
                         </div>
                       </div>
                     </Grid>
@@ -406,7 +407,7 @@ const AddContract = ({ setShowAddContract }) => {
                           <img src={save} alt="" />
                           Lưu lại
                         </button>
-                        <button className="btn btn__close">
+                        <button className="btn btn__close" onClick={() => setShowAddContract(false)}>
                           <img src={close} alt="" />
                           Đóng
                         </button>

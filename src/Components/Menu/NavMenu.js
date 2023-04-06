@@ -53,6 +53,8 @@ const NavMenu = () => {
             <span>Trang chủ</span>
           </NavLink>
         </li>
+
+        {/* Cầm đồ */}
         <li>
           <NavLink to="/detaipawn" className="text-menu home">
             {" "}
@@ -61,6 +63,8 @@ const NavMenu = () => {
             <MdKeyboardArrowRight className="arrow" />
           </NavLink>
         </li>
+
+        {/* Quản lý cửa hàng */}
         <li >
           <a className="text-menu home" onClick={clickShow}>
             {" "}
@@ -102,6 +106,7 @@ const NavMenu = () => {
           ) : (<></>)}
         </li>
 
+        {/* Quản lý kho */}
         <li>
           <NavLink to="/warehouse" className="text-menu home">
             {" "}
@@ -109,6 +114,8 @@ const NavMenu = () => {
             <span>Quản lý kho</span>
           </NavLink>
         </li>
+
+        {/* Quản lý nhân viên */}
         <li>
           <a className="text-menu home" onClick={clickShow1}>
             <img src={menu5} className="iconMenu" />
@@ -135,12 +142,16 @@ const NavMenu = () => {
             )
           }
         </li>
+
+        {/* Quản lý khách hàng */}
         <li>
           <NavLink to="/customer-manager" className="text-menu home">
             <img src={menu6} className="iconMenu" />
             <span>Quản lý khách hàng</span>
           </NavLink>
         </li>
+
+        {/* Báo cáo */}
         <li>
           <a className="text-menu home" onClick={clickShow2}>
             <img src={menu7} className="iconMenu" />

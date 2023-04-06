@@ -117,7 +117,7 @@ const publicRoutes = [
         component: EditWarehouse
     },
     {
-        path: "/viewproduct",
+        path: "/viewproduct/:id",
         component: ViewProduct,
     },
     {

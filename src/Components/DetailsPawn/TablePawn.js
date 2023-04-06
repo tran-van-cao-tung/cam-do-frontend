@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import cash from "../../asset/img/cash.png";
 import wallet from "../../asset/img/wallet.png";
-import thanhly from "../../asset/img/thanhly.png";
 import API from "../../API.js"
 import subwallet from "../../asset/img/subwallet.png";
-import deletes from "../../asset/img/delete.png";
-import axios from "axios";
+import note from "../../asset/img/note.png";
 import moment from "moment";
 
 
-const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract, setShowContractId }) => {
+const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract, setShowContractId, setShowExpiration }) => {
   const handleShow = (id) => {
     setShowUpdateContract(true);
-    console.log(id);
+    localStorage.setItem("PawnDetailID", id)
+    console.log("Update",id);
   };
   const handleShowLiquidation = (id) => {
     setShowliquidation(true);
@@ -25,18 +24,51 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
     setShowContractId(id);
   };
 
+  const hanleShowExpiration = (id) => {
+    setShowExpiration(true);
+    setShowContractId(id);
+  }
+
   const [rows, setContract] = useState([]);
   useEffect(() => {
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`).then((res) => {
+    API({
+      method: 'get',
+      url: `contract/getAll/0`,
+    }).then((res) => {
       setContract(res.data.filter((item, index) => {
         return item.status != 4
       }));
     });
   }, [])
+  console.log(rows)
+
+  //Lấy dữ liệu BrandID có userId
+  const [branchIdUser, setBranchIdUser] = useState([]);
+  useEffect(() => {
+    if (localStorage.getItem('userId')) {
+      API({
+        method: 'get',
+        url: `user/getAll/0`,
+      }).then((res) => {
+        setBranchIdUser(res.data.filter(user => {
+          if (localStorage.getItem('userId')) {
+            return user.userId === localStorage.getItem('userId')
+          }
+        })[0].branchId)
+      });
+    }
+  }, [])
+
+  //dựa vào BranchId 
+  console.log(branchIdUser);
 
   //Ép kiểu dữ liệu date
   const formatDate = (value) => {
     return moment(value).format('MM/DD/YYYY');
+  }
+
+  const formatMoney = (value) => {
+    return (value).toLocaleString('vi-VN') + ' VNĐ';
   }
 
   /* const formattedValue = moment(rows.contractEndDate).format('MM/DD/YYYY'); */
@@ -45,7 +77,7 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
     {
       field: '#', headerName: "#", width: 10, textAlign: "center", valueGetter: (params) => {
         for (let i = 0; i < rows.length; i++) {
-          if (params.row.contractCode === rows[i].contractCode) {
+          if (params.row.contractId === rows[i].contractId) {
             return (i + 1)
           }
         }
@@ -67,6 +99,8 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
       field: "loan",
       headerName: "Tiền Cầm",
       width: 160,
+      valueFormatter: (params) => formatMoney(params.value)
+
     },
     {
       field: "contractStartDate",
@@ -107,23 +141,26 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
         <GridActionsCellItem icon={<img src={cash} />} onClick={(e) => handleShowDetailContract(params.row.contractId)} />,
         <GridActionsCellItem
           icon={<img src={wallet} />}
-          onClick={(e) => handleShow(params.id)}
+          onClick={(e) => handleShow(params.row.contractId)}
         />,
-        <GridActionsCellItem icon={<img src={subwallet} />} onClick={(e) => handleShowLiquidation(params.id)} />,
+        <GridActionsCellItem icon={<img src={params.row.status === 1 ? note : subwallet} />} onClick={(e) => {
+          params.row.status === 1 ?
+          hanleShowExpiration(params.row.contractId)
+          :
+          handleShowLiquidation(params.row.contractId)
+        }} />,
       ],
 
       width: 160,
     },
   ];
 
-  console.log(rows)
-
 
   return (
     <div style={{ height: 510, width: "99%" }}>
       <DataGrid
         rows={rows}
-        getRowId={(row) => row.contractCode}
+        getRowId={(row) => row.contractId}
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[7]}

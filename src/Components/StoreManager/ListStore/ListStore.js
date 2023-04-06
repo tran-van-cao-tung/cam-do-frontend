@@ -15,17 +15,15 @@ import './liststore.css';
 const ListStore = () => {
     //
     const [list, setList] = useState([]);
-    // Search 
-    const [searchTerm, setSearchTerm] = useState("");
-    const searchedProduct = list.filter((item) => {
-        if (searchTerm.value === "") return item;
-        if (
-            item.branchName
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase())
-        )
-            return item;
-    })
+    
+    // const searchedProduct = list.filter((item) => {
+    //     if (searchTerm.value === "") return item;
+    //     if (
+    //         item.branchName
+    //             .toLowerCase()
+    //             .includes(searchTerm.toLowerCase())
+    //     ) return item;
+    // })
 
 
     // Axios
@@ -38,6 +36,22 @@ const ListStore = () => {
             // console.log('aaaaa', res.data);
         });
     }, []);
+    // ==================================
+    // |  Filter Value Radio and Search |
+    // ==================================
+    const [searchTerm, setSearchTerm] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
+    const filteredData = list.filter((item) => {
+        if (statusFilter === "all") return true;
+        return item.status === (statusFilter === "active" ? 0 : 1);
+    }).filter((item)=>{
+        if (searchTerm.value === "") return item;
+        if (
+            item.branchName
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+        )return item;
+    });
 
     return (
         <>
@@ -54,7 +68,11 @@ const ListStore = () => {
                         {/* From status  */}
                         <span className="fromstatus">
                             <FormControl className="form-iteam">
-                                <RadioGroup className="radio-item">
+                                <RadioGroup className="radio-item"
+                                    aria-label="filter"
+                                    name="filter"
+                                    value={statusFilter}
+                                    onChange={(event) => setStatusFilter(event.target.value)}>
                                     <FormControlLabel
                                         value="all"
                                         control={<Radio />}
@@ -86,10 +104,7 @@ const ListStore = () => {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        {/* Button Search */}
-                        {/* <span className="buttonsearch">
-                            <button>Tìm Kiếm</button>
-                        </span> */}
+
                     </div>
                 </div>
                 {/* ================================ */}
@@ -108,13 +123,13 @@ const ListStore = () => {
                             <th>Chức năng</th>
                         </tr>
                         {
-                            searchedProduct.map((i) => (
+                            filteredData.map((i) => (
                                 <tr key={i.branchId}>
                                     <td>{i.branchId}</td>
                                     <td>{i.branchName}</td>
                                     <td>{i.address}</td>
-                                    <td>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(i.phoneNumber)}</td>
-                                    <td>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(i.fund)}</td>
+                                    <td>{i.phoneNumber}</td>
+                                    <td>{i.fund}</td>
                                     <td>{moment(i.createDate).format('DD/MM/YYYY')}</td>
                                     <td>
                                         {i.status === 1 ? (

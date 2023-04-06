@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import funcEdit from "../../asset/img/edit.png";
 
-const ListCustomerReport = () => {
+const BadCustomerList = () => {
   const handleUpdateInformation = (id) => {
     // setShowUpdateContract(true);
     console.log(id);
@@ -129,4 +129,4 @@ const ListCustomerReport = () => {
   );
 };
 
-export default ListCustomerReport;
+export default BadCustomerList;

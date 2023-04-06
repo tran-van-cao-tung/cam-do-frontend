@@ -21,120 +21,134 @@ function Commodity() {
     // ========================================= 
     // |                Search                 |
     // =========================================
-    const [searchTerm, setSearchTerm] = useState("");
-    const commoditySearch = commodity.filter((item) => {
-        if (searchTerm.value === "") return item;
-        if (
-            item.typeOfProduct
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase())
-        )
-            return item;
-    })
+    // const [searchTerm, setSearchTerm] = useState("");
+    // const commoditySearch = commodity.filter((item) => {
+    //     if (searchTerm.value === "") return item;
+    //     if (
+    //         item.typeOfProduct
+    //             .toLowerCase()
+    //             .includes(searchTerm.toLowerCase())
+    //     )
+    //         return item;
+    // })
     // =================================
 
-    return (
-  
+    // ==================================
+    // |  Filter Value Radio and Search |
+    // ==================================
+    const [statusFilter, setStatusFilter] = useState("all");
+    const [searchTerm, setSearchTerm] = useState("");
 
-<>
-    <h1 className="liststore-h1">Danh sách hàng hóa</h1>
-    <div className="liststore">
-        <div className="liststorebody">
-            {/* Button  Add */}
-            <a href="/commodity/add">
-                <button className="addliststore">Thêm mới hàng hóa</button>
-            </a>
-            {/* Status */}
-            <div className="status">
-                <span>Tình Trạng</span>
-                {/* From status  */}
-                <span className="fromstatus">
-                    <FormControl className="form-iteam">
-                        <RadioGroup className="radio-item">
-                            <FormControlLabel
-                                value="all"
-                                control={<Radio />}
-                                label="Tất cả"
-                                className="radio-all"
-                            />
-                            <FormControlLabel
-                                value="active"
-                                control={<Radio />}
-                                label="Đang hoạt động"
-                                className="radio-active"
-                            />
-                            <FormControlLabel
-                                value="stop"
-                                control={<Radio />}
-                                label="Đã tạm dừng"
-                                className="radio-stop"
-                            />
-                        </RadioGroup>
-                    </FormControl>
-                </span>
-                {/* Search */}
-                <div className="searchinput">
-                    {/* <input
+    const filteredData = commodity.filter((item) => {
+        if (statusFilter === "all" && searchTerm === "") return true;
+        if (statusFilter !== "all" && item.status !== (statusFilter === "active" ? 0 : 1)) return false;
+        if (searchTerm !== "" && !item.typeOfProduct.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+        return true;
+      });
+    return (
+        <>
+            <h1 className="liststore-h1">Danh sách hàng hóa</h1>
+            <div className="liststore">
+                <div className="liststorebody">
+                    {/* Button  Add */}
+                    <a href="/commodity/add">
+                        <button className="addliststore">Thêm mới hàng hóa</button>
+                    </a>
+                    {/* Status */}
+                    <div className="status">
+                        <span>Tình Trạng</span>
+                        {/* From status  */}
+                        <span className="fromstatus">
+                            <FormControl className="form-iteam">
+                                <RadioGroup className="radio-item"
+                                    aria-label="status"
+                                    name="status"
+                                    value={statusFilter}
+                                    onChange={(e) => setStatusFilter(e.target.value)}>
+                                    <FormControlLabel
+                                        value="all"
+                                        control={<Radio />}
+                                        label="Tất cả"
+                                        className="radio-all"
+                                    />
+                                    <FormControlLabel
+                                        value="active"
+                                        control={<Radio />}
+                                        label="Đang hoạt động"
+                                        className="radio-active"
+                                    />
+                                    <FormControlLabel
+                                        value="stop"
+                                        control={<Radio />}
+                                        label="Đã tạm dừng"
+                                        className="radio-stop"
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                        </span>
+                        {/* Search */}
+                        <div className="searchinput">
+                            {/* <input
                                 type="text"
                                 class="searchTerm"
                                 placeholder="Tìm kiếm..."
                             ></input> */}
-                    <input
-                        type="text"
-                        placeholder="Tìm kiếm cửa hàng..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-                {/* Button Search */}
-                {/* <span className="buttonsearch">
+                            <input
+                                type="text"
+                                placeholder="Tìm kiếm cửa hàng..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                        {/* Button Search */}
+                        {/* <span className="buttonsearch">
                     <button>Tìm Kiếm</button>
                 </span> */}
+                    </div>
+                </div>
+                {/* ================================ */}
+                {/* =            Table Show        = */}
+                {/* ================================ */}
+                <div className="table">
+                    <table class="responstable">
+                        <tr>
+                            <th>STT</th>
+                            <th data-th="Driver details"><span>Lĩnh vực</span></th>
+                            <th>Tên hàng hoá</th>
+                            <th>Mã</th>
+                            <th>Tình trạng</th>
+                        </tr>
+                        {filteredData.map((val) => (
+                            <tr>
+                                <td>{val.pawnableProductId}</td>
+                                <td>Cầm đồ</td>
+                                <td >
+                                    <Link to={`/commodity/edit/${val.pawnableProductId}`}>
+                                        {val.typeOfProduct}
+                                    </Link>
+                                </td>
+                                <td>
+                                    <Link to={`/commodity/edit/${val.pawnableProductId}`}>
+                                        {val.commodityCode}
+                                    </Link>
+                                </td>
+                                <td className='Style Frond'>
+                                    {val.status === 0 ? (
+                                        <div className="MuiTableBody_working-status">
+                                            <p>Đang hoạt động</p>
+                                        </div>
+                                    ) : (
+                                        <div className="MuiTableBody_stop-status">
+                                            <p>Đã tạm dừng</p>
+                                        </div>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </table>
+                </div>
             </div>
-        </div>
-        {/* ================================ */}
-        {/* =            Table Show        = */}
-        {/* ================================ */}
-        <div className="table">
-            <table class="responstable">
-                <tr>
-                    <th>STT</th>
-                    <th data-th="Driver details"><span>Lĩnh vực</span></th>
-                    <th>Tên hàng hoá</th>
-                    <th>Mã</th>
-                    <th>Tình trạng</th>
-                </tr>
-                {commoditySearch.map((val) => (
-                    <tr>
-                        <td>{val.pawnableProductId}</td>
-                        <td>Cầm đồ</td>
-                        <td >
-                            <Link to={`/commodity/edit/${val.pawnableProductId}`}>
-                                {val.typeOfProduct}
-                            </Link>
-                        </td>
-                        <td>
-                            <Link to={`/commodity/edit/${val.pawnableProductId}`}>
-                                {val.commodityCode}
-                            </Link>
-                        </td>
-                        <td className='Style Frond'>
-                            {val.status === 0 ? (
-                                <div className="MuiTableBody_working-status">
-                                    <p>Đang hoạt động</p>
-                                </div>
-                            ) : (
-                                <div className="MuiTableBody_stop-status">
-                                    <p>Đã tạm dừng</p>
-                                </div>
-                            )}
-                        </td>
-                    </tr>
-                ))}
-            </table>
-        </div>
-    </div>
-</>
+        </>
     );
 }
 
