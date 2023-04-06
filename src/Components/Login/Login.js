@@ -23,6 +23,9 @@ const Login = () => {
         }).then(res => {
             localStorage.setItem('accessToken', res.data.token.accessToken)
             localStorage.setItem('userName', res.data.account.userName);
+            if (res.data.account.userId) {
+                localStorage.setItem('userId', res.data.account.userId);
+            }
             history('/')
             window.location.reload(false);
         });

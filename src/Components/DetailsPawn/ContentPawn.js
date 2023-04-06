@@ -9,7 +9,7 @@ import axios from 'axios';
 const ContentPawn = () => {
     const [data, setData] = useState(null);
 
-    useEffect(() => {
+    /* useEffect(() => {
         axios
             .get('http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/homepage/' + localStorage.getItem("branchId"))
             .then((response) => {
@@ -19,7 +19,7 @@ const ContentPawn = () => {
                 console.error(error);
             });
     }, []);
-
+ */
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,

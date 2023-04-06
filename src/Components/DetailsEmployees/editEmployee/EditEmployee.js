@@ -62,12 +62,15 @@ function EditEmployee() {
     }, [id.id])
 
 
-    //đổ dữ liệu branch
-    useEffect(() => {
-        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/getChain`).then(res => {
-            setBranch(res.data)
-        })
-    }, [])
+  //đổ dữ liệu branch
+  useEffect(() => {
+    callAPI({
+      method: 'get',
+      url: `branch/getChain`,
+    }).then((res) => {
+      setBranch(res.data)
+    });
+  }, [])
 
 
     const handleInput = (e) => {
@@ -94,6 +97,7 @@ function EditEmployee() {
                                 Tên cửa hàng <span>*</span>:
                             </span>
                             <select name='branchId' style={{ width: "576px" }} onChange={(e) => handleInput(e)} value={listEmployees.branchId}>
+                                <option>Tên cửa hàng</option>
                                 {
                                     branch.map((item, index) => {
                                         return (
