@@ -9,7 +9,6 @@ const HeaderPawn = ({setShowAddContract}) => {
         <button className="btn-click export">Xuất file excel</button>
         <button className="btn-click contract">Mẫu hợp đồng</button>
       </div>
-    
     </div>
   );
 };

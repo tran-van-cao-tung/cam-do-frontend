@@ -2,11 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import axios from 'axios';
 import moment from 'moment';
+import './popup.css'
 
-function History() {
+function History({ showContractId }) {
   //Ép kiểu dữ liệu date
   const formatDate = (value) => {
     return moment(value).format('MM/DD/YYYY');
+  }
+
+  //Ép kiểu dữ liệu vnd
+  const formatVND = (value) => {
+    return Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
   }
   const columns = [
     {
@@ -29,11 +35,13 @@ function History() {
       field: "debt",
       headerName: " Số tiền ghi nợ",
       with: 180,
+      valueFormatter: (params) => formatVND(params.value),
     },
     {
       field: "paid",
       headerName: "Số tiền ghi có",
       width: 180,
+      valueFormatter: (params) => formatVND(params.value),
     },
     {
       field: "eventType",
@@ -53,21 +61,27 @@ function History() {
     {
       field: "description",
       headerName: "Ghi chú",
-      width: 150,
-      style: {color:"red"}
+      width: 500,
+      valueGetter: (params) =>
+        `${params.row.eventType === 1
+          ? `Tạo hợp đồng: ${params.row.description ? params.row.description : ""}`
+          : params.row.eventType === 2
+            ? `Kỳ hạn: ${params.row.description}`
+            : params.row.eventType === 3
+              ? `Kỳ hạn: ${params.row.description}`
+              : params.row.eventType === 4
+                ? `Đóng hợp đồng: ${params.row.description ? params.row.description : ""}` : ""
+        }`,
     }
   ];
 
   const [rows, setRowws] = useState([]);
-
   useEffect(() => {
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/logContract/all/0`).then((res) => {
-      setRowws(res.data)
+    const id = showContractId;
+    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/logContract/logContractById/${id}`).then((res) => {
+      setRowws([res.data])
     })
-  }, [])
-
-  console.log(rows);
-
+  }, [showContractId])
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
@@ -77,6 +91,7 @@ function History() {
         pageSize={5}
         rowsPerPageOptions={[5]}
         style={{ textAlign: "center" }}
+        className="custom-grid"
       />
     </div>
   )

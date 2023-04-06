@@ -9,6 +9,7 @@ import "./employee.css";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
+import callAPI from '../../../API';
 
 function ListEmployees() {
     const history = useNavigate();
@@ -47,6 +48,20 @@ function ListEmployees() {
             history('/')
         });
     }, []);
+
+    const [branch, setBranch] = useState([]);
+    useEffect(() => {
+        callAPI({
+            method: 'get',
+            url: `branch/getChain`,
+        }).then((res) => {
+            setBranch(res.data);
+        });
+    }, [])
+
+    console.log(branch)
+
+    console.log(searchedProduct)
     return (
         <div className="box_employee">
             <h1 className="employee_heading">Danh sách nhân viên</h1>
@@ -108,8 +123,8 @@ function ListEmployees() {
                                     <th>Tình trạng</th>
                                     <th>Chức năng</th>
                                 </tr>
-                                {
-                                    searchedProduct.map((i, index) => (
+                                {searchedProduct.map((i, index) => {
+                                    return (
                                         <tr key={index + 1}>
                                             <td>{index + 1}</td>
                                             <td>{i.branchId}</td>
@@ -119,24 +134,24 @@ function ListEmployees() {
                                             <td>{i.address}</td>
                                             <td>{moment(i.createTime).format('MM/DD/YYYY')}</td>
                                             <td>
-                                                {i.status === 1 ? (
-                                                    <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                                                ) : (
-                                                    <div className="MuiTableBody_root-status activity">
-                                                        Đang hoạt động
-                                                    </div>
-                                                )}
+                                                i.status === 1 ? (
+                                                <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                                ) : i.status === 1 ? (
+                                                <div className="MuiTableBody_root-status activity">
+                                                    Đang hoạt động
+                                                </div>
+                                                )
                                             </td>
                                             <td>
-                                            <div className="MuiTableBody_root-itemLast">
+                                                <div className="MuiTableBody_root-itemLast">
                                                     <Link to={`/editemployee/${i.userId}`}>
                                                         <img src={edit} alt="Edit" />
                                                     </Link>
                                                 </div>
                                             </td>
                                         </tr>
-                                    ))
-                                }
+                                    )
+                                })}
                             </table>
                         </div>
                     </Item>

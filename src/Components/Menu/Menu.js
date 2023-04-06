@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import './menu.css'
-import { AiOutlineDown,AiOutlineAlignRight } from "react-icons/ai";
+import { AiOutlineDown, AiOutlineAlignRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
 const Menuh = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -18,12 +18,9 @@ const Menuh = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const deleteToken = () =>{
+  const deleteToken = () => {
     localStorage.removeItem("accessToken");
-    window.location.reload(false);
-  };
-  const setBranchid = () =>{
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("userName");
     window.location.reload(false);
   };
 
@@ -32,7 +29,7 @@ const Menuh = () => {
       <div className="content1">
         <div className="logos">
           <p className="logo">PawnS</p>
-          <AiOutlineAlignRight className="ouline"/>
+          <AiOutlineAlignRight className="ouline" />
         </div>
         <div className="select_option">
           <img src={homemenu} alt="Home" />
@@ -46,10 +43,10 @@ const Menuh = () => {
       <div className="content2">
         <div className="icon">
           <Link to={`/report-customer`}>
-          <img src={user} alt='' />
+            <img src={user} alt='' />
           </Link>
           <span>1</span>
-          <img src={bike} alt=''/>
+          <img src={bike} alt='' />
           <span>123</span>
         </div>
         <div className="account">
@@ -62,7 +59,7 @@ const Menuh = () => {
               aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
             >
-              Admin1 <AiOutlineDown/>
+              Admin1 <AiOutlineDown />
             </Button>
             <Menu
               id="basic-menu"

@@ -8,7 +8,8 @@ import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
 import { display } from '@mui/system';
 import CurrencyFormat from 'react-currency-format';
-const Ransom = ({ setshowdetailContract }) => {
+import axios from 'axios';
+const Ransom = ({ setshowdetailContract, showContractId }) => {
     // Function active button (Button Deatail Contract)
     const Item = styled(Box)(({ theme }) => ({
         padding: theme.spacing(1),
@@ -30,24 +31,17 @@ const Ransom = ({ setshowdetailContract }) => {
             },
         },
     };
-
     const [ransomDetail, setRansom] = useState([]);
     // Axios
     useEffect(() => {
         API({
             method: 'get',
-            url: 'ramsom/ransombyid/' + localStorage.getItem('PawnDetailID'),
+            url: 'ramsom/ransombyid/' + showContractId,
         }).then((res) => {
             setRansom(res.data);
             // console.log('aaaaa', res.data);
         });
 
-        // API({
-        //   method: 'get',
-        //   url: 'https://api.upload.io/'
-        // }).then((res) =>{
-
-        // });
     }, []);
     async function getUploadPart(params) {
         const baseUrl = 'https://api.upload.io';
@@ -81,6 +75,30 @@ const Ransom = ({ setshowdetailContract }) => {
     var yyyy = today.getFullYear();
 
     today = dd + '/' + mm + '/' + yyyy;
+
+
+    const [img, setImg] = useState('');
+
+
+
+    const handleImg = (url) => {
+        setImg(url[0].fileUrl)
+    }
+
+    const handleSubmit = () => {
+        console.log(img)
+        if (img == '') {
+            alert(`Chưa thêm ảnh`);
+            return;
+        }
+        API({
+            method: 'put',
+            url: `ramsom/saveransom/${ransomDetail.ransomId}?proofImg=${img}`,
+        }).then((res) => {
+            console.log(res.data);
+        });
+    }
+
     return (
         <div>
             <Grid container spacing={2}>
@@ -160,10 +178,13 @@ const Ransom = ({ setshowdetailContract }) => {
                         <UploadDropzone
                             uploader={uploader}
                             options={uploaderOptions}
-                            onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
-                            onComplete={(files) => alert(files.map((x) => x.fileUrl).join('\n'))}
-                            width="300px"
-                            height="150px"
+                            onUpdate={(files) => { console.log(files.map((x) => x.fileUrl).join('\n')) }}
+                            onComplete={(files) => {
+                                handleImg(files);
+                                alert(files.map((x) => x.fileUrl).join('\n'))
+                            }}
+                            width="1000px"
+                            height="500px"
                         />
                     </Item>{' '}
                 </Grid>
@@ -173,6 +194,7 @@ const Ransom = ({ setshowdetailContract }) => {
                             color: 'black',
                             backgroundColor: '#107287',
                         }}
+                        onClick={handleSubmit}
                     >
                         Chuộc đồ
                     </Button>
