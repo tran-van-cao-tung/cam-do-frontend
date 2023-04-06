@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Uploader } from 'uploader';
 import moment from 'moment';
 import { UploadDropzone } from 'react-uploader';
+import callAPI from '../../../API';
 
 function PayInterest({ showContractId }) {
 
@@ -14,30 +15,22 @@ function PayInterest({ showContractId }) {
     const [check, setCheck] = useState();
     const [show, setShow] = useState([]);
     const [paidMoney, setPaidMoney] = useState(0);
-    const [contractDetail, setContractDetail] = useState([]);
     const [values, setValues] = useState([]);
 
-    useEffect(() => {
-        const id = showContractId;
-        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`).then(res => {
-            setContractDetail(res.data.filter((item) => {
-                return item.contractId === id;
-            })[0])
-        })
-    }, [showContractId])
 
     const [interestDiary, setInterestDiary] = useState([])
     useEffect(() => {
-        const id = contractDetail.contractId;
-        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/getInterestDiariesByContractId${id}`).then(res => {
-            setInterestDiary(res.data);
-            /* for (let i = 0; i < res.data.length; i++) {
-                setValues({ ...values, [res.data[i].interestDiaryId]: res.data[i].paidMoney })
-            }
-            console.log(values) */
-            /* res.data.map(item => setValues({ [item.interestDiaryId]: item.paidMoney })); */
+        const id = showContractId;
+        console.log(id)
+        callAPI({
+            method: 'get',
+            url: `interestDiary/getInterestDiariesByContractId${id}`,
+        }).then((res) => {
+            setInterestDiary(res.data)
         });
-    }, [contractDetail.contractId, check])
+        console.log(interestDiary)
+
+    }, [showContractId, check])
 
     const [dis, setDis] = useState(false);
     const handleCheckbox = (e, id) => {
@@ -53,11 +46,14 @@ function PayInterest({ showContractId }) {
     }
     useEffect(() => {
         const id = check;
-        axios.put(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/updateInterestDiary/${id}?paidMoney=${paidMoney}`).then(res => {
+        callAPI({
+            method: 'put',
+            url: `interestDiary/updateInterestDiary/${id}?paidMoney=${paidMoney}`,
+        }).then((res) => {
             if (res.data) {
                 setValues({ ...values, [id]: paidMoney })
             }
-        })
+        });
     }, [dis, check])
 
     const [showNote, setShowNote] = useState([]);
@@ -132,9 +128,12 @@ function PayInterest({ showContractId }) {
 
     const handleImg = (img, id) => {
         const urlImg = img[0].fileUrl;
-        axios.put(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/uploadInterestImg/${id}?interestImg=${urlImg}`).then(res => {
+        callAPI({
+            method: 'put',
+            url: `interestDiary/uploadInterestImg/${id}?interestImg=${urlImg}`,
+        }).then((res) => {
             console.log(res.data);
-        })
+        });
     }
 
 
@@ -176,7 +175,7 @@ function PayInterest({ showContractId }) {
                                                     onChange={(e) => {
                                                         setPaidMoney(e.target.value);
                                                     }}
-                                                    value={paidMoney} />
+                                                    /* value={paidMoney} */ />
                                         }</TableCell>
                                         <TableCell>
                                             <FormGroup onClick={(e) => handleCheckbox(e, item.interestDiaryId)}>

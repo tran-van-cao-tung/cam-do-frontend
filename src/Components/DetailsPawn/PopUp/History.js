@@ -3,6 +3,7 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import axios from 'axios';
 import moment from 'moment';
 import './popup.css'
+import callAPI from '../../../API';
 
 function History({ showContractId }) {
   //Ép kiểu dữ liệu date
@@ -78,6 +79,12 @@ function History({ showContractId }) {
   const [rows, setRowws] = useState([]);
   useEffect(() => {
     const id = showContractId;
+    callAPI({
+      method: 'get',
+      url: `logContract/logContractById/${id}`,
+    }).then((res) => {
+      setRowws([res.data])
+    });
     axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/logContract/logContractById/${id}`).then((res) => {
       setRowws([res.data])
     })
