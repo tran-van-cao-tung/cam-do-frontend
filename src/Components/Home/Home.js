@@ -4,10 +4,18 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import "./home.css";
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
 import moment from "moment";
 import callAPI from "../../API";
 const Home = () => {
+
+  const history = useNavigate();
+  useEffect(()=>{
+    if(!localStorage.getItem("accessToken")){
+      history('/login')
+    }else{
+      console.log("Login with token")
+    }
+    },[]);
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
