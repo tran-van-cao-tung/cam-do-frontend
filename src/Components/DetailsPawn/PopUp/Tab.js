@@ -8,6 +8,7 @@ import Ransom from './Ransom';
 import History from './History';
 import Certificate from './Certificate';
 import PayInterest from './PayInterest';
+import axios from 'axios';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -50,6 +51,53 @@ export default function BasicTabs({ showContractId }) {
 
 
 
+    const [check, setCheck] = React.useState();
+    const [show, setShow] = React.useState([]);
+    const [paidMoney, setPaidMoney] = React.useState();
+    const [contractDetail, setContractDetail] = React.useState([]);
+
+    React.useEffect(() => {
+        const id = showContractId;
+        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
+            setContractDetail(res.data.filter((item) => {
+                return item.contractId === id;
+            })[0])
+            console.log(res.data)
+        })
+    }, [showContractId])
+
+    console.log(contractDetail)
+    const [interestDiary, setInterestDiary] = React.useState([])
+    React.useEffect(() => {
+        const id = contractDetail.contractId;
+        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/getInterestDiariesByContractId${id}`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
+            setInterestDiary(res.data);
+        });
+    }, [contractDetail.contractId])
+    console.log(interestDiary)
+
+    const [dis, setDis] = React.useState(false);
+    const handleCheckbox = (e, id) => {
+        if (e.target.checked) {
+            setCheck(id);
+            setShow({ ...show, [id]: id });
+            setDis(true);
+        }
+        else {
+            setShow({ ...show, [id]: 0 });
+            setDis(false);
+        }
+
+    }
+    const [values, setValues] = React.useState([]);
+    React.useEffect(() => {
+        const id = check;
+        axios.put(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/updateInterestDiary/${id}?paidMoney=${paidMoney}`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
+            if (res.data) {
+                setValues({ ...values, [id]: paidMoney })
+            }
+        })
+    }, [dis, check])
 
     return (
         <Box sx={{ width: '100%', textAlign: 'center', alignItems: 'center' }}>
@@ -73,7 +121,7 @@ export default function BasicTabs({ showContractId }) {
                 <Certificate showContractId={showContractId}/>
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <Ransom showContractId={showContractId} />
+                <Ransom setshowdetailContract = {showContractId}/>
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <History showContractId={showContractId} />

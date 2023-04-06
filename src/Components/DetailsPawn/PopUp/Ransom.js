@@ -32,17 +32,43 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
         },
     };
     const [ransomDetail, setRansom] = useState([]);
+    const [packageInt, setPackageInt] = useState([]);
+    const [totalProfit, setTotalProfit] = useState([]);
+    const [totalRecived, setTotalRecived] = useState([]);
+
     // Axios
     useEffect(() => {
         API({
             method: 'get',
-            url: 'ramsom/ransombyid/' + showContractId,
+            url: 'ramsom/ransombyid/' + setshowdetailContract,
+            headers: {
+                "Authorization": `Bearer  ${localStorage.getItem('accessToken')}`
+            },
         }).then((res) => {
             setRansom(res.data);
             // console.log('aaaaa', res.data);
         });
+        
+        API({
+            method: 'get',
+            url: '/contract/getContractInfoByContractId/' + setshowdetailContract,
+            headers: {
+                "Authorization": `Bearer  ${localStorage.getItem('accessToken')}`
+            },
+        }).then((res) => {
+            setPackageInt(res.data.packageInterest);
+            setTotalProfit(res.data.totalProfit);
+            setTotalRecived(res.data.totalRecived);
+            // console.log('aaaaa', res.data);
+        });
+        // API({
+        //   method: 'get',
+        //   url: 'https://api.upload.io/'
+        // }).then((res) =>{
 
+        // });
     }, []);
+
     async function getUploadPart(params) {
         const baseUrl = 'https://api.upload.io';
         const path = `/v2/accounts/${params.accountId}/uploads/${params.uploadId}/parts/${params.uploadPartIndex}`;
@@ -100,6 +126,7 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
     }
 
     return (
+        console.log(packageInt),
         <div>
             <Grid container spacing={2}>
                 <Grid item xs={3}>
@@ -189,7 +216,8 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
                     </Item>{' '}
                 </Grid>
                 <Grid item xs={12}>
-                    <Button
+                {(packageInt >= 7 && totalRecived == (totalProfit/2)) && 
+                <Button
                         sx={{
                             color: 'black',
                             backgroundColor: '#107287',
@@ -197,7 +225,8 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
                         onClick={handleSubmit}
                     >
                         Chuộc đồ
-                    </Button>
+                    </Button>}
+                    
                 </Grid>
             </Grid>
         </div>

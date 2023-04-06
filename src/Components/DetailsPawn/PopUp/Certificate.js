@@ -26,6 +26,9 @@ const Certificate = ({ showContractId }) => {
         API({
             method: 'get',
             url: '/contract/getImgByContractId/' + showContractId,
+            headers: {
+                "Authorization": `Bearer  ${localStorage.getItem('accessToken')}`
+            },
         }).then((res) => {
             setImg(res.data);
             // console.log('aaaaa', res.data);
@@ -36,6 +39,9 @@ const Certificate = ({ showContractId }) => {
         API({
             method: 'put',
             url: `/contract/uploadContractImg/${showContractId}?customerImg=${customerImg}`,
+            headers: {
+                "Authorization": `Bearer  ${localStorage.getItem('accessToken')}`
+            },
         })
             .then((res) => {
                 alert('Lưu Hỉnh KH thành công');
@@ -49,6 +55,9 @@ const Certificate = ({ showContractId }) => {
         API({
             method: 'put',
             url: `/contract/uploadContractImg/${showContractId}?contractImg=${contractImg}`,
+            headers: {
+                "Authorization": `Bearer  ${localStorage.getItem('accessToken')}`
+            },
         })
             .then((res) => {
                 console.log('Success Full');

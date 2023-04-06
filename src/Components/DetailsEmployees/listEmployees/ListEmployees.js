@@ -38,14 +38,15 @@ function ListEmployees() {
             method: 'get',
             url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0',
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+                "Authorization": `Bearer  ${localStorage.getItem('accessToken')}`
             },
         }).then((res) => {
             setListEmployee(res.data);
             console.log('aaaaa', res.data);
+            
         }).catch((err) => {
             alert('Token đã hết hạn, vui lòng đăng nhập lại');
-            history('/')
+            console.log("Authorization", `Bearer${localStorage.getItem('accessToken')}`);
         });
     }, []);
 
