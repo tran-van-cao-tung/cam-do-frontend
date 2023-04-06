@@ -14,20 +14,90 @@ import axios from 'axios';
 function AuthEmployee() {
     const history = useNavigate();
     const [employeeList, setEmployeeList] = useState([]);
-
+    const [employeePermission, setEmployeePermission] = useState([]);
+    const [value, setValue] = useState();
+    
+    const updateValue = ({ target }) => {
+        setValue(target.value);
+      };
     // Axios
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/1',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0',
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
             },
         }).then((res) => {
-            setEmployeeList(res.data[0].fullName);
+            setEmployeeList(res.data);
             // console.log('aaaaa', res.data);
         });
     }, []);
+
+    function getPermission(e){
+        updateValue(e);
+        console.log("log at get permission",e.target.value)
+        // setEmployeeList(e.target.value);
+        axios({
+            method: 'post',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/permission/showpermission',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            data: {
+                userId: e.target.value,
+                nameUser: "string"
+              }
+        }).then((res) => {
+            setEmployeePermission(res.data);
+            for (let i = 0; i < 5; i++) {
+                localStorage.setItem("permis "+ i, res.data[i].status);
+                console.log('employee permis:', res.data[i].status);
+            }
+            setPermission();
+        });
+    }
+
+    function setPermission (){
+        if (JSON.parse(localStorage.getItem("permis 0")) == true){
+            setParentCheckbox(true)
+            console.log('Có cầm đồ');
+        }else{
+            setParentCheckbox(false)
+            console.log('Ko có cầm đồ');
+        }
+        if (JSON.parse(localStorage.getItem("permis 1")) == true){
+            setParentCheckbox2(true)
+            console.log('Có cửa hàng');
+        }else{
+            setParentCheckbox2(false)
+            console.log('Ko có cửa hàng');
+        }
+        if (JSON.parse(localStorage.getItem("permis 2")) == true){
+            setParentCheckbox3(true)
+            console.log('Có kho');
+        }else{
+            setParentCheckbox3(false)
+            console.log('Ko có kho');
+        }
+        if (JSON.parse(localStorage.getItem("permis 3")) == true){
+            setParentCheckbox4(true)
+            console.log('Có nhân viên');
+        }else{
+            setParentCheckbox4(false)
+            console.log('Ko có nhân viên');
+        }
+        if (JSON.parse(localStorage.getItem("permis 4")) == true){
+            console.log('Có khách hàng');
+            setParentCheckbox5(true)
+        }else{
+            setParentCheckbox5(false)
+            console.log('Ko có khách hàng');
+        }
+    };
+    function savePermission (){
+        alert('Ko có khách hàng');
+    }
 
     //Cầm đồ
     const [checkedPlus, setCheckPlus] = useState(false);
@@ -327,15 +397,20 @@ function AuthEmployee() {
                                     <span>
                                         Nhân viên <span className='auth_input-star'>*</span>:
                                     </span>
-                                    <select>
-                                        <option>nguyenvana</option>
-                                        <option>S2</option>
-                                        <option>S3</option>
+                                    <select value={value} onChange={getPermission}>
+                                        {
+                              employeeList.map((item, index) => {
+                                return <option 
+                                key={index} 
+                                value={item.userId} 
+                                >{item.fullName}</option>
+                              })
+                            }
                                     </select>
                                 </div>
                             </div >
                             <div className='employee_btn-group' style={{ marginLeft: "10%" }} >
-                                <button type='submit' className='employee_btn-item auth_btn-item aqua'><SaveAltIcon /><span>Lưu lại</span></button >
+                                <button type='submit' className='employee_btn-item auth_btn-item aqua' onClick={savePermission}><SaveAltIcon /><span>Lưu lại</span></button >
                                 <button className='employee_btn-item auth_btn-item yellow' onClick={() => { history('/listemployees') }}><ReplyIcon /><span>Quay lại</span></button >
                             </div >
                         </div >

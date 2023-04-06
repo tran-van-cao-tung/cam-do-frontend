@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './popup.css';
-import Box from '@mui/material/Box';
 import API from '../../../API.js';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
-import styled from '@emotion/styled';
-const Certificate = ({ setshowdetailContract }) => {
+const Certificate = ({ showContractId }) => {
     // Function active button (Button Deatail Contract)
-    const Item = styled(Box)(({ theme }) => ({
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }));
-
     const uploader = Uploader({ apiKey: 'public_kW15bAuFTht5jafbjpkWCsBg1M4s' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
@@ -28,17 +20,54 @@ const Certificate = ({ setshowdetailContract }) => {
         },
     };
 
-    const [ransomDetail, setRansom] = useState([]);
+    const [img, setImg] = useState([]);
     // Axios
     useEffect(() => {
         API({
             method: 'get',
-            url: 'ramsom/ransombyid/' + localStorage.getItem('PawnDetailID'),
+            url: '/contract/getImgByContractId/' + showContractId,
+            headers: {
+                "Authorization": `Bearer  ${localStorage.getItem('accessToken')}`
+            },
         }).then((res) => {
-            setRansom(res.data);
+            setImg(res.data);
             // console.log('aaaaa', res.data);
         });
-    }, []);
+    },);
+
+    function uploadCusImg(customerImg) {
+        API({
+            method: 'put',
+            url: `/contract/uploadContractImg/${showContractId}?customerImg=${customerImg}`,
+            headers: {
+                "Authorization": `Bearer  ${localStorage.getItem('accessToken')}`
+            },
+        })
+            .then((res) => {
+                alert('Lưu Hỉnh KH thành công');
+            })
+            .catch((err) => {
+                console.log(err)
+                alert('Lưu Hỉnh KH fail');
+            });
+    };
+    function uploadContractImg(contractImg) {
+        API({
+            method: 'put',
+            url: `/contract/uploadContractImg/${showContractId}?contractImg=${contractImg}`,
+            headers: {
+                "Authorization": `Bearer  ${localStorage.getItem('accessToken')}`
+            },
+        })
+            .then((res) => {
+                console.log('Success Full');
+                alert('Lưu Thành Công');
+            })
+            .catch((err) => {
+                console.log(err)
+                alert('Lưu Hỉnh HĐ fail');
+            });
+    };
     async function getUploadPart(params) {
         const baseUrl = 'https://api.upload.io';
         const path = `/v2/accounts/${params.accountId}/uploads/${params.uploadId}/parts/${params.uploadPartIndex}`;
@@ -63,7 +92,7 @@ const Certificate = ({ setshowdetailContract }) => {
         uploadPartIndex: 7,
     }).then(
         (response) => console.log(`Success: ${JSON.stringify(response)}`),
-        (error) => console.error(error),
+        (error) => console.error("This is uploardpart: "+ error),
     );
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -72,32 +101,29 @@ const Certificate = ({ setshowdetailContract }) => {
 
     today = dd + '/' + mm + '/' + yyyy;
     return (
-        <div>
-            {/* <Grid container spacing={2}>
-                <Grid item xs={6}>
-                    <Item sx={{ textAlign: 'right', fontSize: '25px', fontWeight: '700' }}>Hình ảnh:</Item>{' '}
-                </Grid>
-                <Grid item xs={6}>
-                    <Item sx={{ textAlign: 'right', fontSize: '25px', fontWeight: '700' }}>
-                        <UploadDropzone
-                            uploader={uploader}
-                            options={uploaderOptions}
-                            onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
-                            onComplete={(files) => alert(files.map((x) => x.fileUrl).join('\n'))}
-                            width="300px"
-                            height="150px"
-                        />
-                    </Item>{' '}
-                </Grid>
-            </Grid> */}
-             <h2>Upload ảnh KH</h2>
-        <UploadDropzone uploader={uploader}
-          options={uploaderOptions}
-          onUpdate={files => console.log(files.map(x => x.fileUrl).join("\n"))}
-          onComplete={files => alert(files.map(x => x.fileUrl).join("\n"))}
-          width="600px"
-          height="375px" />
+        <div class="grid-container">
+            <div class="grid-item">
+                <h4>Upload ảnh KH</h4>
+                <a href={img.customerVerifyImg} target="_blank" rel="noopener noreferrer"><img class="certificateImg" src={img.customerVerifyImg} alt="Logo"/></a>
+                <UploadDropzone uploader={uploader}
+                    options={uploaderOptions}
+                    onUpdate={files => console.log(files.map(x => x.fileUrl).join("\n"))}
+                    onComplete={files => uploadCusImg(files.map(x => x.fileUrl).join("\n"))}
+                    width="600px"
+                    height="375px" />
+            </div>
+            <div class="grid-item">
+                <h4>Upload ảnh chứng từ HĐ</h4>
+                <a href={img.contractVerifyImg} target="_blank" rel="noopener noreferrer"><img class="certificateImg" src={img.contractVerifyImg} alt=""/></a>
+                <UploadDropzone uploader={uploader}
+                    options={uploaderOptions}
+                    onUpdate={files => console.log(files.map(x => x.fileUrl).join("\n"))}
+                    onComplete={files => uploadContractImg(files.map(x => x.fileUrl).join("\n"))}
+                    width="600px"
+                    height="375px" />
+            </div>
         </div>
+
     );
 };
 

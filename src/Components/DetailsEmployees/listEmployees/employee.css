@@ -233,3 +233,10 @@
     cursor: pointer;
 }
 
+.box_employee ._table-Listemoloyess{
+    width: 105%;
+    margin: 0;
+}
+.box_employee .responstable{
+    font-size: 16px;
+}

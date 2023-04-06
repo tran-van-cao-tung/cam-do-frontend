@@ -32,8 +32,6 @@ const EditListStore = () => {
 
     const [item, setItem] = useState([]);
 
-    console.log('aaaaaaaaaaaaaaaaaaaaaaa', item);
-
     const handleSubmitEdit = () => {
         axios({
             method: 'put',
@@ -55,26 +53,9 @@ const EditListStore = () => {
     };
 
     const handleOnChangeName = (e) => {
-        /* setName(e.target.value); */
         setItem({ ...item, [e.target.name]: e.target.value });
         // console.log(name);
     };
-    /* const handleOnChangePhone = (e) => {
-        setPhone(e.target.value);
-        // console.log(phone);
-    };
-    const handleOnChangeAddress = (e) => {
-        setAddress(e.target.value);
-        // console.log(address);
-    };
-    const handleOnChangeFund = (e) => {
-        setFund(JSON.parse(e.target.value));
-        // console.log(fund);
-    };
-    const handleOnChangeStatus = (e) => {
-        setStatus(e.target.value);
-        // console.log(status);
-    }; */
 
     return (
         <>

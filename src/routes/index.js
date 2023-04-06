@@ -57,15 +57,19 @@ const publicRoutes = [
         component: Commodity,
     },
     {
-        path: "/commodity/edit",
+        path: "/commodity/edit/:id",
         component: EditCommondity,
     },
     {
         path: "/commodity/add",
         component: Addcommondity,
     },
+    // {
+    //     path: "/detailsStore",
+    //     component: DetailsStore,
+    // },
     {
-        path: "/detailsStore",
+        path: "/detailsStore/:id",
         component: DetailsStore,
     },
     {
@@ -113,41 +117,41 @@ const publicRoutes = [
         component: EditWarehouse
     },
     {
-        path: "/viewproduct",
+        path: "/viewproduct/:id",
         component: ViewProduct,
-      },
+    },
     {
         path: "/customer-manager",
         component: CustomerManager,
-      },
-      {
+    },
+    {
         path: "/report-customer",
         component: BadReportCustomer,
-      },
-      {
+    },
+    {
         path: "/report-customer/update-report",
         component: UpdateReport,
-      },
-      {
+    },
+    {
         path: "/report-customer/update-report/ban-customer",
         component: BanSomeOne,
-      },
-      {
+    },
+    {
         path: "/customer-manager/updateinfo",
         component: UpdateInfor,
-      },
-      {
+    },
+    {
         path: "/customer-manager/updateinfo/detail-credit",
         component: DetailCredit,
-      },
-      {
+    },
+    {
         path: "/total-report",
         component: ReportTotal,
-      },
-      {
+    },
+    {
         path: "/report-years",
         component: ReportYear,
-      },
+    },
 ];
 
 const privateRoutes = [];

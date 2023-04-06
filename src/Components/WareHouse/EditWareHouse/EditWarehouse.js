@@ -32,7 +32,7 @@ const EditWarehouse = () => {
 
     const [item, setItem] = useState([]);
 
-    console.log('aaaaaaaaaaaaaaaaaaaaaaa', item);
+    // console.log('aaaaaaaaaaaaaaaaaaaaaaa', item);
 
     const handleSubmitEdit = () => {
         axios({

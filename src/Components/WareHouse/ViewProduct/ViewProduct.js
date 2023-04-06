@@ -9,8 +9,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
-
+import { useParams } from 'react-router-dom';
 function ViewProduct() {
+    const params = useParams();
     const history = useNavigate();
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -53,45 +54,56 @@ function ViewProduct() {
         },
     ];
     const [listProduct, setListProduct] = useState([]);
+    const [warehouse, setwarehouse] = useState([]);
+
     // Axios
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/contractAsset/getAll',
+            url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/contractAsset/assets/${params.id}`,
         }).then((res) => {
             setListProduct(res.data);
-            console.log('aaaaa', res.data);
         }).catch((err) => {
-            alert('Token đã hết hạn, vui lòng đăng nhập lại');
+            alert('Ko thấy product trong warehouse');
+        });
+        
+        axios({
+            method: 'get',
+            url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/warehouse/GetAllDetail/${params.id},0`,
+        }).then((res) => {
+            setwarehouse(res.data);
+        }).catch((err) => {
+            alert('KO thấy tên warehouse');
         });
     }, []);
-    return (
-        <div className="box_employee">
-            <h1 className="employee_heading">Kho 1</h1>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Item>
-                        <form className="employee_search">
-                            <div>
-                                <div className="employee_search-check">
-                                    <span className="employee_search-heading">Tình trạng:</span>
-                                    <input type="radio" name="radio" value="all" checked="checked"/>
-                                    <label className="check1">Tất cả</label>
-                                    <input type="radio" name="radio" value="all" />
-                                    <label className="check2">Lưu kho</label>
-                                    <input type="radio" name="radio" value="all" />
-                                    <label className="check3">Thanh lý</label>
-                                </div>
-                                <div className="employee_search-select">
-                                    <input type="text" placeholder="Tìm kiếm..." className="employee_search-input" />
-                                </div>
+    
+return (
+    <div className="box_employee">
+        <h1 className="employee_heading">{warehouse.warehouseName}</h1>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <Item>
+                    <form className="employee_search">
+                        <div>
+                            <div className="employee_search-check">
+                                <span className="employee_search-heading">Tình trạng:</span>
+                                <input type="radio" name="radio" value="all" checked="checked" />
+                                <label className="check1">Tất cả</label>
+                                <input type="radio" name="radio" value="all" />
+                                <label className="check2">Lưu kho</label>
+                                <input type="radio" name="radio" value="all" />
+                                <label className="check3">Thanh lý</label>
                             </div>
-                            <button className="employee_search-btn">
-                                <span>Tìm kiếm </span>
-                                <img src={search} alt="search" />
-                            </button>
-                        </form>
-                        <div style={{ height: 510, width: "99%", paddingTop: 10}}>
+                            <div className="employee_search-select">
+                                <input type="text" placeholder="Tìm kiếm..." className="employee_search-input" />
+                            </div>
+                        </div>
+                        <button className="employee_search-btn">
+                            <span>Tìm kiếm </span>
+                            <img src={search} alt="search" />
+                        </button>
+                    </form>
+                    <div style={{ height: 510, width: "99%", paddingTop: 10 }}>
                         <DataGrid
                             // rows={contractList.map((item,index)=>{return {id:index+1,...item}})}
                             rows={listProduct
@@ -104,13 +116,13 @@ function ViewProduct() {
                             rowsPerPageOptions={[7]}
                             style={{ textAlign: "center" }}
                         />
-                        </div>
-                        
-                    </Item>
-                </Grid>
+                    </div>
+
+                </Item>
             </Grid>
-        </div>
-    );
+        </Grid>
+    </div>
+);
 }
 
 export default ViewProduct

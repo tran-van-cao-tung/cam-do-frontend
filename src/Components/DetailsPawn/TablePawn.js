@@ -2,37 +2,88 @@ import React, { useEffect, useState } from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import cash from "../../asset/img/cash.png";
 import wallet from "../../asset/img/wallet.png";
-import thanhly from "../../asset/img/thanhly.png";
 import API from "../../API.js"
-const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract}) => {
-  const [contractList, setContractList] = useState([]);
-  useEffect(() => {
-    API({
-        method: 'get',
-        url: 'contract/getAll/0',
-    }).then((res) => {
-      setContractList(res.data);
-        console.log('aaaaa', res.data);
-    });
-}, []);
+import subwallet from "../../asset/img/subwallet.png";
+import note from "../../asset/img/note.png";
+import moment from "moment";
 
+
+const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract, setShowContractId, setShowExpiration }) => {
   const handleShow = (id) => {
     setShowUpdateContract(true);
     localStorage.setItem("PawnDetailID", id)
-    console.log(id);
+    console.log("Update",id);
   };
   const handleShowLiquidation = (id) => {
     setShowliquidation(true);
     console.log(id);
   };
-  
-  const handleShowDetailContract = (contractId) => {
+
+  const handleShowDetailContract = (id) => {
     setshowdetailContract(true);
-    console.log(contractId);
-    localStorage.setItem("PawnDetailID", contractId);
+    setShowContractId(id);
   };
+
+  const hanleShowExpiration = (id) => {
+    setShowExpiration(true);
+    setShowContractId(id);
+  }
+
+  const [rows, setContract] = useState([]);
+  useEffect(() => {
+    API({
+      method: 'get',
+      url: `contract/getAll/0`,
+    }).then((res) => {
+      setContract(res.data.filter((item, index) => {
+        return item.status != 4
+      }));
+    });
+  }, [])
+  console.log(rows)
+
+  //Lấy dữ liệu BrandID có userId
+  const [branchIdUser, setBranchIdUser] = useState([]);
+  useEffect(() => {
+    if (localStorage.getItem('userId')) {
+      API({
+        method: 'get',
+        url: `user/getAll/0`,
+      }).then((res) => {
+        setBranchIdUser(res.data.filter(user => {
+          if (localStorage.getItem('userId')) {
+            return user.userId === localStorage.getItem('userId')
+          }
+        })[0].branchId)
+      });
+    }
+  }, [])
+
+  //dựa vào BranchId 
+  console.log(branchIdUser);
+
+  //Ép kiểu dữ liệu date
+  const formatDate = (value) => {
+    return moment(value).format('MM/DD/YYYY');
+  }
+
+  const formatMoney = (value) => {
+    return (value).toLocaleString('vi-VN') + ' VNĐ';
+  }
+
+  /* const formattedValue = moment(rows.contractEndDate).format('MM/DD/YYYY'); */
+
   const columns = [
-    { field: "id", headerName: "#", width: 10, textAlign: "center"},
+    {
+      field: '#', headerName: "#", width: 10, textAlign: "center", valueGetter: (params) => {
+        for (let i = 0; i < rows.length; i++) {
+          if (params.row.contractId === rows[i].contractId) {
+            return (i + 1)
+          }
+        }
+      },
+      sortable: false
+    },
     { field: "contractCode", headerName: "Mã HĐ", with: 20 },
     { field: "customerName", headerName: "Khách Hàng", width: 200 },
     {
@@ -48,14 +99,20 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
       field: "loan",
       headerName: "Tiền Cầm",
       width: 160,
+      valueFormatter: (params) => formatMoney(params.value)
+
     },
     {
       field: "contractStartDate",
       headerName: "Ngày Cầm",
+      width: 150,
+      valueFormatter: (params) => formatDate(params.value)
     },
     {
       field: "contractEndDate",
-      headerName: "Ngày Đến Hạn",
+      headerName: "Ngày đến hạn",
+      width: 150,
+      valueFormatter: (params) => formatDate(params.value)
     },
     {
       field: "warehouseName",
@@ -72,7 +129,7 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
             : params.row.status === 3
               ? "Thanh lý"
               : params.row.status === 4
-              ? "Đóng hợp đồng":""
+                ? "Đóng hợp đồng" : ""
         }`,
       width: 140,
     },
@@ -81,12 +138,17 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
       headerName: "Chức năng",
       type: "actions",
       getActions: (params, index) => [
-        <GridActionsCellItem icon={<img src={cash} alt="CA"/>} onClick={(e) => handleShowDetailContract(params.row.contractId)} />,
+        <GridActionsCellItem icon={<img src={cash} />} onClick={(e) => handleShowDetailContract(params.row.contractId)} />,
         <GridActionsCellItem
-          icon={<img src={wallet} alt="VI" />}
+          icon={<img src={wallet} />}
           onClick={(e) => handleShow(params.row.contractId)}
         />,
-        <GridActionsCellItem icon={<img style={{width: '30px'}} src={thanhly} alt="TL"/>} onClick={(e) => handleShowLiquidation(params.row.contractId)} />,
+        <GridActionsCellItem icon={<img src={params.row.status === 1 ? note : subwallet} />} onClick={(e) => {
+          params.row.status === 1 ?
+          hanleShowExpiration(params.row.contractId)
+          :
+          handleShowLiquidation(params.row.contractId)
+        }} />,
       ],
 
       width: 160,
@@ -97,12 +159,8 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
   return (
     <div style={{ height: 510, width: "99%" }}>
       <DataGrid
-        // rows={contractList.map((item,index)=>{return {id:index+1,...item}})}
-        rows={contractList
-          .filter((item) => item.status !== 4)
-          .map((item, index) => {
-            return { id: index + 1, ...item };
-          })}
+        rows={rows}
+        getRowId={(row) => row.contractId}
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[7]}

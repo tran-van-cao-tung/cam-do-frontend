@@ -38,7 +38,10 @@ const WareHouse = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/warehouse/GetAll/1',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/warehouse/GetAll/0',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            },
         }).then((res) => {
             setListWarehouse(res.data);
             // console.log('aaaaa', res.data);
@@ -58,46 +61,46 @@ const WareHouse = () => {
                     >
                         Thêm mới
                     </button>
+                    {/* ================================ */}
+                    {/* =            Table Show        = */}
+                    {/* ================================ */}
                     <div className="table">
-                        <Table className="MuiTable-bordered">
-                            <TableHead className="MuiTableHead-root-wrap">
-                                <TableRow>
-                                    <TableCell>STT</TableCell>
-                                    <TableCell>Tên kho</TableCell>
-                                    <TableCell>Địa Chỉ</TableCell>
-                                    <TableCell>Tình trạng</TableCell>
-                                    <TableCell>Chức năng</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            {/* =================================== */}
-                            <TableBody className="MuiTableBody-root">
-                                {listWarehouse.map((i) => (
-                                    <TableRow key={i.warehouseId}>
-                                        <TableCell>{i.warehouseId}</TableCell>
-                                        <TableCell>
-                                        <Link to={`/viewproduct/`}>
-                                        {i.warehouseName}
-                                        </Link>
-                                            </TableCell>
-                                        <TableCell>{i.warehouseAddress}</TableCell>
-                                        <TableCell>
+                        <table className="responstable">
+                            <tr>
+                                <th>STT</th>
+                                <th data-th="Driver details"><span>Tên kho</span></th>
+                                <th>Địa chỉ</th>
+                                <th>Tình trạng</th>
+                                <th>Chức năng</th>
+                            </tr>
+                            {
+                                listWarehouse.map((i) => (
+                                    <tr key={i.warehouseId}>
+                                        <td>{i.warehouseId}</td>
+                                        <td>
+                                            <Link to={`/viewproduct/${i.warehouseId}`}>
+                                                {i.warehouseName}
+                                            </Link>
+                                        </td>
+                                        <td>{i.warehouseAddress}</td>
+                                        <td>
                                             {i.status === 1 ? (
-                                                <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                                <div className="MuiTableBody_root-status">Đang hoạt động</div>
                                             ) : (
-                                                <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
+                                                <div className="MuiTableBody_root-status activity">Đã tạm dừng</div>
                                             )}
-                                        </TableCell>
-                                        <TableCell>
+                                        </td>
+                                        <td>
                                             <div className="MuiTableBody_root-itemLast">
                                                 <Link to={`/editwarehouse/edit/${i.warehouseId}`}>
                                                     <img src={editIcon} alt="Edit" />
                                                 </Link>
                                             </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </table>
                     </div>
                 </div>
             </div>
