@@ -14,6 +14,9 @@ const ChainStores = () => {
         axios({
             method: 'get',
             url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/getChain',
+            headers: {
+                "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
+            },
         }).then((res) => {
             setchainstores(res.data);
         });

@@ -23,6 +23,9 @@ const EditCommondity = () => {
       await axios({
         method: 'get',
         url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getPawnAbleProductById/${params.id}`,
+        headers: {
+          "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
+      },
       }).then((res) => {
         setItem(res.data);
         // console.log(res.data);
@@ -37,6 +40,9 @@ const EditCommondity = () => {
     axios({
       method: 'put',
       url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/updatePawnableProduct/${params.id}`,
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
+    },
       data: {
         commodityCode: item.commodityCode,
         typeOfProduct: item.typeOfProduct,
