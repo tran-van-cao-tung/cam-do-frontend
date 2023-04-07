@@ -1,7 +1,7 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './login.css';
+import './login.scss';
 
 const Login = () => {
     const [userName, setUserName] = useState()
@@ -32,10 +32,17 @@ const Login = () => {
     return (
         <div className='container'>
             <h1>Pawns</h1>
-            <div className='content'>
+            <div className='content-login'>
+                <div className='content-login_backgroud'>Anh Tùng Tùng Tùng Tùng</div>
                 <form onSubmit={hanldeSubmit}>
+                    <div className='content-login_fromtext'>
+                        <p>ĐĂNG NHẬP NGƯỜI DÙNG</p>
+                    </div>
                     <input type='text' placeholder='Tên Đăng Nhập' onChange={(e) => { setUserName(e.target.value) }} />
                     <input type='password' placeholder='Mật Khẩu' onChange={(e) => { setPassword(e.target.value) }} />
+                    <div className='content-login_text'>
+                        <a href='#'>Quên mật khẩu ?</a>
+                    </div>
                     <button className='btn_login' type='submit'>Đăng Nhập</button>
                 </form>
             </div>
