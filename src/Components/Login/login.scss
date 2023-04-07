@@ -59,7 +59,8 @@ button {
     justify-content: center;
     height: 500px;
     .content-login_backgroud {
-        background: rgba(65, 150, 229, 0.86);
+        // background: rgba(65, 150, 229, 0.86);
+        background-image: url('../../asset/img/loginBG.png');
         background-blend-mode: darken;
         width: 580px;
         font-family: 'Frank Ruhl Libre';

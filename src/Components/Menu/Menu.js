@@ -60,8 +60,10 @@ const Menuh = () => {
             <img src={user} alt='' />
           </Link>
           <span>1</span>
+          <Link to={`/noti`}>
           <img src={bike} alt='' />
-          <span>123</span>
+          <span>1</span>
+          </Link>
         </div>
         <div className="account">
           <img src={usera} alt="user" className="avata" />

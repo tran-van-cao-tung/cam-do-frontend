@@ -35,7 +35,7 @@ const Login = () => {
         <div className='container'>
             <h1>Pawns</h1>
             <div className='content-login'>
-                <div className='content-login_backgroud'>Anh Tùng Tùng Tùng Tùng</div>
+                <div className='content-login_backgroud'></div>
                 <form onSubmit={hanldeSubmit}>
                     <div className='content-login_fromtext'>
                         <p>ĐĂNG NHẬP NGƯỜI DÙNG</p>
@@ -48,7 +48,6 @@ const Login = () => {
                     <button className='btn_login' type='submit'>Đăng Nhập</button>
                 </form>
             </div>
-
         </div>
     );
 }

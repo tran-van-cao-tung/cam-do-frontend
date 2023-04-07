@@ -7,7 +7,6 @@ const HeaderPawn = ({setShowAddContract}) => {
       <div className="btn">
         <button onClick={()=>setShowAddContract(true)} className="btn-click addnew">Thêm mới</button>
         <button className="btn-click export">Xuất file excel</button>
-        <button className="btn-click contract">Mẫu hợp đồng</button>
       </div>
     </div>
   );
