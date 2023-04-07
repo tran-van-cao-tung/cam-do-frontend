@@ -9,6 +9,9 @@ const TableReportYear = () => {
         axios({
             method: 'get',
             url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/report/report/month/1',
+            headers: {
+                Authorization: `Bearer 3fa85f64-5717-4562-b3fc-2c963f66afa6`,
+            },
         }).then((response) => {
             setList(response.data);
         });

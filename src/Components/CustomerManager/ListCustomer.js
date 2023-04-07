@@ -9,13 +9,26 @@ function ListCustomer({ numPage }) {
     const [searchAPIData, setSearchAPIData] = useState([]);
     const [onFilter, setOnFilter] = useState();
 
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const result = await axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/customer/getAll/0`);
+    //         setCustomers(result.data);
+    //         setSearchAPIData(result.data);
+    //     };
+    //     fetchData();
+    // }, []);
+
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/customer/getAll/0`);
-            setCustomers(result.data);
-            setSearchAPIData(result.data);
-        };
-        fetchData();
+        axios({
+            method: 'GET',
+            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/customer/getAll/0',
+            headers: {
+                Authorization: `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2Y2E4NWE5YS1hMWNhLTQ1ODYtODhkZi01YzQyYzkyNTJiNTUiLCJuYmYiOjE2ODA1MzQ1MzQsImV4cCI6MTY4MDU0MTczNCwiaWF0IjoxNjgwNTM0NTM0fQ.m5JaSAuw7-HUi1kiWZxRPxz9LCasTIvoQAQ81t1c89jZctsM48NzZEFxLYSVno2fWRYc3wMc_E72bB2ssVw0wA`,
+            },
+        }).then((response) => {
+            setCustomers(response.data);
+            setSearchAPIData(response.data);
+        });
     }, []);
 
     const onFilterChange = (e) => {

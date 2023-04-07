@@ -8,13 +8,18 @@ import AddContract from './PopUp/AddContract';
 import UpdateContract from "./PopUp/UpdateContract";
 import Liquidation from "./PopUp/Liquidation";
 import DetailContract from "./PopUp/DetailContract"
+import Expiration from "./PopUp/Expiration";
 const DetailsPawn = () => {
 
   const [showAddContract, setShowAddContract] = useState(false)
   const [showUpdateContract, setShowUpdateContract] = useState(false)
   const [showliquidation, setShowliquidation] = useState(false)
   const [showdetailContract, setshowdetailContract] = useState(false)
+  const [showExpiration, setShowExpiration] = useState(false);
   const [showContractId, setShowContractId] = useState();
+
+
+  console.log(showExpiration)
 
   /* useEffect(()=>{
     console.log(showContractId)
@@ -31,7 +36,7 @@ const DetailsPawn = () => {
       </div>
 
       <TablePawn setShowUpdateContract={setShowUpdateContract} setShowliquidation={setShowliquidation} setshowdetailContract={setshowdetailContract}
-        setShowContractId={setShowContractId} />
+        setShowContractId={setShowContractId} setShowExpiration={setShowExpiration} />
       {
         showAddContract && <AddContract setShowAddContract={setShowAddContract} />
       }
@@ -43,6 +48,10 @@ const DetailsPawn = () => {
       }
       {
         showdetailContract && <DetailContract setshowdetailContract={setshowdetailContract}
+          showContractId={showContractId} />
+      }
+      {
+        showExpiration && <Expiration setShowExpiration={setShowExpiration}
           showContractId={showContractId} />
       }
     </div>

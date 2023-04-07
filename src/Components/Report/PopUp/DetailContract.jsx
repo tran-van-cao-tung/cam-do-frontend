@@ -65,6 +65,9 @@ const UpdateContract = ({ setShowUpdateContract }) => {
         file.preview = URL.createObjectURL(file);
         setImg(file.preview);
     };
+    const handleClose = () => {
+        setShowUpdateContract(false);
+    };
     return (
         <div>
             <div className="add-contract" onClick={() => setShowUpdateContract(false)}>
@@ -205,7 +208,7 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                                                     <img src={save} alt="" />
                                                     Lưu lại
                                                 </button>
-                                                <button className="btn btn__close">
+                                                <button className="btn btn__close" onClick={handleClose}>
                                                     <img src={close} alt="" />
                                                     Đóng
                                                 </button>

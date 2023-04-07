@@ -204,13 +204,6 @@ const TableReport = ({ setShowUpdateContract }) => {
                                 <option>loại 2</option>
                             </select>
                         </Grid>
-                        <Grid item xs={1}>
-                            <div className="search-hd">
-                                <button className="btn__click-search">
-                                    <AiOutlineSearch className="icon-search posi__none" />
-                                </button>
-                            </div>
-                        </Grid>
                     </Grid>
                 </Box>
             </div>
