@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from "@mui/material";
-import moneyy from "./../../../asset/img/money.png";
 import day from "./../../../asset/img/day.png";
+import moneyy from "./../../../asset/img/money.png";
 import save from "./../../../asset/img/save.png";
 import "./Money.css";
 
@@ -20,14 +13,6 @@ const Money = () => {
           <div className="bodyheader">
             <div className="texth">
               <p>QUỸ TIỀN MẶT</p>
-              <p>10,000,000</p>
-            </div>
-            {/* <div className="texth">
-              <p>TIỀN ĐẦU NGÀY</p>
-              <p>10,000,000</p>
-            </div> */}
-            <div className="texth">
-              <p>VỐN ĐẦU TƯ</p>
               <p>10,000,000</p>
             </div>
           </div>
@@ -48,19 +33,6 @@ const Money = () => {
                 </button>
               </div>
             </div>
-            {/* <div>
-              <div className="imgbody">
-                <img src={moneyy} alt="" /> <span>Nhập tiền đầu ngày</span>
-              </div>
-              <div className="bodyTT-2">
-                <span>Số tiền</span>
-
-                <input type="text" placeholder="Gõ vào đây số tiền VNĐ"></input>
-                <button>
-                  <img src={save} alt="" /> <span>Lưu lại</span>
-                </button>
-              </div>
-            </div> */}
           </div>
           <div className="bodyfoter">
             <div className="imgbody">

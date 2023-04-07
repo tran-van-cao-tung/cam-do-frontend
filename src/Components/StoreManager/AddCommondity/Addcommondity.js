@@ -9,8 +9,8 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 
 import { Divider } from '@mui/material';
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import React, { useState } from 'react';
 
 
 const Addcommondity = () => {
