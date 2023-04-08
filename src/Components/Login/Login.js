@@ -43,7 +43,7 @@ const Login = () => {
                     <input type='text' placeholder='Tên Đăng Nhập' onChange={(e) => { setUserName(e.target.value) }} />
                     <input type='password' placeholder='Mật Khẩu' onChange={(e) => { setPassword(e.target.value) }} />
                     <div className='content-login_text'>
-                        <a href='#'>Quên mật khẩu ?</a>
+                        <a href='/unlogin'>Quên mật khẩu ?</a>
                     </div>
                     <button className='btn_login' type='submit'>Đăng Nhập</button>
                 </form>
