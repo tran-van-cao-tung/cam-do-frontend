@@ -1,4 +1,3 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
@@ -15,22 +14,14 @@ import './liststore.css';
 const ListStore = () => {
     //
     const [list, setList] = useState([]);
-    
-    // const searchedProduct = list.filter((item) => {
-    //     if (searchTerm.value === "") return item;
-    //     if (
-    //         item.branchName
-    //             .toLowerCase()
-    //             .includes(searchTerm.toLowerCase())
-    //     ) return item;
-    // })
-
-
     // Axios
     useEffect(() => {
         axios({
             method: 'get',
             url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/getChain',
+            headers: {
+                "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
+            },
         }).then((res) => {
             setList(res.data);
             // console.log('aaaaa', res.data);

@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import menu1 from "../../asset/img/menu1.png";
 import menu2 from "../../asset/img/menu2.png";
 import menu3 from "../../asset/img/menu3.png";
-import menu4 from "../../asset/img/menu4.png";
 import menu5 from "../../asset/img/menu5.png";
 import menu6 from "../../asset/img/menu6.png";
 import menu7 from "../../asset/img/menu7.png";
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md'
+import API from "../../API"
 const NavMenu = () => {
   const [show1, setShow1] = useState(
     JSON.parse(localStorage.getItem("show1")) || false
@@ -18,6 +18,24 @@ const NavMenu = () => {
   const [show3, setShow3] = useState(
     JSON.parse(localStorage.getItem("show3")) || false
   );
+
+  function getPermission() {
+    console.log("check permission after login");
+    // setEmployeeList(e.target.value);
+    API({
+        method: 'post',
+        url: '/permission/showpermission',
+        data: {
+            userId: localStorage.getItem("userId"),
+            nameUser: "string"
+        }
+    }).then((res) => {
+        for (let i = 0; i < 5; i++) {
+            sessionStorage.setItem("permis " + i, res.data[i].status);
+            console.log('user permis:', res.data[i].status);
+        }
+    });
+}
 
   const clickShow = () => {
     setShow1(!show1);
@@ -44,7 +62,7 @@ const NavMenu = () => {
   };
 
   return (
-    <div className="menu-conten">
+    <div className="menu-conten" onLoad={getPermission}>
       <ul className="menu-text">
         <li onClick={clickHide}>
           <NavLink to="/" className="text-menu home">
@@ -53,9 +71,9 @@ const NavMenu = () => {
             <span>Trang chủ</span>
           </NavLink>
         </li>
-
         {/* Cầm đồ */}
-        <li>
+        {(sessionStorage.getItem("permis 0") === "true") &&
+          <li>
           <NavLink to="/detaipawn" className="text-menu home">
             {" "}
             <img src={menu2} className="iconMenu" />
@@ -63,8 +81,11 @@ const NavMenu = () => {
             <MdKeyboardArrowRight className="arrow" />
           </NavLink>
         </li>
+        }
+
 
         {/* Quản lý cửa hàng */}
+        {(sessionStorage.getItem("permis 1") === "true") &&
         <li >
           <a className="text-menu home" onClick={clickShow}>
             {" "}
@@ -105,8 +126,10 @@ const NavMenu = () => {
             </ul>
           ) : (<></>)}
         </li>
+        }
 
         {/* Quản lý kho */}
+        {(sessionStorage.getItem("permis 2") === "true") &&
         <li>
           <NavLink to="/warehouse" className="text-menu home">
             {" "}
@@ -114,8 +137,10 @@ const NavMenu = () => {
             <span>Quản lý kho</span>
           </NavLink>
         </li>
+        }
 
         {/* Quản lý nhân viên */}
+        {(sessionStorage.getItem("permis 3") === "true") &&
         <li>
           <a className="text-menu home" onClick={clickShow1}>
             <img src={menu5} className="iconMenu" />
@@ -142,14 +167,18 @@ const NavMenu = () => {
             )
           }
         </li>
+        }
+
 
         {/* Quản lý khách hàng */}
+        {(sessionStorage.getItem("permis 4") === "true") &&
         <li>
           <NavLink to="/customer-manager" className="text-menu home">
             <img src={menu6} className="iconMenu" />
             <span>Quản lý khách hàng</span>
           </NavLink>
         </li>
+        }
 
         {/* Báo cáo */}
         <li>

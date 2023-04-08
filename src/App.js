@@ -3,6 +3,8 @@ import Login from './Components/Login/Login';
 import { Route,Routes } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import LayoutDefault from './Components/LayoutDefault/LayoutDefault';
+import Unlogin from './Components/UnLogin/Unlogin';
+
 
 function App() {
   var hours = 1; // to clear the localStorage after 1 hour
@@ -22,6 +24,7 @@ function App() {
     <div className="App">
     <Routes>
       <Route path='/login' element={<Login/>} />
+      <Route path='/unlogin' element={<Unlogin/>}/>
       {publicRoutes.map((route,index)=>{
         const Layout = route.layout || LayoutDefault
         const Page = route.component

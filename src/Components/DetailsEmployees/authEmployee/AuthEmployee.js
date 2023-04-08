@@ -10,93 +10,135 @@ import { useNavigate } from 'react-router-dom';
 import file from '../../../asset/img/file.png'
 import './authemployee.css'
 import axios from 'axios';
-
+import API from '../../../API';
+import { ApiSharp } from '@mui/icons-material';
 function AuthEmployee() {
     const history = useNavigate();
     const [employeeList, setEmployeeList] = useState([]);
     const [employeePermission, setEmployeePermission] = useState([]);
     const [value, setValue] = useState();
-    
+
     const updateValue = ({ target }) => {
         setValue(target.value);
-      };
+    };
     // Axios
     useEffect(() => {
-        axios({
+        API({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
-            },
+            url: '/user/getAll/0',
         }).then((res) => {
             setEmployeeList(res.data);
             // console.log('aaaaa', res.data);
         });
     }, []);
 
-    function getPermission(e){
+    function getPermission(e) {
         updateValue(e);
-        console.log("log at get permission",e.target.value)
+        console.log("log at get permission", e.target.value)
+        sessionStorage.setItem("selected", e.target.value)
         // setEmployeeList(e.target.value);
-        axios({
+        API({
             method: 'post',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/permission/showpermission',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
-            },
+            url: '/permission/showpermission',
             data: {
                 userId: e.target.value,
                 nameUser: "string"
-              }
+            }
         }).then((res) => {
             setEmployeePermission(res.data);
             for (let i = 0; i < 5; i++) {
-                localStorage.setItem("permis "+ i, res.data[i].status);
+                localStorage.setItem("permis " + i, res.data[i].status);
                 console.log('employee permis:', res.data[i].status);
             }
             setPermission();
         });
     }
 
-    function setPermission (){
-        if (JSON.parse(localStorage.getItem("permis 0")) == true){
+    function setPermission() {
+        if (JSON.parse(localStorage.getItem("permis 0")) == true) {
             setParentCheckbox(true)
             console.log('Có cầm đồ');
-        }else{
+        } else {
             setParentCheckbox(false)
             console.log('Ko có cầm đồ');
         }
-        if (JSON.parse(localStorage.getItem("permis 1")) == true){
+        if (JSON.parse(localStorage.getItem("permis 1")) == true) {
             setParentCheckbox2(true)
             console.log('Có cửa hàng');
-        }else{
+        } else {
             setParentCheckbox2(false)
             console.log('Ko có cửa hàng');
         }
-        if (JSON.parse(localStorage.getItem("permis 2")) == true){
+        if (JSON.parse(localStorage.getItem("permis 2")) == true) {
             setParentCheckbox3(true)
             console.log('Có kho');
-        }else{
+        } else {
             setParentCheckbox3(false)
             console.log('Ko có kho');
         }
-        if (JSON.parse(localStorage.getItem("permis 3")) == true){
+        if (JSON.parse(localStorage.getItem("permis 3")) == true) {
             setParentCheckbox4(true)
             console.log('Có nhân viên');
-        }else{
+        } else {
             setParentCheckbox4(false)
             console.log('Ko có nhân viên');
         }
-        if (JSON.parse(localStorage.getItem("permis 4")) == true){
+        if (JSON.parse(localStorage.getItem("permis 4")) == true) {
             console.log('Có khách hàng');
             setParentCheckbox5(true)
-        }else{
+        } else {
             setParentCheckbox5(false)
             console.log('Ko có khách hàng');
         }
     };
-    function savePermission (){
-        alert('Ko có khách hàng');
+
+    const permissionArr = [
+        {
+            userId: sessionStorage.getItem("selected"),
+            nameUser: "string",
+            namePermission: "string",
+            permissionId: 1,
+            status: localStorage.getItem("permis 0")
+        },
+        {
+            userId: sessionStorage.getItem("selected"),
+            nameUser: "string",
+            namePermission: "string",
+            permissionId: 2,
+            status: localStorage.getItem("permis 1")
+        },
+        {
+            userId: sessionStorage.getItem("selected"),
+            nameUser: "string",
+            namePermission: "string",
+            permissionId: 3,
+            status: localStorage.getItem("permis 2")
+        },
+        {
+            userId: sessionStorage.getItem("selected"),
+            nameUser: "string",
+            namePermission: "string",
+            permissionId: 4,
+            status: localStorage.getItem("permis 3")
+        },
+        {
+            userId: sessionStorage.getItem("selected"),
+            nameUser: "string",
+            namePermission: "string",
+            permissionId: 5,
+            status: localStorage.getItem("permis 4")
+        }
+    ];
+    function savePermission() {
+        API({
+            method: 'put',
+            url: '/permission/savepermission',
+            data: permissionArr
+        }).then((res) => {
+            alert("Chỉnh quyền Thành công!")
+            window.location.reload(false);
+            // console.log('aaaaa', res.data);
+        });
     }
 
     //Cầm đồ
@@ -155,6 +197,7 @@ function AuthEmployee() {
     //Check Cầm Đồ
     const handleCheckbox1 = (event) => {
         setParentCheckbox(event.target.checked);
+        localStorage.setItem("permis 0", event.target.checked);
         setChildCheckboxes(
             childCheckboxes.map((checkbox) => ({
                 ...checkbox,
@@ -213,6 +256,7 @@ function AuthEmployee() {
     //Check quản lý cửa hàng
     const handleCheckbox2 = (event) => {
         setParentCheckbox2(event.target.checked);
+        localStorage.setItem("permis 1", event.target.checked);
         setChildCheckboxes2(
             childCheckboxes2.map((checkbox) => ({
                 ...checkbox,
@@ -274,6 +318,7 @@ function AuthEmployee() {
     //Check quản lý kho
     const handleCheckbox3 = (event) => {
         setParentCheckbox3(event.target.checked);
+        localStorage.setItem("permis 2", event.target.checked);
         setChildCheckboxes3(
             childCheckboxes3.map((checkbox) => ({
                 ...checkbox,
@@ -334,6 +379,7 @@ function AuthEmployee() {
     //Check quản lý nhân viên
     const handleCheckbox4 = (event) => {
         setParentCheckbox4(event.target.checked);
+        localStorage.setItem("permis 3", event.target.checked);
     };
 
 
@@ -350,6 +396,7 @@ function AuthEmployee() {
     //Check quản lý khách hàng
     const handleCheckbox5 = (event) => {
         setParentCheckbox5(event.target.checked);
+        localStorage.setItem("permis 4", event.target.checked);
     };
 
 
@@ -399,13 +446,13 @@ function AuthEmployee() {
                                     </span>
                                     <select value={value} onChange={getPermission}>
                                         {
-                              employeeList.map((item, index) => {
-                                return <option 
-                                key={index} 
-                                value={item.userId} 
-                                >{item.fullName}</option>
-                              })
-                            }
+                                            employeeList.map((item, index) => {
+                                                return <option
+                                                    key={index}
+                                                    value={item.userId}
+                                                >{item.fullName}</option>
+                                            })
+                                        }
                                     </select>
                                 </div>
                             </div >

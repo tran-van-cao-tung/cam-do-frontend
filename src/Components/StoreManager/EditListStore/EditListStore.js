@@ -36,6 +36,9 @@ const EditListStore = () => {
         axios({
             method: 'put',
             url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/${params.id}`,
+            headers: {
+                "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
+            },
             data: {
                 branchId: item.id,
                 branchName: item.branchName,

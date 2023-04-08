@@ -2,23 +2,22 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./Commodity.css";
-import "./Table.scss";
-
-
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Commodity.css';
+import './Table.scss';
 
 function Commodity() {
     const [commodity, setCommodity] = useState([]);
     useEffect(() => {
-        axios.get("http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getAll/1").then((response) => {
+        axios.get('http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getAll/1')
+        .then((response) => {
             console.log(response.data);
             setCommodity(response.data);
         });
     }, []);
-    // ========================================= 
+    // =========================================
     // |                Search                 |
     // =========================================
     // const [searchTerm, setSearchTerm] = useState("");
@@ -36,15 +35,15 @@ function Commodity() {
     // ==================================
     // |  Filter Value Radio and Search |
     // ==================================
-    const [statusFilter, setStatusFilter] = useState("all");
-    const [searchTerm, setSearchTerm] = useState("");
+    const [statusFilter, setStatusFilter] = useState('all');
+    const [searchTerm, setSearchTerm] = useState('');
 
     const filteredData = commodity.filter((item) => {
-        if (statusFilter === "all" && searchTerm === "") return true;
-        if (statusFilter !== "all" && item.status !== (statusFilter === "active" ? 0 : 1)) return false;
-        if (searchTerm !== "" && !item.typeOfProduct.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+        if (statusFilter === 'all' && searchTerm === '') return true;
+        if (statusFilter !== 'all' && item.status !== (statusFilter === 'active' ? 0 : 1)) return false;
+        if (searchTerm !== '' && !item.typeOfProduct.toLowerCase().includes(searchTerm.toLowerCase())) return false;
         return true;
-      });
+    });
     return (
         <>
             <h1 className="liststore-h1">Danh sách hàng hóa</h1>
@@ -60,11 +59,13 @@ function Commodity() {
                         {/* From status  */}
                         <span className="fromstatus">
                             <FormControl className="form-iteam">
-                                <RadioGroup className="radio-item"
+                                <RadioGroup
+                                    className="radio-item"
                                     aria-label="status"
                                     name="status"
                                     value={statusFilter}
-                                    onChange={(e) => setStatusFilter(e.target.value)}>
+                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                >
                                     <FormControlLabel
                                         value="all"
                                         control={<Radio />}
@@ -113,7 +114,9 @@ function Commodity() {
                     <table class="responstable">
                         <tr>
                             <th>STT</th>
-                            <th data-th="Driver details"><span>Lĩnh vực</span></th>
+                            <th data-th="Driver details">
+                                <span>Lĩnh vực</span>
+                            </th>
                             <th>Tên hàng hoá</th>
                             <th>Mã</th>
                             <th>Tình trạng</th>
@@ -122,17 +125,13 @@ function Commodity() {
                             <tr>
                                 <td>{val.pawnableProductId}</td>
                                 <td>Cầm đồ</td>
-                                <td >
-                                    <Link to={`/commodity/edit/${val.pawnableProductId}`}>
-                                        {val.typeOfProduct}
-                                    </Link>
+                                <td>
+                                    <Link to={`/commodity/edit/${val.pawnableProductId}`}>{val.typeOfProduct}</Link>
                                 </td>
                                 <td>
-                                    <Link to={`/commodity/edit/${val.pawnableProductId}`}>
-                                        {val.commodityCode}
-                                    </Link>
+                                    <Link to={`/commodity/edit/${val.pawnableProductId}`}>{val.commodityCode}</Link>
                                 </td>
-                                <td className='Style Frond'>
+                                <td className="Style Frond">
                                     {val.status === 0 ? (
                                         <div className="MuiTableBody_working-status">
                                             <p>Đang hoạt động</p>
@@ -153,5 +152,3 @@ function Commodity() {
 }
 
 export default Commodity;
-
-

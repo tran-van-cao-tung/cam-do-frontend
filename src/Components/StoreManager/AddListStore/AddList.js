@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import './AddList.css';
 
 import Button from '@mui/material/Button';
@@ -10,7 +10,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import axios from 'axios';
 
-import { Divider} from '@mui/material';
+import { Divider } from '@mui/material';
 
 const AddList = () => {
     // const [id, setId] = useState();
