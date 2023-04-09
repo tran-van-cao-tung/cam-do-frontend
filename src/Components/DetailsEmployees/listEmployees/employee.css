@@ -172,13 +172,13 @@
     margin-top: 18px;
 }
 
-.MuiTable-bordered {
+/* .MuiTable-bordered {
     border-collapse: collapse;
     border: 1px solid #ddd;
     color: #000000;
     margin-top: 53px;
     display: flex;
-}
+} */
 
 .MuiTable-bordered th,
 .MuiTable-bordered td {
@@ -191,12 +191,12 @@
     text-align: center;
 }
 
-.MuiTableHead-root {
+/* .MuiTableHead-root {
     background-color: #D9D9D9;
     display: flex;
     align-items: center;
     text-align: center;
-}
+} */
 
 .MuiTableHead-root th {
     font-family: 'Frank Ruhl Libre';
@@ -239,4 +239,11 @@
 }
 .box_employee .responstable{
     font-size: 16px;
+}
+
+
+.list_box-employee{
+    background-color: #fff;
+    padding: 22px 19px 22px 27px;
+    border-radius: 10px;
 }

@@ -33,7 +33,7 @@ const Addcommondity = () => {
     const handleSumbitCommondy = (e) => {
         axios({
             method: 'post',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/createPawnable',
+            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/createPawnable',
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
             },

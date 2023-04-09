@@ -30,7 +30,7 @@ const WareHouse = () => {
     const handleSubmit =(e)=>{
         axios({
             method: 'post',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/warehouse/createWarehouse',
+            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/warehouse/createWarehouse',
             headers: {
                 "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
             },

@@ -58,7 +58,7 @@ export default function BasicTabs({ showContractId }) {
 
     React.useEffect(() => {
         const id = showContractId;
-        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/getAll/0`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
+        axios.get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/contract/getAll/0`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
             setContractDetail(res.data.filter((item) => {
                 return item.contractId === id;
             })[0])
@@ -70,7 +70,7 @@ export default function BasicTabs({ showContractId }) {
     const [interestDiary, setInterestDiary] = React.useState([])
     React.useEffect(() => {
         const id = contractDetail.contractId;
-        axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/getInterestDiariesByContractId${id}`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
+        axios.get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/interestDiary/getInterestDiariesByContractId${id}`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
             setInterestDiary(res.data);
         });
     }, [contractDetail.contractId])
@@ -92,7 +92,7 @@ export default function BasicTabs({ showContractId }) {
     const [values, setValues] = React.useState([]);
     React.useEffect(() => {
         const id = check;
-        axios.put(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/interestDiary/updateInterestDiary/${id}?paidMoney=${paidMoney}`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
+        axios.put(`http://tranvancaotung-001-site1.atempurl.com/api/v1/interestDiary/updateInterestDiary/${id}?paidMoney=${paidMoney}`, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} }).then(res => {
             if (res.data) {
                 setValues({ ...values, [id]: paidMoney })
             }

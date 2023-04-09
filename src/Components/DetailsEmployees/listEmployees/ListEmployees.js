@@ -36,7 +36,7 @@ function ListEmployees() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0',
+            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/user/getAll/0',
             headers: {
                 "Authorization": `Bearer  ${localStorage.getItem('accessToken')}`
             },
@@ -68,96 +68,90 @@ function ListEmployees() {
             <h1 className="employee_heading">Danh sách nhân viên</h1>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Item>
-                        <button
-                            className="employee_button"
-                            onClick={() => {
-                                history('/addemployee');
-                            }}
-                        >
-                            Thêm mới
-                        </button>
-                        <form className="employee_search">
-                            <div>
-                                <div className="employee_search-check">
-                                    <span className="employee_search-heading">Tình trạng:</span>
-                                    <input type="radio" name="radio" value="all" />
-                                    <label className="check1">Tất cả</label>
-                                    <input type="radio" name="radio" value="all" />
-                                    <label className="check2">Đang làm việc</label>
-                                    <input type="radio" name="radio" value="all" />
-                                    <label className="check3">Tạm khóa</label>
+                       <div className='list_box-employee'>
+                            <button
+                                className="employee_button"
+                                onClick={() => {
+                                    history('/addemployee');
+                                }}
+                            >
+                                Thêm mới
+                            </button>
+                            <form className="employee_search">
+                                <div>
+                                    <div className="employee_search-check">
+                                        <span className="employee_search-heading">Tình trạng:</span>
+                                        <input type="radio" name="radio" value="all" />
+                                        <label className="check1">Tất cả</label>
+                                        <input type="radio" name="radio" value="all" />
+                                        <label className="check2">Đang làm việc</label>
+                                        <input type="radio" name="radio" value="all" />
+                                        <label className="check3">Tạm khóa</label>
+                                    </div>
+                                    <div className="employee_search-select">
+                                        <input
+                                            type="text"
+                                            placeholder="I'm looking for...."
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="employee_search-select">
-                                    {/* <select className="employee_search-option">
-                                        <option>TP. Hồ Chí Minh</option>
-                                        <option>TP. Đà Nẵng</option>
-                                        <option>TP. Hà Nội</option>
-                                    </select> */}
-                                    {/* <input type="text" placeholder="Tìm kiếm..." className="employee_search-input" /> */}
-                                    <input
-                                        type="text"
-                                        placeholder="I'm looking for...."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                    />
-                                </div>
+                                {/* <button className="employee_search-btn">
+                                    <span>Tìm kiếm </span>
+                                    <img src={search} alt="search" />
+                                </button> */}
+                            </form>
+                            {/* ================================ */}
+                            {/* =            Table Show        = */}
+                            {/* ================================ */}
+                            <div className="table _table-Listemoloyess">
+                                <table className="responstable">
+                                    <tr>
+                                        <th>STT</th>
+                                        <th data-th="Driver details"><span>Cửa hàng</span></th>
+                                        <th>Họ và tên</th>
+                                        <th>Tài khoản</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Nơi làm việc</th>
+                                        <th>Ngày tạo</th>
+                                        <th>Tình trạng</th>
+                                        <th>Chức năng</th>
+                                    </tr>
+                                    {searchedProduct.map((i, index) => {
+                                        return (
+                                            <tr key={index + 1}>
+                                                <td>{index + 1}</td>
+                                                <td>{i.branchId}</td>
+                                                <td>{i.fullName}</td>
+                                                <td>{i.userName}</td>
+                                                <td>{i.phone}</td>
+                                                <td>{i.address}</td>
+                                                <td>{moment(i.createTime).format('MM/DD/YYYY')}</td>
+                                                <td>
+                                                    {
+                                                        i.status === 2 ? (
+                                                            <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                                        ) : (
+                                                            <div className="MuiTableBody_root-status activity">
+                                                                Đang hoạt động
+                                                            </div>
+                                                        )
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <div className="MuiTableBody_root-itemLast">
+                                                        <Link to={`/editemployee/${i.userId}`}>
+                                                            <img src={edit} alt="Edit" />
+                                                        </Link>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </table>
                             </div>
-                            {/* <button className="employee_search-btn">
-                                <span>Tìm kiếm </span>
-                                <img src={search} alt="search" />
-                            </button> */}
-                        </form>
-                        {/* ================================ */}
-                        {/* =            Table Show        = */}
-                        {/* ================================ */}
-                        <div className="table _table-Listemoloyess">
-                            <table className="responstable">
-                                <tr>
-                                    <th>STT</th>
-                                    <th data-th="Driver details"><span>Cửa hàng</span></th>
-                                    <th>Họ và tên</th>
-                                    <th>Tài khoản</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Nơi làm việc</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Tình trạng</th>
-                                    <th>Chức năng</th>
-                                </tr>
-                                {searchedProduct.map((i, index) => {
-                                    return (
-                                        <tr key={index + 1}>
-                                            <td>{index + 1}</td>
-                                            <td>{i.branchId}</td>
-                                            <td>{i.fullName}</td>
-                                            <td>{i.userName}</td>
-                                            <td>{i.phone}</td>
-                                            <td>{i.address}</td>
-                                            <td>{moment(i.createTime).format('MM/DD/YYYY')}</td>
-                                            <td>
-                                                {
-                                                    i.status === 2 ? (
-                                                        <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                                                    ) : (
-                                                        <div className="MuiTableBody_root-status activity">
-                                                            Đang hoạt động
-                                                        </div>
-                                                    )
-                                                }
-                                            </td>
-                                            <td>
-                                                <div className="MuiTableBody_root-itemLast">
-                                                    <Link to={`/editemployee/${i.userId}`}>
-                                                        <img src={edit} alt="Edit" />
-                                                    </Link>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-                            </table>
-                        </div>
-                    </Item>
+                       </div>
                 </Grid>
             </Grid>
         </div>
