@@ -30,3 +30,12 @@
 .table-name td {
     font-size: 25px;
 }
+.paginate-chainStore{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 40px;
+    list-style: none;
+    margin-bottom: 10px;
+}

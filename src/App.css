@@ -42,3 +42,9 @@ html {
     ;
     background-repeat: no-repeat;
 }
+/* Ẩn mũi tên lên xuống trên thẻ input */
+.MuiInputBase-input::-webkit-outer-spin-button,
+.MuiInputBase-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

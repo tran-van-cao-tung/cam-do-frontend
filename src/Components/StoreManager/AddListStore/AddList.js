@@ -21,12 +21,17 @@ const AddList = () => {
     const [status, setStatus] = useState();
 
     const handleSubmit = (e) => {
+        if(name.length > 100 || fundError){
+            <div style={{ color: 'red' }}> Tên cửa hàng không được vượt quá 100 kí tự </div>
+
+            return;
+        }
         // e.preventDefault();
         axios({
             method: 'post',
             url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/CreateBranch',
             headers: {
-                "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },
             data: {
                 // "branchId": id,
@@ -56,8 +61,15 @@ const AddList = () => {
         setAddress(e.target.value);
         // console.log(address);
     };
+    const [fundError, setFundError] = useState('');
     const handleOnChangeFund = (e) => {
-        setFund(JSON.parse(e.target.value));
+        const value = JSON.parse(e.target.value);
+        if (value > 10000000000) {
+            setFundError('Số tiền không được vượt quá 10 tỷ');
+        } else {
+            setFundError('');
+            setFund(value);
+        }
         // console.log(fund);
     };
     const handleOnChangeStatus = (e) => {
@@ -77,11 +89,14 @@ const AddList = () => {
                             </FormLabel>
                             <InputBase
                                 placeholder="Nhập tên cửa hàng"
-                                inputProps={{ 'aria-label': 'search' }}
+                                inputProps={{ 'aria-label': 'search', maxLength: 101 }}
                                 className="add-input"
                                 // value={name}
                                 onChange={handleOnChangeName}
                             />
+                            {name.length > 100 && (
+                                <div style={{ color: 'red' }}> Tên cửa hàng không được vượt quá 100 kí tự </div>
+                            )}
                         </FormControl>
 
                         <FormControl className="add-input-group">
@@ -90,11 +105,15 @@ const AddList = () => {
                             </FormLabel>
                             <InputBase
                                 placeholder="Nhập số điện thoại …"
-                                inputProps={{ 'aria-label': 'search' }}
+                                inputProps={{ 'aria-label': 'search', maxLength: 12 }}
                                 className="add-input"
+                                type='number'
                                 // value={phone}
                                 onChange={handleOnChangePhone}
                             />
+                            {phone.length > 11 && (
+                                <div style={{ color: 'red' }}> Nhập đúng định dạng số điện thoại, 10 hoặc 11 số</div>
+                            )}
                         </FormControl>
 
                         <FormControl className="add-input-group">
@@ -103,11 +122,14 @@ const AddList = () => {
                             </FormLabel>
                             <InputBase
                                 placeholder="Nhập địa chỉ"
-                                inputProps={{ 'aria-label': 'search' }}
+                                inputProps={{ 'aria-label': 'search', maxLength: 201 }}
                                 className="add-input"
                                 // value={address}
                                 onChange={handleOnChangeAddress}
                             />
+                            {address.length > 200 && (
+                                <div style={{ color: 'red' }}> Tên cửa hàng không được vượt quá 200 kí tự </div>
+                            )}
                         </FormControl>
 
                         <FormControl className="add-input-group">
@@ -116,11 +138,14 @@ const AddList = () => {
                             </FormLabel>
                             <InputBase
                                 placeholder="Nhập số vốn đầu tư"
-                                inputProps={{ 'aria-label': 'search' }}
+                                inputProps={{ 'aria-label': 'search', max: 10000000000, maxLength: 12 }}
                                 className="add-input"
+                                type='number'
                                 // value={fund}
                                 onChange={handleOnChangeFund}
+                                
                             />
+                            {fundError && <div style={{ color: 'red' }}>{fundError}</div>}
                         </FormControl>
 
                         <FormControl className="add-status-group">
