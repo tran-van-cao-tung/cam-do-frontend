@@ -11,7 +11,7 @@ const ContentPawn = () => {
     const [data, setData] = useState(null);
 
     //Lấy username của loginUser dựa vào localStorage
-    const [branchId, setBranchId] = useState('')
+    /* const [branchId, setBranchId] = useState('')
     useEffect(() => {
         callAPI({
             method: 'get',
@@ -23,17 +23,17 @@ const ContentPawn = () => {
                 })[0].branchId)
             }
         });
-    }, [])
+    }, []) */
 
     const [homePage, setHomePage] = useState();
     useEffect(() => {
         callAPI({
             method: 'get',
-            url: `contract/homepage/` + branchId,
+            url: `contract/homepage/` + localStorage.getItem("branchId"),
         }).then((res) => {
             setHomePage(res.data);
         });
-    }, [branchId])
+    }, [localStorage.getItem("branchId")])
     const formatMoney = (value) => {
         return (value).toLocaleString('vi-VN') + ' VNĐ';
     }

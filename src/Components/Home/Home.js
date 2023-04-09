@@ -27,18 +27,19 @@ const Home = () => {
 
   const [logContract, setLogContract] = useState([])
   useEffect(() => {
+    const branchId = localStorage.getItem("branchId");
     callAPI({
       method: 'get',
-      url: `/logContract/all/0`,
+      url: `/logContract/logContractByBranchId/${branchId}`,
     }).then((res) => {
       setLogContract(res.data);
     });
-  }, [])
+  }, [localStorage.getItem("branchId")])
 
   console.log(logContract)
 
   //Lấy username của loginUser dựa vào localStorage
-  const [branchId, setBranchId] = useState('')
+/*   const [branchId, setBranchId] = useState('')
   useEffect(() => {
     callAPI({
       method: 'get',
@@ -51,17 +52,17 @@ const Home = () => {
       }
     });
 
-  }, [])
+  }, []) */
 
-  const [homePage,setHomePage] = useState();
+  const [homePage, setHomePage] = useState();
   useEffect(() => {
     callAPI({
       method: 'get',
-      url: `/contract/homepage/`+ branchId,
+      url: `/contract/homepage/` + localStorage.getItem("branchId"),
     }).then((res) => {
       setHomePage(res.data);
     });
-  }, [branchId])
+  }, [localStorage.getItem("branchId")])
 
 
   //Ép kiểu dữ liệu date
@@ -77,6 +78,7 @@ const Home = () => {
     return (value).toLocaleString('vi-VN') + ' VNĐ';
   }
 
+
   return (
     <div className="conten">
       <h1 className="heading">Trang chủ</h1>
@@ -85,25 +87,25 @@ const Home = () => {
           <Grid item xs={6}>
             <Item>
               <p className="title">Tổng số vốn</p>
-              <span className="title">{homePage ? formatMoney(homePage.fund):"0 VNĐ"}</span>
+              <span className="title">{homePage ? formatMoney(homePage.fund) : "0 VNĐ"}</span>
             </Item>
           </Grid>
           <Grid item xs={6}>
             <Item>
               <p className="title">Số hợp đồng đang vay</p>
-              <span className="title">{homePage ? homePage.openContract:"0"}</span>
+              <span className="title">{homePage ? homePage.openContract : "0"}</span>
             </Item>
           </Grid>
           <Grid item xs={6}>
             <Item>
               <p className="title">Tiền đang cho vay</p>
-              <span className="title">{homePage ? formatMoney(homePage.loanLedger):"0 VNĐ"}</span>
+              <span className="title">{homePage ? formatMoney(homePage.loanLedger) : "0 VNĐ"}</span>
             </Item>
           </Grid>
           <Grid item xs={6}>
             <Item>
               <p className="title">Lãi đã thu trong tháng</p>
-              <span className="title">{homePage ? formatMoney(homePage.recveivedInterest):"0 VNĐ"}</span>
+              <span className="title">{homePage ? formatMoney(homePage.recveivedInterest) : "0 VNĐ"}</span>
             </Item>
           </Grid>
           <Grid item xs={12}>
@@ -113,62 +115,33 @@ const Home = () => {
               </div>
               <div className="content">
                 {
-                  localStorage.getItem('userName') === "Admin" ?
-                    logContract.map((item, index) => {
-                      return (<div key={index} className="detai-content">
-                        <div className="timme">
-                          <p>{formatDate(item.logTime)}</p>
-                          <span>{formatTime(item.logTime)}</span>
-                        </div>
-                        <div>
-                          <span className="colum-blue"></span>
-                        </div>
-                        <div className="create-new">
-                          <p>
-                            <b>{item.eventType === 1
-                              ? "Tạo hợp đồng"
-                              : item.eventType === 2
-                                ? "Chưa đóng lãi"
-                                : item.eventType === 3
-                                  ? "Đã đóng lãi"
-                                  : item.eventType === 4
-                                    ? "Đóng hợp đồng" : ""
-                            }: </b>{item.customerName}{" "}
-                            <span>{(item.debt).toLocaleString('vi-VN') + ' VNĐ'}
-                            </span>
-                          </p>
-                          <span>Tạo bởi: {item.userName}</span>
-                        </div>
-                      </div>)
-                    })
-                    :
-                    logContract.map((item, index) => {
-                      return localStorage.getItem('userName') === item.userName ? (<div key={index} className="detai-content">
-                        <div className="timme">
-                          <p>{formatDate(item.logTime)}</p>
-                          <span>{formatTime(item.logTime)}</span>
-                        </div>
-                        <div>
-                          <span className="colum-blue"></span>
-                        </div>
-                        <div className="create-new">
-                          <p>
-                            <b>{item.eventType === 1
-                              ? "Tạo hợp đồng"
-                              : item.eventType === 2
-                                ? "Chưa đóng lãi"
-                                : item.eventType === 3
-                                  ? "Đã đóng lãi"
-                                  : item.eventType === 4
-                                    ? "Đóng hợp đồng" : ""
-                            }: </b>{item.customerName}{" "}
-                            <span>{(item.debt).toLocaleString('vi-VN') + ' VNĐ'}
-                            </span>
-                          </p>
-                          <span>Tạo bởi: {item.userName}</span>
-                        </div>
-                      </div>) : ""
-                    })
+                  logContract.map((item, index) => {
+                    return (<div key={index} className="detai-content">
+                      <div className="timme">
+                        <p>{formatDate(item.logTime)}</p>
+                        <span>{formatTime(item.logTime)}</span>
+                      </div>
+                      <div>
+                        <span className="colum-blue"></span>
+                      </div>
+                      <div className="create-new">
+                        <p>
+                          <b>{item.eventType === 1
+                            ? "Tạo hợp đồng"
+                            : item.eventType === 2
+                              ? "Chưa đóng lãi"
+                              : item.eventType === 3
+                                ? "Đã đóng lãi"
+                                : item.eventType === 4
+                                  ? "Đóng hợp đồng" : ""
+                          }: </b>{item.customerName}{" "}
+                          <span>{(item.debt).toLocaleString('vi-VN') + ' VNĐ'}
+                          </span>
+                        </p>
+                        <span>Tạo bởi: {item.userName}</span>
+                      </div>
+                    </div>)
+                  })
                 }
               </div>
             </Item>
