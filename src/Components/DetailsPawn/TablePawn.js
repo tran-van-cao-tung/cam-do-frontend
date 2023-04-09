@@ -8,11 +8,11 @@ import note from "../../asset/img/note.png";
 import moment from "moment";
 
 
-const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract, setShowContractId, setShowExpiration }) => {
+const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailContract, setShowContractId, setShowExpiration,setContract,rowsContract }) => {
   const handleShow = (id) => {
     setShowUpdateContract(true);
     localStorage.setItem("PawnDetailID", id)
-    console.log("Update",id);
+    console.log("Update", id);
   };
   const handleShowLiquidation = (id) => {
     setShowliquidation(true);
@@ -28,19 +28,19 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
     setShowExpiration(true);
     setShowContractId(id);
   }
-
-  const [rows, setContract] = useState([]);
+  console.log()
   useEffect(() => {
     API({
       method: 'get',
       url: `contract/getAll/0`,
     }).then((res) => {
+      console.log(res.data)
       setContract(res.data.filter((item, index) => {
         return item.status != 4
       }));
     });
   }, [])
-  console.log(rows)
+  console.log(rowsContract);
 
   //Lấy dữ liệu BrandID có userId
   const [branchIdUser, setBranchIdUser] = useState([]);
@@ -64,20 +64,19 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
 
   //Ép kiểu dữ liệu date
   const formatDate = (value) => {
-    return moment(value).format('MM/DD/YYYY');
+    return moment(value).format('DD/MM/YYYY');
   }
 
   const formatMoney = (value) => {
     return (value).toLocaleString('vi-VN') + ' VNĐ';
   }
 
-  /* const formattedValue = moment(rows.contractEndDate).format('MM/DD/YYYY'); */
 
   const columns = [
     {
       field: '#', headerName: "#", width: 10, textAlign: "center", valueGetter: (params) => {
-        for (let i = 0; i < rows.length; i++) {
-          if (params.row.contractId === rows[i].contractId) {
+        for (let i = 0; i < rowsContract.length; i++) {
+          if (params.row.contractId === rowsContract[i].contractId) {
             return (i + 1)
           }
         }
@@ -145,9 +144,9 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
         />,
         <GridActionsCellItem icon={<img src={params.row.status === 1 ? note : subwallet} />} onClick={(e) => {
           params.row.status === 1 ?
-          hanleShowExpiration(params.row.contractId)
-          :
-          handleShowLiquidation(params.row.contractId)
+            hanleShowExpiration(params.row.contractId)
+            :
+            handleShowLiquidation(params.row.contractId)
         }} />,
       ],
 
@@ -159,7 +158,7 @@ const TablePawn = ({ setShowUpdateContract, setShowliquidation, setshowdetailCon
   return (
     <div style={{ height: 510, width: "99%" }}>
       <DataGrid
-        rows={rows}
+        rows={rowsContract}
         getRowId={(row) => row.contractId}
         columns={columns}
         pageSize={7}

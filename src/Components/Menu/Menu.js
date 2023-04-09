@@ -8,9 +8,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import './menu.css'
 import { AiOutlineDown, AiOutlineAlignRight } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 const Menuh = () => {
+  const history = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -20,9 +21,9 @@ const Menuh = () => {
     setAnchorEl(null);
   };
   const deleteToken = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userId");
+    localStorage.clear();
+    sessionStorage.clear();
+    history("/login");
     window.location.reload(false);
   };
 
@@ -30,7 +31,7 @@ const Menuh = () => {
 
   //get dữ liệu Lấy userId 
   useEffect(() => {
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
+    axios.get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/user/getAll/0`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setItemUser(res.data.filter((item, index) => {
         return item.userId === localStorage.getItem("userId");
       })[0])

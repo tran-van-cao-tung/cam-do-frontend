@@ -23,19 +23,19 @@ const NavMenu = () => {
     console.log("check permission after login");
     // setEmployeeList(e.target.value);
     API({
-        method: 'post',
-        url: '/permission/showpermission',
-        data: {
-            userId: localStorage.getItem("userId"),
-            nameUser: "string"
-        }
+      method: 'post',
+      url: '/permission/showpermission',
+      data: {
+        userId: localStorage.getItem("userId"),
+        nameUser: "string"
+      }
     }).then((res) => {
-        for (let i = 0; i < 5; i++) {
-            sessionStorage.setItem("permis " + i, res.data[i].status);
-            console.log('user permis:', res.data[i].status);
-        }
+      for (let i = 0; i < 5; i++) {
+        sessionStorage.setItem("permis " + i, res.data[i].status);
+        console.log('user permis:', res.data[i].status);
+      }
     });
-}
+  }
 
   const clickShow = () => {
     setShow1(!show1);
@@ -72,112 +72,112 @@ const NavMenu = () => {
           </NavLink>
         </li>
         {/* Cầm đồ */}
-        {(sessionStorage.getItem("permis 0") === "true") &&
+        {(sessionStorage.getItem("permis 0") === "true" || (localStorage.getItem("userName") === "Admin")) &&
           <li>
-          <NavLink to="/detaipawn" className="text-menu home">
-            {" "}
-            <img src={menu2} className="iconMenu" />
-            <span>Cầm đồ</span>
-            <MdKeyboardArrowRight className="arrow" />
-          </NavLink>
-        </li>
+            <NavLink to="/detaipawn" className="text-menu home">
+              {" "}
+              <img src={menu2} className="iconMenu" />
+              <span>Cầm đồ</span>
+              <MdKeyboardArrowRight className="arrow" />
+            </NavLink>
+          </li>
         }
 
 
         {/* Quản lý cửa hàng */}
-        {(sessionStorage.getItem("permis 1") === "true") &&
-        <li >
-          <a className="text-menu home" onClick={clickShow}>
-            {" "}
-            <img src={menu3} className="iconMenu" />
-            <span>Quản lý cửa hàng</span>
-            {
-              show1 === true ? <MdKeyboardArrowDown className="arrow" /> :
+        {(sessionStorage.getItem("permis 1") === "true" || (localStorage.getItem("userName") === "Admin")) &&
+          <li >
+            <a className="text-menu home" onClick={clickShow}>
+              {" "}
+              <img src={menu3} className="iconMenu" />
+              <span>Quản lý cửa hàng</span>
+              {
+                show1 === true ? <MdKeyboardArrowDown className="arrow" /> :
 
-                <MdKeyboardArrowRight className="arrow" />
-            }
-          </a>
+                  <MdKeyboardArrowRight className="arrow" />
+              }
+            </a>
 
-          {show1 && show1 ? (
-            <ul className={`submenu ${show1}`}>
-              <li className="subtext">
-                <NavLink to="/chainstores">&#128900; Chuỗi cửa hàng</NavLink>
-              </li>
-              <li className="subtext">
-                <NavLink to="/detailsStore/1" className="subtext">
-                  &#128900; Chi tiết cửa hàng
-                </NavLink>
-              </li>
-              <li className="subtext">
-                <NavLink to="/liststore" className="subtext">
-                  &#128900; Danh sách cửa hàng
-                </NavLink>
-              </li>
-              <li className="subtext">
-                <NavLink to="/commodity" className="subtext">
-                  &#128900; Cấu hình hàng hóa
-                </NavLink>
-              </li>
-              <li className="subtext">
-                <NavLink to="/money" className="subtext">
-                  &#128900; Nhập quỹ tiền mặt
-                </NavLink>
-              </li>
-            </ul>
-          ) : (<></>)}
-        </li>
+            {show1 && show1 ? (
+              <ul className={`submenu ${show1}`}>
+                <li className="subtext">
+                  <NavLink to="/chainstores">&#128900; Chuỗi cửa hàng</NavLink>
+                </li>
+                <li className="subtext">
+                  <NavLink to="/detailsStore/1" className="subtext">
+                    &#128900; Chi tiết cửa hàng
+                  </NavLink>
+                </li>
+                <li className="subtext">
+                  <NavLink to="/liststore" className="subtext">
+                    &#128900; Danh sách cửa hàng
+                  </NavLink>
+                </li>
+                <li className="subtext">
+                  <NavLink to="/commodity" className="subtext">
+                    &#128900; Cấu hình hàng hóa
+                  </NavLink>
+                </li>
+                <li className="subtext">
+                  <NavLink to="/money" className="subtext">
+                    &#128900; Nhập quỹ tiền mặt
+                  </NavLink>
+                </li>
+              </ul>
+            ) : (<></>)}
+          </li>
         }
 
         {/* Quản lý kho */}
-        {(sessionStorage.getItem("permis 2") === "true") &&
-        <li>
-          <NavLink to="/warehouse" className="text-menu home">
-            {" "}
-            <img src={menu2} className="iconMenu" />
-            <span>Quản lý kho</span>
-          </NavLink>
-        </li>
+        {(sessionStorage.getItem("permis 2") === "true" || (localStorage.getItem("userName") === "Admin")) &&
+          <li>
+            <NavLink to="/warehouse" className="text-menu home">
+              {" "}
+              <img src={menu2} className="iconMenu" />
+              <span>Quản lý kho</span>
+            </NavLink>
+          </li>
         }
 
         {/* Quản lý nhân viên */}
-        {(sessionStorage.getItem("permis 3") === "true") &&
-        <li>
-          <a className="text-menu home" onClick={clickShow1}>
-            <img src={menu5} className="iconMenu" />
-            <span>Quản lý nhân viên</span>
+        {(sessionStorage.getItem("permis 3") === "true" || (localStorage.getItem("userName") === "Admin")) &&
+          <li>
+            <a className="text-menu home" onClick={clickShow1}>
+              <img src={menu5} className="iconMenu" />
+              <span>Quản lý nhân viên</span>
+              {
+                show2 === true ? <MdKeyboardArrowDown className="arrow" /> :
+
+                  <MdKeyboardArrowRight className="arrow" />
+              }
+            </a>
             {
-              show2 === true ? <MdKeyboardArrowDown className="arrow" /> :
+              show2 && (
+                <ul className={`submenu ${show1}`}>
+                  <li className="subtext">
+                    <NavLink to="/listemployees">&#128900; Danh sách nhân viên</NavLink>
+                  </li>
+                  <li className="subtext">
+                    <NavLink to="/authorization" className="subtext">
+                      &#128900; Phân quyền nhân viên
+                    </NavLink>
+                  </li>
 
-                <MdKeyboardArrowRight className="arrow" />
+                </ul>
+              )
             }
-          </a>
-          {
-            show2 && (
-              <ul className={`submenu ${show1}`}>
-                <li className="subtext">
-                  <NavLink to="/listemployees">&#128900; Danh sách nhân viên</NavLink>
-                </li>
-                <li className="subtext">
-                  <NavLink to="/authorization" className="subtext">
-                    &#128900; Phân quyền nhân viên
-                  </NavLink>
-                </li>
-
-              </ul>
-            )
-          }
-        </li>
+          </li>
         }
 
 
         {/* Quản lý khách hàng */}
-        {(sessionStorage.getItem("permis 4") === "true") &&
-        <li>
-          <NavLink to="/customer-manager" className="text-menu home">
-            <img src={menu6} className="iconMenu" />
-            <span>Quản lý khách hàng</span>
-          </NavLink>
-        </li>
+        {(sessionStorage.getItem("permis 4") === "true" || (localStorage.getItem("userName") === "Admin")) &&
+          <li>
+            <NavLink to="/customer-manager" className="text-menu home">
+              <img src={menu6} className="iconMenu" />
+              <span>Quản lý khách hàng</span>
+            </NavLink>
+          </li>
         }
 
         {/* Báo cáo */}
@@ -199,7 +199,7 @@ const NavMenu = () => {
               </li>
               <li className="subtext">
                 <NavLink to="/report-years" className="subtext">
-                &#128900; Báo cáo năm
+                  &#128900; Báo cáo năm
                 </NavLink>
               </li>
             </ul>

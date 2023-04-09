@@ -361,6 +361,7 @@
   padding: 10px;
   padding-left: 10%;
 }
+
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
@@ -368,7 +369,56 @@
   text-align: center;
 }
 
-.certificateImg{
+.certificateImg {
   width: 300px;
   height: 300px;
+}
+
+.full_detailContract {
+  display: flex;
+  justify-content: space-around;
+}
+
+.table__detailContract {
+  width: 48%;
+}
+
+.table__detailContract tr{
+  border: 1px solid #a09f9f;
+}
+
+.table__detailContract th {
+  text-align: left;
+  padding: 10px;
+  background-color: #fff;
+  border: none;
+  width:50%;
+}
+
+.detailContract_icon-phone {
+  /* font-size: 15px; */
+  position: relative;
+  top: 4px;
+}
+
+/* th[title='Đang Cầm'] {
+  background-color: #50c2da;
+}
+
+th[title='Trễ hẹn'] {
+  background-color: #d4d05c;
+}
+
+th[title='Thanh lý'] {
+  background-color: #d45c5c;
+} */
+
+.detailContract_status{
+  border-radius: 7px;
+  font-family: 'Frank Ruhl Libre';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  padding: 5px;
+  color: #fff;
 }
