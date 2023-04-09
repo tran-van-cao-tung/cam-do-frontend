@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './AddList.css';
+import './AddList.scss';
 
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
@@ -20,13 +21,31 @@ const AddList = () => {
     const [fund, setFund] = useState();
     const [status, setStatus] = useState();
 
-    const handleSubmit = (e) => {
-        if(name.length > 100 || fundError){
-            <div style={{ color: 'red' }}> Tên cửa hàng không được vượt quá 100 kí tự </div>
+    const [notification, setNotification] = useState(null);
+    const [success, setSuccess] = useState(false);
 
+    const handleSubmit = (e) => {
+        // check điều kiện ở input
+        if (name.length > 100 || phone.length < 10 || phone.length > 11 || address.length > 200 || fundError) {
+            setNotification('Bạn đang có điều kiện không đúng!');
+            setTimeout(() => {
+                setNotification(null);
+            }, 5000);
             return;
         }
+        // check điều kiện không được rỗng ở input
+        if (name === '' || phone === '' || address === '' || fund === '') {
+            setNotification('Bạn không được để trống!');
+            setTimeout(() => {
+                setNotification(null);
+            }, 5000);
+            return;
+        }
+        //
+        e.preventDefault();
+        setSuccess(true);
         // e.preventDefault();
+
         axios({
             method: 'post',
             url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/branch/CreateBranch',
@@ -43,8 +62,11 @@ const AddList = () => {
             },
         })
             .then((res) => {
-                console.log('Success Full');
-                alert('Lưu Thành Công');
+                // console.log('Success Full');
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 5000);
             })
             .catch((err) => console.log(err));
     };
@@ -82,6 +104,22 @@ const AddList = () => {
             <div className="Addliststore">
                 <h1>Thêm mới cửa hàng</h1>
                 <div className="wareh-content">
+                    {/* Add a erro message */}
+                    {notification && (
+                        <div class="alert alert-danger" role="alert">
+                            <i class="material-icons">
+                                <span>{notification}</span>
+                            </i>
+                        </div>
+                    )}
+                    {/* Add a success message */}
+                    {success && (
+                        <div class="alert alert-success" role="alert">
+                            <i class="material-icons">
+                                <span> Lưu thành công!</span>
+                            </i>
+                        </div>
+                    )}
                     <div className="add-section">
                         <FormControl className="add-input-group">
                             <FormLabel className="label">
@@ -107,13 +145,17 @@ const AddList = () => {
                                 placeholder="Nhập số điện thoại …"
                                 inputProps={{ 'aria-label': 'search', maxLength: 12 }}
                                 className="add-input"
-                                type='number'
+                                type="number"
                                 // value={phone}
                                 onChange={handleOnChangePhone}
                             />
-                            {phone.length > 11 && (
-                                <div style={{ color: 'red' }}> Nhập đúng định dạng số điện thoại, 10 hoặc 11 số</div>
-                            )}
+                            {phone.length < 10 ||
+                                (phone.length > 11 && (
+                                    <div style={{ color: 'red' }}>
+                                        {' '}
+                                        Nhập đúng định dạng số điện thoại, 10 hoặc 11 số
+                                    </div>
+                                ))}
                         </FormControl>
 
                         <FormControl className="add-input-group">
@@ -140,10 +182,9 @@ const AddList = () => {
                                 placeholder="Nhập số vốn đầu tư"
                                 inputProps={{ 'aria-label': 'search', max: 10000000000, maxLength: 12 }}
                                 className="add-input"
-                                type='number'
+                                type="number"
                                 // value={fund}
                                 onChange={handleOnChangeFund}
-                                
                             />
                             {fundError && <div style={{ color: 'red' }}>{fundError}</div>}
                         </FormControl>
