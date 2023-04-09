@@ -60,7 +60,7 @@ function ViewProduct() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/contractAsset/assets/${params.id}`,
+            url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/contractAsset/assets/${params.id}`,
         }).then((res) => {
             setListProduct(res.data);
         }).catch((err) => {
@@ -69,7 +69,7 @@ function ViewProduct() {
         
         axios({
             method: 'get',
-            url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/warehouse/GetAllDetail/${params.id},0`,
+            url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/warehouse/GetAllDetail/${params.id},0`,
         }).then((res) => {
             setwarehouse(res.data);
         }).catch((err) => {
