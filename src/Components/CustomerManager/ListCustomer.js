@@ -49,7 +49,9 @@ function ListCustomer({ numPage }) {
                 <div className="ListCustomer">
                     {/* Button  Add */}
                     <a href="#">
-                        <button className="addliststore">Thêm mới khách hàng</button>
+                        <Link to="/customer-manager/add-new-customer">
+                            <button className="addliststore">Thêm mới khách hàng</button>
+                        </Link>
                     </a>
                     {/* Status */}
                     <div className="status">
