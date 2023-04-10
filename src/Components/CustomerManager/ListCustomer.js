@@ -10,15 +10,6 @@ function ListCustomer({ numPage }) {
     const [searchAPIData, setSearchAPIData] = useState([]);
     const [onFilter, setOnFilter] = useState();
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const result = await axios.get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/customer/getAll/0`);
-    //         setCustomers(result.data);
-    //         setSearchAPIData(result.data);
-    //     };
-    //     fetchData();
-    // }, []);
-
     useEffect(() => {
         API({
             method: 'GET',
@@ -40,6 +31,10 @@ function ListCustomer({ numPage }) {
         }
         setOnFilter(e.target.value);
     };
+
+    function setccnd(e){
+        sessionStorage.setItem("num", e);
+    }
     return (
         <>
             <div className="ListCustomerr">
@@ -103,7 +98,7 @@ function ListCustomer({ numPage }) {
                                 <td>{customer.point}</td>
                                 <td>
                                     <Link to={`/customer-manager/updateinfo/`}>
-                                        <img src={edit} alt="Edit" />
+                                        <img src={edit} alt="Edit" onClick={setccnd(customer.cccd)}/>
                                     </Link>
                                 </td>
                             </tr>

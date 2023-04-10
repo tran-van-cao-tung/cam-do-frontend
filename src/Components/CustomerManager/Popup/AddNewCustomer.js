@@ -46,7 +46,7 @@ const AddNewCustomer = () => {
                 identityCardBacking: "string",
                 faceImg: faceImg,
                 status: 1,
-                point: 100,
+                point: 50,
             },
         })
             .then((res) => {

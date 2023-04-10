@@ -430,7 +430,7 @@ function AuthEmployee() {
                     <Item>
                         <div className="auth_input">
                             <div className='auth_input-group'>
-                                <div className='auth_input-item'>
+                                {/* <div className='auth_input-item'>
                                     <span>
                                         Cửa hàng <span className='auth_input-star'>*</span>:
                                     </span>
@@ -439,7 +439,7 @@ function AuthEmployee() {
                                         <option>S2</option>
                                         <option>S3</option>
                                     </select>
-                                </div>
+                                </div> */}
                                 <div className='auth_input-item'>
                                     <span>
                                         Nhân viên <span className='auth_input-star'>*</span>:
@@ -450,7 +450,7 @@ function AuthEmployee() {
                                                 return <option
                                                     key={index}
                                                     value={item.userId}
-                                                >{item.fullName}</option>
+                                                >{item.userName} - {item.fullName}</option>
                                             })
                                         }
                                     </select>
@@ -492,6 +492,7 @@ function AuthEmployee() {
                                                 {children}
                                             </div>
                                         </div>
+
                                         <div className='auth_check-item' >
                                             <div className='auth_check-plus'
                                                 onClick={e => handleCheckPlus2(e)}>{textPlus2}</div>
@@ -516,6 +517,7 @@ function AuthEmployee() {
                                                 {children2}
                                             </div>
                                         </div>
+                                        
                                         <div className='auth_check-item' >
                                             <div className='auth_check-plus'
                                                 onClick={e => handleCheckPlus3(e)}>{textPlus3}</div>
