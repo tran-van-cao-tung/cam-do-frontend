@@ -33,31 +33,30 @@ const AddNewCustomer = () => {
     }
 
     const onAddNewCustomer = () => {
-        console.log('fullname', name);
-        // alert(faceImg);
-        // API({
-        //     method: 'post',
-        //     url: '/customer/createCustomer',
-        //     data: {
-        //         // "branchId": id,
-        //         fullName: fullname,
-        //         cccd: cccd,
-        //         phone: phone,
-        //         address: address,
-        //         faceImg: faceImg,
-        //         status: 1,
-        //         point: 100,
-        //     },
-        // })
-        //     .then((res) => {
-        //         alert('Tạo KH thành công');
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //         alert('Tạo KH fail');
-        //     });
+        API({
+            method: 'post',
+            url: '/customer/createCustomer',
+            data: {
+                // "branchId": id,
+                fullName: name,
+                cccd: cccd,
+                phone: phone,
+                address: address,
+                identityCardFronting: "string",
+                identityCardBacking: "string",
+                faceImg: faceImg,
+                status: 1,
+                point: 100,
+            },
+        })
+            .then((res) => {
+                alert('Tạo KH thành công');
+            })
+            .catch((err) => {
+                console.log(err);
+                alert('Tạo KH fail');
+            });
     };
-    const [img, setImg] = useState([]);
     const [name, setName] = useState('');
     const [cccd, setCccd] = useState('');
     const [phone, setPhone] = useState('');
@@ -66,8 +65,15 @@ const AddNewCustomer = () => {
 
     const handleName = (e) => {
         setName(e.target.value);
-
-        console.log('value is:', e.target.value);
+    };
+    const handleCccd = (e) => {
+        setCccd(e.target.value);
+    };
+    const handlePhone = (e) => {
+        setPhone(e.target.value);
+    };
+    const handleAddress = (e) => {
+        setAddress(e.target.value);
     };
 
     return (
@@ -99,8 +105,6 @@ const AddNewCustomer = () => {
                                     <input
                                         type="text"
                                         placeholder="Nhập tên khách hàng..."
-                                        // id="fullname"
-                                        // name="fullname"
                                         value={name}
                                         onChange={(e) => handleName(e)}
                                     />
@@ -113,14 +117,14 @@ const AddNewCustomer = () => {
                                     <input
                                         type="text"
                                         placeholder="Nhập số điện thoại..."
-                                        // onChange={handlePhone}
-                                        // value={phone}
+                                        onChange={handlePhone}
+                                        value={phone}
                                     />
                                     <input
                                         type="text"
                                         placeholder="Nhập địa chỉ..."
-                                        // onChange={handleAddress}
-                                        // value={address}
+                                        onChange={handleAddress}
+                                        value={address}
                                     />
                                     <div className="chungtu">
                                         <UploadButton
