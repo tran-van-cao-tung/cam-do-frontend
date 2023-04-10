@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './login.css';
+import './login.scss';
 import API from '../../API';
+import callAPI from '../../API';
 
 const Login = () => {
     const [userName, setUserName] = useState()
@@ -10,6 +11,17 @@ const Login = () => {
     const history = useNavigate();
 
 
+    const [branch, setBranch] = useState([]);
+    useEffect(() => {
+        callAPI({
+            method: 'get',
+            url: `/branch/getAll/0`,
+        }).then((res) => {
+            setBranch(res.data);
+        });
+    }, [])
+
+    
     const hanldeSubmit = (e) => {
         e.preventDefault();
         const data = {
@@ -23,6 +35,12 @@ const Login = () => {
         }).then(res => {
             localStorage.setItem('accessToken', res.data.token.accessToken)
             localStorage.setItem('userName', res.data.account.userName);
+            if (res.data.account.userName === "Admin") {
+                localStorage.setItem('branchId', branch[0].branchId);
+            }
+            else{
+                localStorage.setItem('branchId', res.data.account.branchId);
+            }
             if (res.data.account.userId) {
                 localStorage.setItem('userId', res.data.account.userId);
             }
@@ -34,14 +52,20 @@ const Login = () => {
     return (
         <div className='container'>
             <h1>Pawns</h1>
-            <div className='content'>
+            <div className='content-login'>
+                <div className='content-login_backgroud'></div>
                 <form onSubmit={hanldeSubmit}>
+                    <div className='content-login_fromtext'>
+                        <p>ĐĂNG NHẬP NGƯỜI DÙNG</p>
+                    </div>
                     <input type='text' placeholder='Tên Đăng Nhập' onChange={(e) => { setUserName(e.target.value) }} />
                     <input type='password' placeholder='Mật Khẩu' onChange={(e) => { setPassword(e.target.value) }} />
+                    <div className='content-login_text'>
+                        <a href='/unlogin'>Quên mật khẩu ?</a>
+                    </div>
                     <button className='btn_login' type='submit'>Đăng Nhập</button>
                 </form>
             </div>
-
         </div>
     );
 }

@@ -7,15 +7,19 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Commodity.css';
 import './Table.scss';
+import callAPI from '../../../API';
 
 function Commodity() {
     const [commodity, setCommodity] = useState([]);
     useEffect(() => {
-        axios.get('http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getAll/1')
-        .then((response) => {
-            console.log(response.data);
-            setCommodity(response.data);
-        });
+        callAPI({
+            method: 'get',
+            url: `/pawnableProduct/getAll/1`,
+        }).then((res) => {
+            console.log(res.data);
+            setCommodity(res.data);
+        })
+
     }, []);
     // =========================================
     // |                Search                 |

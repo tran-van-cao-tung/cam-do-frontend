@@ -2,6 +2,7 @@ import Home from "./../Components/Home/Home";
 import DetailsPawn from './../Components/DetailsPawn/DetailsPawn';
 import UpdateContract from './../Components/DetailsPawn/PopUp/UpdateContract';
 import Login from "../Components/Login/Login";
+import Noti from "../Components/DetailsPawn/ContractNoti";
 //Employee
 import ListEmployees from "../Components/DetailsEmployees/listEmployees/ListEmployees";
 import AddEmployee from "../Components/DetailsEmployees/addEmployee/AddEmployee";
@@ -47,6 +48,10 @@ const publicRoutes = [
     {
         path: '/detaipawn',
         component: DetailsPawn
+    },
+    {
+        path: '/noti',
+        component: Noti
     },
     {
         path: "/chainstores",

@@ -9,8 +9,8 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 
 import { Divider } from '@mui/material';
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import React, { useState } from 'react';
 
 
 const Addcommondity = () => {
@@ -33,7 +33,7 @@ const Addcommondity = () => {
     const handleSumbitCommondy = (e) => {
         axios({
             method: 'post',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/createPawnable',
+            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/createPawnable',
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
             },

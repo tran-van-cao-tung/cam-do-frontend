@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Checkbox, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Button, Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, imageListItemBarClasses } from "@mui/material";
 import CreateIcon from '@mui/icons-material/Create';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -16,6 +16,7 @@ function PayInterest({ showContractId }) {
     const [show, setShow] = useState([]);
     const [paidMoney, setPaidMoney] = useState(0);
     const [values, setValues] = useState([]);
+    const [showCheck, setShowCheck] = useState(false);
 
 
     const [interestDiary, setInterestDiary] = useState([])
@@ -28,15 +29,13 @@ function PayInterest({ showContractId }) {
         }).then((res) => {
             setInterestDiary(res.data)
         });
-        console.log(interestDiary)
-
     }, [showContractId, check])
 
     const [dis, setDis] = useState(false);
     const handleCheckbox = (e, id) => {
         if (e.target.checked) {
-            setCheck(id);
             setShow({ ...show, [id]: id });
+            setCheck(id);
             setDis(true);
         }
         else {
@@ -136,82 +135,111 @@ function PayInterest({ showContractId }) {
         });
     }
 
+    const formatMoney = (value) => {
+        return (value).toLocaleString('vi-VN') + ' VNĐ';
+    }
+
+    var showInputOrValue = ""
+
 
     return (
         <div className="contents">
             <h2> Lịch sử đóng tiền lãi</h2>
-            <Table className="table-detailContract">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>STT</TableCell>
-                        <TableCell>Ngày</TableCell>
-                        <TableCell>Tiền lãi</TableCell>
-                        <TableCell>Tiền khác</TableCell>
-                        <TableCell>Tổng tiền</TableCell>
-                        <TableCell>Tiền khách trả</TableCell>
-                        <TableCell></TableCell>
-                        <TableCell>Ghi Chú</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {
-                        interestDiary.map((item, index) => {
-                            return (
-                                <>
-                                    <TableRow>
-                                        <TableCell>{index + 1}</TableCell>
-                                        <TableCell>{moment(item.dueDate).format('MM/DD/YYYY')} - {moment(item.nextDueDate).format('MM/DD/YYYY')}</TableCell>
-                                        <TableCell>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.payment)}</TableCell>
-                                        <TableCell>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.penalty)}</TableCell>
-                                        <TableCell>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.totalPay)}</TableCell>
-                                        <TableCell>{
-                                            show[item.interestDiaryId] === item.interestDiaryId ?
-                                                <span>{values[item.interestDiaryId] ? Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(values[item.interestDiaryId]) : Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.paidMoney)}</span>
-                                                :
-                                                <input
-                                                    type="text"
-                                                    placeholder="0"
-                                                    style={{ padding: "5px" }}
-                                                    onChange={(e) => {
-                                                        setPaidMoney(e.target.value);
-                                                    }}
-                                                    /* value={paidMoney} */ />
-                                        }</TableCell>
-                                        <TableCell>
-                                            <FormGroup onClick={(e) => handleCheckbox(e, item.interestDiaryId)}>
-                                                <FormControlLabel control={<Checkbox />} />
-                                            </FormGroup>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Button onClick={() => handleNote(item.interestDiaryId)}>
-                                                <CreateIcon />
-                                            </Button >
-                                        </TableCell>
-                                    </TableRow>
-                                    {
-                                        showNote[`${item.interestDiaryId}`] === item.interestDiaryId ?
-                                            (<>
-                                                <TableRow style={{ height: "200px" }}>
-                                                    <h3 style={{ padding: "10px" }}>Upload hình ảnh chứng từ</h3>
-                                                    <UploadDropzone uploader={uploader}
-                                                        options={uploaderOptions}
-                                                        onUpdate={files => console.log(files.map(x => x.fileUrl).join("\n"))}
-                                                        onComplete={files => {
-                                                            handleImg(files, item.interestDiaryId);
-                                                            alert(files.map(x => x.fileUrl).join("\n"))
-                                                        }}
-                                                        width="600px"
-                                                        height="375px" />
-                                                </TableRow>
-                                            </>) : ""
-                                    }
-                                </>
-                            )
-                        })
-                    }
-                </TableBody>
-            </Table>
-        </div>
+            <TableContainer>
+                <Table
+                    sx={{ minWidth: '700px', '&:last-child td, &:last-child ': { border: 0 } }}
+                    aria-label="simple table"
+                >
+                    <TableHead
+                        sx={{ '&:last-child td, &:last-child th': { borderRadius: "10px" } }}
+                        style={{ borderRadius: "10px" }}
+                    >
+                        <TableRow
+                            sx={{ '&:last-child td, &:last-child th': { border: "1px solid rgba(0, 0, 0, 0.1)", background: "#167F92", textAlign: "center" } }}
+                            style={{ borderRadius: "5px" }}
+                        >
+                            <TableCell>STT</TableCell>
+                            <TableCell> Từ ngày - Đến ngày</TableCell>
+                            <TableCell>Tiền lãi</TableCell>
+                            <TableCell>Tiền khác</TableCell>
+                            <TableCell>Tổng tiền</TableCell>
+                            <TableCell>Tiền khách trả</TableCell>
+                            <TableCell>Đóng tiền</TableCell>
+                            <TableCell>Ghi Chú</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }} sx={{ '&:last-child td, &:last-child th': { background: "rgba(80, 157, 168, 0.2)" } }}>
+                        {
+                            interestDiary.map((item, index) => {
+                                if (show[item.interestDiaryId] === item.interestDiaryId) {
+                                    showInputOrValue = (<span>{values[item.interestDiaryId] ? formatMoney(values[item.interestDiaryId]) : formatMoney(item.paidMoney)}</span>)
+                                }
+                                else if (item.paidMoney != 0) {
+                                    setShowCheck(!showCheck)
+                                    setCheck(item.interestDiaryId);
+                                    setDis(true);
+                                    setShow({ ...show, [item.interestDiaryId]: item.interestDiaryId });
+                                    showInputOrValue = (<span>{values[item.interestDiaryId] ? formatMoney(values[item.interestDiaryId]) : formatMoney(item.paidMoney)}</span>)
+                                }
+                                else {
+                                    showInputOrValue = <input
+                                        style={{ padding: "5px", borderRadius: "5px", border: "1px solid rgba(0, 0, 0, 0.1)", backgroundColor: "rgba(80, 157, 168, 0.1)", borderRadius: "10px" }}
+                                        type="text"
+                                        placeholder="0"
+                                        /* value={item.paidMoney != 0 ? item.paidMoney : paidMoney} */
+                                        onChange={(e) => {
+                                            setPaidMoney(e.target.value);
+                                        }} />
+                                }
+                                return (
+                                    <>
+                                        <TableRow key={index} style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }} sx={{ '& td, & th': { textAlign: "center" } }}>
+                                            <TableCell>{index + 1}</TableCell>
+                                            <TableCell>{moment(item.dueDate).format('DD/MM/YYYY')} - {moment(item.nextDueDate).format('DD/MM/YYYY')}</TableCell>
+                                            <TableCell>{formatMoney(item.payment)}</TableCell>
+                                            <TableCell>{formatMoney(item.penalty)}</TableCell>
+                                            <TableCell>{formatMoney(item.totalPay)}</TableCell>
+                                            <TableCell style={{ textAlign: "center" }}>{
+                                                showInputOrValue
+                                            }</TableCell>
+                                            <TableCell>
+                                                <FormGroup onClick={(e) => handleCheckbox(e, item.interestDiaryId)}>
+                                                    <FormControlLabel control={<Checkbox style={{ marginLeft: "40px" }}
+                                                        onClick={() => { setShowCheck(!showCheck); console.log(showCheck) }}
+                                                        checked={showCheck ? true : false} />} />
+                                                </FormGroup>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Button onClick={() => handleNote(item.interestDiaryId)}>
+                                                    <CreateIcon />
+                                                </Button >
+                                            </TableCell>
+                                        </TableRow>
+                                        {
+                                            showNote[`${item.interestDiaryId}`] === item.interestDiaryId ?
+                                                (<>
+                                                    <TableRow style={{ height: "200px" }} sx={{ '&:last-child td, &:last-child th': { border: "1px solid rgba(0, 0, 0, 0.1)" } }} >
+                                                        <h3 style={{ padding: "10px" }}>Upload hình ảnh chứng từ</h3>
+                                                        <UploadDropzone uploader={uploader}
+                                                            options={uploaderOptions}
+                                                            onUpdate={files => console.log(files.map(x => x.fileUrl).join("\n"))}
+                                                            onComplete={files => {
+                                                                handleImg(files, item.interestDiaryId);
+                                                                alert(files.map(x => x.fileUrl).join("\n"))
+                                                            }}
+                                                            width="600px"
+                                                            height="375px" />
+                                                    </TableRow>
+                                                </>) : ""
+                                        }
+                                    </>
+                                )
+                            })
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div >
     )
 }
 

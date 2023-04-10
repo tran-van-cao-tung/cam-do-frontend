@@ -1,4 +1,3 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
@@ -10,29 +9,18 @@ import { Link } from 'react-router-dom';
 import edit from './../../../asset/img/edit.png';
 import ext from './../../../asset/img/ext.png';
 import './liststore.css';
-
+import ReactPaginate from 'react-paginate';
 
 const ListStore = () => {
     //
     const [list, setList] = useState([]);
-    
-    // const searchedProduct = list.filter((item) => {
-    //     if (searchTerm.value === "") return item;
-    //     if (
-    //         item.branchName
-    //             .toLowerCase()
-    //             .includes(searchTerm.toLowerCase())
-    //     ) return item;
-    // })
-
-
     // Axios
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/getChain',
+            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/branch/getChain',
             headers: {
-                "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },
         }).then((res) => {
             setList(res.data);
@@ -42,20 +30,30 @@ const ListStore = () => {
     // ==================================
     // |  Filter Value Radio and Search |
     // ==================================
-    const [searchTerm, setSearchTerm] = useState("");
-    const [statusFilter, setStatusFilter] = useState("all");
-    const filteredData = list.filter((item) => {
-        if (statusFilter === "all") return true;
-        return item.status === (statusFilter === "active" ? 0 : 1);
-    }).filter((item)=>{
-        if (searchTerm.value === "") return item;
-        if (
-            item.branchName
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase())
-        )return item;
-    });
+    const [searchTerm, setSearchTerm] = useState('');
+    const [statusFilter, setStatusFilter] = useState('all');
+    const filteredData = list
+        .filter((item) => {
+            if (statusFilter === 'all') return true;
+            return item.status === (statusFilter === 'active' ? 0 : 1);
+        })
+        .filter((item) => {
+            if (searchTerm.value === '') return item;
+            if (item.branchName.toLowerCase().includes(searchTerm.toLowerCase())) return item;
+        });
+    // ==================================
+    // |            Phân Trang        |
+    // ==================================
+    const [currentPage, setCurrentPage] = useState('');
+    const storesPerPage = 4; // số lượng cửa hàng hiển thị trên mỗi trang
+    const totalPages = Math.ceil(filteredData.length / storesPerPage); // tính toán số lượng trang
+    const startIndex = currentPage * storesPerPage;
+    const endIndex = startIndex + storesPerPage;
+    const currentPageData = filteredData.slice(startIndex, endIndex);
 
+    const handlePageClick = ({ selected: selectedPage }) => {
+        setCurrentPage(selectedPage);
+    };
     return (
         <>
             <h1 className="liststorebody-h1">Danh sách cửa hàng</h1>
@@ -71,11 +69,13 @@ const ListStore = () => {
                         {/* From status  */}
                         <span className="fromstatus">
                             <FormControl className="form-iteam">
-                                <RadioGroup className="radio-item"
+                                <RadioGroup
+                                    className="radio-item"
                                     aria-label="filter"
                                     name="filter"
                                     value={statusFilter}
-                                    onChange={(event) => setStatusFilter(event.target.value)}>
+                                    onChange={(event) => setStatusFilter(event.target.value)}
+                                >
                                     <FormControlLabel
                                         value="all"
                                         control={<Radio />}
@@ -107,7 +107,6 @@ const ListStore = () => {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-
                     </div>
                 </div>
                 {/* ================================ */}
@@ -117,7 +116,9 @@ const ListStore = () => {
                     <table className="responstable">
                         <tr>
                             <th>STT</th>
-                            <th data-th="Driver details"><span>Cửa hàng</span></th>
+                            <th data-th="Driver details">
+                                <span>Cửa hàng</span>
+                            </th>
                             <th>Địa chỉ</th>
                             <th>Số điện thoại</th>
                             <th>Vốn đầu tư</th>
@@ -125,37 +126,51 @@ const ListStore = () => {
                             <th>Tình trạng</th>
                             <th>Chức năng</th>
                         </tr>
-                        {
-                            filteredData.map((i) => (
-                                <tr key={i.branchId}>
-                                    <td>{i.branchId}</td>
-                                    <td>{i.branchName}</td>
-                                    <td>{i.address}</td>
-                                    <td>{i.phoneNumber}</td>
-                                    <td>{i.fund}</td>
-                                    <td>{moment(i.createDate).format('DD/MM/YYYY')}</td>
-                                    <td>
-                                        {i.status === 1 ? (
-                                            <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                                        ) : (
-                                            <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
-                                        )}
-                                    </td>
-                                    <td>
-                                        <div className="MuiTableBody_root-itemLast">
-                                            <Link to={`/detailsStore/${i.branchId}`}>
-                                                <img src={ext} alt="..." />
-                                            </Link>
-                                            <Link to={`/editliststore/edit/${i.branchId}`}>
-                                                <img src={edit} alt="Edit" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
-                        }
+                        {currentPageData.map((item, index) => (
+                            <tr key={index.branchId}>
+                                <td>{index + 1}</td>
+                                <td>{item.branchName}</td>
+                                <td>{item.address}</td>
+                                <td>{item.phoneNumber}</td>
+                                <td>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(item.fund)}</td>
+                                <td>{moment(item.createDate).format('DD/MM/YYYY')}</td>
+                                <td>
+                                    {item.status === 1 ? (
+                                        <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                    ) : (
+                                        <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
+                                    )}
+                                </td>
+                                <td>
+                                    <div className="MuiTableBody_root-itemLast">
+                                        <Link to={`/detailsStore/${item.branchId}`}>
+                                            <img src={ext} alt="..." />
+                                        </Link>
+                                        <Link to={`/editliststore/edit/${item.branchId}`}>
+                                            <img src={edit} alt="Edit" />
+                                        </Link>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
                     </table>
                 </div>
+                {/* ================================ */}
+                {/* =            Phân Trang        = */}
+                {/* ================================ */}
+                <ReactPaginate
+                    className="paginate-listStore"
+                    previousLabel={'Trang trước'}
+                    nextLabel={'Trang sau'}
+                    breakLabel={'...'}
+                    breakClassName={'break-me'}
+                    pageCount={totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                />
             </div>
         </>
     );

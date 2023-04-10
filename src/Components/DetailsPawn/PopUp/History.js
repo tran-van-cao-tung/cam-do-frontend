@@ -6,6 +6,7 @@ import './popup.css'
 import callAPI from '../../../API';
 
 function History({ showContractId }) {
+
   //Ép kiểu dữ liệu date
   const formatDate = (value) => {
     return moment(value).format('MM/DD/YYYY');
@@ -83,12 +84,10 @@ function History({ showContractId }) {
       method: 'get',
       url: `logContract/logContractById/${id}`,
     }).then((res) => {
-      setRowws([res.data])
+      setRowws(res.data)
     });
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/logContract/logContractById/${id}`).then((res) => {
-      setRowws([res.data])
-    })
   }, [showContractId])
+  console.log(rows)
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid

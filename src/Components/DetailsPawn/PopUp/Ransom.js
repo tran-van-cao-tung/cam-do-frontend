@@ -48,7 +48,7 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
             setRansom(res.data);
             // console.log('aaaaa', res.data);
         });
-        
+
         API({
             method: 'get',
             url: '/contract/getContractInfoByContractId/' + setshowdetailContract,
@@ -125,6 +125,10 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
         });
     }
 
+    const formatMoney = (value) => {
+        return (value).toLocaleString('vi-VN') + ' VNĐ';
+    }
+
     return (
         console.log(packageInt),
         <div>
@@ -155,13 +159,7 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
                 </Grid>
                 <Grid item xs={3} sx={{ textAlign: 'left' }}>
                     <Item sx={{ textAlign: 'center', color: '#107287', fontSize: '25px', fontWeight: 400 }}>
-                        <CurrencyFormat
-                            sx={{ textAlign: 'left', fontSize: '25px' }}
-                            value={ransomDetail.payment}
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            renderText={(value) => <div>{value}VNĐ</div>}
-                        />{' '}
+                    {ransomDetail.payment ? formatMoney(ransomDetail.payment) : "0 VNĐ"}
                     </Item>
                 </Grid>
                 <Grid item xs={3} sx={{ textAlign: 'center', alignItems: 'center' }}>
@@ -169,13 +167,7 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
                 </Grid>
                 <Grid item xs={3} sx={{ textAlign: 'left' }}>
                     <Item sx={{ textAlign: 'center', fontSize: '25px', color: '#107287' }}>
-                        <CurrencyFormat
-                            sx={{ textAlign: 'left', fontSize: '25px' }}
-                            value={ransomDetail.paidMoney}
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            renderText={(value) => <div>{value}VNĐ</div>}
-                        />
+                        {ransomDetail.paidMoney ? formatMoney(ransomDetail.paidMoney) : "0 VNĐ"}
                     </Item>
                 </Grid>
             </Grid>
@@ -186,13 +178,7 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
                 <Grid item xs={6}>
                     {' '}
                     <Item sx={{ textAlign: 'left', fontSize: '25px', color: '#E83A3A' }}>
-                        <CurrencyFormat
-                            sx={{ textAlign: 'left', fontSize: '25px' }}
-                            value={ransomDetail.totalPay}
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            renderText={(value) => <div>{value}VNĐ</div>}
-                        />
+                        {ransomDetail.totalPay ? formatMoney(ransomDetail.totalPay) : "0 VNĐ"}
                     </Item>
                 </Grid>
             </Grid>
@@ -216,17 +202,17 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
                     </Item>{' '}
                 </Grid>
                 <Grid item xs={12}>
-                {(packageInt >= 7 && totalRecived == (totalProfit/2)) && 
-                <Button
-                        sx={{
-                            color: 'black',
-                            backgroundColor: '#107287',
-                        }}
-                        onClick={handleSubmit}
-                    >
-                        Chuộc đồ
-                    </Button>}
-                    
+                    {(packageInt >= 7 && totalRecived == (totalProfit / 2)) &&
+                        <Button
+                            sx={{
+                                color: 'black',
+                                backgroundColor: '#107287',
+                            }}
+                            onClick={handleSubmit}
+                        >
+                            Chuộc đồ
+                        </Button>}
+
                 </Grid>
             </Grid>
         </div>

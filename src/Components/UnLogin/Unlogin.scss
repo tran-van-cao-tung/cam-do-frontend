@@ -1,0 +1,61 @@
+.container-un {
+    width: 100%;
+    text-align: center;
+    margin-top: 10%;
+    .content-unlogin {
+        background: white;
+        margin: 0 30%;
+        box-shadow: -14px 12px 7px 5px #888888;
+        .from-unlogin {
+            height: 325px;
+            display: grid;
+            justify-content: center;
+            gap: 10px;
+            .content-unlogin_p {
+                margin: 0 81px;
+                p {
+                    font-family: 'Frank Ruhl Libre';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 40px;
+                    line-height: 52px;
+                    display: flex;
+                    align-items: center;
+                    text-align: center;
+                    color: #256eb2;
+                    margin-top: 20px;
+                }
+            }
+            input {
+                width: 90%;
+                height: 65px;
+                border-radius: 30px;
+                border: 1px solid rgba(80, 157, 168, 0.6);
+                padding: 10px 20px;
+                margin: 0 24px 10px;
+                font-size: 25px;
+                &::placeholder {
+                    font-size: 15px;
+                }
+            }
+            .content-unlogin_text {
+                transform: translateX(150px);
+                a {
+                    // text-decoration: underline;
+                }
+            }
+            .btn_unlogin {
+                width: 180px;
+                border-radius: 30px;
+                padding: 9px;
+                margin-left: 50%;
+                margin-bottom: 20px;
+                transform: translateX(-50%);
+                border: none;
+                color: rgba(80, 157, 168, 0.6);
+                font-size: 20px;
+                background: #e7e7e7;
+            }
+        }
+    }
+}
