@@ -9,7 +9,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AiOutlineSearch } from 'react-icons/ai';
-
+import API from '../../API';
+import moment from 'moment/moment';
 // import { Link } from "react-router-dom";
 
 const TableReport = ({ setShowUpdateContract }) => {
@@ -19,19 +20,16 @@ const TableReport = ({ setShowUpdateContract }) => {
     const handleChange = (newValue) => {
         setValue(newValue);
     };
-    const [value1, setValue1] = React.useState();
+    const [value1, setValue1] = useState();
 
     const handleChange1 = (newValue) => {
         setValue1(newValue);
     };
     //Axios
     useEffect(() => {
-        axios({
+        API({
             method: 'GET',
-            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/report/getAll/transaction/0',
-            headers: {
-                Authorization: `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2Y2E4NWE5YS1hMWNhLTQ1ODYtODhkZi01YzQyYzkyNTJiNTUiLCJuYmYiOjE2ODA1MzQ1MzQsImV4cCI6MTY4MDU0MTczNCwiaWF0IjoxNjgwNTM0NTM0fQ.m5JaSAuw7-HUi1kiWZxRPxz9LCasTIvoQAQ81t1c89jZctsM48NzZEFxLYSVno2fWRYc3wMc_E72bB2ssVw0wA`,
-            },
+            url: '/report/getAll/transaction/0',
         }).then((response) => {
             setList(response.data);
             setSearchAPIData(response.data);
@@ -63,10 +61,11 @@ const TableReport = ({ setShowUpdateContract }) => {
             field: 'contractCode',
             headerName: 'Mã HĐ',
             minWidth: 100,
+            // type: 'text',
             align: 'center',
         },
         {
-            field: 'detailContrac',
+            field: 'detailContract',
             headerName: 'Xem HĐ',
             type: 'actions',
             getActions: (params, index) => [
@@ -104,6 +103,9 @@ const TableReport = ({ setShowUpdateContract }) => {
             headerName: 'Ngày Cầm',
             minWidth: 210,
             align: 'center',
+            valueFormatter: (params) => {
+                moment(params?.value).format('DD/MM/YYYY ');
+            },
         },
         {
             field: 'endDate',
@@ -215,7 +217,7 @@ const TableReport = ({ setShowUpdateContract }) => {
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
-                    style={{ align: 'center' }}
+                    // style={{ align: 'center' }}
                 />
             </div>
         </div>

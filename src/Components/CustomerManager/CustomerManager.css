@@ -52,3 +52,38 @@ div[title='F'] {
     width: 100%;
     color: white
 }
+
+.customer_search {
+    display: flex;
+    align-items: center;
+    padding-left: 76px;
+    padding-top: 24px;
+    margin-bottom: 16px;
+}
+
+.customer_search input {
+    padding: 15px 20px;
+    margin-right: 10px;
+}
+
+.customer_search-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 224px;
+    height: 54px;
+    background: #50C2DA;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 39px;
+    padding: 0 13px;
+    color: #FFFBFB;
+}
+
+.customer_search-btn:hover {
+    opacity: 0.7
+}

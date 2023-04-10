@@ -3,6 +3,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { json, Link } from 'react-router-dom';
 import edit from './../../asset/img/edit.png';
+import API from '../../../src/API.js';
 
 function ListCustomer({ numPage }) {
     const [customers, setCustomers] = useState([]);
@@ -19,12 +20,9 @@ function ListCustomer({ numPage }) {
     // }, []);
 
     useEffect(() => {
-        axios({
+        API({
             method: 'GET',
-            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/customer/getAll/0',
-            headers: {
-                Authorization: `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2Y2E4NWE5YS1hMWNhLTQ1ODYtODhkZi01YzQyYzkyNTJiNTUiLCJuYmYiOjE2ODA1MzQ1MzQsImV4cCI6MTY4MDU0MTczNCwiaWF0IjoxNjgwNTM0NTM0fQ.m5JaSAuw7-HUi1kiWZxRPxz9LCasTIvoQAQ81t1c89jZctsM48NzZEFxLYSVno2fWRYc3wMc_E72bB2ssVw0wA`,
-            },
+            url: '/customer/getAll/0',
         }).then((response) => {
             setCustomers(response.data);
             setSearchAPIData(response.data);

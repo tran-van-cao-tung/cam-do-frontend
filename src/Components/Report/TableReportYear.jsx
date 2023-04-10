@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import API from '../../API';
 
 const TableReportYear = () => {
     const [list, setList] = useState([]);
 
     //Axios
     useEffect(() => {
-        axios({
+        API({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/report/report/month/1',
-            headers: {
-                Authorization: `Bearer 3fa85f64-5717-4562-b3fc-2c963f66afa6`,
-            },
+            url: '/report/month/1',
         }).then((response) => {
             setList(response.data);
         });
