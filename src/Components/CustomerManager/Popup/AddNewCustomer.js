@@ -12,24 +12,6 @@ import { UploadButton, UploadDropzone } from 'react-uploader';
 import API from '../../../API';
 
 const AddNewCustomer = () => {
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: '22px 0 22px 27px',
-        borderRadius: '10px',
-        color: theme.palette.text.secondary,
-        height: 700,
-    }));
-
-    // const handleShow = () => {
-    //     setShowBanReason(true);
-    // };
-    const onHandleNewFile = () => {
-        return <input type="file" />;
-    };
-
-    // upload img
-
     const uploader = Uploader({ apiKey: 'public_W142hmnA4cUzeNeYbEgGT17DUUbE' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
@@ -44,7 +26,6 @@ const AddNewCustomer = () => {
             },
         },
     };
-
     const [img, setImg] = useState([]);
     const [fullname, setFullName] = useState('');
     const [cccd, setCccd] = useState('');
@@ -52,10 +33,10 @@ const AddNewCustomer = () => {
     const [address, setAddress] = useState('');
     const [faceImg, setFaceImg] = useState('');
 
-    // API upload img
     function uploadCusImg(customerImg) {
         setFaceImg(customerImg);
     }
+
     const onAddNewCustomer = () => {
         console.log('fullname', fullname);
         // alert(faceImg);
@@ -81,28 +62,19 @@ const AddNewCustomer = () => {
         //         alert('Tạo KH fail');
         //     });
     };
-    const handleName = (event) => {
+
+    const handleChange = event => {
         setFullName(event.target.value);
 
         console.log('value is:', event.target.value);
     };
-    const handleCccd = (e) => {
-        setCccd(e.target.value);
-    };
-    const handlePhone = (e) => {
-        setPhone(e.target.value);
-    };
-    const handleAddress = (e) => {
-        setAddress(e.target.value);
-    };
 
     return (
-        <div className="headerCustomer">
-            <h1 className="headerCustomerName">Thêm Mới Khách Hàng</h1>
-            <div>
-                <Item className="parperCustomer">
-                    <div className="infoCustomer">
-                        <div className="userInfo">
+        <div>
+            <h1>Thêm mới khách hàng</h1>
+            <div className="headerCustomer">
+                <div>
+                        <div className="infoCustomer">
                             <div className="userInfoLabel">
                                 <p>
                                     Tên khách hàng <span class="starRed">*</span>:
@@ -121,29 +93,26 @@ const AddNewCustomer = () => {
                                 </p>
                             </div>
                             <div className="userInfoInput">
-                                <input
+                            <input
                                     type="text"
                                     placeholder="Nhập tên khách hàng..."
                                     name="fullname"
                                     value={fullname}
-                                    onchange={handleName}
+                                    onChange={handleChange}
                                 />
                                 <input
                                     type="text"
                                     placeholder="Nhập CMND/Hộ chiếu..."
-                                    onchange={(e) => setCccd(e.target.value)}
                                     value={cccd}
                                 />
                                 <input
                                     type="text"
                                     placeholder="Nhập số điện thoại..."
-                                    onchange={handlePhone}
                                     // value={phone}
                                 />
                                 <input
                                     type="text"
                                     placeholder="Nhập địa chỉ..."
-                                    onchange={handleAddress}
                                     // value={address}
                                 />
                                 <div className="chungtu">
@@ -158,7 +127,7 @@ const AddNewCustomer = () => {
                             </div>
                         </div>
                         <div className="comfirmBtn">
-                            <button className="saveBtn" onClick={onAddNewCustomer}>
+                        <button className="saveBtn" onClick={onAddNewCustomer}>
                                 <img src={saveBtn} alt="" />
                                 Lưu lại
                             </button>
@@ -169,10 +138,10 @@ const AddNewCustomer = () => {
                                 </button>
                             </Link>
                         </div>
-                    </div>
-                </Item>
+                </div>
             </div>
         </div>
+
     );
 };
 

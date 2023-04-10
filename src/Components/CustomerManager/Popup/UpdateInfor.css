@@ -28,7 +28,7 @@ html {
 .userInfoInput {
     display: grid;
     grid-gap: 20px;
-    width: 50%;
+    width: 40%;
 }
 
 .userInfoInput>input {
@@ -380,4 +380,12 @@ html {
 
 .headerCustomer .table .responstable {
     font-size: 15px;
+}
+
+.headerCustomer{
+    display: block;
+    flex: 1 1;
+    padding: 15px;
+    background-color: white;
+    border-radius: 5px;
 }
