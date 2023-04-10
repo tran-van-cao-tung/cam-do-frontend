@@ -27,7 +27,7 @@ html {
 .userInfoInput {
     display: grid;
     grid-gap: 20px;
-    width: 50%;
+    width: 40%;
 }
 
 .userInfoInput>input {

@@ -12,24 +12,6 @@ import { UploadButton, UploadDropzone } from 'react-uploader';
 import API from '../../../API';
 
 const AddNewCustomer = () => {
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: '22px 0 22px 27px',
-        borderRadius: '10px',
-        color: theme.palette.text.secondary,
-        height: 700,
-    }));
-
-    // const handleShow = () => {
-    //     setShowBanReason(true);
-    // };
-    const onHandleNewFile = () => {
-        return <input type="file" />;
-    };
-
-    // upload img
-
     const uploader = Uploader({ apiKey: 'public_W142hmnA4cUzeNeYbEgGT17DUUbE' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
@@ -49,6 +31,7 @@ const AddNewCustomer = () => {
     function uploadCusImg(customerImg) {
         setFaceImg(customerImg);
     }
+
     const onAddNewCustomer = () => {
         console.log('fullname', name);
         // alert(faceImg);
@@ -85,15 +68,6 @@ const AddNewCustomer = () => {
         setName(e.target.value);
 
         console.log('value is:', e.target.value);
-    };
-    const handleCccd = (e) => {
-        setCccd(e.target.value);
-    };
-    const handlePhone = (e) => {
-        setPhone(e.target.value);
-    };
-    const handleAddress = (e) => {
-        setAddress(e.target.value);
     };
 
     return (
@@ -139,13 +113,13 @@ const AddNewCustomer = () => {
                                     <input
                                         type="text"
                                         placeholder="Nhập số điện thoại..."
-                                        onChange={handlePhone}
+                                        // onChange={handlePhone}
                                         // value={phone}
                                     />
                                     <input
                                         type="text"
                                         placeholder="Nhập địa chỉ..."
-                                        onChange={handleAddress}
+                                        // onChange={handleAddress}
                                         // value={address}
                                     />
                                     <div className="chungtu">
