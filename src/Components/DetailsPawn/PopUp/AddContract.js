@@ -62,7 +62,7 @@ const AddContract = ({ setShowAddContract }) => {
       description: "string",
     }
     console.log(data);
-    axios.post(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/contract/createContract`, data, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
+    axios.post(`http://tranvancaotung-001-site1.atempurl.com/api/v1/contract/createContract`, data, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       console.log("thành công");
       window.location.reload(false);
     })
@@ -70,7 +70,7 @@ const AddContract = ({ setShowAddContract }) => {
 
   //get dữ liệu pawnableProduct
   useEffect(() => {
-    axios.get('http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getAll/0', { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
+    axios.get('http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/getAll/0', { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setPawnableProduct(res.data);
     })
   }, [])
@@ -78,14 +78,14 @@ const AddContract = ({ setShowAddContract }) => {
 
   //get dữu liệu package
   useEffect(() => {
-    axios.get('http://tranvancaotung-001-site1.ftempurl.com/api/v1/package/getAll/0', { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
+    axios.get('http://tranvancaotung-001-site1.atempurl.com/api/v1/package/getAll/0', { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setPackage(res.data);
     })
   }, [])
 
   //get dữ liệu Lấy userId 
   useEffect(() => {
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
+    axios.get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/user/getAll/0`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setUser(res.data.filter((item, index) => {
         return item.userId === localStorage.getItem("userId");
       })[0])
@@ -135,7 +135,7 @@ const AddContract = ({ setShowAddContract }) => {
   //Get dữ liệu customer bằng cccd
   const handleCustomer = (e) => {
     let value = e.target.value;
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/customer/getByCCCD/${value}`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
+    axios.get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/customer/getByCCCD/${value}`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setCustomer(res.data);
     }).catch(err => console.log(err));
   }
@@ -143,11 +143,10 @@ const AddContract = ({ setShowAddContract }) => {
 
   //get dữ liệu seri bằng dựa vào loại tài sản
   const handleSeri = (e) => {
-    axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getPawnAbleProductById/${e.target.value}`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
+    axios.get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/getPawnAbleProductById/${e.target.value}`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setAttributes(res.data.attributes);
       setContract({ ...contract, "pawnableProductId": e.target.value })
     }).catch(err => console.log(err));
-    console.log(attributes);
   }
 
 

@@ -23,7 +23,7 @@ function Commodity() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/getDetailById/${param.id}`,
+            url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/branch/getDetailById/${param.id}`,
             headers: {
                 "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
             },

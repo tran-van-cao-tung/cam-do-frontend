@@ -22,7 +22,7 @@ const EditCommondity = () => {
     async function callAPI() {
       await axios({
         method: 'get',
-        url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getPawnAbleProductById/${params.id}`,
+        url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/getPawnAbleProductById/${params.id}`,
         headers: {
           "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
       },
@@ -39,7 +39,7 @@ const EditCommondity = () => {
   const handleSubmitEdit = () => {
     axios({
       method: 'put',
-      url: `http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/updatePawnableProduct/${params.id}`,
+      url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/updatePawnableProduct/${params.id}`,
       headers: {
         "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
     },
@@ -143,4 +143,4 @@ const EditCommondity = () => {
 export default EditCommondity;
 
 //Cập nhật API cấu hình hàng hoá
-// API cấu hình hàng hoá : http://tranvancaotung-001-site1.ftempurl.com/api/v1/pawnableProduct/getAll/1
+// API cấu hình hàng hoá : http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/getAll/1

@@ -9,6 +9,7 @@ import UpdateContract from "./PopUp/UpdateContract";
 import Liquidation from "./PopUp/Liquidation";
 import DetailContract from "./PopUp/DetailContract"
 import Expiration from "./PopUp/Expiration";
+import callAPI from "../../API";
 const DetailsPawn = () => {
 
   const [showAddContract, setShowAddContract] = useState(false)
@@ -19,11 +20,11 @@ const DetailsPawn = () => {
   const [showContractId, setShowContractId] = useState();
 
 
-  console.log(showExpiration)
 
-  /* useEffect(()=>{
-    console.log(showContractId)
-  },[showContractId]) */
+  const [searchedProduct,setSearchedProduct] = useState();
+  const [rowsContract, setContract] = useState([]);
+  console.log(rowsContract)
+  console.log(searchedProduct)
 
   return (
     <div className="details-pawn">
@@ -32,11 +33,11 @@ const DetailsPawn = () => {
       </div>
       <div>
         <ContentPawn />
-        <BtnDetails />
+        <BtnDetails rowsContract={rowsContract} setContract={setContract} />
       </div>
 
       <TablePawn setShowUpdateContract={setShowUpdateContract} setShowliquidation={setShowliquidation} setshowdetailContract={setshowdetailContract}
-        setShowContractId={setShowContractId} setShowExpiration={setShowExpiration} />
+        setShowContractId={setShowContractId} setShowExpiration={setShowExpiration} setContract={setContract} rowsContract={rowsContract}/>
       {
         showAddContract && <AddContract setShowAddContract={setShowAddContract} />
       }

@@ -12,7 +12,7 @@ function ListCustomer({ numPage }) {
 
     // useEffect(() => {
     //     const fetchData = async () => {
-    //         const result = await axios.get(`http://tranvancaotung-001-site1.ftempurl.com/api/v1/customer/getAll/0`);
+    //         const result = await axios.get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/customer/getAll/0`);
     //         setCustomers(result.data);
     //         setSearchAPIData(result.data);
     //     };

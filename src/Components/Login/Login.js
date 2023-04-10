@@ -1,8 +1,9 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.scss';
 import API from '../../API';
+import callAPI from '../../API';
 
 const Login = () => {
     const [userName, setUserName] = useState()
@@ -10,6 +11,17 @@ const Login = () => {
     const history = useNavigate();
 
 
+    const [branch, setBranch] = useState([]);
+    useEffect(() => {
+        callAPI({
+            method: 'get',
+            url: `/branch/getAll/0`,
+        }).then((res) => {
+            setBranch(res.data);
+        });
+    }, [])
+
+    
     const hanldeSubmit = (e) => {
         e.preventDefault();
         const data = {
@@ -23,6 +35,12 @@ const Login = () => {
         }).then(res => {
             localStorage.setItem('accessToken', res.data.token.accessToken)
             localStorage.setItem('userName', res.data.account.userName);
+            if (res.data.account.userName === "Admin") {
+                localStorage.setItem('branchId', branch[0].branchId);
+            }
+            else{
+                localStorage.setItem('branchId', res.data.account.branchId);
+            }
             if (res.data.account.userId) {
                 localStorage.setItem('userId', res.data.account.userId);
             }

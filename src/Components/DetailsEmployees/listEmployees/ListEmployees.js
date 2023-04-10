@@ -31,7 +31,7 @@ function ListEmployees() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/user/getAll/0',
+            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/user/getAll/0',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },
@@ -64,7 +64,7 @@ function ListEmployees() {
             <h1 className="employee_heading">Danh sách nhân viên</h1>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Item>
+                    <div className="list_box-employee">
                         <button
                             className="employee_button"
                             onClick={() => {
@@ -85,12 +85,6 @@ function ListEmployees() {
                                     <label className="check3">Tạm khóa</label>
                                 </div>
                                 <div className="employee_search-select">
-                                    {/* <select className="employee_search-option">
-                                        <option>TP. Hồ Chí Minh</option>
-                                        <option>TP. Đà Nẵng</option>
-                                        <option>TP. Hà Nội</option>
-                                    </select> */}
-                                    {/* <input type="text" placeholder="Tìm kiếm..." className="employee_search-input" /> */}
                                     <input
                                         type="text"
                                         placeholder="I'm looking for...."
@@ -100,11 +94,13 @@ function ListEmployees() {
                                 </div>
                             </div>
                             {/* <button className="employee_search-btn">
-                                <span>Tìm kiếm </span>
-                                <img src={search} alt="search" />
-                            </button> */}
+                                    <span>Tìm kiếm </span>
+                                    <img src={search} alt="search" />
+                                </button> */}
                         </form>
-
+                        {/* ================================ */}
+                        {/* =            Table Show        = */}
+                        {/* ================================ */}
                         <div className="table _table-Listemoloyess">
                             <table className="responstable">
                                 <tr>
@@ -140,7 +136,6 @@ function ListEmployees() {
                                                 )}
                                             </td>
                                             <td>
-                                                {/* >>>>>>> re-main */}
                                                 <div className="MuiTableBody_root-itemLast">
                                                     <Link to={`/editemployee/${i.userId}`}>
                                                         <img src={edit} alt="Edit" />
@@ -152,7 +147,7 @@ function ListEmployees() {
                                 })}
                             </table>
                         </div>
-                    </Item>
+                    </div>
                 </Grid>
             </Grid>
         </div>
