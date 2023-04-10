@@ -10,15 +10,16 @@ import edit from './../../../asset/img/edit.png';
 import ext from './../../../asset/img/ext.png';
 import './liststore.css';
 import ReactPaginate from 'react-paginate';
+import API from '../../../API';
 
 const ListStore = () => {
     //
     const [list, setList] = useState([]);
     // Axios
     useEffect(() => {
-        axios({
+        API({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.ftempurl.com/api/v1/branch/getChain',
+            url: '/branch/getChain',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },
