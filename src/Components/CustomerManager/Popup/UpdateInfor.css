@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap");
-
 html {
     box-sizing: border-box;
 }
@@ -333,9 +332,15 @@ html {
     border-radius: 10px;
 }
 
+
 /* =====================================*/
+
+
 /* |             Add and Search        |*/
+
+
 /* =====================================*/
+
 .ListCustomer {
     padding-left: 18px;
     display: flex;
@@ -371,8 +376,13 @@ html {
 
 
 /* =====================================*/
+
+
 /* |              Table Show           |*/
+
+
 /* =====================================*/
+
 .headerCustomer .table {
     margin: 0;
     width: 115%;
@@ -380,4 +390,14 @@ html {
 
 .headerCustomer .table .responstable {
     font-size: 15px;
+}
+
+
+/* ///////////////////////////////////   Add new Customer   /////////////////////////////////// */
+
+.parperCustomer {
+    background-color: white;
+    padding: 22px 0 22px 27px;
+    border-radius: 10px;
+    height: 900px,
 }
