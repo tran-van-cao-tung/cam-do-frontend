@@ -12,6 +12,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import axios from 'axios';
 
 import { Divider } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const AddList = () => {
     // const [id, setId] = useState();
@@ -75,6 +76,7 @@ const AddList = () => {
         setName(e.target.value);
         // console.log(name);
     };
+
     const handleOnChangePhone = (e) => {
         setPhone(e.target.value);
         // console.log(phone);
@@ -86,7 +88,8 @@ const AddList = () => {
     const [fundError, setFundError] = useState('');
     const handleOnChangeFund = (e) => {
         const value = JSON.parse(e.target.value);
-        if (value > 10000000000) {
+        console.log(typeof value);
+        if (value > 1000000000000) {
             setFundError('Số tiền không được vượt quá 10 tỷ');
         } else {
             setFundError('');
@@ -143,10 +146,10 @@ const AddList = () => {
                             </FormLabel>
                             <InputBase
                                 placeholder="Nhập số điện thoại …"
-                                inputProps={{ 'aria-label': 'search', maxLength: 12 }}
+                                // inputProps={{ 'aria-label': 'search', maxLength: 12 }}
                                 className="add-input"
                                 type="number"
-                                // value={phone}
+                                value={phone}
                                 onChange={handleOnChangePhone}
                             />
                             {phone.length < 10 ||
@@ -178,11 +181,22 @@ const AddList = () => {
                             <FormLabel className="label">
                                 Số vốn đầu tư&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
+                            {/* <input
+                                placeholder="Nhập số vốn đầu tư"
+                                className="add-input"
+                                type="number"
+                                value={fund}
+                                onChange={handleOnChangeFund}
+                                // pattern="/^-?\d+\.?\d*$/"
+                                // onKeyPress={ target.value.length==4 ?  false : true }
+                                // if(this.value.length==4) return false;
+                            /> */}
                             <InputBase
                                 placeholder="Nhập số vốn đầu tư"
                                 inputProps={{ 'aria-label': 'search', max: 10000000000, maxLength: 12 }}
                                 className="add-input"
                                 type="number"
+                                onKeyPress="if(this.value.length==12) return false;"
                                 // value={fund}
                                 onChange={handleOnChangeFund}
                             />
@@ -220,9 +234,11 @@ const AddList = () => {
                             Lưu lại
                         </Button>
 
-                        <Button className="back-btn" variant="contained" href="/liststore">
-                            Quay lại
-                        </Button>
+                        <Link to="/liststore">
+                            <Button className="back-btn" variant="contained">
+                                Quay lại
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>
