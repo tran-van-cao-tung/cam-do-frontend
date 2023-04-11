@@ -41,6 +41,7 @@ const Menuh = () => {
 
   const [branch, setBranch] = useState([]);
   const [branchUser, setBranchUser] = useState([]);
+  const branchID = localStorage.getItem("branchId");
   useEffect(() => {
     callAPI({
       method: 'get',
@@ -51,15 +52,13 @@ const Menuh = () => {
         return item.branchId == localStorage.getItem("branchId");
       })[0])
     });
-  }, [])
+  }, [branchID])
 
 
   console.log(branchUser)
   
   const handleBranch = (e) => {
     localStorage.setItem('branchId', e.target.value);
-    window.location.reload(false);
-    
   }
 
   return (
@@ -73,7 +72,7 @@ const Menuh = () => {
           <img src={homemenu} alt="Home" />
           {
             localStorage.getItem("userName") === "Admin" ?
-              <select onChange={handleBranch} value={localStorage.getItem("branch")}>
+              <select onChange={handleBranch} >
                 <option style={{textAlign:"center"}}>--Cửa hàng--</option>
                 {
                   branch.map((item, index) => {

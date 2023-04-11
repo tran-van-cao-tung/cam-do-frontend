@@ -16,6 +16,19 @@ const Home = () => {
       console.log("Login with token")
     }
   }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("userName") === "Admin") {
+      callAPI({
+        method: 'get',
+        url: `/branch/getAll/0`,
+      }).then((res) => {
+        localStorage.setItem('branchId', res.data[0].branchId);
+      });
+    }
+  }, [localStorage.getItem("userName")])
+  
+  
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -23,8 +36,8 @@ const Home = () => {
     borderRadius: "10px",
     color: theme.palette.text.secondary,
   }));
-
-
+  
+  
   const [logContract, setLogContract] = useState([])
   useEffect(() => {
     const branchId = localStorage.getItem("branchId");
@@ -39,20 +52,20 @@ const Home = () => {
   console.log(logContract)
 
   //Lấy username của loginUser dựa vào localStorage
-/*   const [branchId, setBranchId] = useState('')
-  useEffect(() => {
-    callAPI({
-      method: 'get',
-      url: `/user/getAll/0`,
-    }).then((res) => {
-      if (localStorage.getItem('userName') != "Admin") {
-        setBranchId(res.data.filter(log => {
-          return log.userName === localStorage.getItem('userName');
-        })[0].branchId)
-      }
-    });
-
-  }, []) */
+  /*   const [branchId, setBranchId] = useState('')
+    useEffect(() => {
+      callAPI({
+        method: 'get',
+        url: `/user/getAll/0`,
+      }).then((res) => {
+        if (localStorage.getItem('userName') != "Admin") {
+          setBranchId(res.data.filter(log => {
+            return log.userName === localStorage.getItem('userName');
+          })[0].branchId)
+        }
+      });
+  
+    }, []) */
 
   const [homePage, setHomePage] = useState();
   useEffect(() => {

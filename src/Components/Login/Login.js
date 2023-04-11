@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.scss';
 import API from '../../API';
-import callAPI from '../../API';
 
 const Login = () => {
     const [userName, setUserName] = useState();
@@ -12,12 +11,7 @@ const Login = () => {
 
     const [branch, setBranch] = useState([]);
     useEffect(() => {
-        callAPI({
-            method: 'get',
-            url: `/branch/getAll/0`,
-        }).then((res) => {
-            setBranch(res.data);
-        });
+
     }, []);
 
     const hanldeSubmit = (e) => {
@@ -33,9 +27,7 @@ const Login = () => {
         }).then((res) => {
             localStorage.setItem('accessToken', res.data.token.accessToken);
             localStorage.setItem('userName', res.data.account.userName);
-            if (res.data.account.userName === 'Admin') {
-                localStorage.setItem('branchId', 1);
-            } else {
+            if (res.data.account.userName !== 'Admin') {
                 localStorage.setItem('branchId', res.data.account.branchId);
             }
             if (res.data.account.userId) {
