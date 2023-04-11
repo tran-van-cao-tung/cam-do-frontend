@@ -189,7 +189,7 @@ const AddList = () => {
                             {fundError && <div style={{ color: 'red' }}>{fundError}</div>}
                         </FormControl>
 
-                        <FormControl className="add-status-group">
+                        {/* <FormControl className="add-status-group">
                             <FormLabel className="label">
                                 Tình trạng&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
@@ -210,7 +210,7 @@ const AddList = () => {
                                     onChange={handleOnChangeStatus}
                                 />
                             </RadioGroup>
-                        </FormControl>
+                        </FormControl> */}
                     </div>
 
                     <Divider />

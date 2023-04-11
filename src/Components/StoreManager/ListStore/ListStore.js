@@ -61,9 +61,9 @@ const ListStore = () => {
             <div className="liststore">
                 <div className="liststorebody">
                     {/* Button  Add */}
-                    <a href="/Addliststore/add">
+                    <Link to="/Addliststore/add">
                         <button className="addliststore">Thêm mới cửa hàng</button>
-                    </a>
+                    </Link>
                     {/* Status */}
                     <div className="status">
                         <span>Tình Trạng</span>
