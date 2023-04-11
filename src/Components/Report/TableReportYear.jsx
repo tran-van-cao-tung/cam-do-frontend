@@ -4,7 +4,9 @@ import API from '../../API';
 
 const TableReportYear = () => {
     const [list, setList] = useState([]);
-
+    const formatMoney = (value) => {
+        return (value).toLocaleString('vi-VN') + ' VNĐ';
+    }
     //Axios
     useEffect(() => {
         API({
@@ -36,12 +38,12 @@ const TableReportYear = () => {
                         return (
                             <tr key={i}>
                                 <td>{i.month}</td>
-                                <td>{i.fund}</td>
-                                <td>{i.loan}</td>
-                                <td>{i.receiveInterest}</td>
-                                <td>{i.receivedPrincipal}</td>
-                                <td>{i.balance}</td>
-                                <td>{i.liquidationMoney}</td>
+                                <td>{formatMoney(i.fund)}</td>
+                                <td>{formatMoney(i.loan)}</td>
+                                <td>{formatMoney(i.receiveInterest)}</td>
+                                <td>{formatMoney(i.receivedPrincipal)}</td>
+                                <td>{formatMoney(i.balance)}</td>
+                                <td>{formatMoney(i.liquidationMoney)}</td>
                                 <td>
                                     {i.receiveInterest + i.receivedPrincipal + i.liquidationMoney > i.loan ? (
                                         <div className="tableStatus tableLosses">Lỗ</div>

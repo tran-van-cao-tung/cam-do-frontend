@@ -7,6 +7,7 @@ import edit from './../../../asset/img/edit.png';
 import "./ViewProduct.css";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API from '../../../API';
 import moment from 'moment';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { useParams } from 'react-router-dom';
@@ -32,6 +33,7 @@ function ViewProduct() {
             field: "contractAssetName",
             headerName: "Tên sản phẩm",
             align: "center",
+            minWidth: 125,
         },
         {
             field: "status",
@@ -49,7 +51,7 @@ function ViewProduct() {
         {
             field: "description",
             headerName: "Mô tả",
-            minWidth: 170,
+            minWidth: 300,
             align: "center",
         },
     ];
@@ -58,18 +60,18 @@ function ViewProduct() {
 
     // Axios
     useEffect(() => {
-        axios({
+        API({
             method: 'get',
-            url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/contractAsset/assets/${params.id}`,
+            url: `/contractAsset/assets/${params.id}`,
         }).then((res) => {
             setListProduct(res.data);
         }).catch((err) => {
             alert('Ko thấy product trong warehouse');
         });
         
-        axios({
+        API({
             method: 'get',
-            url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/warehouse/GetAllDetail/${params.id},0`,
+            url: `/warehouse/GetAllDetail/${params.id},0`,
         }).then((res) => {
             setwarehouse(res.data);
         }).catch((err) => {
@@ -98,10 +100,6 @@ return (
                                 <input type="text" placeholder="Tìm kiếm..." className="employee_search-input" />
                             </div>
                         </div>
-                        <button className="employee_search-btn">
-                            <span>Tìm kiếm </span>
-                            <img src={search} alt="search" />
-                        </button>
                     </form>
                     <div style={{ height: 510, width: "99%", paddingTop: 10 }}>
                         <DataGrid

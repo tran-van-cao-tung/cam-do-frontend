@@ -1,72 +1,73 @@
-import Home from "./../Components/Home/Home";
+import Home from './../Components/Home/Home';
 import DetailsPawn from './../Components/DetailsPawn/DetailsPawn';
 import UpdateContract from './../Components/DetailsPawn/PopUp/UpdateContract';
-import Login from "../Components/Login/Login";
-import Noti from "../Components/DetailsPawn/ContractNoti";
+import Login from '../Components/Login/Login';
+import Noti from '../Components/DetailsPawn/ContractNoti';
 //Employee
-import ListEmployees from "../Components/DetailsEmployees/listEmployees/ListEmployees";
-import AddEmployee from "../Components/DetailsEmployees/addEmployee/AddEmployee";
-import EditEmployee from "../Components/DetailsEmployees/editEmployee/EditEmployee";
-import AuthEmployee from "../Components/DetailsEmployees/authEmployee/AuthEmployee";
+import ListEmployees from '../Components/DetailsEmployees/listEmployees/ListEmployees';
+import AddEmployee from '../Components/DetailsEmployees/addEmployee/AddEmployee';
+import EditEmployee from '../Components/DetailsEmployees/editEmployee/EditEmployee';
+import AuthEmployee from '../Components/DetailsEmployees/authEmployee/AuthEmployee';
 
 //Store
-import ChainStores from "../Components/StoreManager/ChainStores/ChainStores";
-import Commodity from "../Components/StoreManager/Commodity/Commodity";
-import Addcommondity from "../Components/StoreManager/AddCommondity/Addcommondity";
-import AddList from "../Components/StoreManager/AddListStore/AddList";
-import DetailsStore from "../Components/StoreManager/DetailsStore/DetailsStore";
-import EditCommondity from "../Components/StoreManager/EditCommondity/EditCommondity";
-import EditListStore from "../Components/StoreManager/EditListStore/EditListStore";
-import ListStore from "../Components/StoreManager/ListStore/ListStore";
-import Money from "../Components/StoreManager/Money/Money";
+import ChainStores from '../Components/StoreManager/ChainStores/ChainStores';
+import Commodity from '../Components/StoreManager/Commodity/Commodity';
+import Addcommondity from '../Components/StoreManager/AddCommondity/Addcommondity';
+import AddList from '../Components/StoreManager/AddListStore/AddList';
+import DetailsStore from '../Components/StoreManager/DetailsStore/DetailsStore';
+import EditCommondity from '../Components/StoreManager/EditCommondity/EditCommondity';
+import EditListStore from '../Components/StoreManager/EditListStore/EditListStore';
+import ListStore from '../Components/StoreManager/ListStore/ListStore';
+import Money from '../Components/StoreManager/Money/Money';
 
 //Warehouse
-import AddWareHouse from "../Components/WareHouse/AddWareHouse";
-import WareHouse from "../Components/WareHouse/ListWareHouse/WareHouse";
-import EditWarehouse from "../Components/WareHouse/EditWareHouse/EditWarehouse";
-import ViewProduct from "../Components/WareHouse/ViewProduct/ViewProduct";
+import AddWareHouse from '../Components/WareHouse/AddWareHouse';
+import WareHouse from '../Components/WareHouse/ListWareHouse/WareHouse';
+import EditWarehouse from '../Components/WareHouse/EditWareHouse/EditWarehouse';
+import ViewProduct from '../Components/WareHouse/ViewProduct/ViewProduct';
 
 //Customer + Report
-import CustomerManager from "../Components/CustomerManager/CustomerManager";
-import UpdateInfor from "../Components/CustomerManager/Popup/UpdateInfor";
-import DetailCredit from "../Components/CustomerManager/Popup/DetailCredit";
-import BadReportCustomer from "../Components/CustomerManager/BadReportCustomer";
-import UpdateReport from "../Components/CustomerManager/Popup/UpdateReport";
-import BanSomeOne from "../Components/CustomerManager/Popup/BanSomeOne";
-import ReportTotal from "../Components/Report/ReportTotal";
-import ReportYear from "../Components/Report/ReportYear";
+import CustomerManager from '../Components/CustomerManager/CustomerManager';
+import UpdateInfor from '../Components/CustomerManager/Popup/UpdateInfor';
+import DetailCredit from '../Components/CustomerManager/Popup/DetailCredit';
+import BadReportCustomer from '../Components/CustomerManager/BadReportCustomer';
+import UpdateReport from '../Components/CustomerManager/Popup/UpdateReport';
+import BanSomeOne from '../Components/CustomerManager/Popup/BanSomeOne';
+import ReportTotal from '../Components/Report/ReportTotal';
+import ReportYear from '../Components/Report/ReportYear';
+import AddNewCustomer from '../Components/CustomerManager/Popup/AddNewCustomer';
 
 const publicRoutes = [
     {
-        path: "/login",
+        path: '/login',
         component: Login,
     },
     {
-        path: "/",
+        path: '/',
         component: Home,
     },
     {
         path: '/detaipawn',
-        component: DetailsPawn
+        component: DetailsPawn,
     },
     {
         path: '/noti',
-        component: Noti
+        component: Noti,
     },
     {
-        path: "/chainstores",
+        path: '/chainstores',
         component: ChainStores,
     },
     {
-        path: "/commodity",
+        path: '/commodity',
         component: Commodity,
     },
     {
-        path: "/commodity/edit/:id",
+        path: '/commodity/edit/:id',
         component: EditCommondity,
     },
     {
-        path: "/commodity/add",
+        path: '/commodity/add',
         component: Addcommondity,
     },
     // {
@@ -74,15 +75,15 @@ const publicRoutes = [
     //     component: DetailsStore,
     // },
     {
-        path: "/detailsStore/:id",
+        path: '/detailsStore/:id',
         component: DetailsStore,
     },
     {
-        path: "/liststore",
+        path: '/liststore',
         component: ListStore,
     },
     {
-        path: "/Addliststore/add",
+        path: '/Addliststore/add',
         component: AddList,
     },
     {
@@ -90,71 +91,76 @@ const publicRoutes = [
         component: EditListStore,
     },
     {
-        path: "/money",
+        path: '/money',
         component: Money,
     },
     {
-        path: "/warehouse",
+        path: '/warehouse',
         component: WareHouse,
     },
     {
-        path: "/warehouse/add",
+        path: '/warehouse/add',
         component: AddWareHouse,
     },
     {
         path: '/listemployees',
-        component: ListEmployees
+        component: ListEmployees,
     },
     {
         path: '/addemployee',
-        component: AddEmployee
+        component: AddEmployee,
     },
     {
         path: '/editemployee/:id',
-        component: EditEmployee
+        component: EditEmployee,
     },
     {
         path: '/authorization',
-        component: AuthEmployee
+        component: AuthEmployee,
     },
     {
         path: '/editwarehouse/edit/:id',
-        component: EditWarehouse
+        component: EditWarehouse,
     },
     {
-        path: "/viewproduct/:id",
+        path: '/viewproduct/:id',
         component: ViewProduct,
     },
     {
-        path: "/customer-manager",
+        path: '/customer-manager',
         component: CustomerManager,
     },
     {
-        path: "/report-customer",
+        path: '/customer-manager/add-new-customer',
+        component: AddNewCustomer,
+    },
+
+    {
+        path: '/report-customer',
         component: BadReportCustomer,
     },
     {
-        path: "/report-customer/update-report",
+        path: '/report-customer/update-report',
         component: UpdateReport,
     },
     {
-        path: "/report-customer/update-report/ban-customer",
+        path: '/report-customer/update-report/ban-customer',
         component: BanSomeOne,
     },
     {
-        path: "/customer-manager/updateinfo",
+        path: '/customer-manager/updateinfo',
         component: UpdateInfor,
     },
     {
-        path: "/customer-manager/updateinfo/detail-credit",
+        path: '/customer-manager/updateinfo/detail-credit',
         component: DetailCredit,
     },
     {
-        path: "/total-report",
+        path: '/total-report',
         component: ReportTotal,
     },
     {
-        path: "/report-years",
+        path: '/report-years',
         component: ReportYear,
     },
 ];
