@@ -47,7 +47,7 @@ const Home = () => {
     }).then((res) => {
       setLogContract(res.data);
     });
-  }, [localStorage.getItem("branchId")])
+  }, [/* localStorage.getItem("branchId") */])
 
   console.log(logContract)
 

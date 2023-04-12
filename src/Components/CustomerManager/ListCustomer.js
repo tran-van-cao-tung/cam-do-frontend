@@ -17,6 +17,7 @@ function ListCustomer({ numPage }) {
         }).then((response) => {
             setCustomers(response.data);
             setSearchAPIData(response.data);
+            console.log(response.data);
         });
     }, []);
 
