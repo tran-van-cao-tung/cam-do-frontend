@@ -18,7 +18,6 @@ import { Uploader } from 'uploader';
 import moment from 'moment';
 import { UploadDropzone } from 'react-uploader';
 import callAPI from '../../../API';
-import { Label } from '@mui/icons-material';
 
 function PayInterest({ showContractId }) {
     //xử lý dữ liệu đóng tiền lãi
@@ -28,19 +27,17 @@ function PayInterest({ showContractId }) {
     const [paidMoney, setPaidMoney] = useState(0);
     const [values, setValues] = useState([]);
     const [showCheck, setShowCheck] = useState([]);
-
+    const [interestDiary, setInterestDiary] = useState([]);
     const [contract, setContract] = useState([]);
+
     useEffect(() => {
         const id = showContractId;
         callAPI({
-            method: 'GET',
-            url: `/contract/getContractDetail/${id}`,
-        }).then((response) => {
-            setContract(response.data);
-        });
-    });
+            method: 'get',
+            url: `contract/getContractDetail/${id}`,
+        }).then((response) => setContract(response.data));
+    }, [showContractId]);
 
-    const [interestDiary, setInterestDiary] = useState([]);
     useEffect(() => {
         const id = showContractId;
         console.log(id);
@@ -165,8 +162,6 @@ function PayInterest({ showContractId }) {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
 
-    var showInputOrValue = '';
-
     const handleCheck = (e, value) => {
         setIsChecked({ ...isChecked, [e.target.name]: !isChecked[e.target.name] });
         /* console.log(e.target.checked) */
@@ -239,7 +234,9 @@ function PayInterest({ showContractId }) {
                                         <TableCell>{formatMoney(item.penalty)}</TableCell>
                                         <TableCell>{formatMoney(item.totalPay)}</TableCell>
                                         <TableCell style={{ textAlign: 'center' }}>
-                                            {show[item.interestDiaryId] == item.interestDiaryId ? (
+                                            {contract.status === 4 ? (
+                                                <label>đã thanh toán</label>
+                                            ) : show[item.interestDiaryId] == item.interestDiaryId ? (
                                                 <span>
                                                     {values[item.interestDiaryId]
                                                         ? formatMoney(values[item.interestDiaryId])
@@ -265,36 +262,37 @@ function PayInterest({ showContractId }) {
                                             )}
                                         </TableCell>
                                         <TableCell>
-                                            <FormGroup onClick={(e) => handleCheckbox(e, item.interestDiaryId)}>
-                                                <FormControlLabel
-                                                    control={
-                                                        <Checkbox
-                                                            style={{ marginLeft: '40px' }}
-                                                            name={item.interestDiaryId}
-                                                            checked={isChecked[item.interestDiaryId] ? true : false}
-                                                            onChange={(e) => {
-                                                                handleCheck(e, item.paidMoney);
-                                                            }}
-                                                        />
-                                                    }
-                                                />
-                                            </FormGroup>
+                                            {contract.status === 4 ? (
+                                                <FormGroup onClick={(e) => handleCheckbox(e, item.interestDiaryId)}>
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Checkbox
+                                                                style={{ marginLeft: '40px' }}
+                                                                name={item.interestDiaryId}
+                                                                checked={true}
+                                                                onChange={(e) => {
+                                                                    handleCheck(e, item.paidMoney);
+                                                                }}
+                                                            />
+                                                        }
+                                                    />
+                                                </FormGroup>
                                             ) : (
-                                            <FormGroup onClick={(e) => handleCheckbox(e, item.interestDiaryId)}>
-                                                <FormControlLabel
-                                                    control={
-                                                        <Checkbox
-                                                            style={{ marginLeft: '40px' }}
-                                                            onClick={() => {
-                                                                setShowCheck(!showCheck);
-                                                                console.log(showCheck);
-                                                            }}
-                                                            checked={showCheck ? true : false}
-                                                        />
-                                                    }
-                                                />
-                                            </FormGroup>
-                                            )
+                                                <FormGroup onClick={(e) => handleCheckbox(e, item.interestDiaryId)}>
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Checkbox
+                                                                style={{ marginLeft: '40px' }}
+                                                                name={item.interestDiaryId}
+                                                                checked={isChecked[item.interestDiaryId] ? true : false}
+                                                                onChange={(e) => {
+                                                                    handleCheck(e, item.paidMoney);
+                                                                }}
+                                                            />
+                                                        }
+                                                    />
+                                                </FormGroup>
+                                            )}
                                         </TableCell>
                                         <TableCell>
                                             <Button onClick={() => handleNote(item.interestDiaryId)}>
