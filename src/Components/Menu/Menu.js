@@ -56,9 +56,12 @@ const Menuh = () => {
 
 
   console.log(branchUser)
-  
+
+  /* const [selectedOption, setSelectedOption] = useState(); */
+  const [showValue, setShowValue] = useState();
   const handleBranch = (e) => {
-    localStorage.setItem('branchId', e.target.value);
+    setShowValue(e.target.value);
+    window.location.reload(false);
   }
 
   return (
@@ -72,17 +75,19 @@ const Menuh = () => {
           <img src={homemenu} alt="Home" />
           {
             localStorage.getItem("userName") === "Admin" ?
-              <select onChange={handleBranch} >
-                <option style={{textAlign:"center"}}>--Cửa hàng--</option>
+              <select onChange={handleBranch} value={showValue}>
+                <option style={{ textAlign: "center" }}>--Cửa hàng--</option>
                 {
-                  branch.map((item, index) => {
-                    return (
-                      <option key={index} value={item.branchId}>{item.branchName}</option>
-                    )
-                  })
+                  branch ?
+                    branch.map((item, index) => {
+                      return (
+                        <option key={index} value={item.branchId}>{item.branchName}</option>
+                      )
+                    })
+                    : ""
                 }
               </select>
-              : <span style={{fontSize:"33px",display:"flex",justifyContent:"center",alignItems:"center"}}>{branchUser.branchName}</span>
+              : <span style={{ fontSize: "33px", display: "flex", justifyContent: "center", alignItems: "center" }}>{branchUser ?branchUser.branchName:""}</span>
           }
         </div>
       </div>

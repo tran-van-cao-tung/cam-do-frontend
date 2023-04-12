@@ -12,13 +12,12 @@ import callAPI from '../../../API';
 function PayInterest({ showContractId }) {
 
     //xử lý dữ liệu đóng tiền lãi
+    const [isChecked, setIsChecked] = useState([]);
     const [check, setCheck] = useState();
     const [show, setShow] = useState([]);
     const [paidMoney, setPaidMoney] = useState(0);
     const [values, setValues] = useState([]);
-    const [showCheck, setShowCheck] = useState(false);
-
-
+    const [showCheck, setShowCheck] = useState([]);
     const [interestDiary, setInterestDiary] = useState([])
     useEffect(() => {
         const id = showContractId;
@@ -28,6 +27,12 @@ function PayInterest({ showContractId }) {
             url: `interestDiary/getInterestDiariesByContractId${id}`,
         }).then((res) => {
             setInterestDiary(res.data)
+            for (var i = 0; i < res.data.length; i++) {
+                if (res.data[i].paidMoney > 0) {
+                    setIsChecked({ ...isChecked, [res.data[i].interestDiaryId]: res.data[i].status == 1 ? false : true })
+                }
+                
+            }
         });
     }, [showContractId, check])
 
@@ -139,9 +144,15 @@ function PayInterest({ showContractId }) {
         return (value).toLocaleString('vi-VN') + ' VNĐ';
     }
 
-    var showInputOrValue = ""
 
 
+
+    const handleCheck = (e, value) => {
+        setIsChecked({ ...isChecked, [e.target.name]: !isChecked[e.target.name] })
+        /* console.log(e.target.checked) */
+    }
+
+    console.log(isChecked)
     return (
         <div className="contents">
             <h2> Lịch sử đóng tiền lãi</h2>
@@ -155,7 +166,7 @@ function PayInterest({ showContractId }) {
                         style={{ borderRadius: "10px" }}
                     >
                         <TableRow
-                            sx={{ '&:last-child td, &:last-child th': { border: "1px solid rgba(0, 0, 0, 0.1)", background: "#167F92", textAlign: "center" } }}
+                            sx={{ '&:last-child td, &:last-child th': { border: "1px solid rgba(0, 0, 0, 0.1)", background: "#167F92", textAlign: "center",color:"#fff" } }}
                             style={{ borderRadius: "5px" }}
                         >
                             <TableCell>STT</TableCell>
@@ -171,26 +182,19 @@ function PayInterest({ showContractId }) {
                     <TableBody style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }} sx={{ '&:last-child td, &:last-child th': { background: "rgba(80, 157, 168, 0.2)" } }}>
                         {
                             interestDiary.map((item, index) => {
-                                if (show[item.interestDiaryId] === item.interestDiaryId) {
-                                    showInputOrValue = (<span>{values[item.interestDiaryId] ? formatMoney(values[item.interestDiaryId]) : formatMoney(item.paidMoney)}</span>)
+
+                                /* if (item.paidMoney != 0) {
+                                    
                                 }
-                                else if (item.paidMoney != 0) {
-                                    setShowCheck(!showCheck)
-                                    setCheck(item.interestDiaryId);
-                                    setDis(true);
-                                    setShow({ ...show, [item.interestDiaryId]: item.interestDiaryId });
-                                    showInputOrValue = (<span>{values[item.interestDiaryId] ? formatMoney(values[item.interestDiaryId]) : formatMoney(item.paidMoney)}</span>)
+                                if (show[item.interestDiaryId] === item.interestDiaryId) {
                                 }
                                 else {
-                                    showInputOrValue = <input
-                                        style={{ padding: "5px", borderRadius: "5px", border: "1px solid rgba(0, 0, 0, 0.1)", backgroundColor: "rgba(80, 157, 168, 0.1)", borderRadius: "10px" }}
-                                        type="text"
-                                        placeholder="0"
-                                        /* value={item.paidMoney != 0 ? item.paidMoney : paidMoney} */
-                                        onChange={(e) => {
-                                            setPaidMoney(e.target.value);
-                                        }} />
-                                }
+                                    if (item.paidMoney === 0) {
+
+                                    } else {
+                                        setShow({ ...show, [item.interestDiaryId]: item.interestDiaryId });
+                                    }
+                                } */
                                 return (
                                     <>
                                         <TableRow key={index} style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }} sx={{ '& td, & th': { textAlign: "center" } }}>
@@ -199,14 +203,32 @@ function PayInterest({ showContractId }) {
                                             <TableCell>{formatMoney(item.payment)}</TableCell>
                                             <TableCell>{formatMoney(item.penalty)}</TableCell>
                                             <TableCell>{formatMoney(item.totalPay)}</TableCell>
-                                            <TableCell style={{ textAlign: "center" }}>{
-                                                showInputOrValue
-                                            }</TableCell>
+                                            <TableCell style={{ textAlign: "center" }}>
+                                                {
+                                                    show[item.interestDiaryId] == item.interestDiaryId ?
+                                                        <span>{values[item.interestDiaryId] ? formatMoney(values[item.interestDiaryId]) : formatMoney(item.paidMoney)}</span>
+                                                        :
+                                                        item.paidMoney === 0 || isChecked[item.interestDiaryId] == false ?
+                                                            <input
+                                                                style={{ padding: "5px", borderRadius: "5px", border: "1px solid rgba(0, 0, 0, 0.1)", backgroundColor: "rgba(80, 157, 168, 0.1)", borderRadius: "10px" }}
+                                                                type="text"
+                                                                placeholder="0"
+                                                                onChange={(e) => {
+                                                                    setPaidMoney(e.target.value);
+                                                                }}
+                                                            /> : (<span>{formatMoney(item.paidMoney)}</span>)
+                                                }
+                                            </TableCell>
                                             <TableCell>
                                                 <FormGroup onClick={(e) => handleCheckbox(e, item.interestDiaryId)}>
-                                                    <FormControlLabel control={<Checkbox style={{ marginLeft: "40px" }}
-                                                        onClick={() => { setShowCheck(!showCheck); console.log(showCheck) }}
-                                                        checked={showCheck ? true : false} />} />
+                                                    <FormControlLabel control={
+                                                        <Checkbox style={{ marginLeft: "40px" }}
+                                                            name={item.interestDiaryId}
+                                                            checked={isChecked[item.interestDiaryId] ? true : false}
+                                                            onChange={(e) => { handleCheck(e, item.paidMoney) }}
+                                                        />
+                                                    }
+                                                    />
                                                 </FormGroup>
                                             </TableCell>
                                             <TableCell>

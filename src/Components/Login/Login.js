@@ -25,6 +25,7 @@ const Login = () => {
             url: `authentication/login`,
             data: data,
         }).then((res) => {
+            console.log(res.data.account.branchId)
             localStorage.setItem('accessToken', res.data.token.accessToken);
             localStorage.setItem('userName', res.data.account.userName);
             if (res.data.account.userName !== 'Admin') {
