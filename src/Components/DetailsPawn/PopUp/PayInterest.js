@@ -35,7 +35,7 @@ function PayInterest({ showContractId }) {
         const id = showContractId;
         callAPI({
             method: 'get',
-            url: `contract/getContractDetail/${id}`,
+            url: `/contract/getContractDetail/${id}`,
         }).then((response) => setContract(response.data));
     }, [showContractId]);
 
@@ -43,7 +43,7 @@ function PayInterest({ showContractId }) {
         const id = showContractId;
         callAPI({
             method: 'get',
-            url: `contract/getImgByContractId/${id}`,
+            url: `/contract/getImgByContractId/${id}`,
         }).then((response) => setImgContract(response.data));
     }, [showContractId]);
 
@@ -52,7 +52,7 @@ function PayInterest({ showContractId }) {
         console.log(id);
         callAPI({
             method: 'get',
-            url: `interestDiary/getInterestDiariesByContractId${id}`,
+            url: `/interestDiary/getInterestDiariesByContractId/${id}`,
         }).then((res) => {
             setInterestDiary(res.data);
             for (var i = 0; i < res.data.length; i++) {
