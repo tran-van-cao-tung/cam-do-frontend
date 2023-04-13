@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import callAPI from '../../../API';
+import ReactPaginate from 'react-paginate';
 
 function ListEmployees() {
     const history = useNavigate();
@@ -59,6 +60,19 @@ function ListEmployees() {
     console.log(branch);
 
     console.log(searchedProduct);
+    // ==================================
+    // |            Phân Trang        |
+    // ==================================
+    const [currentPage, setCurrentPage] = useState(0);
+    const [productsPerPage, setProductsPerPage] = useState(4);// số lượng cửa hàng hiển thị trên mỗi trang
+    const totalPages = Math.ceil(listEmployees.length / productsPerPage)// tính toán số lượng trang
+    const indexOfLastProduct = (currentPage + 1) * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = listEmployees.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    const handlePageClick = ({ selected: selectedPage }) => {
+        setCurrentPage(selectedPage);
+    };
     return (
         <div className="box_employee">
             <h1 className="employee_heading">Danh sách nhân viên</h1>
@@ -84,14 +98,14 @@ function ListEmployees() {
                                     <input type="radio" name="radio" value="all" />
                                     <label className="check3">Tạm khóa</label>
                                 </div>
-                                <div className="employee_search-select">
+                                {/* <div className="employee_search-select">
                                     <input
                                         type="text"
                                         placeholder="I'm looking for...."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />
-                                </div>
+                                </div> */}
                             </div>
                             {/* <button className="employee_search-btn">
                                     <span>Tìm kiếm </span>
@@ -116,7 +130,7 @@ function ListEmployees() {
                                     <th>Tình trạng</th>
                                     <th>Chức năng</th>
                                 </tr>
-                                {searchedProduct.map((i, index) => {
+                                {currentProducts.map((i, index) => {
                                     return (
                                         <tr key={index + 1}>
                                             <td>{index + 1}</td>
@@ -146,6 +160,22 @@ function ListEmployees() {
                                     );
                                 })}
                             </table>
+                            {/* ================================ */}
+                            {/* =            Phân Trang        = */}
+                            {/* ================================ */}
+                            <ReactPaginate
+                                className="paginate-listemployees"
+                                previousLabel={'previous'}
+                                nextLabel={'next'}
+                                breakLabel={'...'}
+                                breakClassName={'break-me'}
+                                pageCount={totalPages}
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={5}
+                                onPageChange={handlePageClick}
+                                containerClassName={'pagination'}
+                                activeClassName={'active'}
+                            />
                         </div>
                     </div>
                 </Grid>

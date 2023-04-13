@@ -87,3 +87,12 @@ div[title='F'] {
 .customer_search-btn:hover {
     opacity: 0.7
 }
+/* Phân trang */
+.paginate-listcustomer{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 40px;
+    list-style: none;
+}

@@ -247,3 +247,12 @@
     padding: 22px 19px 22px 27px;
     border-radius: 10px;
 }
+/* Phân trang */
+.paginate-listemployees{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 40px;
+    list-style: none;
+}

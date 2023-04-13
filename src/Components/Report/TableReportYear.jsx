@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import API from '../../API';
+import ReactPaginate from 'react-paginate';
 
 const TableReportYear = () => {
     const [list, setList] = useState([]);
     const formatMoney = (value) => {
-        return (value).toLocaleString('vi-VN') + ' VNĐ';
-    }
+        return value.toLocaleString('vi-VN') + ' VNĐ';
+    };
     //Axios
     useEffect(() => {
         API({
@@ -16,7 +16,16 @@ const TableReportYear = () => {
             setList(response.data);
         });
     }, []);
-
+    // ==================================
+    // |            Phân Trang        |
+    // ==================================
+    const [pageNumber, setPageNumber] = useState('');
+    const usersPerPage = 5; // số lượng cửa hàng hiển thị trên mỗi trang
+    const pagesVisited = pageNumber * usersPerPage;
+    const pageCount = Math.ceil(list.length / usersPerPage); // tính toán số lượng trang
+    const changePage = ({ selected }) => {
+        setPageNumber(selected);
+    };
     return (
         <div className="tableYearReport">
             {/* ================================ */}
@@ -34,7 +43,7 @@ const TableReportYear = () => {
                         <th>Tiền Gốc Đã Nhận</th>
                         <th>Tổng Quan</th>
                     </tr>
-                    {list.map((i) => {
+                    {list.slice(pagesVisited, pagesVisited + usersPerPage).map((i) => {
                         return (
                             <tr key={i}>
                                 <td>{i.month}</td>
@@ -55,6 +64,20 @@ const TableReportYear = () => {
                         );
                     })}
                 </table>
+                {/* ================================ */}
+                {/* =            Phân Trang        = */}
+                {/* ================================ */}
+                <ReactPaginate
+                    className="paginate-TableReportYear"
+                    previousLabel={'Trang trước'}
+                    nextLabel={'Trang sau'}
+                    breakLabel={'...'}
+                    breakClassName={'break-me'}
+                    pageCount={pageCount}
+                    onPageChange={changePage}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                />
             </div>
         </div>
     );

@@ -189,3 +189,13 @@
     align-items: center;
     justify-content: space-around;
 }
+/* Phân trang */
+.paginate-commodity{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 40px;
+    list-style: none;
+    
+}

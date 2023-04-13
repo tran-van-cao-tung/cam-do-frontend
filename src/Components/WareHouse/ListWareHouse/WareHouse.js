@@ -1,24 +1,12 @@
-import Button from "@mui/material/Button";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
-import { MenuItem, Select, StyledEngineProvider } from "@mui/material";
+import { StyledEngineProvider } from "@mui/material";
 
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 
-import "./WareHouse.css";
-import editIcon from "./../../../asset/img/edit.png";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import editIcon from "./../../../asset/img/edit.png";
+import ReactPaginate from 'react-paginate';
+import "./WareHouse.css";
 
 const WareHouse = () => {
     const history = useNavigate();
@@ -47,6 +35,19 @@ const WareHouse = () => {
             // console.log('aaaaa', res.data);
         });
     }, []);
+    // ==================================
+    // |            Phân Trang        |
+    // ==================================
+    const [currentPage, setCurrentPage] = useState(0);
+    const [warehousesPerPage] = useState(10);
+    const offset = currentPage * warehousesPerPage;
+    const currentWarehouses = listWarehouse.slice(offset, offset + warehousesPerPage);
+    const pageCount = Math.ceil(listWarehouse.length / warehousesPerPage);
+
+    const handlePageClick = ({ selected: selectedPage }) => {
+        setCurrentPage(selectedPage);
+    };
+
     return (
         <StyledEngineProvider injectFirst>
             <div className="wareh-wrapper">
@@ -74,7 +75,7 @@ const WareHouse = () => {
                                 <th>Chức năng</th>
                             </tr>
                             {
-                                listWarehouse.map((i) => (
+                                currentWarehouses.map((i) => (
                                     <tr key={i.warehouseId}>
                                         <td>{i.warehouseId}</td>
                                         <td>
@@ -101,6 +102,22 @@ const WareHouse = () => {
                                 ))
                             }
                         </table>
+                        {/* ================================ */}
+                        {/* =            Phân Trang        = */}
+                        {/* ================================ */}
+                        <ReactPaginate
+                            className="paginate-warehouse"
+                            previousLabel={'Trang trước'}
+                            nextLabel={'Trang sau'}
+                            breakLabel={'...'}
+                            breakClassName={'break-me'}
+                            marginPagesDisplayed={2}
+                            pageRangeDisplayed={5}
+                            pageCount={pageCount}
+                            onPageChange={handlePageClick}
+                            containerClassName={'pagination'}
+                            activeClassName={'active'}
+                        />
                     </div>
                 </div>
             </div>

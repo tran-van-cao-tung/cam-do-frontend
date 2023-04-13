@@ -171,6 +171,7 @@
     align-items: center;
     justify-content: space-around;
 }
+/* Phân trang */
 .paginate-listStore{
     display: flex;
     align-items: center;
@@ -178,5 +179,4 @@
     justify-content: center;
     gap: 40px;
     list-style: none;
-    
 }

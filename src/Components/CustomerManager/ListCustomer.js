@@ -1,9 +1,9 @@
-import axios from 'axios';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { json, Link } from 'react-router-dom';
-import edit from './../../asset/img/edit.png';
+import { Link } from 'react-router-dom';
 import API from '../../../src/API.js';
+import edit from './../../asset/img/edit.png';
+import ReactPaginate from 'react-paginate';
 
 function ListCustomer({ numPage }) {
     const [customers, setCustomers] = useState([]);
@@ -33,9 +33,19 @@ function ListCustomer({ numPage }) {
         setOnFilter(e.target.value);
     };
 
-    function setccnd(e){
+    function setccnd(e) {
         sessionStorage.setItem("num", e);
     }
+    // ==================================
+    // |            Phân Trang        |
+    // ==================================
+    const [currentPage, setCurrentPage] = useState(0);
+    const [customersPerPage, setCustomersPerPage] = useState(4);// số lượng cửa hàng hiển thị trên mỗi trang
+    const pageCount = Math.ceil(customers.length / customersPerPage);// tính toán số lượng trang
+    const startIndex = currentPage * customersPerPage;
+    const endIndex = startIndex + customersPerPage;
+    const currentCustomers = customers.slice(startIndex, endIndex);
+
     return (
         <>
             <div className="ListCustomerr">
@@ -87,7 +97,7 @@ function ListCustomer({ numPage }) {
                             <th>Hạng TD</th>
                             <th>Chức năng</th>
                         </tr>
-                        {customers.map((customer) => (
+                        {currentCustomers.map((customer) => (
                             <tr key={customer.id}>
                                 <td>{customer.numerical}</td>
                                 <td>{customer.nameBranch}</td>
@@ -99,12 +109,28 @@ function ListCustomer({ numPage }) {
                                 <td>{customer.point}</td>
                                 <td>
                                     <Link to={`/customer-manager/updateinfo/`}>
-                                        <img src={edit} alt="Edit" onClick={setccnd(customer.cccd)}/>
+                                        <img src={edit} alt="Edit" onClick={setccnd(customer.cccd)} />
                                     </Link>
                                 </td>
                             </tr>
                         ))}
                     </table>
+                    {/* ================================ */}
+                    {/* =            Phân Trang        = */}
+                    {/* ================================ */}
+                    <ReactPaginate
+                        className="paginate-listcustomer"
+                        previousLabel={'Trang trước'}
+                        nextLabel={'Trang sau'}
+                        breakLabel={'...'}
+                        breakClassName={'break-me'}
+                        pageCount={pageCount}
+                        onPageChange={(data) => {
+                            setCurrentPage(data.selected);
+                        }}
+                        containerClassName={'pagination'}
+                        activeClassName={'active'}
+                    />
                 </div>
             </div>
         </>

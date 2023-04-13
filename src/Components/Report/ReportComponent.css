@@ -76,3 +76,12 @@ th {
     justify-content: center;
     margin: 5px 5px;
 }
+/* Phân trang */
+.paginate-TableReportYear{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 40px;
+    list-style: none;
+}

@@ -273,3 +273,12 @@
     color: #FFFBFB;
     margin-top: 18px;
 }
+/* Phân trang */
+.paginate-warehouse{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 40px;
+    list-style: none;
+}
