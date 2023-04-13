@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import homemenu from "../../asset/img/homemenu.png";
 import user from "../../asset/img/user.png";
-import bike from "../../asset/img/bike.png";
+import clock from "../../asset/img/clock.jpg";
 import usera from "../../asset/img/usera.png";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -98,7 +98,7 @@ const Menuh = () => {
           </Link>
           <span>1</span>
           <Link to={`/noti`}>
-            <img src={bike} alt='' />
+            <img src={clock} alt='' />
             <span>1</span>
           </Link>
         </div>

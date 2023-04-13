@@ -176,6 +176,15 @@ const NavMenu = () => {
                         </NavLink>
                     </li>
                 }
+                {/* Quản lý gói vay */}
+                {(sessionStorage.getItem("permis 5") === "true" || (localStorage.getItem("userName") === "Admin")) &&
+                    <li>
+                        <NavLink to="/package" className="text-menu home">
+                            <img src={menu6} className="iconMenu" />
+                            <span>Quản lý gói vay</span>
+                        </NavLink>
+                    </li>
+                }
 
                 {/* Báo cáo */}
                 <li>

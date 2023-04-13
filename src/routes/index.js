@@ -37,6 +37,9 @@ import ReportTotal from '../Components/Report/ReportTotal';
 import ReportYear from '../Components/Report/ReportYear';
 import AddNewCustomer from '../Components/CustomerManager/Popup/AddNewCustomer';
 
+
+//Package
+import PackageList from '../Components/PackageManager/package'
 const publicRoutes = [
     {
         path: '/login',
@@ -163,6 +166,10 @@ const publicRoutes = [
         path: '/report-years',
         component: ReportYear,
     },
+    {
+        path: '/package',
+        component: PackageList,
+    }
 ];
 
 const privateRoutes = [];
