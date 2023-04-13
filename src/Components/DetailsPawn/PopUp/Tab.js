@@ -42,14 +42,12 @@ function a11yProps(index) {
     };
 }
 
-export default function BasicTabs({ showContractId }) {
+export default function BasicTabs({ contract, showContractId }) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
-
 
     return (
         <Box sx={{ width: '100%', textAlign: 'center', alignItems: 'center' }}>
@@ -71,13 +69,13 @@ export default function BasicTabs({ showContractId }) {
                 <PayInterest showContractId={showContractId} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <Certificate showContractId={showContractId}/>
+                <Certificate showContractId={showContractId} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <Ransom setshowdetailContract = {showContractId}/>
+                <Ransom contract={contract} setshowdetailContract={showContractId} />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <Asset setshowdetailContract = {showContractId}/>
+                <Asset setshowdetailContract={showContractId} />
             </TabPanel>
             <TabPanel value={value} index={4}>
                 <History showContractId={showContractId} />

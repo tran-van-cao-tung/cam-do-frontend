@@ -1,5 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, imageListItemBarClasses } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import {
+    Button,
+    Checkbox,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    imageListItemBarClasses,
+} from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -10,7 +20,6 @@ import { UploadDropzone } from 'react-uploader';
 import callAPI from '../../../API';
 
 function PayInterest({ showContractId }) {
-
     //xử lý dữ liệu đóng tiền lãi
     const [isChecked, setIsChecked] = useState([]);
     const [check, setCheck] = useState();
@@ -18,23 +27,44 @@ function PayInterest({ showContractId }) {
     const [paidMoney, setPaidMoney] = useState(0);
     const [values, setValues] = useState([]);
     const [showCheck, setShowCheck] = useState([]);
-    const [interestDiary, setInterestDiary] = useState([])
+    const [interestDiary, setInterestDiary] = useState([]);
+    const [imgContract, setImgContract] = useState([]);
+
+    const [contract, setContract] = useState([]);
     useEffect(() => {
         const id = showContractId;
-        console.log(id)
+        callAPI({
+            method: 'get',
+            url: `contract/getContractDetail/${id}`,
+        }).then((response) => setContract(response.data));
+    }, [showContractId]);
+
+    useEffect(() => {
+        const id = showContractId;
+        callAPI({
+            method: 'get',
+            url: `contract/getImgByContractId/${id}`,
+        }).then((response) => setImgContract(response.data));
+    }, [showContractId]);
+
+    useEffect(() => {
+        const id = showContractId;
+        console.log(id);
         callAPI({
             method: 'get',
             url: `interestDiary/getInterestDiariesByContractId${id}`,
         }).then((res) => {
-            setInterestDiary(res.data)
+            setInterestDiary(res.data);
             for (var i = 0; i < res.data.length; i++) {
                 if (res.data[i].paidMoney > 0) {
-                    setIsChecked({ ...isChecked, [res.data[i].interestDiaryId]: res.data[i].status == 1 ? false : true })
+                    setIsChecked({
+                        ...isChecked,
+                        [res.data[i].interestDiaryId]: res.data[i].status == 1 ? false : true,
+                    });
                 }
-                
             }
         });
-    }, [showContractId, check])
+    }, [showContractId, check]);
 
     const [dis, setDis] = useState(false);
     const handleCheckbox = (e, id) => {
@@ -42,12 +72,11 @@ function PayInterest({ showContractId }) {
             setShow({ ...show, [id]: id });
             setCheck(id);
             setDis(true);
-        }
-        else {
+        } else {
             setShow({ ...show, [id]: 0 });
             setDis(false);
         }
-    }
+    };
     useEffect(() => {
         const id = check;
         callAPI({
@@ -55,20 +84,19 @@ function PayInterest({ showContractId }) {
             url: `interestDiary/updateInterestDiary/${id}?paidMoney=${paidMoney}`,
         }).then((res) => {
             if (res.data) {
-                setValues({ ...values, [id]: paidMoney })
+                setValues({ ...values, [id]: paidMoney });
             }
         });
-    }, [dis, check])
+    }, [dis, check]);
 
     const [showNote, setShowNote] = useState([]);
     const handleNote = (id) => {
         if (showNote[`${id}`] === id) {
-            setShowNote({ ...showNote, [id]: 0 })
+            setShowNote({ ...showNote, [id]: 0 });
+        } else {
+            setShowNote({ ...showNote, [id]: id });
         }
-        else {
-            setShowNote({ ...showNote, [id]: id })
-        }
-    }
+    };
 
     //Upload img
 
@@ -96,6 +124,38 @@ function PayInterest({ showContractId }) {
                 setRansom(res.data);
             });
         }, []); */
+    async function getUploadPart(params) {
+        const baseUrl = 'https://api.upload.io';
+        const path = `/v2/accounts/${params.accountId}/uploads/${params.uploadId}/parts/${params.uploadPartIndex}`;
+        const entries = (obj) => Object.entries(obj).filter(([, val]) => (val ?? null) !== null);
+        const response = await fetch(`${baseUrl}${path}`, {
+            method: 'GET',
+            headers: Object.fromEntries(
+                entries({
+                    Authorization: `Bearer ${params.apiKey}`,
+                }),
+            ),
+        });
+        const result = await response.json();
+        if (Math.floor(response.status / 100) !== 2) throw new Error(`Upload API Error: ${JSON.stringify(result)}`);
+        return result;
+    }
+
+    getUploadPart({
+        accountId: 'kW15bAu',
+        apiKey: 'public_kW15bAuFTht5jafbjpkWCsBg1M4s',
+        uploadId: 'Kd759aLFxttm69kZ',
+        uploadPartIndex: 7,
+    }).then(
+        (response) => console.log(`Success: ${JSON.stringify(response)}`),
+        (error) => console.error(error),
+    );
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + '/' + mm + '/' + yyyy;
 
     const handleImg = (img, id) => {
         const urlImg = img[0].fileUrl;
@@ -105,21 +165,18 @@ function PayInterest({ showContractId }) {
         }).then((res) => {
             console.log(res.data);
         });
-    }
+    };
 
     const formatMoney = (value) => {
-        return (value).toLocaleString('vi-VN') + ' VNĐ';
-    }
-
-
-
+        return value.toLocaleString('vi-VN') + ' VNĐ';
+    };
 
     const handleCheck = (e, value) => {
-        setIsChecked({ ...isChecked, [e.target.name]: !isChecked[e.target.name] })
+        setIsChecked({ ...isChecked, [e.target.name]: !isChecked[e.target.name] });
         /* console.log(e.target.checked) */
-    }
+    };
 
-    console.log(isChecked)
+    console.log(isChecked);
     return (
         <div className="contents">
             <h2> Lịch sử đóng tiền lãi</h2>
@@ -129,12 +186,19 @@ function PayInterest({ showContractId }) {
                     aria-label="simple table"
                 >
                     <TableHead
-                        sx={{ '&:last-child td, &:last-child th': { borderRadius: "10px" } }}
-                        style={{ borderRadius: "10px" }}
+                        sx={{ '&:last-child td, &:last-child th': { borderRadius: '10px' } }}
+                        style={{ borderRadius: '10px' }}
                     >
                         <TableRow
-                            sx={{ '&:last-child td, &:last-child th': { border: "1px solid rgba(0, 0, 0, 0.1)", background: "#167F92", textAlign: "center",color:"#fff" } }}
-                            style={{ borderRadius: "5px" }}
+                            sx={{
+                                '&:last-child td, &:last-child th': {
+                                    border: '1px solid rgba(0, 0, 0, 0.1)',
+                                    background: '#167F92',
+                                    textAlign: 'center',
+                                    color: '#fff',
+                                },
+                            }}
+                            style={{ borderRadius: '5px' }}
                         >
                             <TableCell>STT</TableCell>
                             <TableCell> Từ ngày - Đến ngày</TableCell>
@@ -146,11 +210,12 @@ function PayInterest({ showContractId }) {
                             <TableCell>Ghi Chú</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }} sx={{ '&:last-child td, &:last-child th': { background: "rgba(80, 157, 168, 0.2)" } }}>
-                        {
-                            interestDiary.map((item, index) => {
-
-                                /* if (item.paidMoney != 0) {
+                    <TableBody
+                        style={{ border: '1px solid rgba(0, 0, 0, 0.1)' }}
+                        sx={{ '&:last-child td, &:last-child th': { background: 'rgba(80, 157, 168, 0.2)' } }}
+                    >
+                        {interestDiary.map((item, index) => {
+                            /* if (item.paidMoney != 0) {
                                     
                                 }
                                 if (show[item.interestDiaryId] === item.interestDiaryId) {
@@ -162,74 +227,172 @@ function PayInterest({ showContractId }) {
                                         setShow({ ...show, [item.interestDiaryId]: item.interestDiaryId });
                                     }
                                 } */
-                                return (
-                                    <>
-                                        <TableRow key={index} style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.1)" }} sx={{ '& td, & th': { textAlign: "center" } }}>
-                                            <TableCell>{index + 1}</TableCell>
-                                            <TableCell>{moment(item.dueDate).format('DD/MM/YYYY')} - {moment(item.nextDueDate).format('DD/MM/YYYY')}</TableCell>
-                                            <TableCell>{formatMoney(item.payment)}</TableCell>
-                                            <TableCell>{formatMoney(item.penalty)}</TableCell>
-                                            <TableCell>{formatMoney(item.totalPay)}</TableCell>
-                                            <TableCell style={{ textAlign: "center" }}>
-                                                {
-                                                    show[item.interestDiaryId] == item.interestDiaryId ?
-                                                        <span>{values[item.interestDiaryId] ? formatMoney(values[item.interestDiaryId]) : formatMoney(item.paidMoney)}</span>
-                                                        :
-                                                        item.paidMoney === 0 || isChecked[item.interestDiaryId] == false ?
-                                                            <input
-                                                                style={{ padding: "5px", borderRadius: "5px", border: "1px solid rgba(0, 0, 0, 0.1)", backgroundColor: "rgba(80, 157, 168, 0.1)", borderRadius: "10px" }}
-                                                                type="text"
-                                                                placeholder="0"
-                                                                onChange={(e) => {
-                                                                    setPaidMoney(e.target.value);
-                                                                }}
-                                                            /> : (<span>{formatMoney(item.paidMoney)}</span>)
-                                                }
-                                            </TableCell>
-                                            <TableCell>
+                            return (
+                                <>
+                                    <TableRow
+                                        key={index}
+                                        style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}
+                                        sx={{ '& td, & th': { textAlign: 'center' } }}
+                                    >
+                                        <TableCell>{index + 1}</TableCell>
+                                        <TableCell>
+                                            {moment(item.dueDate).format('DD/MM/YYYY')} -{' '}
+                                            {moment(item.nextDueDate).format('DD/MM/YYYY')}
+                                        </TableCell>
+                                        <TableCell>{formatMoney(item.payment)}</TableCell>
+                                        <TableCell>{formatMoney(item.penalty)}</TableCell>
+                                        <TableCell>{formatMoney(item.totalPay)}</TableCell>
+                                        <TableCell style={{ textAlign: 'center' }}>
+                                            {contract.status === 4 ? (
+                                                <label>{item.paidMoney}</label>
+                                            ) : show[item.interestDiaryId] == item.interestDiaryId ? (
+                                                <span>
+                                                    {values[item.interestDiaryId]
+                                                        ? formatMoney(values[item.interestDiaryId])
+                                                        : formatMoney(item.paidMoney)}
+                                                </span>
+                                            ) : item.paidMoney === 0 || isChecked[item.interestDiaryId] == false ? (
+                                                <input
+                                                    style={{
+                                                        padding: '5px',
+                                                        borderRadius: '5px',
+                                                        border: '1px solid rgba(0, 0, 0, 0.1)',
+                                                        backgroundColor: 'rgba(80, 157, 168, 0.1)',
+                                                        borderRadius: '10px',
+                                                    }}
+                                                    type="text"
+                                                    placeholder="0"
+                                                    onChange={(e) => {
+                                                        setPaidMoney(e.target.value);
+                                                    }}
+                                                />
+                                            ) : (
+                                                <span>{formatMoney(item.paidMoney)}</span>
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            {contract.status === 4 ? (
                                                 <FormGroup onClick={(e) => handleCheckbox(e, item.interestDiaryId)}>
-                                                    <FormControlLabel control={
-                                                        <Checkbox style={{ marginLeft: "40px" }}
-                                                            name={item.interestDiaryId}
-                                                            checked={isChecked[item.interestDiaryId] ? true : false}
-                                                            onChange={(e) => { handleCheck(e, item.paidMoney) }}
-                                                        />
-                                                    }
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Checkbox
+                                                                style={{ marginLeft: '40px' }}
+                                                                name={item.interestDiaryId}
+                                                                checked={true}
+                                                                onChange={(e) => {
+                                                                    handleCheck(e, item.paidMoney);
+                                                                }}
+                                                            />
+                                                        }
                                                     />
                                                 </FormGroup>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Button onClick={() => handleNote(item.interestDiaryId)}>
-                                                    <CreateIcon />
-                                                </Button >
-                                            </TableCell>
-                                        </TableRow>
-                                        {
-                                            showNote[`${item.interestDiaryId}`] === item.interestDiaryId ?
-                                                (<>
-                                                    <TableRow style={{ height: "200px" }} sx={{ '&:last-child td, &:last-child th': { border: "1px solid rgba(0, 0, 0, 0.1)" } }} >
-                                                        <h3 style={{ padding: "10px" }}>Upload hình ảnh chứng từ</h3>
-                                                        <UploadDropzone uploader={uploader}
-                                                            options={uploaderOptions}
-                                                            onUpdate={files => console.log(files.map(x => x.fileUrl).join("\n"))}
-                                                            onComplete={files => {
-                                                                handleImg(files, item.interestDiaryId);
-                                                                alert(files.map(x => x.fileUrl).join("\n"))
-                                                            }}
-                                                            width="600px"
-                                                            height="375px" />
-                                                    </TableRow>
-                                                </>) : ""
-                                        }
-                                    </>
-                                )
-                            })
-                        }
+                                            ) : (
+                                                <FormGroup onClick={(e) => handleCheckbox(e, item.interestDiaryId)}>
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Checkbox
+                                                                style={{ marginLeft: '40px' }}
+                                                                name={item.interestDiaryId}
+                                                                checked={isChecked[item.interestDiaryId] ? true : false}
+                                                                onChange={(e) => {
+                                                                    handleCheck(e, item.paidMoney);
+                                                                }}
+                                                            />
+                                                        }
+                                                    />
+                                                </FormGroup>
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            <Button onClick={() => handleNote(item.interestDiaryId)}>
+                                                <CreateIcon />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                    {showNote[`${item.interestDiaryId}`] === item.interestDiaryId ? (
+                                        <>
+                                            {imgContract.status === 4 ? (
+                                                // <TableRow
+                                                // style={{ height: '200px', position: 'relative' }}
+                                                // sx={{
+                                                //     '&:last-child td, &:last-child th': {
+                                                //         border: '1px solid rgba(0, 0, 0, 0.1)',
+                                                //     },
+                                                // }}
+                                                // >
+                                                <>
+                                                    <h3
+                                                        style={{
+                                                            padding: '10px',
+                                                            // position: 'absolute',
+                                                            // top: '5px',
+                                                            textAlign: 'center',
+                                                            width: '100%',
+                                                        }}
+                                                    >
+                                                        Ảnh chứng từ
+                                                    </h3>
+
+                                                    <div
+                                                        className="certificateImg"
+                                                        style={{
+                                                            display: 'flex',
+                                                            margin: '0 0 0 25px ',
+                                                            width: '80%',
+                                                            // justifyContent: 'space-around',
+                                                        }}
+                                                    >
+                                                        <img
+                                                            style={{ maxWidth: '80%' }}
+                                                            src={imgContract.contractVerifyImg}
+                                                            alt="ảnh nude của tùng"
+                                                        />
+
+                                                        <img
+                                                            style={{ maxWidth: '80%' }}
+                                                            src={imgContract.customerVerifyImg}
+                                                            alt="ảnh nude của tùng"
+                                                        />
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                // </TableRow>
+                                                <TableRow
+                                                    style={{ height: '200px' }}
+                                                    sx={{
+                                                        '&:last-child td, &:last-child th': {
+                                                            border: '1px solid rgba(0, 0, 0, 0.1)',
+                                                        },
+                                                    }}
+                                                >
+                                                    <h3 style={{ padding: '10px' }}>Upload hình ảnh chứng từ</h3>
+                                                    <UploadDropzone
+                                                        uploader={uploader}
+                                                        options={uploaderOptions}
+                                                        onUpdate={(files) =>
+                                                            console.log(files.map((x) => x.fileUrl).join('\n'))
+                                                        }
+                                                        onComplete={(files) => {
+                                                            handleImg(files, item.interestDiaryId);
+                                                            alert(files.map((x) => x.fileUrl).join('\n'));
+                                                        }}
+                                                        width="600px"
+                                                        height="375px"
+                                                    />
+                                                </TableRow>
+                                            )}
+                                        </>
+                                    ) : (
+                                        ''
+                                    )}
+                                </>
+                            );
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div >
-    )
+        </div>
+    );
 }
 
-export default PayInterest
+export default PayInterest;
