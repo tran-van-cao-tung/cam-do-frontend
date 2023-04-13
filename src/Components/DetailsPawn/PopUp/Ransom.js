@@ -17,7 +17,7 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
         color: theme.palette.text.secondary,
     }));
 
-    const uploader = Uploader({ apiKey: 'public_kW15bAuFTht5jafbjpkWCsBg1M4s' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_FW25bDE3z6GM9yWkBESNoAkzEgWY' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 
@@ -69,32 +69,6 @@ const Ransom = ({ setshowdetailContract, showContractId }) => {
         // });
     }, []);
 
-    async function getUploadPart(params) {
-        const baseUrl = 'https://api.upload.io';
-        const path = `/v2/accounts/${params.accountId}/uploads/${params.uploadId}/parts/${params.uploadPartIndex}`;
-        const entries = (obj) => Object.entries(obj).filter(([, val]) => (val ?? null) !== null);
-        const response = await fetch(`${baseUrl}${path}`, {
-            method: 'GET',
-            headers: Object.fromEntries(
-                entries({
-                    Authorization: `Bearer ${params.apiKey}`,
-                }),
-            ),
-        });
-        const result = await response.json();
-        if (Math.floor(response.status / 100) !== 2) throw new Error(`Upload API Error: ${JSON.stringify(result)}`);
-        return result;
-    }
-
-    getUploadPart({
-        accountId: 'kW15bAu',
-        apiKey: 'public_kW15bAuFTht5jafbjpkWCsBg1M4s',
-        uploadId: 'Kd759aLFxttm69kZ',
-        uploadPartIndex: 7,
-    }).then(
-        (response) => console.log(`Success: ${JSON.stringify(response)}`),
-        (error) => console.error(error),
-    );
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!

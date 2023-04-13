@@ -12,7 +12,7 @@ import { UploadButton, UploadDropzone } from 'react-uploader';
 import API from '../../../API';
 
 const AddNewCustomer = () => {
-    const uploader = Uploader({ apiKey: 'public_W142hmnA4cUzeNeYbEgGT17DUUbE' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_FW25bDE3z6GM9yWkBESNoAkzEgWY' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 
