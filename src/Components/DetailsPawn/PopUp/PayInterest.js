@@ -28,14 +28,23 @@ function PayInterest({ showContractId }) {
     const [values, setValues] = useState([]);
     const [showCheck, setShowCheck] = useState([]);
     const [interestDiary, setInterestDiary] = useState([]);
-    const [contract, setContract] = useState([]);
+    const [imgContract, setImgContract] = useState([]);
 
+    const [contract, setContract] = useState([]);
     useEffect(() => {
         const id = showContractId;
         callAPI({
             method: 'get',
             url: `contract/getContractDetail/${id}`,
         }).then((response) => setContract(response.data));
+    }, [showContractId]);
+
+    useEffect(() => {
+        const id = showContractId;
+        callAPI({
+            method: 'get',
+            url: `contract/getImgByContractId/${id}`,
+        }).then((response) => setImgContract(response.data));
     }, [showContractId]);
 
     useEffect(() => {
@@ -235,7 +244,7 @@ function PayInterest({ showContractId }) {
                                         <TableCell>{formatMoney(item.totalPay)}</TableCell>
                                         <TableCell style={{ textAlign: 'center' }}>
                                             {contract.status === 4 ? (
-                                                <label>đã thanh toán</label>
+                                                <label>{item.paidMoney}</label>
                                             ) : show[item.interestDiaryId] == item.interestDiaryId ? (
                                                 <span>
                                                     {values[item.interestDiaryId]
@@ -302,29 +311,76 @@ function PayInterest({ showContractId }) {
                                     </TableRow>
                                     {showNote[`${item.interestDiaryId}`] === item.interestDiaryId ? (
                                         <>
-                                            <TableRow
-                                                style={{ height: '200px' }}
-                                                sx={{
-                                                    '&:last-child td, &:last-child th': {
-                                                        border: '1px solid rgba(0, 0, 0, 0.1)',
-                                                    },
-                                                }}
-                                            >
-                                                <h3 style={{ padding: '10px' }}>Upload hình ảnh chứng từ</h3>
-                                                <UploadDropzone
-                                                    uploader={uploader}
-                                                    options={uploaderOptions}
-                                                    onUpdate={(files) =>
-                                                        console.log(files.map((x) => x.fileUrl).join('\n'))
-                                                    }
-                                                    onComplete={(files) => {
-                                                        handleImg(files, item.interestDiaryId);
-                                                        alert(files.map((x) => x.fileUrl).join('\n'));
+                                            {imgContract.status === 4 ? (
+                                                // <TableRow
+                                                // style={{ height: '200px', position: 'relative' }}
+                                                // sx={{
+                                                //     '&:last-child td, &:last-child th': {
+                                                //         border: '1px solid rgba(0, 0, 0, 0.1)',
+                                                //     },
+                                                // }}
+                                                // >
+                                                <>
+                                                    <h3
+                                                        style={{
+                                                            padding: '10px',
+                                                            // position: 'absolute',
+                                                            // top: '5px',
+                                                            textAlign: 'center',
+                                                            width: '100%',
+                                                        }}
+                                                    >
+                                                        Ảnh chứng từ
+                                                    </h3>
+
+                                                    <div
+                                                        className="certificateImg"
+                                                        style={{
+                                                            display: 'flex',
+                                                            margin: '0 0 0 25px ',
+                                                            width: '80%',
+                                                            // justifyContent: 'space-around',
+                                                        }}
+                                                    >
+                                                        <img
+                                                            style={{ maxWidth: '80%' }}
+                                                            src={imgContract.contractVerifyImg}
+                                                            alt="ảnh nude của tùng"
+                                                        />
+
+                                                        <img
+                                                            style={{ maxWidth: '80%' }}
+                                                            src={imgContract.customerVerifyImg}
+                                                            alt="ảnh nude của tùng"
+                                                        />
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                // </TableRow>
+                                                <TableRow
+                                                    style={{ height: '200px' }}
+                                                    sx={{
+                                                        '&:last-child td, &:last-child th': {
+                                                            border: '1px solid rgba(0, 0, 0, 0.1)',
+                                                        },
                                                     }}
-                                                    width="600px"
-                                                    height="375px"
-                                                />
-                                            </TableRow>
+                                                >
+                                                    <h3 style={{ padding: '10px' }}>Upload hình ảnh chứng từ</h3>
+                                                    <UploadDropzone
+                                                        uploader={uploader}
+                                                        options={uploaderOptions}
+                                                        onUpdate={(files) =>
+                                                            console.log(files.map((x) => x.fileUrl).join('\n'))
+                                                        }
+                                                        onComplete={(files) => {
+                                                            handleImg(files, item.interestDiaryId);
+                                                            alert(files.map((x) => x.fileUrl).join('\n'));
+                                                        }}
+                                                        width="600px"
+                                                        height="375px"
+                                                    />
+                                                </TableRow>
+                                            )}
                                         </>
                                     ) : (
                                         ''

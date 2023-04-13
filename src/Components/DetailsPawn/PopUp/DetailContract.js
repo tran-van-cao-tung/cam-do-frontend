@@ -158,7 +158,7 @@ const DetailContract = ({ setshowdetailContract, showContractId }) => {
                         </div>
                         {/* Button Deatail Contract */}
                         <div sx={{ alignItems: 'center', alignContent: 'center' }}>
-                            <BasicTabs showContractId={showContractId} />
+                            <BasicTabs contract={detailPawn} showContractId={showContractId} />
                         </div>
                     </div>
                 </div>
