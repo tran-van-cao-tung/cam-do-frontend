@@ -1,132 +1,134 @@
-import React from "react";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import API from '../../../src/API.js';
+import edit from './../../asset/img/edit.png';
+import ReactPaginate from 'react-paginate';
 
-import funcEdit from "../../asset/img/edit.png";
+function ListCustomer({ numPage }) {
+    const [customers, setCustomers] = useState([]);
+    const [searchAPIData, setSearchAPIData] = useState([]);
+    const [onFilter, setOnFilter] = useState();
 
-const BadCustomerList = () => {
-  const handleUpdateInformation = (id) => {
-    // setShowUpdateContract(true);
-    console.log(id);
-  };
+    useEffect(() => {
+        API({
+            method: 'GET',
+            url: '/customer/getAllBlackList/1',
+        }).then((response) => {
+            setCustomers(response.data);
+            setSearchAPIData(response.data);
+            console.log(response.data);
+        });
+    }, []);
 
-  const columns = [
-    { field: "stt", headerName: "STT", minWidth: 20, align: "center" },
-    { field: "store", headerName: "Cửa Hàng", minWidth: 100, align: "center" },
-    {
-      field: "fullName",
-      headerName: "Họ và Tên",
-      minWidth: 170,
-      align: "center",
-    },
-    {
-      field: "cmnd",
-      headerName: "CMND/CCCD",
-      align: "center",
-      minWidth: 170,
-    },
-    {
-      field: "phone",
-      headerName: "Số Điện Thoại",
-      align: "center",
-      minWidth: 170,
-    },
-    {
-      field: "address",
-      headerName: "Địa Chỉ",
-      minWidth: 210,
-      align: "center",
-    },
+    const onFilterChange = (e) => {
+        if (e.target.value == '') {
+            setCustomers(searchAPIData);
+        } else {
+            const filterResult = searchAPIData.filter((item) =>
+                item.fullName.toLowerCase().includes(e.target.value.toLowerCase()),
+            );
+            setCustomers(filterResult);
+        }
+        setOnFilter(e.target.value);
+    };
 
-    {
-      field: "hangId",
-      headerName: "Hạng ID",
-      valueGetter: (params) =>
-        `${
-          params.row.hangId === 0
-            ? "A"
-            : params.row.hangId === 1
-            ? "B"
-            : params.row.hangId === 2
-            ? "C"
-            : params.row.hangId === 3
-            ? "F"
-            : ""
-        }`,
-      minWidth: 150,
-      align: "center",
-    },
-    {
-      field: "reason",
-      headerName: "Lý do",
-      minWidth: 200,
-      align: "center",
-    },
-    {
-      field: "ChucNang",
-      headerName: "Chức năng",
-      type: "actions",
-      getActions: (params, index) => [
-        <Link to="/report-customer/update-report">
-          <GridActionsCellItem
-            icon={<img src={funcEdit} alt="" />}
-            onClick={(e) => handleUpdateInformation(params.id)}
-          />
-          ,
-        </Link>,
-      ],
+    function setccnd(e) {
+        sessionStorage.setItem("num", e);
+    }
+    // ==================================
+    // |            Phân Trang        |
+    // ==================================
+    const [currentPage, setCurrentPage] = useState(0);
+    const [customersPerPage, setCustomersPerPage] = useState(4);// số lượng cửa hàng hiển thị trên mỗi trang
+    const pageCount = Math.ceil(customers.length / customersPerPage);// tính toán số lượng trang
+    const startIndex = currentPage * customersPerPage;
+    const endIndex = startIndex + customersPerPage;
+    const currentCustomers = customers.slice(startIndex, endIndex);
 
-      minWidth: 160,
-      align: "center",
-    },
-  ];
+    return (
+        <>
+            <div className="ListCustomerr">
+                {/* ===================================== */}
+                {/* |             Add and Search        | */}
+                {/* ===================================== */}
+                <div className="ListCustomer">
+                    {/* Status */}
+                    <div className="status">
+                        {/* Search */}
+                        <div className="searchinput">
+                            <input
+                                type="text"
+                                class="searchTerm"
+                                placeholder="Tìm kiếm..."
+                                value={onFilter}
+                                onChange={(e) => onFilterChange(e)}
+                            ></input>
+                            {/* <input
+                                type="text"
+                                placeholder="Tìm kiếm cửa hàng..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            /> */}
+                        </div>
+                    </div>
+                </div>
+                {/* ================================ */}
+                {/* =            Table Show        = */}
+                {/* ================================ */}
+                <div className="table">
+                    <table className="responstable">
+                        <tr>
+                            <th>STT</th>
+                            <th>
+                                <span>Cửa hàng</span>
+                            </th>
+                            <th>Họ và tên</th>
+                            <th>CMND/CCCD</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                            <th>Lý do</th>
+                            <th>Hạng TD</th>
+                            <th>Chức năng</th>
+                        </tr>
+                        {currentCustomers.map((customer) => (
+                            <tr key={customer.id}>
+                                <td>{customer.numerical}</td>
+                                <td>{customer.nameBranch}</td>
+                                <td>{customer.fullName}</td>
+                                <td>{customer.cccd}</td>
+                                <td>{customer.phone}</td>
+                                <td>{customer.address}</td>
+                                <td>Không trả lãi nhiều lần</td>
+                                <td><span className='rank_F'>F</span></td>
+                                <td>
+                                    <Link to={`/customer-manager/updateinfo/`}>
+                                        <img src={edit} alt="Edit" onClick={setccnd(customer.cccd)} />
+                                    </Link>
+                                </td>
+                            </tr>
+                        ))}
+                    </table>
+                    {/* ================================ */}
+                    {/* =            Phân Trang        = */}
+                    {/* ================================ */}
+                    <ReactPaginate
+                        className="paginate-listcustomer"
+                        previousLabel={'Trang trước'}
+                        nextLabel={'Trang sau'}
+                        breakLabel={'...'}
+                        breakClassName={'break-me'}
+                        pageCount={pageCount}
+                        onPageChange={(data) => {
+                            setCurrentPage(data.selected);
+                        }}
+                        containerClassName={'pagination'}
+                        activeClassName={'active'}
+                    />
+                </div>
+            </div>
+        </>
+    );
+}
 
-  const rows = [
-    {
-      id: 1,
-      stt: 1,
-      store: "S1",
-      fullName: "Nguyen Tran Khanh Hoa",
-      cmnd: "123456789101",
-      phone: "0909100443",
-      address: "Số 10 nguyên du,BTT quận 2, TP Thủ Đưc",
-      dateCreate: "23/12/2022",
-      hangId: 3,
-    },
-    {
-      id: 2,
-      stt: 2,
-      store: "S1",
-      fullName: "Nguyen Tran Khanh Hoa",
-      cmnd: "123456789101",
-      phone: "0909100443",
-      address: "Số 10 nguyên du,BTT quận 2, TP Thủ Đưc",
-      dateCreate: "23/12/2022",
-      hangId: 3,
-    },
-    {
-      id: 3,
-      stt: 3,
-      store: "S1",
-      fullName: "Nguyen Tran Khanh Hoa",
-      cmnd: "123456789101",
-      phone: "0909100443",
-      address: "Số 10 nguyên du,BTT quận 2, TP Thủ Đưc",
-      dateCreate: "23/12/2022",
-      hangId: 3,
-    },
-  ];
-  return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        style={{ align: "center" }}
-      />
-    </div>
-  );
-};
-
-export default BadCustomerList;
+export default ListCustomer;

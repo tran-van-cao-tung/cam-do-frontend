@@ -1,14 +1,15 @@
 import React, { useState } from "react";
+import API from '../../../API';
 
 const BanSomeOne = () => {
   const [showBan, setShowBan] = useState(false);
   const handleShowBan = (id) => {};
+  
   return (
     <div className="reasonContainer">
       <div className="reasonContent">
         <h1>
           Chuyển Khách Hàng Vào Danh Sách <span className="starRed">CẤM</span>
-          ???
         </h1>
         <div className="reasonChange">
           <label>

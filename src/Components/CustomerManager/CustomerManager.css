@@ -38,21 +38,6 @@ div[title='F'] {
     background-color: black;
 }
 
-div[title='A'],
-div[title='B'],
-div[title='C'],
-div[title='F'] {
-    text-align: center;
-    border-radius: 7px;
-    font-family: 'Frank Ruhl Libre';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 17px;
-    padding: 5px;
-    width: 100%;
-    color: white
-}
-
 .customer_search {
     display: flex;
     align-items: center;
@@ -95,4 +80,18 @@ div[title='F'] {
     justify-content: center;
     gap: 40px;
     list-style: none;
+}
+
+.rank_F{
+    text-align: center;
+    border-radius: 7px;
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    color: white;
+    padding: 5px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: black;
 }

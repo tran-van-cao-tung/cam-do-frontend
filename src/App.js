@@ -7,7 +7,7 @@ import Unlogin from './Components/UnLogin/Unlogin';
 
 
 function App() {
-  var hours = 1; // to clear the localStorage after 1 hour
+  var hours = 2; // to clear the localStorage after 1 hour
                // (if someone want to clear after 8hrs simply change hours=8)
   var now = new Date().getTime();
   var setupTime = localStorage.getItem('setupTime');
