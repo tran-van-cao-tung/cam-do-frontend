@@ -9,7 +9,7 @@ import { UploadDropzone } from 'react-uploader';
 import { display } from '@mui/system';
 import CurrencyFormat from 'react-currency-format';
 import axios from 'axios';
-const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
+const Ransom = ({ showContractId, contract }) => {
     // Function active button (Button Deatail Contract)
     const Item = styled(Box)(({ theme }) => ({
         padding: theme.spacing(1),
@@ -49,18 +49,19 @@ const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
     useEffect(() => {
         API({
             method: 'get',
-            url: 'ramsom/ransombyid/' + setshowdetailContract,
+            url: 'ramsom/ransombyid/' + showContractId,
             headers: {
                 Authorization: `Bearer  ${localStorage.getItem('accessToken')}`,
             },
         }).then((res) => {
             setRansom(res.data);
+            // setImg(res.data);
             // console.log('aaaaa', res.data);
         });
 
         API({
             method: 'get',
-            url: '/contract/getContractInfoByContractId/' + setshowdetailContract,
+            url: '/contract/getContractInfoByContractId/' + showContractId,
             headers: {
                 Authorization: `Bearer  ${localStorage.getItem('accessToken')}`,
             },
@@ -85,10 +86,19 @@ const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
 
     today = dd + '/' + mm + '/' + yyyy;
 
-    const [img, setImg] = useState('');
+    const [img, setImg] = useState([]);
 
-    const handleImg = (url) => {
-        setImg(url[0].fileUrl);
+    const handleImg = (files) => {
+        // setImg(files.map((x) => x.fileUrl).join('\n'));
+
+        setImg(files);
+        console.log('img: ', img);
+        API({
+            method: 'put',
+            url: `ramsom/saveransom/${showContractId}?proofImg=${files}`,
+        }).then((res) => {
+            console.log('link', res.data);
+        });
     };
 
     const handleSubmit = () => {
@@ -97,12 +107,6 @@ const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
             alert(`Chưa thêm ảnh`);
             return;
         }
-        API({
-            method: 'put',
-            url: `ramsom/saveransom/${ransomDetail.ransomId}?proofImg=${img}`,
-        }).then((res) => {
-            console.log(res.data);
-        });
     };
 
     const formatMoney = (value) => {
@@ -181,24 +185,27 @@ const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
                     ) : (
                         <div
                             style={{
-                                // maxWidth: '250px',
-                                boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
                                 margin: '20px auto',
-                                borderRadius: '12px',
                             }}
                         >
-                            <div style={{ padding: '10px', fontSize: '25px', fontWeight: '700', width: '800px' }}>
-                                <p> Upload Hình ảnh:</p>
+                            <div
+                                style={{
+                                    // maxWidth: '250px',
+                                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+                                    borderRadius: '12px',
+                                }}
+                            >
+                                <div style={{ padding: '10px', fontSize: '25px', fontWeight: '700', width: '800px' }}>
+                                    <p> Upload Hình ảnh:</p>
+                                    <img src={img} alt="" />
+                                </div>
                             </div>
                             <UploadDropzone
                                 uploader={uploader}
                                 options={uploaderOptions}
-                                onUpdate={(files) => {
-                                    console.log(files.map((x) => x.fileUrl).join('\n'));
-                                }}
+                                onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
                                 onComplete={(files) => {
-                                    handleImg(files);
-                                    alert(files.map((x) => x.fileUrl).join('\n'));
+                                    handleImg(files.map((x) => x.fileUrl).join('\n'));
                                 }}
                                 width="1000px"
                                 height="500px"

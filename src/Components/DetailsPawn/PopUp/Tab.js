@@ -72,7 +72,7 @@ export default function BasicTabs({ contract, showContractId }) {
                 <Certificate showContractId={showContractId} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <Ransom contract={contract} setshowdetailContract={showContractId} />
+                <Ransom contract={contract} showContractId={showContractId} />
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <Asset setshowdetailContract={showContractId} />
