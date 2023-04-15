@@ -99,7 +99,7 @@ function ListCustomer({ numPage }) {
                                 <td>{customer.cccd}</td>
                                 <td>{customer.phone}</td>
                                 <td>{customer.address}</td>
-                                <td>Không trả lãi nhiều lần</td>
+                                <td>{customer.reason}</td>
                                 <td><span className='rank_F'>F</span></td>
                                 <td>
                                     <Link to={`/customer-manager/updateinfo/`}>

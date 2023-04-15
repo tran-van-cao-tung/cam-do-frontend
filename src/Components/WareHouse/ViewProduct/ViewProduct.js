@@ -6,7 +6,6 @@ import search from './../../../asset/img/search.png';
 import edit from './../../../asset/img/edit.png';
 import "./ViewProduct.css";
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import API from '../../../API';
 import moment from 'moment';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';

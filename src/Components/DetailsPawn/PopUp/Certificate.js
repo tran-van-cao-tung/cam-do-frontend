@@ -26,9 +26,6 @@ const Certificate = ({ showContractId }) => {
         API({
             method: 'get',
             url: '/contract/getImgByContractId/' + showContractId,
-            headers: {
-                Authorization: `Bearer  ${localStorage.getItem('accessToken')}`,
-            },
         }).then((res) => {
             setImg(res.data);
             // console.log('aaaaa', res.data);
@@ -39,9 +36,6 @@ const Certificate = ({ showContractId }) => {
         API({
             method: 'put',
             url: `/contract/uploadContractImg/${showContractId}?customerImg=${customerImg}`,
-            headers: {
-                Authorization: `Bearer  ${localStorage.getItem('accessToken')}`,
-            },
         })
             .then((res) => {
                 alert('Lưu Hỉnh KH thành công');
@@ -55,9 +49,6 @@ const Certificate = ({ showContractId }) => {
         API({
             method: 'put',
             url: `/contract/uploadContractImg/${showContractId}?contractImg=${contractImg}`,
-            headers: {
-                Authorization: `Bearer  ${localStorage.getItem('accessToken')}`,
-            },
         })
             .then((res) => {
                 console.log('Success Full');
@@ -96,7 +87,7 @@ const Certificate = ({ showContractId }) => {
                     <div class="grid-item">
                         <h4>Upload ảnh Khách Hàng</h4>
                         <a href={img.customerVerifyImg} target="_blank" rel="noopener noreferrer">
-                            <img class="certificateImg" src={img.customerVerifyImg} alt="Logo" />
+                            <img class="certificateImg" src={img.customerVerifyImg} alt="" />
                         </a>
                         <UploadDropzone
                             uploader={uploader}
