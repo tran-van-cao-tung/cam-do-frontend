@@ -21,8 +21,6 @@ const Ransom = ({ showContractId, contract }) => {
     const uploaderOptions = {
         multi: true,
 
-        // Comment out this line & use 'onUpdate' instead of
-        // 'onComplete' to have the dropzone close after upload.
         showFinishButton: true,
 
         styles: {
@@ -36,24 +34,14 @@ const Ransom = ({ showContractId, contract }) => {
     const [totalProfit, setTotalProfit] = useState([]);
     const [totalRecived, setTotalRecived] = useState([]);
 
-    // const [contract, setContract] = useState([]);
-    // useEffect(() => {
-    //     const id = showContractId;
-    //     console.log('contract', contract);
-    //     API({
-    //         method: 'get',
-    //         url: `contract/getContractDetail/${id}`,
-    //     }).then((response) => setContract(response.data));
-    // }, [showContractId]);
-    // Axios
     useEffect(() => {
         API({
             method: 'get',
             url: 'ramsom/ransombyid/' + showContractId,
         }).then((res) => {
             setRansom(res.data);
-            setImg(res.data);
-            // console.log('aaaaa', res.data);
+            // setImg(res.data);
+            console.log('id', res.data);
         });
 
         API({
@@ -81,13 +69,6 @@ const Ransom = ({ showContractId, contract }) => {
 
         setImg(files);
         console.log('img: ', img);
-        API({
-            method: 'put',
-            url: `ramsom/saveransom/${showContractId - 1}?proofImg=${files}`,
-        }).then((res) => {
-            console.log('link', res.data);
-            setRansom(res.data);
-        });
     };
 
     const handleSubmit = () => {
@@ -96,6 +77,14 @@ const Ransom = ({ showContractId, contract }) => {
             alert(`Chưa thêm ảnh`);
             return;
         }
+        API({
+            method: 'put',
+            url: `ramsom/saveransom/${ransomDetail.ransomId}?proofImg=${img}`,
+        }).then((res) => {
+            console.log('link', res.data);
+            console.log('id', ransomDetail.ransomId);
+            setRansom(res.data);
+        });
     };
 
     const formatMoney = (value) => {
@@ -169,7 +158,7 @@ const Ransom = ({ showContractId, contract }) => {
                             <div style={{ padding: '10px', fontSize: '25px', fontWeight: '700' }}>
                                 <p>Hình Ảnh Tài Sản</p>
                             </div>
-                            <img style={{ maxWidth: '800px' }} src={img.proofImg} alt="ảnh tài sản" />
+                            <img style={{ maxWidth: '800px' }} src={ransomDetail.proofImg} alt="ảnh tài sản" />
                         </div>
                     ) : (
                         <div
@@ -186,7 +175,7 @@ const Ransom = ({ showContractId, contract }) => {
                             >
                                 <div style={{ padding: '10px', fontSize: '25px', fontWeight: '700', width: '800px' }}>
                                     <p> Upload Hình ảnh:</p>
-                                    <img src={img.proofImg} alt="" />
+                                    <img src={img} alt="" />
                                 </div>
                             </div>
                             <UploadDropzone
@@ -222,8 +211,11 @@ const Ransom = ({ showContractId, contract }) => {
                         //     </Grid>
                         // </>
                     )}
-                    <Grid item xs={12}>
-                        {packageInt >= 7 && totalRecived == totalProfit / 2 && (
+                    {contract.status === 4 ? (
+                        ''
+                    ) : (
+                        <Grid item xs={12}>
+                            {/* {packageInt >= 7 && totalRecived == totalProfit / 2 &&  */}
                             <Button
                                 sx={{
                                     color: 'black',
@@ -233,8 +225,9 @@ const Ransom = ({ showContractId, contract }) => {
                             >
                                 Chuộc đồ
                             </Button>
-                        )}
-                    </Grid>
+                            {/* // )} */}
+                        </Grid>
+                    )}
                 </Grid>
             </div>
         )
