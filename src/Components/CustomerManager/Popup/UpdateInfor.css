@@ -401,3 +401,33 @@ html {
     border-radius: 10px;
     height: 900px,
 }
+
+.reasonContainer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(82, 77, 77, 0.31);
+    z-index: 2;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reasonContent {
+    animation: dropTop 0.4s linear;
+    overflow-y: auto;
+}
+
+@keyframes dropTop {
+    0% {
+        transform: translateY(-100%) scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0%) scale(1);
+        opacity: 1;
+    }
+}

@@ -50,33 +50,21 @@ const Ransom = ({ showContractId, contract }) => {
         API({
             method: 'get',
             url: 'ramsom/ransombyid/' + showContractId,
-            headers: {
-                Authorization: `Bearer  ${localStorage.getItem('accessToken')}`,
-            },
         }).then((res) => {
             setRansom(res.data);
-            // setImg(res.data);
+            setImg(res.data);
             // console.log('aaaaa', res.data);
         });
 
         API({
             method: 'get',
             url: '/contract/getContractInfoByContractId/' + showContractId,
-            headers: {
-                Authorization: `Bearer  ${localStorage.getItem('accessToken')}`,
-            },
         }).then((res) => {
             setPackageInt(res.data.packageInterest);
             setTotalProfit(res.data.totalProfit);
             setTotalRecived(res.data.totalRecived);
             // console.log('aaaaa', res.data);
         });
-        // API({
-        //   method: 'get',
-        //   url: 'https://api.upload.io/'
-        // }).then((res) =>{
-
-        // });
     }, []);
 
     var today = new Date();
@@ -95,9 +83,10 @@ const Ransom = ({ showContractId, contract }) => {
         console.log('img: ', img);
         API({
             method: 'put',
-            url: `ramsom/saveransom/${showContractId}?proofImg=${files}`,
+            url: `ramsom/saveransom/${showContractId - 1}?proofImg=${files}`,
         }).then((res) => {
             console.log('link', res.data);
+            setRansom(res.data);
         });
     };
 
@@ -180,7 +169,7 @@ const Ransom = ({ showContractId, contract }) => {
                             <div style={{ padding: '10px', fontSize: '25px', fontWeight: '700' }}>
                                 <p>Hình Ảnh Tài Sản</p>
                             </div>
-                            <img style={{ maxWidth: '800px' }} src={ransomDetail.proofImg} alt="ảnh tài sản" />
+                            <img style={{ maxWidth: '800px' }} src={img.proofImg} alt="ảnh tài sản" />
                         </div>
                     ) : (
                         <div
@@ -197,7 +186,7 @@ const Ransom = ({ showContractId, contract }) => {
                             >
                                 <div style={{ padding: '10px', fontSize: '25px', fontWeight: '700', width: '800px' }}>
                                     <p> Upload Hình ảnh:</p>
-                                    <img src={img} alt="" />
+                                    <img src={img.proofImg} alt="" />
                                 </div>
                             </div>
                             <UploadDropzone
