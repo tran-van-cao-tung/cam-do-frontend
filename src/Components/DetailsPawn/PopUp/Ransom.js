@@ -9,6 +9,8 @@ import { UploadDropzone } from 'react-uploader';
 import { display } from '@mui/system';
 import CurrencyFormat from 'react-currency-format';
 import axios from 'axios';
+import BtnSubmit from '../../btnSubmit/BtnSubmit';
+
 const Ransom = ({ showContractId, contract }) => {
     // Function active button (Button Deatail Contract)
     const Item = styled(Box)(({ theme }) => ({
@@ -216,14 +218,8 @@ const Ransom = ({ showContractId, contract }) => {
                     ) : (
                         <Grid item xs={12}>
                             {/* {packageInt >= 7 && totalRecived == totalProfit / 2 &&  */}
-                            <Button
-                                sx={{
-                                    color: 'black',
-                                    backgroundColor: '#107287',
-                                }}
-                                onClick={handleSubmit}
-                            >
-                                Chuộc đồ
+                            <Button onClick={handleSubmit}>
+                                <BtnSubmit />
                             </Button>
                             {/* // )} */}
                         </Grid>

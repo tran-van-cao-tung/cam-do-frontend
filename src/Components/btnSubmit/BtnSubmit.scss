@@ -1,0 +1,146 @@
+$btnRansom: ( color: #111, colorHover: #5e9dce, duration: .6s, easing: cubic-bezier(0.77, 0, 0.175, 1));
+// btnRansom 3
+$numberShadow: 4;
+$durationbtnRansom3: 1.5s;
+$color: map-get($btnRansom, 'color');
+$colorHover: map-get($btnRansom, 'colorHover');
+$duration: map-get($btnRansom, 'duration');
+$easing: map-get($btnRansom, 'easing');
+@function shadow($x, $y, $color1, $color2, $n) {
+    $value: $x*1em $y*1em 0 0 $color1, $x*1em 2*$y*1em 0 0 $color2;
+    @for $i from 2 through $n {
+        $value: $value, $i*$x*1em ($i*$y + ($i - 1)*$y)*1em 0 0 $color1, $i*$x*1em ($i*$y + ($i - 1)*$y + $y)*1em 0 0 $color2;
+    }
+    @return $value;
+}
+
+%btnRansomChildAbs {
+    content: '';
+    position: absolute;
+    z-index: -2;
+    transition-property: inherit;
+    transition-duration: inherit;
+    transition-timing-function: inherit;
+}
+
+@mixin size($width, $height) {
+    width: $width;
+    height: $height;
+    @content;
+}
+
+// Style
+$height: 5;
+.btnRansom {
+    position: relative;
+    display: inline-block;
+    box-shadow: none;
+    border: 0;
+    background-color: $color;
+    color: #fff;
+    padding: 0 30px;
+    line-height: $height*1em;
+    height: $height*1em;
+    white-space: nowrap;
+    min-width: 200px;
+    z-index: 9;
+    overflow: hidden;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: .2em;
+    transition-property: all;
+    transition-duration: $duration;
+    transition-timing-function: $easing;
+}
+
+.button--1 {
+    &:after,
+    &:before {
+        @extend %btnRansomChildAbs;
+        @include size(0, 100%);
+        top: 0;
+        left: 100%;
+        background-color: rgba(255, 255, 255, .2);
+    }
+    &:before {
+        z-index: -1;
+        background-color: $colorHover;
+    }
+    &:after {
+        transition-delay: .2s;
+    }
+    &:hover {
+        &:after,
+        &:before {
+            width: 100%;
+            left: 0;
+            transition-property: width;
+        }
+        &:before {
+            transition-delay: .2s;
+        }
+        &:after {
+            transition-property: width;
+            transition-delay: 0s;
+        }
+    }
+}
+
+// .btn--2 {
+//     color: transparent;
+//     text-shadow: -50px 0 0 transparent, 0 0 0 #fff;
+//     &:before {
+//         @extend %btnChildAbs;
+//         @include size(100%, 100%);
+//         top: 0;
+//         left: 0;
+//         background-color: $colorHover;
+//         transform: translate(-100%, 0);
+//     }
+//     &:hover {
+//         text-shadow: 0 0 0 #fff, 50px 0 0 transparent;
+//         &:before {
+//             transform: translate(0, 0);
+//         }
+//     }
+// }
+// .btn--3 {
+//     transition-duration: $durationBtn3;
+//     &:before,
+//     &:after {
+//         @extend %btnChildAbs;
+//         @include size(50%, 100%);
+//         top: 0;
+//         left: 0;
+//         background-color: $color;
+//         box-shadow: shadow(0, $height*-1, $color, $colorHover, $numberShadow);
+//     }
+//     &:after {
+//         left: auto;
+//         right: 0;
+//         box-shadow: shadow(0, $height, $color, $colorHover, $numberShadow);
+//     }
+//     &:hover {
+//         &:before {
+//             transform: translate(0, $numberShadow*200%);
+//         }
+//         &:after {
+//             transform: translate(0, $numberShadow*-200%);
+//         }
+//     }
+// }
+// Demo
+// body {
+//     height: 100vh;
+//     background-color: #d8e6f1;
+// }
+// .demo {
+//     width: 1000px;
+//     margin: 50px auto;
+//     .btn {
+//         margin: 20px;
+//     }
+// }
