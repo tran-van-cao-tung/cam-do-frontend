@@ -61,7 +61,8 @@ const Menuh = () => {
   const [showValue, setShowValue] = useState();
   const handleBranch = (e) => {
     setShowValue(e.target.value);
-    window.location.reload(false);
+    localStorage.setItem("branchId", e.target.value);
+    /* window.location.reload(false); */
   }
 
   return (

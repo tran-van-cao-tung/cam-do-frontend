@@ -54,6 +54,11 @@ const ListStore = () => {
     const handlePageClick = ({ selected: selectedPage }) => {
         setCurrentPage(selectedPage);
     };
+
+    const formatMoney = (value) => {
+        return value.toLocaleString('vi-VN') + ' VNĐ';
+    };
+
     return (
         <>
             <h1 className="liststorebody-h1">Danh sách cửa hàng</h1>
@@ -132,10 +137,10 @@ const ListStore = () => {
                                 <td>{item.branchName}</td>
                                 <td>{item.address}</td>
                                 <td>{item.phoneNumber}</td>
-                                <td>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(item.fund)}</td>
+                                <td>{formatMoney(item.fund)}</td>
                                 <td>{moment(item.createDate).format('DD/MM/YYYY')}</td>
                                 <td>
-                                    {item.status === 1 ? (
+                                    {item.status === 0 ? (
                                         <div className="MuiTableBody_root-status">Đã tạm đừng</div>
                                     ) : (
                                         <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
