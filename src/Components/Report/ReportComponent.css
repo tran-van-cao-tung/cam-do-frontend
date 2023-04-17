@@ -25,8 +25,8 @@
     padding: 5px 20px;
 }
 
-.tableYearReport {
-    margin: 50px 27px 0 0;
+.table {
+    margin: 20px 27px 0 0 !important;
 }
 
 .tableYearReport .table .responstable {
@@ -76,8 +76,11 @@ th {
     justify-content: center;
     margin: 5px 5px;
 }
+
+
 /* Phân trang */
-.paginate-TableReportYear{
+
+.paginate-TableReportYear {
     display: flex;
     align-items: center;
     flex-wrap: nowrap;

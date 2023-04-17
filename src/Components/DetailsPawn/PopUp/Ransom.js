@@ -9,7 +9,9 @@ import { UploadDropzone } from 'react-uploader';
 import { display } from '@mui/system';
 import CurrencyFormat from 'react-currency-format';
 import axios from 'axios';
-const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
+import BtnSubmit from '../../btnSubmit/BtnSubmit';
+
+const Ransom = ({ showContractId, contract }) => {
     // Function active button (Button Deatail Contract)
     const Item = styled(Box)(({ theme }) => ({
         padding: theme.spacing(1),
@@ -21,8 +23,6 @@ const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
     const uploaderOptions = {
         multi: true,
 
-        // Comment out this line & use 'onUpdate' instead of
-        // 'onComplete' to have the dropzone close after upload.
         showFinishButton: true,
 
         styles: {
@@ -36,46 +36,25 @@ const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
     const [totalProfit, setTotalProfit] = useState([]);
     const [totalRecived, setTotalRecived] = useState([]);
 
-    // const [contract, setContract] = useState([]);
-    // useEffect(() => {
-    //     const id = showContractId;
-    //     console.log('contract', contract);
-    //     API({
-    //         method: 'get',
-    //         url: `contract/getContractDetail/${id}`,
-    //     }).then((response) => setContract(response.data));
-    // }, [showContractId]);
-    // Axios
     useEffect(() => {
         API({
             method: 'get',
-            url: 'ramsom/ransombyid/' + setshowdetailContract,
-            headers: {
-                Authorization: `Bearer  ${localStorage.getItem('accessToken')}`,
-            },
+            url: 'ramsom/ransombyid/' + showContractId,
         }).then((res) => {
             setRansom(res.data);
-            // console.log('aaaaa', res.data);
+            // setImg(res.data);
+            console.log('id', res.data);
         });
 
         API({
             method: 'get',
-            url: '/contract/getContractInfoByContractId/' + setshowdetailContract,
-            headers: {
-                Authorization: `Bearer  ${localStorage.getItem('accessToken')}`,
-            },
+            url: '/contract/getContractInfoByContractId/' + showContractId,
         }).then((res) => {
             setPackageInt(res.data.packageInterest);
             setTotalProfit(res.data.totalProfit);
             setTotalRecived(res.data.totalRecived);
             // console.log('aaaaa', res.data);
         });
-        // API({
-        //   method: 'get',
-        //   url: 'https://api.upload.io/'
-        // }).then((res) =>{
-
-        // });
     }, []);
 
     var today = new Date();
@@ -85,10 +64,13 @@ const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
 
     today = dd + '/' + mm + '/' + yyyy;
 
-    const [img, setImg] = useState('');
+    const [img, setImg] = useState([]);
 
-    const handleImg = (url) => {
-        setImg(url[0].fileUrl);
+    const handleImg = (files) => {
+        // setImg(files.map((x) => x.fileUrl).join('\n'));
+
+        setImg(files);
+        console.log('img: ', img);
     };
 
     const handleSubmit = () => {
@@ -101,7 +83,9 @@ const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
             method: 'put',
             url: `ramsom/saveransom/${ransomDetail.ransomId}?proofImg=${img}`,
         }).then((res) => {
-            console.log(res.data);
+            console.log('link', res.data);
+            console.log('id', ransomDetail.ransomId);
+            setRansom(res.data);
         });
     };
 
@@ -181,24 +165,27 @@ const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
                     ) : (
                         <div
                             style={{
-                                // maxWidth: '250px',
-                                boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
                                 margin: '20px auto',
-                                borderRadius: '12px',
                             }}
                         >
-                            <div style={{ padding: '10px', fontSize: '25px', fontWeight: '700', width: '800px' }}>
-                                <p> Upload Hình ảnh:</p>
+                            <div
+                                style={{
+                                    // maxWidth: '250px',
+                                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+                                    borderRadius: '12px',
+                                }}
+                            >
+                                <div style={{ padding: '10px', fontSize: '25px', fontWeight: '700', width: '800px' }}>
+                                    <p> Upload Hình ảnh:</p>
+                                    <img src={img} alt="" />
+                                </div>
                             </div>
                             <UploadDropzone
                                 uploader={uploader}
                                 options={uploaderOptions}
-                                onUpdate={(files) => {
-                                    console.log(files.map((x) => x.fileUrl).join('\n'));
-                                }}
+                                onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
                                 onComplete={(files) => {
-                                    handleImg(files);
-                                    alert(files.map((x) => x.fileUrl).join('\n'));
+                                    handleImg(files.map((x) => x.fileUrl).join('\n'));
                                 }}
                                 width="1000px"
                                 height="500px"
@@ -226,19 +213,17 @@ const Ransom = ({ setshowdetailContract, showContractId, contract }) => {
                         //     </Grid>
                         // </>
                     )}
-                    <Grid item xs={12}>
-                        {packageInt >= 7 && totalRecived == totalProfit / 2 && (
-                            <Button
-                                sx={{
-                                    color: 'black',
-                                    backgroundColor: '#107287',
-                                }}
-                                onClick={handleSubmit}
-                            >
-                                Chuộc đồ
+                    {contract.status === 4 ? (
+                        ''
+                    ) : (
+                        <Grid item xs={12}>
+                            {/* {packageInt >= 7 && totalRecived == totalProfit / 2 &&  */}
+                            <Button onClick={handleSubmit}>
+                                <BtnSubmit />
                             </Button>
-                        )}
-                    </Grid>
+                            {/* // )} */}
+                        </Grid>
+                    )}
                 </Grid>
             </div>
         )

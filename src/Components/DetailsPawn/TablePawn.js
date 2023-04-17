@@ -138,11 +138,11 @@ const TablePawn = ({
                     params.row.status === 1
                         ? 'Đang Cầm'
                         : params.row.status === 2
-                        ? 'Trễ hẹn'
+                        ? 'Trễ Hẹn'
                         : params.row.status === 3
-                        ? 'Thanh lý'
+                        ? 'Thanh Lý'
                         : params.row.status === 4
-                        ? 'Đóng hợp đồng'
+                        ? 'Đã Đóng'
                         : ''
                 }`,
             width: 140,

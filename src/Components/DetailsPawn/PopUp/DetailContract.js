@@ -116,38 +116,32 @@ const DetailContract = ({ setshowdetailContract, showContractId }) => {
                                     <th>Trạng thái:</th>
                                     {detailPawn.status === 1 ? (
                                         <th style={{ textAlign: 'right' }}>
-                                            <span
-                                                className="detailContract_status"
-                                                style={{ backgroundColor: '#50c2da' }}
-                                            >
-                                                Đang cầm
+                                            <span className="detailContract_status" style={{ color: 'rgb(0, 166, 0)' }}>
+                                                Đang Cầm
                                             </span>
                                         </th>
                                     ) : detailPawn.status === 2 ? (
                                         <th style={{ textAlign: 'right' }}>
                                             <span
                                                 className="detailContract_status"
-                                                style={{ backgroundColor: '#d4d05c' }}
+                                                style={{ color: 'rgb(83, 83, 255)' }}
                                             >
-                                                Trễ hẹn
+                                                Trễ Hẹn
                                             </span>
                                         </th>
                                     ) : detailPawn.status === 3 ? (
                                         <th style={{ textAlign: 'right' }}>
                                             <span
                                                 className="detailContract_status"
-                                                style={{ backgroundColor: '#d45c5c' }}
+                                                style={{ color: 'rgb(255, 255, 106)' }}
                                             >
-                                                Thanh lý
+                                                Thanh Lý
                                             </span>
                                         </th>
                                     ) : detailPawn.status === 4 ? (
                                         <th style={{ textAlign: 'right' }}>
-                                            <span
-                                                className="detailContract_status"
-                                                style={{ backgroundColor: '#d45c5c' }}
-                                            >
-                                                Đã đóng
+                                            <span className="detailContract_status" style={{ color: 'red' }}>
+                                                Đã Đóng
                                             </span>
                                         </th>
                                     ) : (
