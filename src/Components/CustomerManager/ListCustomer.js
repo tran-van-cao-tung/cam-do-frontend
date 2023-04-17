@@ -33,9 +33,6 @@ function ListCustomer({ numPage }) {
         setOnFilter(e.target.value);
     };
 
-    function setccnd(e) {
-        sessionStorage.setItem("num", e);
-    }
     // ==================================
     // |            Phân Trang        |
     // ==================================
@@ -109,7 +106,7 @@ function ListCustomer({ numPage }) {
                                 <td>{customer.point}</td>
                                 <td>
                                     <Link to={`/customer-manager/updateinfo/`}>
-                                        <img src={edit} alt="Edit" onClick={setccnd(customer.cccd)} />
+                                    <img src={edit} alt="Edit" onClick={() => { sessionStorage.setItem("num", customer.cccd) }} />
                                     </Link>
                                 </td>
                             </tr>

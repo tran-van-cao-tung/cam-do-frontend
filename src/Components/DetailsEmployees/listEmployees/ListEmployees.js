@@ -23,7 +23,13 @@ function ListEmployees() {
         }); */
     // Axios
     useEffect(() => {
-        axios({
+        callAPI({
+            method: 'get',
+            url:'/user/getAll/0',
+        }).then((res) => {
+            setListEmployee(res.data);
+        })
+        /* axios({
             method: 'get',
             url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/user/getAll/0',
             headers: {
@@ -37,7 +43,7 @@ function ListEmployees() {
             .catch((err) => {
                 alert('Token đã hết hạn, vui lòng đăng nhập lại');
                 history('/');
-            });
+            }); */
     }, []);
 
     // ==================================

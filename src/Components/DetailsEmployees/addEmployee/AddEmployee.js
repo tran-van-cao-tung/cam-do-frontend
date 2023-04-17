@@ -15,7 +15,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 function AddEmployee() {
   const history = useNavigate();
   const [confirmPassword, setConfirmPassword] = useState('');
- /*  const [password, setPassword] = useState(''); */
+  /*  const [password, setPassword] = useState(''); */
   const [branch, setBranch] = useState([]);
 
   //đổ dữ liệu branch
@@ -70,6 +70,8 @@ function AddEmployee() {
     email: Yup.string()
       .email('Nhập đúng định dạng email, ví dụ: example@gmail.com')
       .required('Email không được để trống'),
+    branchId: Yup.string()
+      .required("Vui lòng chọn chi nhánh cửa hàng")
   })
 
   const onSubmit = (data) => {

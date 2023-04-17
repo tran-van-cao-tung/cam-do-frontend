@@ -17,7 +17,7 @@ function EditEmployee() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [listEmployees, setListEmployees] = useState([]);
     const [branch, setBranch] = useState([]);
-/*     const [initialValues, setInitialValues] = useState({
+    /* const [listEmployees,setListEmployees] = useState({
         fullName: '',
         userName: '',
         password: '',
@@ -97,18 +97,17 @@ function EditEmployee() {
     };
 
 
-     const initialValues = {
-         roleId: listEmployees.roleId ? listEmployees.roleId : '',
-         fullName: listEmployees.fullName ? listEmployees.fullName : '',
-         branchId: listEmployees?.branchId || '',
-         userName: listEmployees?.userName || '',
-         email: listEmployees?.email || '',
-         address: listEmployees?.address || '',
-         status: listEmployees?.status || '',
-         phone: listEmployees?.phone || '',
-         password: '',
-     };
-    console.log(initialValues)
+    const initialValue = {
+        roleId: listEmployees.roleId,
+        fullName: listEmployees.fullName,
+        branchId: listEmployees?.branchId || '',
+        userName: listEmployees?.userName || '',
+        email: listEmployees?.email || '',
+        address: listEmployees?.address || '',
+        status: listEmployees?.status || '',
+        phone: listEmployees?.phone || '',
+        password: '',
+    };
     const validationSchema = Yup.object().shape({
         fullName: Yup.string()
             .required('Tên nhân viên không được để trống')
@@ -143,132 +142,129 @@ function EditEmployee() {
         });
     }
 
-    /* const handleInput = (e) => {
-        e.persist();
-        setListEmployees({ ...listEmployees, [e.target.name]: e.target.value });
-    }; */
+    /*     const handleInput = (e) => {
+            e.persist();
+            setListEmployees({ ...listEmployees, [e.target.name]: e.target.value });
+        }; */
 
     return (
         <div className="box_employee">
             <h1 className="employee_heading-add">Cập nhật nhân viên</h1>
             <div className="wareh-content">
                 <Formik
-                    initialValues={initialValues}
+                    initialValues={initialValue}
                     validationSchema={validationSchema}
                     onSubmit={onSubmit}
                 >
-                    {({ values, handleChange }) => (
-                        console.log(values),
-                        <div className="employeeAdd">
-                            <div className="employee_input">
-                                <span>
-                                    Họ và tên <span>*</span>:
-                                </span>
-                                <Field  name="fullName" value={values.fullName} /* onChange={handleChange} *//>
-                                {/* <input
+                    return (<div className="employeeAdd">
+                        <div className="employee_input">
+                            <span>
+                                Họ và tên <span>*</span>:
+                            </span>
+                            <Field name="fullName" value={listEmployees.fullName} /* onChange={handleInput} */ />
+                            {/* <input
                                     type="text"
                                     name="fullName"
                                     onChange={(e) => handleInput(e)}
                                     value={listEmployees.fullName}
                                 /> */}
-                            </div>
-                            <ErrorMessage name='fullName' className="alert alert-danger" component="div" />
-                            <div className="employee_input">
-                                <span>
-                                    Tên cửa hàng <span>*</span>:
-                                </span>
-                                <Field as="select" id="branchId" name='branchId' style={{ width: "576px" }} /* onChange={(e) => handleInput(e)} value={employeeInput.branchId} */>
-                                    <option>--Tên cửa hàng--</option>
-                                    {branch.map((item, index) => {
-                                        return (
-                                            <option key={index} value={item.branchId}>
-                                                {item.branchName}
-                                            </option>
-                                        );
-                                    })}
-                                </Field>
-                            </div>
-                            <ErrorMessage className="alert alert-danger" name='branchId' component="div" />
-                            <div className="employee_username">
-                                <span>
-                                    Tên đăng nhập <span>*</span>:
-                                </span>
-                                <span>{listEmployees.userName}</span>
-                            </div>
-                            <div className='employee_input'>
-                                <span>
-                                    Mật khẩu<span>*</span>:
-                                </span>
-                                <div className="password-input">
-                                    <Field type={showPassword1 ? 'text' : 'password'} id="password" name="password" />
-                                    <button type="button" onClick={toggleShowPassword1}>
-                                        {showPassword1 ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                                    </button>
-                                </div>
-                            </div>
-                            <ErrorMessage name='password' className="alert alert-danger" component="div" />
-                            <div className='employee_input'>
-                                <span>
-                                    Nhập lại mật khẩu<span>*</span>:
-                                </span>
-                                <div className="password-input">
-                                    <Field type={showPassword2 ? 'text' : 'password'} id="confirmPassword" name="confirmPassword" onChange={handlePasswordChange} value={confirmPassword} />
-                                    <button type="button" onClick={toggleShowPassword2}>
-                                        {showPassword2 ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="employee_input">
-                                <span>
-                                    Email<span>*</span>:
-                                </span>
-                                <Field id="email" name="email" />
-                            </div>
-                            <ErrorMessage name='email' className="alert alert-danger" component="div" />
-                            <div className="employee_input">
-                                <span>
-                                    Địa chỉ <span>*</span>:
-                                </span>
-                                <Field id="address" name="address" />
-                            </div>
-                            <ErrorMessage name='address' className="alert alert-danger" component="div" />
-                            <div className="employee_input">
-                                <span>
-                                    Số điện thoại <span>*</span>:
-                                </span>
-                                <Field id="phone" name="phone" />
-                            </div>
-                            <ErrorMessage name='phone' className="alert alert-danger" component="div" />
-                            <div className="employee_search employee_style-search">
-                                <div className="employee_search-check employee_style-check">
-                                    <span className="employee_search-heading">
-                                        Tình trạng<span>*</span>:
-                                    </span>
-                                    <Field type="radio" name="status" value="1" checked />
-                                    <label className="check2">Đang làm việc</label>
-                                    <Field type="radio" name="status" value="2" />
-                                    <label className="check3">Tạm khóa</label>
-                                </div>
-                            </div>
-                            <div className="employee-btn">
-                                <div className="employee_btn-group">
-                                    <button className="employee_btn-item aqua" type='submit'>
-                                        <SaveAltIcon />
-                                        <span>Lưu lại</span>
-                                    </button>
-                                    <button
-                                        className="employee_btn-item yellow"
-                                        onClick={() => {
-                                            history('/listemployees');
-                                        }}
-                                    >
-                                        <ReplyIcon />
-                                        <span>Quay lại</span>
-                                    </button>
-                                </div>
+                        </div>
+                        <ErrorMessage name='fullName' className="alert alert-danger" component="div" />
+                        <div className="employee_input">
+                            <span>
+                                Tên cửa hàng <span>*</span>:
+                            </span>
+                            <Field as="select" id="branchId" name='branchId' style={{ width: "576px" }} /* onChange={(e) => handleInput(e)} value={employeeInput.branchId} */>
+                                <option>--Tên cửa hàng--</option>
+                                {branch.map((item, index) => {
+                                    return (
+                                        <option key={index} value={item.branchId}>
+                                            {item.branchName}
+                                        </option>
+                                    );
+                                })}
+                            </Field>
+                        </div>
+                        <ErrorMessage className="alert alert-danger" name='branchId' component="div" />
+                        <div className="employee_username">
+                            <span>
+                                Tên đăng nhập <span>*</span>:
+                            </span>
+                            <span>{listEmployees.userName}</span>
+                        </div>
+                        <div className='employee_input'>
+                            <span>
+                                Mật khẩu<span>*</span>:
+                            </span>
+                            <div className="password-input">
+                                <Field type={showPassword1 ? 'text' : 'password'} id="password" name="password" />
+                                <button type="button" onClick={toggleShowPassword1}>
+                                    {showPassword1 ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                </button>
                             </div>
                         </div>
-                    )}
+                        <ErrorMessage name='password' className="alert alert-danger" component="div" />
+                        <div className='employee_input'>
+                            <span>
+                                Nhập lại mật khẩu<span>*</span>:
+                            </span>
+                            <div className="password-input">
+                                <Field type={showPassword2 ? 'text' : 'password'} id="confirmPassword" name="confirmPassword" onChange={handlePasswordChange} value={confirmPassword} />
+                                <button type="button" onClick={toggleShowPassword2}>
+                                    {showPassword2 ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                </button>
+                            </div>
+                        </div>
+                        <div className="employee_input">
+                            <span>
+                                Email<span>*</span>:
+                            </span>
+                            <Field id="email" name="email" />
+                        </div>
+                        <ErrorMessage name='email' className="alert alert-danger" component="div" />
+                        <div className="employee_input">
+                            <span>
+                                Địa chỉ <span>*</span>:
+                            </span>
+                            <Field id="address" name="address" />
+                        </div>
+                        <ErrorMessage name='address' className="alert alert-danger" component="div" />
+                        <div className="employee_input">
+                            <span>
+                                Số điện thoại <span>*</span>:
+                            </span>
+                            <Field id="phone" name="phone" />
+                        </div>
+                        <ErrorMessage name='phone' className="alert alert-danger" component="div" />
+                        <div className="employee_search employee_style-search">
+                            <div className="employee_search-check employee_style-check">
+                                <span className="employee_search-heading">
+                                    Tình trạng<span>*</span>:
+                                </span>
+                                <Field type="radio" name="status" value="1" checked />
+                                <label className="check2">Đang làm việc</label>
+                                <Field type="radio" name="status" value="2" />
+                                <label className="check3">Tạm khóa</label>
+                            </div>
+                        </div>
+                        <div className="employee-btn">
+                            <div className="employee_btn-group">
+                                <button className="employee_btn-item aqua" type='submit'>
+                                    <SaveAltIcon />
+                                    <span>Lưu lại</span>
+                                </button>
+                                <button
+                                    className="employee_btn-item yellow"
+                                    onClick={() => {
+                                        history('/listemployees');
+                                    }}
+                                >
+                                    <ReplyIcon />
+                                    <span>Quay lại</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>)
                 </Formik>
             </div>
         </div>
