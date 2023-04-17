@@ -49,7 +49,7 @@ const AddList = () => {
 
         axios({
             method: 'post',
-            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/branch/CreateBranch',
+            url: 'https://tranvancaotung1-001-site1.htempurl.com/api/v1/branch/CreateBranch',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },

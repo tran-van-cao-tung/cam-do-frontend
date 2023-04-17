@@ -32,7 +32,7 @@ const Menuh = () => {
 
   //get dữ liệu Lấy userId 
   useEffect(() => {
-    axios.get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/user/getAll/0`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
+    axios.get(`https://tranvancaotung1-001-site1.htempurl.com/api/v1/user/getAll/0`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setItemUser(res.data.filter((item, index) => {
         return item.userId === localStorage.getItem("userId");
       })[0])
@@ -49,7 +49,7 @@ const Menuh = () => {
     }).then((res) => {
       setBranch(res.data);
       setBranchUser(res.data.filter((item, index) => {
-        return item.branchId == localStorage.getItem("branchId");
+        return item.branchId === localStorage.getItem("branchId");
       })[0])
     });
   }, [branchID])

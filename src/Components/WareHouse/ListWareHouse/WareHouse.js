@@ -1,13 +1,10 @@
 import { StyledEngineProvider } from "@mui/material";
-
-
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import editIcon from "./../../../asset/img/edit.png";
 import ReactPaginate from 'react-paginate';
 import "./WareHouse.css";
-
+import API from '../../../API';
 const WareHouse = () => {
     const history = useNavigate();
     const [cityFilter, setCityFilter] = useState("HoChiMinh");
@@ -24,12 +21,9 @@ const WareHouse = () => {
     // Axios
     const [listWarehouse, setListWarehouse] = useState([]);
     useEffect(() => {
-        axios({
+        API({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/warehouse/GetAll/0',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
-            },
+            url: '/warehouse/GetAll/0',
         }).then((res) => {
             setListWarehouse(res.data);
             // console.log('aaaaa', res.data);

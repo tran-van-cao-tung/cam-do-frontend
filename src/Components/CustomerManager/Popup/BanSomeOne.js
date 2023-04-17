@@ -1,34 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import API from '../../../API';
 import { useNavigate } from 'react-router-dom';
-
 const BanSomeOne = ({ setShowBanReason, cccd }) => {
-    const navigate = useNavigate();
-    // const handleClose = () => {
-    //     setShowBanReason(false);
-    // };
+    const history = useNavigate();
+    const [customerInfo, setCustomerInfo] = useState([]);
+
+    useEffect(() => {
+        API({
+            method: 'GET',
+            url: '/customer/getByCCCD/' + cccd,
+        }).then((response) => {
+            setCustomerInfo(response.data);
+        });
+    }, []);
+
     const handleShowBan = () => {
-        setShowBanReason(false);
-        //   API({
-        //     method: 'put',
-        //     url: '/customer/updateCustomer',
-        //     data: {
-        //       customerId: "",
-        //         cccd: "cccd",
-        //         fullName: "",
-        //         phone: "",
-        //         address: "",
-        //         status: 2,
-        //         reason: reason,
-        //     },
-        // })
-        //     .then((res) => {
-        //         alert('Blacklist thành công');
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //         alert('Blacklist fail');
-        //     });
+        console.log(cccd)
+        console.log(reason)
+          API({
+            method: 'put',
+            url: '/customer/updateCustomer',
+            data: {
+              customerId: customerInfo.customerId,
+                cccd: cccd,
+                fullName: customerInfo.fullName,
+                phone: customerInfo.phone,
+                address: customerInfo.address,
+                status: 2,
+                reason: reason,
+            },
+        })
+            .then((res) => {
+                alert('Blacklist thành công');
+                history('/customer-manager');
+            })
+            .catch((err) => {
+                console.log(err);
+                alert('Blacklist fail');
+            });
     };
     const [reason, setReason] = useState();
     const handleReason = (e) => {

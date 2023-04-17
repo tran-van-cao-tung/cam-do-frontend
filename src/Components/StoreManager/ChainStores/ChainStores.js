@@ -14,7 +14,7 @@ const ChainStores = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/branch/getChain',
+            url: 'https://tranvancaotung1-001-site1.htempurl.com/api/v1/branch/getChain',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },

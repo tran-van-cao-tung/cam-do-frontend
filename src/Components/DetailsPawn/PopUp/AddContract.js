@@ -64,7 +64,7 @@ const AddContract = ({ setShowAddContract }) => {
         console.log(data);
         alert("Đang tạo hợp đồng, xin vui lòng chờ");
         axios
-            .post(`http://tranvancaotung-001-site1.atempurl.com/api/v1/contract/createContract`, data, {
+            .post(`https://tranvancaotung1-001-site1.htempurl.com/api/v1/contract/createContract`, data, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
             })
             .then((res) => {
@@ -78,7 +78,7 @@ const AddContract = ({ setShowAddContract }) => {
     //get dữ liệu pawnableProduct
     useEffect(() => {
         axios
-            .get('http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/getAll/0', {
+            .get('https://tranvancaotung1-001-site1.htempurl.com/api/v1/pawnableProduct/getAll/0', {
                 headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
             })
             .then((res) => {
@@ -89,7 +89,7 @@ const AddContract = ({ setShowAddContract }) => {
     //get dữu liệu package
     useEffect(() => {
         axios
-            .get('http://tranvancaotung-001-site1.atempurl.com/api/v1/package/getAll/0', {
+            .get('https://tranvancaotung1-001-site1.htempurl.com/api/v1/package/getAll/0', {
                 headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
             })
             .then((res) => {
@@ -100,7 +100,7 @@ const AddContract = ({ setShowAddContract }) => {
     //get dữ liệu Lấy userId
     useEffect(() => {
         axios
-            .get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/user/getAll/0`, {
+            .get(`https://tranvancaotung1-001-site1.htempurl.com/api/v1/user/getAll/0`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
             })
             .then((res) => {
@@ -157,7 +157,7 @@ const AddContract = ({ setShowAddContract }) => {
     const handleCustomer = (e) => {
         let value = e.target.value;
         axios
-            .get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/customer/getByCCCD/${value}`, {
+            .get(`https://tranvancaotung1-001-site1.htempurl.com/api/v1/customer/getByCCCD/${value}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
             })
             .then((res) => {
@@ -171,7 +171,7 @@ const AddContract = ({ setShowAddContract }) => {
     const handleSeri = (e) => {
         axios
             .get(
-                `http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/getPawnAbleProductById/${e.target.value}`,
+                `https://tranvancaotung1-001-site1.htempurl.com/api/v1/pawnableProduct/getPawnAbleProductById/${e.target.value}`,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } },
             )
             .then((res) => {

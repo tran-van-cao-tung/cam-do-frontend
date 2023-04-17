@@ -29,7 +29,7 @@ const BtnDetails = ({ rowsContract, setContract }) => {
   //get dữ liệu pawnableProduct
   const [pawnableProduct, setPawnableProduct] = useState([]);
   useEffect(() => {
-    axios.get('http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/getAll/0', { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
+    axios.get('https://tranvancaotung1-001-site1.htempurl.com/api/v1/pawnableProduct/getAll/0', { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setPawnableProduct(res.data);
     })
   }, [])

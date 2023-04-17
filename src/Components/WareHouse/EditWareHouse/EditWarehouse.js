@@ -20,7 +20,7 @@ const EditWarehouse = () => {
         async function callAPI() {
             await axios({
                 method: 'get',
-                url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/warehouse/GetAllDetail/${params.id},1`,
+                url: `https://tranvancaotung1-001-site1.htempurl.com/api/v1/warehouse/GetAllDetail/${params.id},1`,
             }).then((res) => {
                 setItem(res.data);
                 console.log(res.data);
@@ -37,7 +37,7 @@ const EditWarehouse = () => {
     const handleSubmitEdit = () => {
         axios({
             method: 'put',
-            url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/warehouse/updateWareHouse/${params.id}`,
+            url: `https://tranvancaotung1-001-site1.htempurl.com/api/v1/warehouse/updateWareHouse/${params.id}`,
             data: {
                 warehouseName: item.branchName,
                 warehouseAddress: item.address,

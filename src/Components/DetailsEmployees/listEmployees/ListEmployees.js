@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Grid} from '@mui/material';
 import Paper from '@mui/material/Paper';
-import search from './../../../asset/img/search.png';
-import account from './../../../asset/img/account.png';
 import edit from './../../../asset/img/edit.png';
 import './employee.css';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import moment from 'moment';
 import callAPI from '../../../API';
 import ReactPaginate from 'react-paginate';
@@ -30,12 +27,9 @@ function ListEmployees() {
     });
     // Axios
     useEffect(() => {
-        axios({
+        callAPI({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/user/getAll/0',
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
+            url: '/user/getAll/0',
         })
             .then((res) => {
                 setListEmployee(res.data);

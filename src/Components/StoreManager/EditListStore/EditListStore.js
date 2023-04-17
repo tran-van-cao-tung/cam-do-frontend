@@ -20,7 +20,7 @@ const EditListStore = () => {
         async function callAPI() {
             await axios({
                 method: 'get',
-                url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/branch/getById/${params.id}`,
+                url: `https://tranvancaotung1-001-site1.htempurl.com/api/v1/branch/getById/${params.id}`,
             }).then((res) => {
                 setItem(res.data);
                 console.log(res.data);
@@ -35,7 +35,7 @@ const EditListStore = () => {
     const handleSubmitEdit = () => {
         axios({
             method: 'put',
-            url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/branch/${params.id}`,
+            url: `https://tranvancaotung1-001-site1.htempurl.com/api/v1/branch/${params.id}`,
             headers: {
                 "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
             },
