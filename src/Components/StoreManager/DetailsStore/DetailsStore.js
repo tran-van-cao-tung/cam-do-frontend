@@ -3,11 +3,11 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import './details.css';
-import axios from 'axios';
+import API from '../../../API';
 import { useParams } from 'react-router-dom';
 
 function Commodity() {
-    const param = useParams()
+    const param = useParams();
     // Them dark mod
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -21,12 +21,9 @@ function Commodity() {
     const [detail, setDetail] = useState([]);
     // Axios
     useEffect(() => {
-        axios({
+        API({
             method: 'get',
-            url: `https://tranvancaotung1-001-site1.htempurl.com/api/v1/branch/getDetailById/${param.id}`,
-            headers: {
-                "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
-            },
+            url: `/branch/getDetailById/${param.id}`,
         }).then((res) => {
             setDetail(res.data);
         });
@@ -48,11 +45,27 @@ function Commodity() {
                                 <p>Tiền khách nợ</p>
                             </div>
                             <div className="number">
-                                
-                                <p>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(detail.loanLedger)}</p>
-                                <p> {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(detail.totalProfit)}</p>
-                                <p>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(detail.recveivedInterest)}</p>
-                                <p>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(detail.debtCustomers)}</p>
+                                <p>
+                                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
+                                        detail.loanLedger,
+                                    )}
+                                </p>
+                                <p>
+                                    {' '}
+                                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
+                                        detail.totalProfit,
+                                    )}
+                                </p>
+                                <p>
+                                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
+                                        detail.recveivedInterest,
+                                    )}
+                                </p>
+                                <p>
+                                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
+                                        detail.debtCustomers,
+                                    )}
+                                </p>
                             </div>
                         </Item>
                     </Grid>
@@ -68,9 +81,21 @@ function Commodity() {
                                 <p></p>
                             </div>
                             <div className="number">
-                                <p>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(detail.numberContract)}</p>
-                                <p>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(detail.openContract)}</p>
-                                <p>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(detail.closeContract)}</p>
+                                <p>
+                                    {Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(
+                                        detail.numberContract,
+                                    )}
+                                </p>
+                                <p>
+                                    {Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(
+                                        detail.openContract,
+                                    )}
+                                </p>
+                                <p>
+                                    {Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(
+                                        detail.closeContract,
+                                    )}
+                                </p>
                                 <p></p>
                                 <p></p>
                             </div>
@@ -86,9 +111,21 @@ function Commodity() {
                                 <p>Tiền đang cho vay</p>
                             </div>
                             <div className="number">
-                                <p>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(detail.fund)}</p>
-                                <p>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(detail.balance)}</p>
-                                <p>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(detail.loanContract)}</p>
+                                <p>
+                                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
+                                        detail.fund,
+                                    )}
+                                </p>
+                                <p>
+                                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
+                                        detail.balance,
+                                    )}
+                                </p>
+                                <p>
+                                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
+                                        detail.loanContract,
+                                    )}
+                                </p>
                             </div>
                         </Item>
                     </Grid>

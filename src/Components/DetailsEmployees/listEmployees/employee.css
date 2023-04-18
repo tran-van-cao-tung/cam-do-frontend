@@ -1,229 +1,97 @@
-.box_employee {
-    margin: 0 29px;
+:root {
+    --color-text: #000000;
+    --color-all: #ad00ff;
+    --color-active: #14a87b;
+    --color-stop: #f65151;
 }
 
 .employee_heading {
     font-family: 'Francois One';
     font-style: normal;
     font-weight: 400;
-    font-size: 35px;
-    color: #000000;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    padding: 22px 0 22px 27px
+    font-size: 45px;
+    margin-bottom: 23px;
 }
 
 .employee_button {
     width: 187px;
     height: 64px;
-    background: #50C2DA;
+    background: orange;
     border-radius: 10px;
     border: 0px solid;
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
     font-weight: 400;
     font-size: 35px;
+    color: white;
 }
 
-.employee_search {
-    padding-left: 76px;
-    padding-top: 24px;
-}
-
-.employee_search-check {
+.statusStore {
+    padding: 30px 0;
+    margin-top: 14px;
+    background: rgba(217, 217, 217, 0.3);
+    width: 100%;
+    height: 50px;
     display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
     align-items: center;
-    justify-content: start;
 }
 
-.employee_search-heading {
-    font-family: 'Frank Ruhl Libre';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 39px;
-    color: #000000;
-    padding: 22px;
-    margin-right: 48px;
-}
-
-.employee_search input[type="radio"] {
-    background: #FFFFFF;
-    border: 1px solid rgba(134, 131, 131, 0.6);
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    position: relative;
-    -webkit-appearance: none;
-}
-
-.employee_search input[type="radio"]:checked:after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #537E87;
-}
-
-.employee_search input[type="radio"]+label {
-    font-family: 'Frank Ruhl Libre';
-    font-style: normal;
+.statusStore span {
     font-weight: 400;
     font-size: 25px;
-    line-height: 32px;
+    line-height: 35px;
+    color: var(--color-text);
+}
+
+.radioItem {
     display: flex;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
+    flex-direction: row !important;
 }
 
-.employee_search input[type="radio"]+.check1 {
-    color: #AD00FF;
+.radioItem .radio-all>span {
+    color: var(--color-all);
 }
 
-.employee_search input[type="radio"]+.check2 {
-    color: #14A87B;
+.radioItem .radio-active>span {
+    color: var(--color-active);
 }
 
-.employee_search input[type="radio"]+.check3 {
-    color: #F75151;
+.radioItem .radio-stop>span {
+    color: var(--color-stop);
 }
 
-.employee_search-option {
-    width: 753px;
-    height: 53px;
-    left: 488px;
-    top: 403px;
-    background: rgba(255, 255, 255, 0.6);
-    
-    border-radius: 6px;
-    font-family: 'Frank Ruhl Libre';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 25px;
-    line-height: 32px;
-    display: flex;
-    align-items: center;
-    color: #000000;
-    margin-bottom: 18px;
-    padding-left: 14px;
-    /* Ẩn icon mặc định */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    /* Thay đổi icon */
-    background-image: url('/src/asset/img/down.png');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-}
-
-.employee_search-input {
-    width: 741px;
-    height: 56px;
-    background: rgba(123, 125, 155, 0.34);
-    border-radius: 7px;
-    font-family: 'Frank Ruhl Libre';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 39px;
-    color: rgba(0, 0, 0, 0.6);
-    opacity: 0.6;
-    border: none;
-    padding-left: 14px;
-}
-
-.employee_search-input {
-    background-image: url('/src/asset/img/search.png');
-    background-repeat: no-repeat;
-    background-position: right center;
-}
-
-.employee_search-input>div,
-.employee_search-option>div {
-    font-size: 25px;
-    line-height: 32px;
-    font-family: 'Frank Ruhl Libre' !important;
-    color: #000000;
-}
-
-.employee_search-btn {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 224px;
-    height: 54px;
-    background: #50C2DA;
-    border-radius: 10px;
-    border: none;
-    font-family: 'Frank Ruhl Libre';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 39px;
-    padding: 0 13px;
-    color: #FFFBFB;
-    margin-top: 18px;
-}
-
-/* .MuiTable-bordered {
-    border-collapse: collapse;
-    border: 1px solid #ddd;
-    color: #000000;
-    margin-top: 53px;
-    display: flex;
-} */
-
-.MuiTable-bordered th,
-.MuiTable-bordered td {
-    
-    font-family: 'Frank Ruhl Libre';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 22px;
-    text-align: center;
-}
-
-/* .MuiTableHead-root {
-    background-color: #D9D9D9;
-    display: flex;
-    align-items: center;
-    text-align: center;
-} */
-
-.MuiTableHead-root th {
-    font-family: 'Frank Ruhl Libre';
-    font-style: normal;
+.statusStore .fromstatusStore p {
     font-weight: 400;
     font-size: 20px;
-    line-height: 26px;
-
+    line-height: 32px;
 }
 
-.MuiTableBody_root-name span {
-    color: #2137FF;
+.searchinput input {
+    width: 300px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.34);
+    opacity: 0.6;
+    border: 1px solid #000000;
+    border-radius: 7px;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.6);
 }
 
-.MuiTableBody_root-status {
-    width: 121px;
-    height: 24px;
+.statusStore .buttonsearch button {
+    width: 100px;
+    height: 38px;
+    font-size: 18px;
+    font-weight: 400;
+    background: #50c2da;
     border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #F65151;
-    color: #FFFFFF
+    border: none;
+    color: var(--color-text);
 }
 
-.activity {
-    background: #14A87B;
+.tableEmployee {
+    width: 100%;
 }
 
 .MuiTableBody_root-itemLast {
@@ -233,22 +101,28 @@
     cursor: pointer;
 }
 
-.box_employee ._table-Listemoloyess{
-    width: 105%;
+.box_employee ._table-Listemoloyess {
+    width: 100%;
     margin: 0;
 }
-.box_employee .responstable{
+
+.box_employee .responstable {
     font-size: 16px;
 }
 
-
-.list_box-employee{
+.list_box-employee {
     background-color: #fff;
-    padding: 22px 19px 22px 27px;
     border-radius: 10px;
 }
+
+
 /* Phân trang */
-.paginate-listemployees{
+
+.paginate-listemployees {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    left: 0;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;

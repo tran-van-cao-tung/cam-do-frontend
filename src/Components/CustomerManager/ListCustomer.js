@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import API from '../../../src/API.js';
 import edit from './../../asset/img/edit.png';
 import ReactPaginate from 'react-paginate';
-
+import './CustomerManager.css';
 function ListCustomer({ numPage }) {
     const [customers, setCustomers] = useState([]);
     const [searchAPIData, setSearchAPIData] = useState([]);
@@ -37,8 +37,8 @@ function ListCustomer({ numPage }) {
     // |            Phân Trang        |
     // ==================================
     const [currentPage, setCurrentPage] = useState(0);
-    const [customersPerPage, setCustomersPerPage] = useState(4);// số lượng cửa hàng hiển thị trên mỗi trang
-    const pageCount = Math.ceil(customers.length / customersPerPage);// tính toán số lượng trang
+    const [customersPerPage, setCustomersPerPage] = useState(4); // số lượng cửa hàng hiển thị trên mỗi trang
+    const pageCount = Math.ceil(customers.length / customersPerPage); // tính toán số lượng trang
     const startIndex = currentPage * customersPerPage;
     const endIndex = startIndex + customersPerPage;
     const currentCustomers = customers.slice(startIndex, endIndex);
@@ -50,14 +50,11 @@ function ListCustomer({ numPage }) {
                 {/* |             Add and Search        | */}
                 {/* ===================================== */}
                 <div className="ListCustomer">
-                    {/* Button  Add */}
-                    <a href="#">
-                        <Link to="/customer-manager/add-new-customer">
-                            <button className="addliststore">Thêm mới khách hàng</button>
-                        </Link>
-                    </a>
+                    <Link to="/customer-manager/add-new-customer">
+                        <button className="addlistCustomer">Thêm mới khách hàng</button>
+                    </Link>
                     {/* Status */}
-                    <div className="status">
+                    <div className="statusCustomer">
                         {/* Search */}
                         <div className="searchinput">
                             <input
@@ -79,7 +76,7 @@ function ListCustomer({ numPage }) {
                 {/* ================================ */}
                 {/* =            Table Show        = */}
                 {/* ================================ */}
-                <div className="table">
+                <div className="tableReport">
                     <table className="responstable">
                         <tr>
                             <th>STT</th>
@@ -106,7 +103,13 @@ function ListCustomer({ numPage }) {
                                 <td>{customer.point}</td>
                                 <td>
                                     <Link to={`/customer-manager/updateinfo/`}>
-                                    <img src={edit} alt="Edit" onClick={() => { sessionStorage.setItem("num", customer.cccd) }} />
+                                        <img
+                                            src={edit}
+                                            alt="Edit"
+                                            onClick={() => {
+                                                sessionStorage.setItem('num', customer.cccd);
+                                            }}
+                                        />
                                     </Link>
                                 </td>
                             </tr>
@@ -115,21 +118,21 @@ function ListCustomer({ numPage }) {
                     {/* ================================ */}
                     {/* =            Phân Trang        = */}
                     {/* ================================ */}
-                    <ReactPaginate
-                        className="paginate-listcustomer"
-                        previousLabel={'Trang trước'}
-                        nextLabel={'Trang sau'}
-                        breakLabel={'...'}
-                        breakClassName={'break-me'}
-                        pageCount={pageCount}
-                        onPageChange={(data) => {
-                            setCurrentPage(data.selected);
-                        }}
-                        containerClassName={'pagination'}
-                        activeClassName={'active'}
-                    />
                 </div>
             </div>
+            <ReactPaginate
+                className="paginate-listcustomer"
+                previousLabel={'Trang trước'}
+                nextLabel={'Trang sau'}
+                breakLabel={'...'}
+                breakClassName={'break-me'}
+                pageCount={pageCount}
+                onPageChange={(data) => {
+                    setCurrentPage(data.selected);
+                }}
+                containerClassName={'pagination'}
+                activeClassName={'active'}
+            />
         </>
     );
 }

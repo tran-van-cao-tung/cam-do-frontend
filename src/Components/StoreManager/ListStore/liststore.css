@@ -5,33 +5,26 @@
     --color-stop: #f65151;
 }
 
-.liststore {
-    margin: 29px 46px;
-    position: absolute;
-    background: #fff;
-    width: 95%;
-    height: 90%;
-    border-radius: 10px;
+.listStoreContainer {
+    position: relative;
+    height: 100%;
 }
 
 .liststorebody-h1 {
+    font-family: 'Francois One';
+    font-style: normal;
     font-weight: 400;
     font-size: 45px;
-    line-height: 64px;
-    color: #1a3b42;
+    margin-bottom: 23px;
 }
 
-.liststorebody a{
-    display: block;
-    width: 25%;
+.ListStore1 {
+    margin: 29px 0;
+    border-radius: 10px;
 }
 
-.liststorebody {
-    padding-left: 18px;
-}
-
-.liststorebody .addliststore {
-    background: #50c2da;
+.addlistStore {
+    background-color: orange !important;
     border-radius: 10px;
     margin-top: 20px;
     width: 335px;
@@ -42,15 +35,15 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    color: var(--color-text);
+    color: white;
     border: none;
 }
 
-.liststorebody .status {
-    position: absolute;
+.liststorebody .statusStore {
+    padding: 30px 0;
     margin-top: 14px;
     background: rgba(217, 217, 217, 0.3);
-    width: 95%;
+    width: 100%;
     height: 50px;
     display: flex;
     flex-wrap: nowrap;
@@ -58,34 +51,37 @@
     align-items: center;
 }
 
-.liststorebody .status span {
+.liststorebody .statusStore span {
     font-weight: 400;
     font-size: 25px;
     line-height: 35px;
     color: var(--color-text);
 }
 
-.liststore .liststorebody .status .fromstatus {
+.liststore .liststorebody .statusStore .fromstatusStore {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    flex-direction: row;
+    width: 40%;
 }
-.liststore .liststorebody .status .fromstatus .radio-item{
+
+.radioItem {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    flex-direction: row !important;
 }
-.radio-item .radio-all > span{
+
+.radioItem .radio-all>span {
     color: var(--color-all);
 }
-.radio-item .radio-active > span{
+
+.radioItem .radio-active>span {
     color: var(--color-active);
 }
-.radio-item .radio-stop > span{
+
+.radioItem .radio-stop>span {
     color: var(--color-stop);
 }
-.status .fromstatus p {
+
+.statusStore .fromstatusStore p {
     font-weight: 400;
     font-size: 20px;
     line-height: 32px;
@@ -102,7 +98,7 @@
     color: rgba(0, 0, 0, 0.6);
 }
 
-.status .buttonsearch button {
+.statusStore .buttonsearch button {
     width: 100px;
     height: 38px;
     font-size: 18px;
@@ -113,9 +109,11 @@
     color: var(--color-text);
 }
 
+
 /* Table */
-.table {
-    margin: 90px 2% 0;
+
+.tableStore {
+    width: 100%;
 }
 
 .MuiTable-bordered {
@@ -128,7 +126,6 @@
 
 .MuiTable-bordered th,
 .MuiTable-bordered td {
-    
     font-family: "Frank Ruhl Libre";
     font-style: normal;
     font-weight: 400;
@@ -136,6 +133,7 @@
     line-height: 22px;
     text-align: center;
 }
+
 .MuiTableHead-root-wrap {
     background-color: #d9d9d9;
     display: flex;
@@ -158,12 +156,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f65151;
-    color: #ffffff;
+    border: 2px solid green;
+    color: green;
 }
 
 .activity {
-    background: #14a87b;
+    border: 2px solid red;
+    color: red;
 }
 
 .MuiTableBody_root-itemLast {
@@ -171,8 +170,15 @@
     align-items: center;
     justify-content: space-around;
 }
+
+
 /* Phân trang */
-.paginate-listStore{
+
+.paginate-listStore {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    left: 0;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;

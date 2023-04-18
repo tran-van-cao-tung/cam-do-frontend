@@ -6,12 +6,10 @@
     padding: 15px;
 }
 
-
 .wareh-wrapper {
     height: 100%;
     display: flex;
     flex-direction: column;
-
 }
 
 .wareh-title {
@@ -19,10 +17,9 @@
     margin-bottom: 16px;
 }
 
-.wareh-content {
+.editCommondity-content {
     display: block;
     flex: 1;
-    padding: 15px;
     background-color: white;
     border-radius: 5px;
 }
@@ -38,7 +35,6 @@
     flex-direction: column;
     gap: 10px
 }
-
 
 .add-commodity-left .add-status-group {
     display: flex;
@@ -63,7 +59,6 @@
 
 .add-section .add-input-group {
     display: flow-root;
-
 }
 
 .add-commodity-left .add-input-group .label {
@@ -111,7 +106,6 @@
 .add-actions .back-btn:hover {
     background-color: #eaec81;
 }
-
 
 .wareh-content .add-content {
     display: flex;

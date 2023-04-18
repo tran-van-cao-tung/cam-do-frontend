@@ -7,14 +7,12 @@ import FormLabel from '@mui/material/FormLabel';
 import InputBase from '@mui/material/InputBase';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-
+import API from '../../../API';
 import { Divider } from '@mui/material';
-import axios from 'axios';
+
 import React, { useState } from 'react';
 
-
 const Addcommondity = () => {
-
     const [code, setCode] = useState('');
     const [name, setName] = useState('');
     const [status, setStatus] = useState(0);
@@ -31,12 +29,10 @@ const Addcommondity = () => {
     };
 
     const handleSumbitCommondy = (e) => {
-        axios({
+        API({
             method: 'post',
-            url: 'https://tranvancaotung1-001-site1.htempurl.com/api/v1/pawnableProduct/createPawnable',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
-            },
+            url: '/pawnableProduct/createPawnable',
+
             data: {
                 typeOfProduct: name,
                 commodityCode: code,
@@ -68,7 +64,7 @@ const Addcommondity = () => {
                                     placeholder="XM"
                                     inputProps={{ 'aria-label': 'search' }}
                                     className="add-input"
-                                    name='commodityCode'
+                                    name="commodityCode"
                                     onChange={handleOnChangeCode}
                                 />
                             </FormControl>
@@ -81,7 +77,7 @@ const Addcommondity = () => {
                                     placeholder="Xe máy SH"
                                     inputProps={{ 'aria-label': 'search' }}
                                     className="add-input"
-                                    name='typeOfProduct'
+                                    name="typeOfProduct"
                                     onChange={handleOnChangeName}
                                 />
                             </FormControl>

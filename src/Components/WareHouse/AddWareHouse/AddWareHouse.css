@@ -3,15 +3,15 @@
     display: flex;
     flex-direction: column;
 }
+
 .wareh-title {
     font-size: 24px;
     margin-bottom: 16px;
 }
 
-.wareh-content {
+.addWareh-content {
     display: block;
     flex: 1;
-    padding: 15px;
     background-color: white;
     border-radius: 5px;
 }
@@ -41,9 +41,11 @@
 .add-wareh-section .add-status-group .radio-available {
     color: var(--color-success);
 }
+
 .add-wareh-section .add-status-group .radio-full {
     color: var(--color-warning);
 }
+
 .add-wareh-section .add-status-group .radio-closed {
     color: var(--color-error);
 }

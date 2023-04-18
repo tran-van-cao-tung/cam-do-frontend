@@ -1,21 +1,20 @@
-import Button from "@mui/material/Button";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Divider, FormHelperText, StyledEngineProvider } from "@mui/material";
-
-import "./AddWareHouse.css";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import Button from '@mui/material/Button';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Divider, FormHelperText, StyledEngineProvider } from '@mui/material';
+import API from '../../../API';
+import './AddWareHouse.css';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const WareHouse = () => {
-    const [statusFilter, setStatusFilter] = useState("available");
+    const [statusFilter, setStatusFilter] = useState('available');
 
     const handleStatusFilter = (e) => {
         setStatusFilter(e.target.value);
@@ -25,15 +24,12 @@ const WareHouse = () => {
     // |         Add Ware Home         |
     // ================================
 
-    const [Name, seteName] = useState('')
-    const [Address, setAddress] = useState('')
-    const handleSubmit =(e)=>{
-        axios({
+    const [Name, seteName] = useState('');
+    const [Address, setAddress] = useState('');
+    const handleSubmit = (e) => {
+        API({
             method: 'post',
-            url: 'https://tranvancaotung1-001-site1.htempurl.com/api/v1/warehouse/createWarehouse',
-            headers: {
-                "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
-            },
+            url: '/warehouse/createWarehouse',
             data: {
                 // "branchId": id,
                 warehouseName: Name,
@@ -45,15 +41,15 @@ const WareHouse = () => {
                 alert('Lưu Thành Công');
             })
             .catch((err) => console.log(err));
-    }
+    };
 
-    const handleOnChangeName = (e) =>{
+    const handleOnChangeName = (e) => {
         seteName(e.target.value);
-    }
+    };
 
-    const handleOnChangeAddress =(e)=>{
+    const handleOnChangeAddress = (e) => {
         setAddress(e.target.value);
-    }
+    };
     return (
         <StyledEngineProvider injectFirst>
             <div className="wareh-wrapper">
@@ -63,11 +59,11 @@ const WareHouse = () => {
                     <div className="add-wareh-section">
                         <FormControl className="add-input-group">
                             <FormLabel className="label">
-                                Tên kho&nbsp;<label style={{ color: "red" }}>*</label>:
+                                Tên kho&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
                             <InputBase
                                 placeholder="Nhập tên kho …"
-                                inputProps={{ "aria-label": "search" }}
+                                inputProps={{ 'aria-label': 'search' }}
                                 className="add-input"
                                 onChange={handleOnChangeName}
                             />
@@ -78,11 +74,11 @@ const WareHouse = () => {
 
                         <FormControl className="add-input-group">
                             <FormLabel className="label">
-                                Địa chỉ&nbsp;<label style={{ color: "red" }}>*</label>:
+                                Địa chỉ&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
                             <InputBase
                                 placeholder="Nhập địa chỉ …"
-                                inputProps={{ "aria-label": "search" }}
+                                inputProps={{ 'aria-label': 'search' }}
                                 className="add-input"
                                 onChange={handleOnChangeAddress}
                             />
@@ -90,7 +86,7 @@ const WareHouse = () => {
 
                         <FormControl className="add-status-group">
                             <FormLabel className="label">
-                                Tình trạng&nbsp;<label style={{ color: "red" }}>*</label>:
+                                Tình trạng&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
                             <RadioGroup
                                 row
@@ -134,11 +130,7 @@ const WareHouse = () => {
                         </Button>
 
                         <Link to="/warehouse">
-                            <Button
-                                className="back-btn"
-                                variant="contained"
-                                startIcon={<ArrowBackIcon />}
-                            >
+                            <Button className="back-btn" variant="contained" startIcon={<ArrowBackIcon />}>
                                 Quay lại
                             </Button>
                         </Link>

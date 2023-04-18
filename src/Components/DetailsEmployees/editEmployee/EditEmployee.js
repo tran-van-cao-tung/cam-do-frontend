@@ -11,7 +11,6 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 
-
 function EditEmployee() {
     const history = useNavigate();
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -30,7 +29,6 @@ function EditEmployee() {
     }); */
 
     const id = useParams();
-
 
     /* const handleSubmit = (event) => {
         event.preventDefault();
@@ -69,7 +67,7 @@ function EditEmployee() {
         }).then((res) => {
             setListEmployees(res.data);
             /* setInitialValues(res.data) */
-            console.log(res.data)
+            console.log(res.data);
         });
     }, [id.id]);
 
@@ -87,15 +85,14 @@ function EditEmployee() {
     const [showPassword2, setShowPassword2] = useState(false);
 
     const toggleShowPassword1 = () => {
-        setShowPassword1(prev => !prev);
+        setShowPassword1((prev) => !prev);
     };
     const toggleShowPassword2 = () => {
-        setShowPassword2(prev => !prev);
+        setShowPassword2((prev) => !prev);
     };
-    const handlePasswordChange = event => {
+    const handlePasswordChange = (event) => {
         setConfirmPassword(event.target.value);
     };
-
 
     const initialValue = {
         roleId: listEmployees.roleId,
@@ -118,29 +115,27 @@ function EditEmployee() {
         password: Yup.string()
             .required('Mật khẩu không được để trống')
             .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{10,}$/, 'Mật khẩu cần ít nhất 10 ký tự, bao gồm chữ và số'),
-        address: Yup.string()
-            .max(200, 'Địa chỉ không được vượt quá 200 ký tự'),
-        phone: Yup.string()
-            .matches(/^\+?\d{10,12}$/, 'Nhập đúng định dạng số điện thoại, 10 số'),
+        address: Yup.string().max(200, 'Địa chỉ không được vượt quá 200 ký tự'),
+        phone: Yup.string().matches(/^\+?\d{10,12}$/, 'Nhập đúng định dạng số điện thoại, 10 số'),
         email: Yup.string()
             .email('Nhập đúng định dạng email, ví dụ: example@gmail.com')
             .required('Email không được để trống'),
-    })
+    });
 
     const onSubmit = (data) => {
         if (data.password !== confirmPassword) {
             alert('Mật khẩu không trùng khớp!');
             return;
         }
-        data.status = parseInt(data.status)
+        data.status = parseInt(data.status);
         API({
             method: 'post',
             url: `user/createUser`,
             data: data,
         }).then((res) => {
-            alert("thêm thành công!")
+            alert('thêm thành công!');
         });
-    }
+    };
 
     /*     const handleInput = (e) => {
             e.persist();
@@ -151,12 +146,9 @@ function EditEmployee() {
         <div className="box_employee">
             <h1 className="employee_heading-add">Cập nhật nhân viên</h1>
             <div className="wareh-content">
-                <Formik
-                    initialValues={initialValue}
-                    validationSchema={validationSchema}
-                    onSubmit={onSubmit}
-                >
-                    return (<div className="employeeAdd">
+                <Formik initialValues={initialValue} validationSchema={validationSchema} onSubmit={onSubmit}>
+                    return (
+                    <div className="employeeAdd">
                         <div className="employee_input">
                             <span>
                                 Họ và tên <span>*</span>:
@@ -169,12 +161,19 @@ function EditEmployee() {
                                     value={listEmployees.fullName}
                                 /> */}
                         </div>
-                        <ErrorMessage name='fullName' className="alert alert-danger" component="div" />
+                        <ErrorMessage name="fullName" className="alert alert-danger" component="div" />
                         <div className="employee_input">
                             <span>
                                 Tên cửa hàng <span>*</span>:
                             </span>
-                            <Field as="select" id="branchId" name='branchId' style={{ width: "576px" }} /* onChange={(e) => handleInput(e)} value={employeeInput.branchId} */>
+                            <Field
+                                as="select"
+                                id="branchId"
+                                name="branchId"
+                                style={{
+                                    width: '576px',
+                                }} /* onChange={(e) => handleInput(e)} value={employeeInput.branchId} */
+                            >
                                 <option>--Tên cửa hàng--</option>
                                 {branch.map((item, index) => {
                                     return (
@@ -185,14 +184,14 @@ function EditEmployee() {
                                 })}
                             </Field>
                         </div>
-                        <ErrorMessage className="alert alert-danger" name='branchId' component="div" />
+                        <ErrorMessage className="alert alert-danger" name="branchId" component="div" />
                         <div className="employee_username">
                             <span>
                                 Tên đăng nhập <span>*</span>:
                             </span>
                             <span>{listEmployees.userName}</span>
                         </div>
-                        <div className='employee_input'>
+                        <div className="employee_input">
                             <span>
                                 Mật khẩu<span>*</span>:
                             </span>
@@ -203,13 +202,19 @@ function EditEmployee() {
                                 </button>
                             </div>
                         </div>
-                        <ErrorMessage name='password' className="alert alert-danger" component="div" />
-                        <div className='employee_input'>
+                        <ErrorMessage name="password" className="alert alert-danger" component="div" />
+                        <div className="employee_input">
                             <span>
                                 Nhập lại mật khẩu<span>*</span>:
                             </span>
                             <div className="password-input">
-                                <Field type={showPassword2 ? 'text' : 'password'} id="confirmPassword" name="confirmPassword" onChange={handlePasswordChange} value={confirmPassword} />
+                                <Field
+                                    type={showPassword2 ? 'text' : 'password'}
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    onChange={handlePasswordChange}
+                                    value={confirmPassword}
+                                />
                                 <button type="button" onClick={toggleShowPassword2}>
                                     {showPassword2 ? <VisibilityIcon /> : <VisibilityOffIcon />}
                                 </button>
@@ -221,21 +226,21 @@ function EditEmployee() {
                             </span>
                             <Field id="email" name="email" />
                         </div>
-                        <ErrorMessage name='email' className="alert alert-danger" component="div" />
+                        <ErrorMessage name="email" className="alert alert-danger" component="div" />
                         <div className="employee_input">
                             <span>
                                 Địa chỉ <span>*</span>:
                             </span>
                             <Field id="address" name="address" />
                         </div>
-                        <ErrorMessage name='address' className="alert alert-danger" component="div" />
+                        <ErrorMessage name="address" className="alert alert-danger" component="div" />
                         <div className="employee_input">
                             <span>
                                 Số điện thoại <span>*</span>:
                             </span>
                             <Field id="phone" name="phone" />
                         </div>
-                        <ErrorMessage name='phone' className="alert alert-danger" component="div" />
+                        <ErrorMessage name="phone" className="alert alert-danger" component="div" />
                         <div className="employee_search employee_style-search">
                             <div className="employee_search-check employee_style-check">
                                 <span className="employee_search-heading">
@@ -249,7 +254,7 @@ function EditEmployee() {
                         </div>
                         <div className="employee-btn">
                             <div className="employee_btn-group">
-                                <button className="employee_btn-item aqua" type='submit'>
+                                <button className="employee_btn-item aqua" type="submit">
                                     <SaveAltIcon />
                                     <span>Lưu lại</span>
                                 </button>
@@ -264,7 +269,8 @@ function EditEmployee() {
                                 </button>
                             </div>
                         </div>
-                    </div>)
+                    </div>
+                    )
                 </Formik>
             </div>
         </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './popup.css';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { Button, styled} from '@mui/material';
+import { Button, styled } from '@mui/material';
 import API from '../../../API.js';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';

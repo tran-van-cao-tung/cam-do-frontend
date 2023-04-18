@@ -11,13 +11,11 @@ import edit from './../../asset/img/edit.png';
 import ext from './../../asset/img/ext.png';
 import './package.css';
 
-const ListStore = () => {
+const Package = () => {
     //
     const [list, setList] = useState([]);
     // Axios
-    useEffect(() => {
-        
-    }, []);
+    useEffect(() => {}, []);
     // ==================================
     // |  Filter Value Radio and Search |
     // ==================================
@@ -47,12 +45,12 @@ const ListStore = () => {
     };
     return (
         <>
-            <h1 className="liststorebody-h1">Điều chỉnh gói vay</h1>
-            <div className="liststore">
+            <h1 className="listPackagebody-h1">Điều chỉnh gói vay</h1>
+            <div className="listPackage">
                 {/* ================================ */}
                 {/* =            Table Show        = */}
                 {/* ================================ */}
-                <div className="table">
+                <div className="tablePackage">
                     <table className="responstable">
                         <tr>
                             <th>Tên gói vay</th>
@@ -84,8 +82,8 @@ const ListStore = () => {
                                 </td>
                                 <td>
                                     <div className="MuiTableBody_root-itemLast">
-                                            <img src={ext} alt="..." />
-                                            <img src={edit} alt="Edit" />
+                                        <img src={ext} alt="..." />
+                                        <img src={edit} alt="Edit" />
                                     </div>
                                 </td>
                             </tr>
@@ -96,7 +94,7 @@ const ListStore = () => {
                 {/* =            Phân Trang        = */}
                 {/* ================================ */}
                 <ReactPaginate
-                    className="paginate-listStore"
+                    className="paginate-listPackage"
                     previousLabel={'Trang trước'}
                     nextLabel={'Trang sau'}
                     breakLabel={'...'}
@@ -113,4 +111,4 @@ const ListStore = () => {
     );
 };
 
-export default ListStore;
+export default Package;

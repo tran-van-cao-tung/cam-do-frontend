@@ -9,8 +9,8 @@
     position: relative;
 }
 
-.heading{
-    margin-bottom: 20px;
+.heading {
+    margin-bottom: 60px;
 }
 
 .conten .item-detail .text,
@@ -28,9 +28,11 @@
     text-align: right;
     padding-right: 53px;
 }
+
 .conten .TTV {
     transform: translateX(50%);
 }
+
 .conten .item-detail .information {
     position: absolute;
     top: 0;
@@ -44,15 +46,19 @@
     padding: 0 20px;
     color: var(--color-text);
 }
-.conten .item-detail .chill-1{
+
+.conten .item-detail .chill-1 {
     background: #8BF0BA;
 }
-.conten .item-detail .chill-2{
+
+.conten .item-detail .chill-2 {
     background: #F9BDEB;
 }
-.conten .item-detail .chill-3{
+
+.conten .item-detail .chill-3 {
     background: #8BD8F0;
 }
-.conten .item-detail .chill-4{
+
+.conten .item-detail .chill-4 {
     background: #CEC7F9;
 }

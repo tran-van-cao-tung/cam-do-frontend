@@ -5,32 +5,35 @@
     position: relative;
 }
 
+.tableComponent {
+    margin-top: 20px !important;
+}
+
+.btn-detail {
+    width: 100%;
+}
+
 .header {
-    border-bottom: 1px solid #000000;
-    opacity: 0.6;
-    padding: 22px 0 20px 70px;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 60px;
 }
 
 .header h1 {
-    font-family: "Roboto", "Helvetica", "Arial", "sans-serif";
+    font-family: 'Francois One';
     font-style: normal;
     font-weight: 400;
     font-size: 45px;
-    line-height: 64px;
-    color: #1A3B42;
 }
 
-.btn {
-    margin-right: 74px;
+.btnPawn {
     display: flex;
     align-items: center;
 }
 
 .btn-click {
     border: none;
-    margin-right: 7px;
+    margin-left: 7px;
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
     font-weight: 400;
@@ -40,22 +43,35 @@
 }
 
 .btn__click-search {
-    background-color: #50C2DA;
+    background-color: orange;
     border-radius: 10px;
     border: none;
+    width: 100%;
+    padding: 5px 15px;
+}
+
+.btnDetailPawn {
+    margin-bottom: 30px;
 }
 
 .posi__none {
     position: relative !important;
-    padding: 3px;
+    right: 0;
+    height: 100%;
+    font-size: 255%;
+    cursor: pointer;
 }
 
 .addnew {
-    background-color: #50c2da;
+    background-color: orange;
+    padding: 5px 10px;
 }
 
 .export {
-    background-color: #50da98;
+    background-color: white;
+    border: 2px solid green;
+    padding: 5px 10px;
+    color: green;
 }
 
 .contract {
@@ -76,22 +92,22 @@
 }
 
 .search-hd {
-    display: flex;
+    /* display: flex; */
     position: relative;
+    width: 100%;
 }
+
+.searchDd {}
 
 .search-hd input {
     width: 100%;
     padding: 11px 0 10px 5px;
-    border: none;
-    background: rgba(123, 125, 155, 0.34);
-    opacity: 0.6;
+    border: 1px solid rgba(0, 0, 0, 0.6);
     border-radius: 7px;
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
-    color: rgba(0, 0, 0, 0.6);
     opacity: 0.6;
 }
 
@@ -105,18 +121,13 @@
     cursor: pointer;
 }
 
-.btn-detail {
-    padding: 0px 22px 28px 22px;
-}
-
 .since div {
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 39px;
-    color: rgba(0, 0, 0, 0.6);
-    background: rgba(123, 125, 155, 0.34);
+    /* background: rgba(123, 125, 155, 0.34); */
     opacity: 0.6;
 }
 
@@ -125,7 +136,7 @@
     border: none;
 }
 
-.lts {
+.ltsPawn {
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
     font-weight: 400;
@@ -133,10 +144,7 @@
     text-align: center;
     width: 100%;
     color: rgba(0, 0, 0, 0.6);
-    background: rgba(123, 125, 155, 0.34);
-    opacity: 0.6;
     border-radius: 7px;
-    opacity: 0.6;
     padding: 10px 0 9px 5px;
 }
 
@@ -206,10 +214,6 @@ div[title='Đã Đóng'] {
 .liststorebody a {
     display: block;
     width: 25%;
-}
-
-.liststorebody {
-    padding-left: 18px;
 }
 
 .liststorebody .addliststore {
@@ -340,12 +344,13 @@ div[title='Đã Đóng'] {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f65151;
-    color: #ffffff;
+    border: 2px solid green;
+    color: green;
 }
 
 .activity {
-    background: #14a87b;
+    border: 2px solid red;
+    color: red;
 }
 
 .MuiTableBody_root-itemLast {

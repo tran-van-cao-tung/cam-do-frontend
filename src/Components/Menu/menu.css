@@ -2,13 +2,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Frank+Ruhl+Libre&family=Poppins:wght@300;400;500;600;700&display=swap');
 .menu {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    height: 118px;
     width: 100%;
+    background-color: #F9F6F4;
 }
 
-.content1 {
+.content1Container {
     display: flex;
+    align-items: center;
+    border: 2px solid orange;
+    padding: 5px 10px;
+    border-radius: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    /* background-color: white; */
 }
 
 .ouline {
@@ -21,51 +29,87 @@
 
 .logos {
     display: flex;
-    padding: 26px 112px 29px 52px;
+    justify-content: space-between;
+    margin: 0 10px 20px 0;
 }
 
 .logo {
+    margin-left: 13px;
     font-size: 70px;
     font-weight: 400;
     font-family: 'Forum', cursive;
-    color: #537E87;
+    color: black;
     line-height: 55.28px;
 }
 
 .select_option {
     display: flex;
-    padding: 26px 0 42px 0;
+    /* padding: 26px 0 42px 0; */
 }
 
 .select_option img {
     width: 62px;
-    height: 50px;
+    /* height: 50px; */
     opacity: 0.6;
 }
 
 .select_option select,
 .select_option section:focus-visible {
+    cursor: pointer;
     border: none !important;
     outline: none;
     font-size: 35px;
     font-weight: 400;
+    background-color: #F9F6F4;
     font-family: 'Frank Ruhl Libre', serif;
+}
+
+.select_option:hover select {
+    color: orange;
+    opacity: 0.8;
 }
 
 .content2 {
     display: flex;
-    padding: 30px 21px 26px 0;
+    align-items: center;
+    justify-content: end;
+    padding: 15px 0px;
 }
 
-.content2 .icon img {
-    width: 60px;
-    height: 60px;
-    margin-right: 37px;
+.content2 .icon1,
+.content2 .icon2 {
+    position: relative;
+    padding: 10px;
+    margin: 0 10px;
+    /* border: 1px solid orange; */
+    border-radius: 50%;
+}
+
+.content2 .icon1 img {
+    width: 45px;
+    height: 45px;
+    /* margin-right: 37px; */
     cursor: pointer;
 }
 
-.content2 .icon span {
+.content2 .icon2 img {
+    width: 50px;
+    height: 50px;
+    /* margin-right: 37px; */
+    cursor: pointer;
+}
+
+.content2 .icon1:hover,
+.content2 .icon2:hover {
+    box-shadow: -2px 10px 32px 0px #dddddd9a;
+    background-color: rgba(255, 255, 255, 0.889);
+}
+
+.content2 .icon1 span,
+.content2 .icon2 span {
     position: absolute;
+    top: 0px;
+    right: -40px;
     background-color: red;
     border-radius: 50%;
     height: 28px;
@@ -75,22 +119,42 @@
     transform: translateX(-30px) translateY(-13px);
 }
 
-.account {
+
+/* .account {
+    margin-left: 5px;
+    padding: 0 5px;
     display: flex;
-    margin-left: 128px;
-}
+    align-items: center;
+    flex-direction: column;
+
+    background-color: white;
+} */
 
 .avata {
-    width: 43px;
-    height: 45px;
+    padding-top: 5px;
+    width: 35px !important;
+    height: 35px !important;
+    border-radius: 50%;
+    /* padding: px; */
+    margin: 5px;
 }
 
 .setting {
     transform: translateY(-9%);
+    margin-left: 5px;
+    padding: 0 5px;
+    border-radius: 12px;
 }
 
+
+/* .setting:hover {
+    box-shadow: -2px 10px 32px 0px #dddddd9a;
+    background-color: rgba(255, 255, 255, 0.889);
+} */
+
 #basic-button {
-    font-size: 35px;
+    font-size: 20px;
+    color: orange;
     font-weight: 400;
     font-family: 'Frank Ruhl Libre', serif;
 }
@@ -99,9 +163,10 @@
 /* navMenu */
 
 .menu-conten {
-    background-color: rgba(234, 246, 249, 0.65);
+    /* background-color: rgba(234, 246, 249, 0.65); */
+    background-color: #F9F6F4;
     height: 100%;
-    padding-bottom: 20px;
+    padding: 0 0 20px 20px;
 }
 
 .iconMenu {
@@ -110,12 +175,13 @@
 }
 
 .menu-text {
-    padding: 46px 0 0 0;
+    padding: 20px 0 0 0;
+    list-style: none;
 }
 
 .text-menu:hover,
 .subtext:hover {
-    background-color: rgba(80, 157, 168, 0.6);
+    background-color: #ffb70089;
     border-radius: 12px;
 }
 
@@ -145,7 +211,7 @@
     font-weight: 400;
     font-size: 30px;
     padding: 0 0 0 16px;
-    background-color: rgba(80, 157, 168, 0.6);
+    background-color: #ffb800;
 }
 
 .store.active {
@@ -154,7 +220,7 @@
     font-weight: 400;
     font-size: 30px;
     padding: 0 0 0 16px;
-    background-color: rgba(80, 157, 168, 0.6);
+    background-color: #ffb800;
 }
 
 .submenu {
@@ -180,8 +246,7 @@
 }
 
 .active {
-    background-color: rgba(80, 157, 168, 0.6);
-    opacity: 0.6;
+    background-color: #ffb800;
     border-radius: 12px;
 }
 

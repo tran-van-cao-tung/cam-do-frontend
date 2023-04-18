@@ -8,6 +8,39 @@
     margin-bottom: 23px;
 }
 
+.ListCustomer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.addlistCustomer {
+    background-color: orange !important;
+    border-radius: 10px;
+    width: 335px;
+    height: 60px;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 45px;
+    display: flex;
+    align-items: center;
+    color: white;
+    justify-content: space-around;
+    border: none;
+}
+
+.searchinput input {
+    width: 300px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.34);
+    opacity: 0.6;
+    border: 1px solid #000000;
+    border-radius: 7px;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.6);
+    padding-left: 5px;
+}
+
 .parperCustomer {
     height: 90%;
 }
@@ -36,6 +69,10 @@ div[title='C'] {
 
 div[title='F'] {
     background-color: black;
+}
+
+.tableCustomer {
+    width: 100%;
 }
 
 .customer_search {
@@ -72,8 +109,15 @@ div[title='F'] {
 .customer_search-btn:hover {
     opacity: 0.7
 }
+
+
 /* Phân trang */
-.paginate-listcustomer{
+
+.paginate-listcustomer {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
@@ -82,7 +126,7 @@ div[title='F'] {
     list-style: none;
 }
 
-.rank_F{
+.rank_F {
     text-align: center;
     border-radius: 7px;
     font-family: 'Frank Ruhl Libre';

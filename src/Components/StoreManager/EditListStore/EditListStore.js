@@ -9,9 +9,9 @@ import InputBase from '@mui/material/InputBase';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import { Divider } from '@mui/material';
-import axios from 'axios';
+
 import { useParams } from 'react-router-dom';
-import callAPI from '../../../API';
+import API from '../../../API';
 
 const EditListStore = () => {
     const id = useParams();
@@ -21,14 +21,13 @@ const EditListStore = () => {
     // Axios
     useEffect(() => {
         const slug = id.id;
-        callAPI({
+        API({
             method: 'get',
-            url: `branch/getById/${slug}`
+            url: `branch/getById/${slug}`,
         }).then((res) => {
-            setBranch(res.data)
+            setBranch(res.data);
         });
-    }, [id.id])
-
+    }, [id.id]);
 
     const handleSubmitEdit = (event) => {
         const slug = id.id;
@@ -39,8 +38,8 @@ const EditListStore = () => {
             phoneNumber: branch.phoneNumber,
             fund: branch.fund,
             status: parseInt(status),
-        }
-        callAPI({
+        };
+        API({
             method: 'put',
             url: `branch/updateBranch/${slug}`,
             data: data,
@@ -55,7 +54,7 @@ const EditListStore = () => {
 
     const handleCheckBox = (e) => {
         setStatus(e.target.value);
-    }
+    };
 
     return (
         <>

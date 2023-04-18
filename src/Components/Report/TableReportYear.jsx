@@ -27,59 +27,61 @@ const TableReportYear = () => {
         setPageNumber(selected);
     };
     return (
-        <div className="tableYearReport">
-            {/* ================================ */}
-            {/* =            Table Show        = */}
-            {/* ================================ */}
-            <div className="table">
-                <table className="responstable">
-                    <tr>
-                        <th>Tháng</th>
-                        <th>Tiền Vốn</th>
-                        <th>Tiền Cho Vay</th>
-                        <th>Tiền Lãi Đã Nhận</th>
-                        <th>TIền Thanh Lý</th>
-                        <th>Số Dư Cuối Tháng</th>
-                        <th>Tiền Gốc Đã Nhận</th>
-                        <th>Tổng Quan</th>
-                    </tr>
-                    {list.slice(pagesVisited, pagesVisited + usersPerPage).map((i) => {
-                        return (
-                            <tr key={i}>
-                                <td>{i.month}</td>
-                                <td>{formatMoney(i.fund)}</td>
-                                <td>{formatMoney(i.loan)}</td>
-                                <td>{formatMoney(i.receiveInterest)}</td>
-                                <td>{formatMoney(i.receivedPrincipal)}</td>
-                                <td>{formatMoney(i.balance)}</td>
-                                <td>{formatMoney(i.liquidationMoney)}</td>
-                                <td>
-                                    {i.receiveInterest + i.receivedPrincipal + i.liquidationMoney > i.loan ? (
-                                        <div className="tableStatus tableLosses">Lỗ</div>
-                                    ) : (
-                                        <div className="tableStatus tableProfit">Lời</div>
-                                    )}
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </table>
+        <>
+            <div className="tableYearReport">
                 {/* ================================ */}
-                {/* =            Phân Trang        = */}
+                {/* =            Table Show        = */}
                 {/* ================================ */}
-                <ReactPaginate
-                    className="paginate-TableReportYear"
-                    previousLabel={'Trang trước'}
-                    nextLabel={'Trang sau'}
-                    breakLabel={'...'}
-                    breakClassName={'break-me'}
-                    pageCount={pageCount}
-                    onPageChange={changePage}
-                    containerClassName={'pagination'}
-                    activeClassName={'active'}
-                />
+                <div className="tableReport">
+                    <table className="responstable">
+                        <tr>
+                            <th>Tháng</th>
+                            <th>Tiền Vốn</th>
+                            <th>Tiền Cho Vay</th>
+                            <th>Tiền Lãi Đã Nhận</th>
+                            <th>TIền Thanh Lý</th>
+                            <th>Số Dư Cuối Tháng</th>
+                            <th>Tiền Gốc Đã Nhận</th>
+                            <th>Tổng Quan</th>
+                        </tr>
+                        {list.slice(pagesVisited, pagesVisited + usersPerPage).map((i) => {
+                            return (
+                                <tr key={i}>
+                                    <td>{i.month}</td>
+                                    <td>{formatMoney(i.fund)}</td>
+                                    <td>{formatMoney(i.loan)}</td>
+                                    <td>{formatMoney(i.receiveInterest)}</td>
+                                    <td>{formatMoney(i.receivedPrincipal)}</td>
+                                    <td>{formatMoney(i.balance)}</td>
+                                    <td>{formatMoney(i.liquidationMoney)}</td>
+                                    <td>
+                                        {i.receiveInterest + i.receivedPrincipal + i.liquidationMoney > i.loan ? (
+                                            <div className="tableStatus tableLosses">Lỗ</div>
+                                        ) : (
+                                            <div className="tableStatus tableProfit">Lời</div>
+                                        )}
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </table>
+                    {/* ================================ */}
+                    {/* =            Phân Trang        = */}
+                    {/* ================================ */}
+                </div>
             </div>
-        </div>
+            <ReactPaginate
+                className="paginate-TableReportYear"
+                previousLabel={'Trang trước'}
+                nextLabel={'Trang sau'}
+                breakLabel={'...'}
+                breakClassName={'break-me'}
+                pageCount={pageCount}
+                onPageChange={changePage}
+                containerClassName={'pagination'}
+                activeClassName={'active'}
+            />
+        </>
     );
 };
 

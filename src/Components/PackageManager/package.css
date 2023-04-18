@@ -5,29 +5,21 @@
     --color-stop: #f65151;
 }
 
-.liststore {
-    margin: 29px 46px;
-    position: absolute;
-    background: #fff;
-    width: 95%;
-    height: 90%;
+.listPackage {
     border-radius: 10px;
 }
 
-.liststorebody-h1 {
+.listPackagebody-h1 {
+    font-family: 'Francois One';
+    font-style: normal;
     font-weight: 400;
     font-size: 45px;
-    line-height: 64px;
-    color: #1a3b42;
+    margin-bottom: 15px;
 }
 
-.liststorebody a{
+.liststorebody a {
     display: block;
     width: 25%;
-}
-
-.liststorebody {
-    padding-left: 18px;
 }
 
 .liststorebody .addliststore {
@@ -71,20 +63,25 @@
     justify-content: space-around;
     flex-direction: row;
 }
-.liststore .liststorebody .status .fromstatus .radio-item{
+
+.liststore .liststorebody .status .fromstatus .radio-item {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
 }
-.radio-item .radio-all > span{
+
+.radio-item .radio-all>span {
     color: var(--color-all);
 }
-.radio-item .radio-active > span{
+
+.radio-item .radio-active>span {
     color: var(--color-active);
 }
-.radio-item .radio-stop > span{
+
+.radio-item .radio-stop>span {
     color: var(--color-stop);
 }
+
 .status .fromstatus p {
     font-weight: 400;
     font-size: 20px;
@@ -113,10 +110,10 @@
     color: var(--color-text);
 }
 
+
 /* Table */
-.table {
-    margin: 90px 2% 0;
-}
+
+.tablePackage {}
 
 .MuiTable-bordered {
     border-collapse: collapse;
@@ -128,7 +125,6 @@
 
 .MuiTable-bordered th,
 .MuiTable-bordered td {
-    
     font-family: "Frank Ruhl Libre";
     font-style: normal;
     font-weight: 400;
@@ -136,6 +132,7 @@
     line-height: 22px;
     text-align: center;
 }
+
 .MuiTableHead-root-wrap {
     background-color: #d9d9d9;
     display: flex;
@@ -158,12 +155,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f65151;
-    color: #ffffff;
+    border: 2px solid green;
+    color: green;
 }
 
 .activity {
-    background: #14a87b;
+    border: 2px solid red;
+    color: red;
 }
 
 .MuiTableBody_root-itemLast {
@@ -171,8 +169,15 @@
     align-items: center;
     justify-content: space-around;
 }
+
+
 /* Phân trang */
-.paginate-listStore{
+
+.paginate-listPackage {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    left: 0;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;

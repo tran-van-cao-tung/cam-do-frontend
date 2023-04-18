@@ -1,4 +1,4 @@
-$btnRansom: ( color: #111, colorHover: #5e9dce, duration: .6s, easing: cubic-bezier(0.77, 0, 0.175, 1));
+$btnRansom: ( color: #1976d2, colorHover: #5e9dce, duration: .6s, easing: cubic-bezier(0.77, 0, 0.175, 1));
 // btnRansom 3
 $numberShadow: 4;
 $durationbtnRansom3: 1.5s;
@@ -30,14 +30,14 @@ $easing: map-get($btnRansom, 'easing');
 }
 
 // Style
-$height: 5;
+$height: 4;
 .btnRansom {
     position: relative;
     display: inline-block;
     box-shadow: none;
-    border: 0;
-    background-color: $color;
-    color: #fff;
+    border: 1px solid $color;
+    // background-color: $color;
+    color: $color;
     padding: 0 30px;
     line-height: $height*1em;
     height: $height*1em;

@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import API from '../../API.js';
-import axios from 'axios';
+
 import callAPI from '../../API.js';
 
 const ContentPawn = () => {
@@ -29,14 +29,14 @@ const ContentPawn = () => {
     useEffect(() => {
         callAPI({
             method: 'get',
-            url: `contract/homepage/` + localStorage.getItem("branchId"),
+            url: `contract/homepage/` + localStorage.getItem('branchId'),
         }).then((res) => {
             setHomePage(res.data);
         });
-    }, [localStorage.getItem("branchId")])
+    }, [localStorage.getItem('branchId')]);
     const formatMoney = (value) => {
-        return (value).toLocaleString('vi-VN') + ' VNĐ';
-    }
+        return value.toLocaleString('vi-VN') + ' VNĐ';
+    };
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -55,32 +55,40 @@ const ContentPawn = () => {
                     <Grid item xs={5.7}>
                         <Item>
                             <p className="details-content">Tổng số vốn</p>
-                            <span className="details-content">{homePage ? formatMoney(homePage.fund) : ""}</span>
+                            <span className="details-content">{homePage ? formatMoney(homePage.fund) : ''}</span>
                         </Item>
                     </Grid>
                     <Grid item xs={0.6}></Grid>
                     <Grid item xs={5.7}>
                         <Item>
                             <p className="details-content">Tiền cho vay</p>
-                            <span className="details-content">{homePage ? formatMoney(homePage.loanLedger):"0 VNĐ"}</span>
+                            <span className="details-content">
+                                {homePage ? formatMoney(homePage.loanLedger) : '0 VNĐ'}
+                            </span>
                         </Item>
                     </Grid>
                     <Grid item xs={4}>
                         <Item>
                             <p className="details-content">Tiền nợ</p>
-                            <span className="details-content">{homePage ? formatMoney(homePage.ransomTotal):"0 VNĐ"}</span>
+                            <span className="details-content">
+                                {homePage ? formatMoney(homePage.ransomTotal) : '0 VNĐ'}
+                            </span>
                         </Item>
                     </Grid>
                     <Grid item xs={4}>
                         <Item>
                             <p className="details-content">Lãi dự kiến</p>
-                            <span className="details-content">{homePage ? formatMoney(homePage.totalProfit):"0 VNĐ"}</span>
+                            <span className="details-content">
+                                {homePage ? formatMoney(homePage.totalProfit) : '0 VNĐ'}
+                            </span>
                         </Item>
                     </Grid>
                     <Grid item xs={4}>
                         <Item>
                             <p className="details-content">Lãi đã thu</p>
-                            <span className="details-content">{homePage ? formatMoney(homePage.recveivedInterest):"0 VNĐ"}</span>
+                            <span className="details-content">
+                                {homePage ? formatMoney(homePage.recveivedInterest) : '0 VNĐ'}
+                            </span>
                         </Item>
                     </Grid>
                 </Grid>

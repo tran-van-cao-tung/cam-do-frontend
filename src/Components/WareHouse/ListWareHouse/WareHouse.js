@@ -1,14 +1,14 @@
-import { StyledEngineProvider } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import editIcon from "./../../../asset/img/edit.png";
+import { StyledEngineProvider } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import editIcon from './../../../asset/img/edit.png';
 import ReactPaginate from 'react-paginate';
-import "./WareHouse.css";
+import './WareHouse.css';
 import API from '../../../API';
 const WareHouse = () => {
     const history = useNavigate();
-    const [cityFilter, setCityFilter] = useState("HoChiMinh");
-    const [statusFilter, setStatusFilter] = useState("available");
+    const [cityFilter, setCityFilter] = useState('HoChiMinh');
+    const [statusFilter, setStatusFilter] = useState('available');
 
     const handleCityFilter = (e) => {
         setCityFilter(e.target.value);
@@ -43,39 +43,39 @@ const WareHouse = () => {
     };
 
     return (
-        <StyledEngineProvider injectFirst>
-            <div className="wareh-wrapper">
-                <h1 className="employee_heading">Danh sách kho</h1>
+        <>
+            <StyledEngineProvider injectFirst>
+                <div className="wareh-wrapper">
+                    <h1 className="wareHouse_heading">Danh sách kho</h1>
 
-                <div className="wareh-content">
-                    <button
-                        className="employee_button"
-                        onClick={() => {
-                            history('/warehouse/add');
-                        }}
-                    >
-                        Thêm mới
-                    </button>
-                    {/* ================================ */}
-                    {/* =            Table Show        = */}
-                    {/* ================================ */}
-                    <div className="table">
-                        <table className="responstable">
-                            <tr>
-                                <th>STT</th>
-                                <th data-th="Driver details"><span>Tên kho</span></th>
-                                <th>Địa chỉ</th>
-                                <th>Tình trạng</th>
-                                <th>Chức năng</th>
-                            </tr>
-                            {
-                                currentWarehouses.map((i) => (
+                    <div className="wareh-content">
+                        <button
+                            className="wareHouse_button"
+                            onClick={() => {
+                                history('/warehouse/add');
+                            }}
+                        >
+                            Thêm mới
+                        </button>
+                        {/* ================================ */}
+                        {/* =            Table Show        = */}
+                        {/* ================================ */}
+                        <div className="tableWareHouse">
+                            <table className="responstable">
+                                <tr>
+                                    <th>STT</th>
+                                    <th data-th="Driver details">
+                                        <span>Tên kho</span>
+                                    </th>
+                                    <th>Địa chỉ</th>
+                                    <th>Tình trạng</th>
+                                    <th>Chức năng</th>
+                                </tr>
+                                {currentWarehouses.map((i) => (
                                     <tr key={i.warehouseId}>
                                         <td>{i.warehouseId}</td>
                                         <td>
-                                            <Link to={`/viewproduct/${i.warehouseId}`}>
-                                                {i.warehouseName}
-                                            </Link>
+                                            <Link to={`/viewproduct/${i.warehouseId}`}>{i.warehouseName}</Link>
                                         </td>
                                         <td>{i.warehouseAddress}</td>
                                         <td>
@@ -93,29 +93,29 @@ const WareHouse = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                ))
-                            }
-                        </table>
-                        {/* ================================ */}
-                        {/* =            Phân Trang        = */}
-                        {/* ================================ */}
-                        <ReactPaginate
-                            className="paginate-warehouse"
-                            previousLabel={'Trang trước'}
-                            nextLabel={'Trang sau'}
-                            breakLabel={'...'}
-                            breakClassName={'break-me'}
-                            marginPagesDisplayed={2}
-                            pageRangeDisplayed={5}
-                            pageCount={pageCount}
-                            onPageChange={handlePageClick}
-                            containerClassName={'pagination'}
-                            activeClassName={'active'}
-                        />
+                                ))}
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </StyledEngineProvider>
+            </StyledEngineProvider>
+            {/* ================================ */}
+            {/* =            Phân Trang        = */}
+            {/* ================================ */}
+            <ReactPaginate
+                className="paginate-warehouse"
+                previousLabel={'Trang trước'}
+                nextLabel={'Trang sau'}
+                breakLabel={'...'}
+                breakClassName={'break-me'}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                pageCount={pageCount}
+                onPageChange={handlePageClick}
+                containerClassName={'pagination'}
+                activeClassName={'active'}
+            />
+        </>
     );
 };
 

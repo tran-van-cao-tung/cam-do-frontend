@@ -1,11 +1,21 @@
+.authContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 60px;
+}
+
 .auth_input {
     display: flex;
-    justify-content: start;
-    align-items: center;
+    justify-content: center;
+    width: 90%;
+    margin-top: 30px;
 }
 
 .auth_input-group {
-    display: block;
+    /* display: flex;
+    justify-content: center; */
+    /* align-items: center; */
 }
 
 .auth_input-item {
@@ -13,8 +23,6 @@
     align-items: center;
     padding-top: 20px;
 }
-
-
 
 .auth_input-item>span {
     font-family: 'Frank Ruhl Libre';
@@ -64,10 +72,9 @@
 
 .auth_check {
     display: flex;
-    padding: 60px 0 20px 30px;
-    width: 90%;
-    justify-content: left;
-    align-items: start;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 60px;
 }
 
 .auth_check span {
@@ -100,7 +107,6 @@
     margin-top: 12px;
 }
 
-
 .checkbox-container {
     position: relative;
     border-radius: 3px;
@@ -112,7 +118,6 @@ checkbox-container input[type='checkbox'] {
     left: -9999px;
 }
 
-
 checkbox-container input[type='checkbox']:checked+label:before {
     content: '\2713';
     position: absolute;
@@ -123,10 +128,10 @@ checkbox-container input[type='checkbox']:checked+label:before {
     transform: scale(1);
 }
 
-.checkbox-container{
+.checkbox-container {
     padding: 0 20px;
 }
 
-.img_file{
+.img_file {
     padding-right: 10px;
 }

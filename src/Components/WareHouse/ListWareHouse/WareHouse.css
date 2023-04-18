@@ -3,6 +3,15 @@
     display: flex;
     flex-direction: column;
 }
+
+.wareHouse_heading {
+    font-family: 'Francois One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 45px;
+    margin-bottom: 23px;
+}
+
 .wareh-title {
     font-size: 24px;
     margin-bottom: 16px;
@@ -11,7 +20,6 @@
 .wareh-content {
     display: block;
     flex: 1;
-    padding: 15px;
     background-color: white;
     border-radius: 5px;
 }
@@ -51,9 +59,11 @@
 .status-group .radio-available {
     color: var(--color-success);
 }
+
 .status-group .radio-full {
     color: var(--color-warning);
 }
+
 .status-group .radio-closed {
     color: var(--color-error);
 }
@@ -97,7 +107,9 @@
     background-color: #4fcce6;
 }
 
+
 /* Table section */
+
 .table-section {
     margin-top: 30px;
 }
@@ -116,14 +128,15 @@
     height: 20px;
 }
 
-.employee_button {
+.wareHouse_button {
     width: 187px;
     height: 64px;
-    background: #50C2DA;
+    background: orange;
     border-radius: 10px;
     border: 0px solid;
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
+    color: white;
     font-weight: 400;
     font-size: 35px;
 }
@@ -203,7 +216,6 @@
     left: 488px;
     top: 403px;
     background: rgba(255, 255, 255, 0.6);
-    
     border-radius: 6px;
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
@@ -273,8 +285,15 @@
     color: #FFFBFB;
     margin-top: 18px;
 }
+
+
 /* Phân trang */
-.paginate-warehouse{
+
+.paginate-warehouse {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    left: 0;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;

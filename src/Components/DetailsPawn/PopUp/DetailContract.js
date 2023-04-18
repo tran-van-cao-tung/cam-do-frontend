@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './popup.css';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import axios from 'axios';
+
 import moment from 'moment';
 import BasicTabs from './Tab';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
