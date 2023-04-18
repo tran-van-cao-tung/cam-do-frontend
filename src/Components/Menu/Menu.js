@@ -32,6 +32,9 @@ const Menuh = () => {
 
   //get dữ liệu Lấy userId 
   useEffect(() => {
+    if (!localStorage.getItem("accessToken")) {
+      history('/login')
+    } else 
     axios.get(`https://tranvancaotung1-001-site1.htempurl.com/api/v1/user/getAll/0`, { headers: { "Authorization": `Bearer ${localStorage.getItem("accessToken")}` } }).then(res => {
       setItemUser(res.data.filter((item, index) => {
         return item.userId === localStorage.getItem("userId");
