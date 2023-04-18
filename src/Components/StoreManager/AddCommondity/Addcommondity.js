@@ -7,7 +7,7 @@ import FormLabel from '@mui/material/FormLabel';
 import InputBase from '@mui/material/InputBase';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-
+import API from '../../../API';
 import { Divider } from '@mui/material';
 
 import React, { useState } from 'react';
@@ -29,12 +29,10 @@ const Addcommondity = () => {
     };
 
     const handleSumbitCommondy = (e) => {
-        axios({
+        API({
             method: 'post',
             url: '/pawnableProduct/createPawnable',
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
+
             data: {
                 typeOfProduct: name,
                 commodityCode: code,

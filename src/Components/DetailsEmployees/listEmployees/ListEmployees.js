@@ -13,25 +13,15 @@ import {
     TableRow,
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import search from './../../../asset/img/search.png';
-import account from './../../../asset/img/account.png';
 import edit from './../../../asset/img/edit.png';
 import './employee.css';
 import { Link, useNavigate } from 'react-router-dom';
-
 import moment from 'moment';
 import API from '../../../API';
 import ReactPaginate from 'react-paginate';
 
 function ListEmployees() {
     const history = useNavigate();
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: '22px 19px 22px 27px',
-        borderRadius: '10px',
-        color: theme.palette.text.secondary,
-    }));
 
     const [statusFilter, setStatusFilter] = useState('all');
 

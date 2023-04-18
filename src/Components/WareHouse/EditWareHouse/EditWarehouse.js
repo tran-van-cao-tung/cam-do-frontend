@@ -9,7 +9,7 @@ import InputBase from '@mui/material/InputBase';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import { Divider } from '@mui/material';
-
+import API from '../../../API';
 import { useParams } from 'react-router-dom';
 
 const EditWarehouse = () => {
@@ -18,7 +18,7 @@ const EditWarehouse = () => {
     // Axios
     useEffect(() => {
         async function callAPI() {
-            await axios({
+            await API({
                 method: 'get',
                 url: `/warehouse/GetAllDetail/${params.id},1`,
             }).then((res) => {
@@ -35,7 +35,7 @@ const EditWarehouse = () => {
     // console.log('aaaaaaaaaaaaaaaaaaaaaaa', item);
 
     const handleSubmitEdit = () => {
-        axios({
+        API({
             method: 'put',
             url: `/warehouse/updateWareHouse/${params.id}`,
             data: {

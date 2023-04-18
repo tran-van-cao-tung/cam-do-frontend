@@ -9,7 +9,7 @@ import FormLabel from '@mui/material/FormLabel';
 import InputBase from '@mui/material/InputBase';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-
+import API from '../../../API';
 import { Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -46,12 +46,10 @@ const AddList = () => {
         setSuccess(true);
         // e.preventDefault();
 
-        axios({
+        API({
             method: 'post',
             url: '/branch/CreateBranch',
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
+
             data: {
                 // "branchId": id,
                 branchName: name,

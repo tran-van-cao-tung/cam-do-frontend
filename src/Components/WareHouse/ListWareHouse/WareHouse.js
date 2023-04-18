@@ -1,12 +1,10 @@
 import { StyledEngineProvider } from '@mui/material';
-
-import API from '../../../API';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import editIcon from './../../../asset/img/edit.png';
 import ReactPaginate from 'react-paginate';
 import './WareHouse.css';
-
+import API from '../../../API';
 const WareHouse = () => {
     const history = useNavigate();
     const [cityFilter, setCityFilter] = useState('HoChiMinh');

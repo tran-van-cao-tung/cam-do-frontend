@@ -9,7 +9,7 @@ import InputBase from '@mui/material/InputBase';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import API from '../../../API';
 
 import { Divider } from '@mui/material';
 
@@ -18,30 +18,21 @@ const EditCommondity = () => {
 
     // Axios
     useEffect(() => {
-        async function callAPI() {
-            await axios({
-                method: 'get',
-                url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/getPawnAbleProductById/${params.id}`,
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                },
-            }).then((res) => {
-                setItem(res.data);
-                // console.log(res.data);
-            });
-        }
-        callAPI();
+        API({
+            method: 'get',
+            url: `/pawnableProduct/getPawnAbleProductById/${params.id}`,
+        }).then((res) => {
+            setItem(res.data);
+            // console.log(res.data);
+        });
     }, []);
 
     const [item, setItem] = useState([]);
 
     const handleSubmitEdit = () => {
-        axios({
+        API({
             method: 'put',
-            url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/updatePawnableProduct/${params.id}`,
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
+            url: `/pawnableProduct/updatePawnableProduct/${params.id}`,
             data: {
                 commodityCode: item.commodityCode,
                 typeOfProduct: item.typeOfProduct,
@@ -54,7 +45,6 @@ const EditCommondity = () => {
             })
             .catch((err) => console.log(err));
     };
-
     const handleOnChangeName = (e) => {
         setItem({ ...item, [e.target.name]: e.target.value });
         // console.log(name);

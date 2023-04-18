@@ -51,6 +51,11 @@ const ListStore = () => {
     const handlePageClick = ({ selected: selectedPage }) => {
         setCurrentPage(selectedPage);
     };
+
+    const formatMoney = (value) => {
+        return value.toLocaleString('vi-VN') + ' VNĐ';
+    };
+
     return (
         <>
             <div className="listStoreContainer">

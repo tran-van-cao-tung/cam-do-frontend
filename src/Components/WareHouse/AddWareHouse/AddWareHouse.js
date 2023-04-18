@@ -8,7 +8,7 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Divider, FormHelperText, StyledEngineProvider } from '@mui/material';
-
+import API from '../../../API';
 import './AddWareHouse.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -27,12 +27,9 @@ const WareHouse = () => {
     const [Name, seteName] = useState('');
     const [Address, setAddress] = useState('');
     const handleSubmit = (e) => {
-        axios({
+        API({
             method: 'post',
             url: '/warehouse/createWarehouse',
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
             data: {
                 // "branchId": id,
                 warehouseName: Name,

@@ -11,53 +11,49 @@ import RadioGroup from '@mui/material/RadioGroup';
 import { Divider } from '@mui/material';
 
 import { useParams } from 'react-router-dom';
+import API from '../../../API';
 
 const EditListStore = () => {
-    const params = useParams();
+    const id = useParams();
+    const [branch, setBranch] = useState([]);
+    const [status, setStatus] = useState(1);
 
     // Axios
     useEffect(() => {
-        async function callAPI() {
-            await axios({
-                method: 'get',
-                url: `/branch/getById/${params.id}`,
-            }).then((res) => {
-                setItem(res.data);
-                console.log(res.data);
-                // console.log('aaaaa', res.data);
-            });
-        }
-        callAPI();
-    }, []);
+        const slug = id.id;
+        API({
+            method: 'get',
+            url: `branch/getById/${slug}`,
+        }).then((res) => {
+            setBranch(res.data);
+        });
+    }, [id.id]);
 
-    const [item, setItem] = useState([]);
-
-    const handleSubmitEdit = () => {
-        axios({
+    const handleSubmitEdit = (event) => {
+        const slug = id.id;
+        event.preventDefault();
+        const data = {
+            branchName: branch.branchName,
+            address: branch.address,
+            phoneNumber: branch.phoneNumber,
+            fund: branch.fund,
+            status: parseInt(status),
+        };
+        API({
             method: 'put',
-            url: `/branch/${params.id}`,
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
-            data: {
-                branchId: item.id,
-                branchName: item.branchName,
-                address: item.address,
-                phoneNumber: item.phoneNumber,
-                fund: item.fund,
-                status: item.status,
-            },
-        })
-            .then((res) => {
-                console.log('Success Full');
-                alert('Lưu Thành Công');
-            })
-            .catch((err) => console.log(err));
+            url: `branch/updateBranch/${slug}`,
+            data: data,
+        }).then((res) => {
+            alert('Lưu Thành Công');
+        });
+    };
+    const handleOnChangeName = (e) => {
+        setBranch({ ...branch, [e.target.name]: e.target.value });
+        // console.log(name);
     };
 
-    const handleOnChangeName = (e) => {
-        setItem({ ...item, [e.target.name]: e.target.value });
-        // console.log(name);
+    const handleCheckBox = (e) => {
+        setStatus(e.target.value);
     };
 
     return (
@@ -71,7 +67,7 @@ const EditListStore = () => {
                                 Tên cửa hàng&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
                             <InputBase
-                                value={item.branchName}
+                                value={branch.branchName}
                                 placeholder="Nhập tên cửa hàng"
                                 inputProps={{ 'aria-label': 'search' }}
                                 className="add-input"
@@ -85,7 +81,7 @@ const EditListStore = () => {
                                 Số điện thoại&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
                             <InputBase
-                                value={item.phoneNumber}
+                                value={branch.phoneNumber}
                                 placeholder="Nhập số điện thoại …"
                                 inputProps={{ 'aria-label': 'search' }}
                                 className="add-input"
@@ -99,7 +95,7 @@ const EditListStore = () => {
                                 Địa chỉ&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
                             <InputBase
-                                value={item.address}
+                                value={branch.address}
                                 placeholder="Nhập địa chỉ"
                                 inputProps={{ 'aria-label': 'search' }}
                                 className="add-input"
@@ -113,7 +109,7 @@ const EditListStore = () => {
                                 Số vốn đầu tư&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
                             <InputBase
-                                value={item.fund}
+                                value={branch.fund}
                                 placeholder="Nhập số vốn đầu tư"
                                 inputProps={{ 'aria-label': 'search' }}
                                 className="add-input"
@@ -126,16 +122,16 @@ const EditListStore = () => {
                             <FormLabel className="label">
                                 Tình trạng&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
-                            <RadioGroup row name="status" defaultValue={0}>
+                            <RadioGroup row name="status" defaultValue={1} onChange={handleCheckBox}>
                                 <FormControlLabel
-                                    value="0"
+                                    value="1"
                                     control={<Radio />}
                                     label="Đang hoạt động"
                                     className="radio-available"
                                 />
 
                                 <FormControlLabel
-                                    value="1"
+                                    value="2"
                                     control={<Radio />}
                                     label="Đã tạm dừng"
                                     className="radio-closed"

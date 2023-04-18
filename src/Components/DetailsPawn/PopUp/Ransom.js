@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './popup.css';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { Button, Paper, styled, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Button, styled } from '@mui/material';
 import API from '../../../API.js';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
-import { display } from '@mui/system';
 import CurrencyFormat from 'react-currency-format';
-
 import BtnSubmit from '../../btnSubmit/BtnSubmit';
 
 const Ransom = ({ showContractId, contract }) => {
