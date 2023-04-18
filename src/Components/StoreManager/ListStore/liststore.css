@@ -156,13 +156,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid green;
-    color: green;
+    background: #f65151;
+    color: #ffffff;
 }
 
 .activity {
-    border: 2px solid red;
-    color: red;
+    background: #14a87b;
 }
 
 .MuiTableBody_root-itemLast {
