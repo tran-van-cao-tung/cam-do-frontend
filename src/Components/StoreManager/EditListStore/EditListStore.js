@@ -9,7 +9,7 @@ import InputBase from '@mui/material/InputBase';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import { Divider } from '@mui/material';
-import axios from 'axios';
+
 import { useParams } from 'react-router-dom';
 
 const EditListStore = () => {
@@ -20,7 +20,7 @@ const EditListStore = () => {
         async function callAPI() {
             await axios({
                 method: 'get',
-                url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/branch/getById/${params.id}`,
+                url: `/branch/getById/${params.id}`,
             }).then((res) => {
                 setItem(res.data);
                 console.log(res.data);
@@ -35,9 +35,9 @@ const EditListStore = () => {
     const handleSubmitEdit = () => {
         axios({
             method: 'put',
-            url: `http://tranvancaotung-001-site1.atempurl.com/api/v1/branch/${params.id}`,
+            url: `/branch/${params.id}`,
             headers: {
-                "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },
             data: {
                 branchId: item.id,

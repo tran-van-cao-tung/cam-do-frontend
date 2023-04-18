@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import {
+    FormControl,
+    FormControlLabel,
+    Grid,
+    Radio,
+    RadioGroup,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import search from './../../../asset/img/search.png';
 import account from './../../../asset/img/account.png';
 import edit from './../../../asset/img/edit.png';
 import './employee.css';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+
 import moment from 'moment';
-import callAPI from '../../../API';
+import API from '../../../API';
 import ReactPaginate from 'react-paginate';
 
 function ListEmployees() {
@@ -22,20 +33,24 @@ function ListEmployees() {
         color: theme.palette.text.secondary,
     }));
 
+    const [statusFilter, setStatusFilter] = useState('all');
+
     const [listEmployees, setListEmployee] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const searchedProduct = listEmployees.filter((item) => {
-        if (searchTerm.value === '') return item;
-        if (item.fullName.toLowerCase().includes(searchTerm.toLowerCase())) return item;
-    });
+    const searchedProduct = listEmployees
+        .filter((item) => {
+            if (searchTerm.value === '') return item;
+            if (item.fullName.toLowerCase().includes(searchTerm.toLowerCase())) return item;
+        })
+        .filter((item) => {
+            if (statusFilter === 'all') return true;
+            return item.status === (statusFilter === 'active' ? 0 : 1);
+        });
     // Axios
     useEffect(() => {
-        axios({
+        API({
             method: 'get',
-            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/user/getAll/0',
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
+            url: '/user/getAll/0',
         })
             .then((res) => {
                 setListEmployee(res.data);
@@ -49,7 +64,7 @@ function ListEmployees() {
 
     const [branch, setBranch] = useState([]);
     useEffect(() => {
-        callAPI({
+        API({
             method: 'get',
             url: `branch/getChain`,
         }).then((res) => {
@@ -64,8 +79,8 @@ function ListEmployees() {
     // |            Phân Trang        |
     // ==================================
     const [currentPage, setCurrentPage] = useState(0);
-    const [productsPerPage, setProductsPerPage] = useState(4);// số lượng cửa hàng hiển thị trên mỗi trang
-    const totalPages = Math.ceil(listEmployees.length / productsPerPage)// tính toán số lượng trang
+    const [productsPerPage, setProductsPerPage] = useState(4); // số lượng cửa hàng hiển thị trên mỗi trang
+    const totalPages = Math.ceil(listEmployees.length / productsPerPage); // tính toán số lượng trang
     const indexOfLastProduct = (currentPage + 1) * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProducts = listEmployees.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -74,113 +89,134 @@ function ListEmployees() {
         setCurrentPage(selectedPage);
     };
     return (
-        <div className="box_employee">
-            <h1 className="employee_heading">Danh sách nhân viên</h1>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <div className="list_box-employee">
-                        <button
-                            className="employee_button"
-                            onClick={() => {
-                                history('/addemployee');
-                            }}
-                        >
-                            Thêm mới
-                        </button>
-                        <form className="employee_search">
-                            <div>
-                                <div className="employee_search-check">
-                                    <span className="employee_search-heading">Tình trạng:</span>
-                                    <input type="radio" name="radio" value="all" />
-                                    <label className="check1">Tất cả</label>
-                                    <input type="radio" name="radio" value="all" />
-                                    <label className="check2">Đang làm việc</label>
-                                    <input type="radio" name="radio" value="all" />
-                                    <label className="check3">Tạm khóa</label>
-                                </div>
-                                {/* <div className="employee_search-select">
+        <>
+            <div className="box_employee">
+                <h1 className="employee_heading">Danh sách nhân viên</h1>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <div className="list_box-employee">
+                            <button
+                                className="employee_button"
+                                onClick={() => {
+                                    history('/addemployee');
+                                }}
+                            >
+                                Thêm mới
+                            </button>
+                            <div className="statusStore">
+                                <span>Tình Trạng</span>
+                                {/* From status  */}
+                                <span className="fromstatusStore">
+                                    <FormControl className="formIteam">
+                                        <RadioGroup
+                                            className="radioItem"
+                                            aria-label="filter"
+                                            name="filter"
+                                            value={statusFilter}
+                                            onChange={(event) => setStatusFilter(event.target.value)}
+                                        >
+                                            <FormControlLabel
+                                                value="all"
+                                                control={<Radio />}
+                                                label="Tất cả"
+                                                className="radio-all"
+                                            />
+                                            <FormControlLabel
+                                                value="active"
+                                                control={<Radio />}
+                                                label="Đang hoạt động"
+                                                className="radio-active"
+                                            />
+                                            <FormControlLabel
+                                                value="stop"
+                                                control={<Radio />}
+                                                label="Đã tạm dừng"
+                                                className="radio-stop"
+                                            />
+                                        </RadioGroup>
+                                    </FormControl>
+                                </span>
+                                {/* Search */}
+                                <div className="searchinput">
+                                    {/* <input type="text" class="searchTerm" placeholder="Tìm kiếm..."></input> */}
                                     <input
                                         type="text"
-                                        placeholder="I'm looking for...."
+                                        placeholder="Tìm kiếm cửa hàng..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />
-                                </div> */}
+                                </div>
                             </div>
-                            {/* <button className="employee_search-btn">
-                                    <span>Tìm kiếm </span>
-                                    <img src={search} alt="search" />
-                                </button> */}
-                        </form>
-                        {/* ================================ */}
-                        {/* =            Table Show        = */}
-                        {/* ================================ */}
-                        <div className="table _table-Listemoloyess">
-                            <table className="responstable">
-                                <tr>
-                                    <th>STT</th>
-                                    <th data-th="Driver details">
-                                        <span>Cửa hàng</span>
-                                    </th>
-                                    <th>Họ và tên</th>
-                                    <th>Tài khoản</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Nơi làm việc</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Tình trạng</th>
-                                    <th>Chức năng</th>
-                                </tr>
-                                {currentProducts.map((i, index) => {
-                                    return (
-                                        <tr key={index + 1}>
-                                            <td>{index + 1}</td>
-                                            <td>{i.branchId}</td>
-                                            <td>{i.fullName}</td>
-                                            <td>{i.userName}</td>
-                                            <td>{i.phone}</td>
-                                            <td>{i.address}</td>
-                                            <td>{moment(i.createTime).format('MM/DD/YYYY')}</td>
-                                            <td>
-                                                {i.status === 2 ? (
-                                                    <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                                                ) : (
-                                                    <div className="MuiTableBody_root-status activity">
-                                                        Đang hoạt động
+                            {/* ================================ */}
+                            {/* =            Table Show        = */}
+                            {/* ================================ */}
+                            <div className="tableEmployee _table-Listemoloyess">
+                                <table className="responstable">
+                                    <tr>
+                                        <th>STT</th>
+                                        <th data-th="Driver details">
+                                            <span>Cửa hàng</span>
+                                        </th>
+                                        <th>Họ và tên</th>
+                                        <th>Tài khoản</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Nơi làm việc</th>
+                                        <th>Ngày tạo</th>
+                                        <th>Tình trạng</th>
+                                        <th>Chức năng</th>
+                                    </tr>
+                                    {currentProducts.map((i, index) => {
+                                        return (
+                                            <tr key={index + 1}>
+                                                <td>{index + 1}</td>
+                                                <td>{i.branchId}</td>
+                                                <td>{i.fullName}</td>
+                                                <td>{i.userName}</td>
+                                                <td>{i.phone}</td>
+                                                <td>{i.address}</td>
+                                                <td>{moment(i.createTime).format('MM/DD/YYYY')}</td>
+                                                <td>
+                                                    {i.status === 2 ? (
+                                                        <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                                    ) : (
+                                                        <div className="MuiTableBody_root-status activity">
+                                                            Đang hoạt động
+                                                        </div>
+                                                    )}
+                                                </td>
+                                                <td>
+                                                    <div className="MuiTableBody_root-itemLast">
+                                                        <Link to={`/editemployee/${i.userId}`}>
+                                                            <img src={edit} alt="Edit" />
+                                                        </Link>
                                                     </div>
-                                                )}
-                                            </td>
-                                            <td>
-                                                <div className="MuiTableBody_root-itemLast">
-                                                    <Link to={`/editemployee/${i.userId}`}>
-                                                        <img src={edit} alt="Edit" />
-                                                    </Link>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </table>
-                            {/* ================================ */}
-                            {/* =            Phân Trang        = */}
-                            {/* ================================ */}
-                            <ReactPaginate
-                                className="paginate-listemployees"
-                                previousLabel={'previous'}
-                                nextLabel={'next'}
-                                breakLabel={'...'}
-                                breakClassName={'break-me'}
-                                pageCount={totalPages}
-                                marginPagesDisplayed={2}
-                                pageRangeDisplayed={5}
-                                onPageChange={handlePageClick}
-                                containerClassName={'pagination'}
-                                activeClassName={'active'}
-                            />
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </table>
+                                {/* ================================ */}
+                                {/* =            Phân Trang        = */}
+                                {/* ================================ */}
+                            </div>
                         </div>
-                    </div>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </div>
+            </div>
+            <ReactPaginate
+                className="paginate-listemployees"
+                previousLabel={'previous'}
+                nextLabel={'next'}
+                breakLabel={'...'}
+                breakClassName={'break-me'}
+                pageCount={totalPages}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={'pagination'}
+                activeClassName={'active'}
+            />
+        </>
     );
 }
 

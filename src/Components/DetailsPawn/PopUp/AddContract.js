@@ -1,15 +1,9 @@
-import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import './popup.css';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import user from '../../../asset/img/userpagedetai.png';
 import bike from '../../../asset/img/bike.png';
 import save from '../../../asset/img/save1.png';
 import close from '../../../asset/img/close1.png';
-
+import API from '../../../API';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
@@ -62,47 +56,44 @@ const AddContract = ({ setShowAddContract }) => {
             description: 'string',
         };
         console.log(data);
-        alert("Đang tạo hợp đồng, xin vui lòng chờ");
-        axios
-            .post(`http://tranvancaotung-001-site1.atempurl.com/api/v1/contract/createContract`, data, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
-            })
-            .then((res) => {
-                alert("Tạo hợp đồng thành công");
-                console.log('thành công');
+        alert('Đang tạo hợp đồng, xin vui lòng chờ');
+        API({
+            method: 'post',
+            url: 'contract/createContract',
+        }).then((res) => {
+            alert('Tạo hợp đồng thành công');
+            console.log('thành công');
 
-                window.location.reload(false);
-            });
+            window.location.reload(false);
+        });
     };
 
     //get dữ liệu pawnableProduct
     useEffect(() => {
-        axios
-            .get('http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/getAll/0', {
-                headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
-            })
-            .then((res) => {
-                setPawnableProduct(res.data);
-            });
+        API({
+            method: 'get',
+            url: 'pawnableProduct/getAll/0',
+        }).then((res) => {
+            setPawnableProduct(res.data);
+        });
     }, []);
 
     //get dữu liệu package
     useEffect(() => {
-        axios
-            .get('http://tranvancaotung-001-site1.atempurl.com/api/v1/package/getAll/0', {
-                headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
-            })
-            .then((res) => {
-                setPackage(res.data);
-            });
+        API({
+            method: 'get',
+            url: 'package/getAll/0',
+        }).then((res) => {
+            setPackage(res.data);
+        });
     }, []);
 
     //get dữ liệu Lấy userId
     useEffect(() => {
-        axios
-            .get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/user/getAll/0`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
-            })
+        API({
+            method: 'get',
+            url: 'user/getAll/0',
+        })
             .then((res) => {
                 setUser(
                     res.data.filter((item, index) => {
@@ -156,10 +147,10 @@ const AddContract = ({ setShowAddContract }) => {
     //Get dữ liệu customer bằng cccd
     const handleCustomer = (e) => {
         let value = e.target.value;
-        axios
-            .get(`http://tranvancaotung-001-site1.atempurl.com/api/v1/customer/getByCCCD/${value}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
-            })
+        API({
+            method: 'get',
+            url: `customer/getByCCCD/${value}`,
+        })
             .then((res) => {
                 setCustomer(res.data);
             })
@@ -169,11 +160,10 @@ const AddContract = ({ setShowAddContract }) => {
 
     //get dữ liệu seri bằng dựa vào loại tài sản
     const handleSeri = (e) => {
-        axios
-            .get(
-                `http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/getPawnAbleProductById/${e.target.value}`,
-                { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } },
-            )
+        API({
+            method: 'get',
+            url: `pawnableProduct/getPawnAbleProductById/${e.target.value}`,
+        })
             .then((res) => {
                 setAttributes(res.data.attributes);
                 setContract({ ...contract, pawnableProductId: e.target.value });
@@ -425,7 +415,7 @@ const AddContract = ({ setShowAddContract }) => {
                                                         name="interestRecommend"
                                                         onChange={(e) => handleInput(e)}
                                                     />
-                                                    <p className="flend">{ }</p>
+                                                    <p className="flend">{}</p>
                                                 </div>
                                             </div>
                                         </Grid>
@@ -452,13 +442,13 @@ const AddContract = ({ setShowAddContract }) => {
                           </p> */}
                                                     {attributes
                                                         ? attributes.map((item, index) => {
-                                                            return (
-                                                                <p key={index}>
-                                                                    {item.description}{' '}
-                                                                    <span class="start-red">*</span>:
-                                                                </p>
-                                                            );
-                                                        })
+                                                              return (
+                                                                  <p key={index}>
+                                                                      {item.description}{' '}
+                                                                      <span class="start-red">*</span>:
+                                                                  </p>
+                                                              );
+                                                          })
                                                         : ''}
                                                     <p>
                                                         Hình hảnh <span class="start-red">*</span>:
@@ -468,21 +458,21 @@ const AddContract = ({ setShowAddContract }) => {
                                                     {/* <input type="text" name="name" placeholder="Nhập tên khách hàng" value={seri[0] ? seri[0].attributes.length : ""} /> */}
                                                     {attributes
                                                         ? attributes.map((item, index) => {
-                                                            return (
-                                                                <input
-                                                                    type="text"
-                                                                    name={index}
-                                                                    onChange={(e) =>
-                                                                        hanleInputAttribute(
-                                                                            e,
-                                                                            item.pawnableProductId,
-                                                                            index,
-                                                                        )
-                                                                    }
-                                                                    placeholder={`Nhập ${item.description}`}
-                                                                />
-                                                            );
-                                                        })
+                                                              return (
+                                                                  <input
+                                                                      type="text"
+                                                                      name={index}
+                                                                      onChange={(e) =>
+                                                                          hanleInputAttribute(
+                                                                              e,
+                                                                              item.pawnableProductId,
+                                                                              index,
+                                                                          )
+                                                                      }
+                                                                      placeholder={`Nhập ${item.description}`}
+                                                                  />
+                                                              );
+                                                          })
                                                         : ''}
                                                     <div className="input__img" onClick={handleClickImg}>
                                                         {nameImg === '' ? <p>Thả tệp</p> : <p>{nameImg}</p>}

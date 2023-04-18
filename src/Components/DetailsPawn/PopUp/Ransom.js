@@ -8,7 +8,7 @@ import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
 import { display } from '@mui/system';
 import CurrencyFormat from 'react-currency-format';
-import axios from 'axios';
+
 import BtnSubmit from '../../btnSubmit/BtnSubmit';
 
 const Ransom = ({ showContractId, contract }) => {

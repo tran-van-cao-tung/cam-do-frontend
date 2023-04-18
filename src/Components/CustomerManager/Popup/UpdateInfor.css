@@ -328,7 +328,7 @@ html {
 
 .ListCustomerr {
     margin: 0;
-    width: 92%;
+    width: 100%;
     border-radius: 10px;
 }
 
@@ -340,13 +340,6 @@ html {
 
 
 /* =====================================*/
-
-.ListCustomer {
-    padding-left: 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
 .ListCustomer .addliststore {
     background: #50c2da;
@@ -395,9 +388,8 @@ html {
 
 /* ///////////////////////////////////   Add new Customer   /////////////////////////////////// */
 
-.parperCustomer {
+.parperCustomerInfo {
     background-color: white;
-    padding: 22px 0 22px 27px;
     border-radius: 10px;
     height: 900px,
 }

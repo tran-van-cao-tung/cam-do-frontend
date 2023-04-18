@@ -1,27 +1,25 @@
-*{
+* {
     box-sizing: border-box;
 }
 
-.containers{
+.containers {
     padding: 15px;
 }
-
 
 .wareh-wrapper {
     height: 100%;
     display: flex;
     flex-direction: column;
-
 }
+
 .wareh-title {
     font-size: 24px;
     margin-bottom: 16px;
 }
 
-.wareh-content {
+.editWareh-content {
     display: block;
     flex: 1;
-    padding: 15px;
     background-color: white;
     border-radius: 5px;
 }
@@ -37,7 +35,6 @@
     flex-direction: column;
     gap: 10px
 }
-
 
 .add-section .add-status-group {
     transform: translateX(-110px);
@@ -57,8 +54,7 @@
 }
 
 .add-status-group .radio-available {
-    color: #14A87B
-    ;
+    color: #14A87B;
 }
 
 .add-status-group .radio-closed {
@@ -67,7 +63,6 @@
 
 .add-section .add-input-group {
     display: flow-root;
-
 }
 
 .add-input-group .label {

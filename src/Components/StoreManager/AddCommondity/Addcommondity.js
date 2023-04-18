@@ -9,12 +9,10 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 
 import { Divider } from '@mui/material';
-import axios from 'axios';
+
 import React, { useState } from 'react';
 
-
 const Addcommondity = () => {
-
     const [code, setCode] = useState('');
     const [name, setName] = useState('');
     const [status, setStatus] = useState(0);
@@ -33,9 +31,9 @@ const Addcommondity = () => {
     const handleSumbitCommondy = (e) => {
         axios({
             method: 'post',
-            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/createPawnable',
+            url: '/pawnableProduct/createPawnable',
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },
             data: {
                 typeOfProduct: name,
@@ -68,7 +66,7 @@ const Addcommondity = () => {
                                     placeholder="XM"
                                     inputProps={{ 'aria-label': 'search' }}
                                     className="add-input"
-                                    name='commodityCode'
+                                    name="commodityCode"
                                     onChange={handleOnChangeCode}
                                 />
                             </FormControl>
@@ -81,7 +79,7 @@ const Addcommondity = () => {
                                     placeholder="Xe máy SH"
                                     inputProps={{ 'aria-label': 'search' }}
                                     className="add-input"
-                                    name='typeOfProduct'
+                                    name="typeOfProduct"
                                     onChange={handleOnChangeName}
                                 />
                             </FormControl>

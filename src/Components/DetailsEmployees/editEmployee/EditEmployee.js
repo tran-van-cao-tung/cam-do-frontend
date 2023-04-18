@@ -4,7 +4,7 @@ import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import ReplyIcon from '@mui/icons-material/Reply';
 import './editemployee.css';
 import PasswordInput from '../PasswordInput';
-import axios from 'axios';
+
 import callAPI from '../../../API';
 
 function EditEmployee() {

@@ -1,42 +1,39 @@
 :root {
-    --color-text: #000000;
+    --color-text: white;
     --color-all: #ad00ff;
     --color-active: #14a87b;
     --color-stop: #f65151;
 }
+
 * {
     text-decoration: none;
 }
 
-.liststore {
-    margin: 29px 46px;
-    position: absolute;
+.listCommodity {
+    margin-top: 29px;
     background: #fff;
-    width: 95%;
+    width: 100%;
     height: 90%;
     border-radius: 10px;
 }
 
-.liststore-h1 {
+.listCommodity-h1 {
+    font-family: 'Francois One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 45px;
+    margin-bottom: 23px;
+}
+
+.listCommodity h1 {
     font-weight: 400;
     font-size: 45px;
     line-height: 64px;
     color: #1a3b42;
 }
 
-.liststore h1 {
-    font-weight: 400;
-    font-size: 45px;
-    line-height: 64px;
-    color: #1a3b42;
-}
-
-.liststorebody {
-    padding-left: 18px;
-}
-
-.liststorebody .addliststore {
-    background: #50c2da;
+.listCommoditybody .addlistCommodity {
+    background: orange;
     border-radius: 10px;
     width: 335px;
     height: 60px;
@@ -46,15 +43,14 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    color: var(--color-text);
+    color: white;
     border: none;
 }
 
-.liststorebody .status {
-    position: absolute;
+.listCommoditybody .status {
     margin-top: 14px;
     background: rgba(217, 217, 217, 0.3);
-    width: 95%;
+    width: 100%;
     height: 50px;
     display: flex;
     flex-wrap: nowrap;
@@ -62,7 +58,7 @@
     align-items: center;
 }
 
-.liststorebody .status span {
+.listCommoditybody .status span {
     font-weight: 400;
     font-size: 25px;
     line-height: 35px;
@@ -97,7 +93,7 @@
     line-height: 32px;
 }
 
-.liststorebody .searchinput input {
+.listCommoditybody .searchinput input {
     width: 300px;
     height: 38px;
     background: rgba(255, 255, 255, 0.34);
@@ -119,9 +115,10 @@
     color: var(--color-text);
 }
 
+
 /* Table */
-.table {
-    margin: 90px 2% 0;
+
+.tableCommodity {
     width: 100%;
     align-items: center;
 }
@@ -136,7 +133,6 @@
 
 .MuiTable-bordered th,
 .MuiTable-bordered td {
-    
     font-family: "Frank Ruhl Libre";
     font-style: normal;
     font-weight: 400;
@@ -144,6 +140,7 @@
     line-height: 22px;
     text-align: center;
 }
+
 .MuiTableHead-root-wrap {
     background-color: #d9d9d9;
     display: flex;
@@ -183,19 +180,24 @@
     color: #ffffff;
 }
 
-
 .MuiTableBody_root-itemLast {
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
+
+
 /* Phân trang */
-.paginate-commodity{
+
+.paginate-commodity {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    left: 0;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
     justify-content: center;
     gap: 40px;
     list-style: none;
-    
 }

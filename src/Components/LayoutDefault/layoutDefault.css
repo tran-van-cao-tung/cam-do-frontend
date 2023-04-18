@@ -1,19 +1,36 @@
-.layout{
-    position: absolute;
-    top: 118px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.containerLayout {
+    display: flex;
+    min-height: 100vh;
+    padding: 5px 0;
+    background-color: #F9F6F4;
 }
 
-.grid-content{
-    padding-left: 0px !important;
-    
+.rightContainer {
+    height: 100%;
+    width: 75%;
+    margin: 0 20px 20px 0;
 }
-.containers{
-    padding-bottom: 20px;
-    background-color: #b9c9cd;
+
+.leftContainer {
+    padding-top: 30px;
+    height: auto;
+    width: 25%
+}
+
+.layout {
+    /* position: absolute; */
+    /* top: 118px;
+    left: 0;
+    right: 0;
+    bottom: 0; */
+}
+
+.containers {
+    min-height: 80vh;
+    margin-left: 10px;
+    border-radius: 20px;
+    background-color: white;
     height: 100%;
     position: relative;
-    padding: 40px 40px 0 40px;
+    padding: 20px 40px;
 }

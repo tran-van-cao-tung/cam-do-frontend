@@ -1,8 +1,4 @@
-.box_employee {
-    margin: 0 29px;
-}
-
-.employee_heading {
+.viewProduct_heading {
     font-family: 'Francois One';
     font-style: normal;
     font-weight: 400;
@@ -14,7 +10,7 @@
     padding: 22px 0 22px 27px
 }
 
-.employee_button {
+.viewProduct_button {
     width: 187px;
     height: 64px;
     background: #50C2DA;
@@ -26,18 +22,18 @@
     font-size: 35px;
 }
 
-.employee_search {
+.viewProduct_search {
     padding-left: 76px;
     padding-top: 24px;
 }
 
-.employee_search-check {
+.viewProduct_search-check {
     display: flex;
     align-items: center;
     justify-content: start;
 }
 
-.employee_search-heading {
+.viewProduct_search-heading {
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
     font-weight: 400;
@@ -48,7 +44,7 @@
     margin-right: 48px;
 }
 
-.employee_search input[type="radio"] {
+.viewProduct_search input[type="radio"] {
     background: #FFFFFF;
     border: 1px solid rgba(134, 131, 131, 0.6);
     border-radius: 50%;
@@ -58,7 +54,7 @@
     -webkit-appearance: none;
 }
 
-.employee_search input[type="radio"]:checked:after {
+.viewProduct_search input[type="radio"]:checked:after {
     content: "";
     display: block;
     position: absolute;
@@ -71,7 +67,7 @@
     background: #537E87;
 }
 
-.employee_search input[type="radio"]+label {
+.viewProduct_search input[type="radio"]+label {
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
     font-weight: 400;
@@ -83,25 +79,24 @@
     padding: 20px;
 }
 
-.employee_search input[type="radio"]+.check1 {
+.viewProduct_search input[type="radio"]+.check1 {
     color: #AD00FF;
 }
 
-.employee_search input[type="radio"]+.check2 {
+.viewProduct_search input[type="radio"]+.check2 {
     color: #14A87B;
 }
 
-.employee_search input[type="radio"]+.check3 {
+.viewProduct_search input[type="radio"]+.check3 {
     color: #F75151;
 }
 
-.employee_search-option {
+.viewProduct_search-option {
     width: 753px;
     height: 53px;
     left: 488px;
     top: 403px;
     background: rgba(255, 255, 255, 0.6);
-    
     border-radius: 6px;
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
@@ -123,7 +118,7 @@
     background-position: right 10px center;
 }
 
-.employee_search-input {
+.viewProduct_search-input {
     width: 741px;
     height: 56px;
     background: rgba(123, 125, 155, 0.34);
@@ -139,21 +134,21 @@
     padding-left: 14px;
 }
 
-.employee_search-input {
+.viewProduct_search-input {
     background-image: url('/src/asset/img/search.png');
     background-repeat: no-repeat;
     background-position: right center;
 }
 
-.employee_search-input>div,
-.employee_search-option>div {
+.viewProduct_search-input>div,
+.viewProduct_search-option>div {
     font-size: 25px;
     line-height: 32px;
     font-family: 'Frank Ruhl Libre' !important;
     color: #000000;
 }
 
-.employee_search-btn {
+.viewProduct_search-btn {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -172,19 +167,20 @@
     margin-top: 18px;
 }
 
-div[title='Lưu kho']{
+div[title='Lưu kho'] {
     background-color: #50c2da;
-  }
-  div[title='Thanh lý']{
+}
+
+div[title='Thanh lý'] {
     background-color: #d4d05c;
-  }
-  div[title='Lưu kho'],
-  div[title='Thanh lý']{
+}
+
+div[title='Lưu kho'],
+div[title='Thanh lý'] {
     border-radius: 7px;
     font-family: 'Frank Ruhl Libre';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 17px;
-  padding: 5px;
-  }
-
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    padding: 5px;
+}

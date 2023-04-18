@@ -3,6 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+.conten {
+    border-radius: 20px;
+}
 
 .heading {
     font-family: 'Francois One';
@@ -58,9 +61,7 @@
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
-
     color: #000000;
-
     opacity: 0.6;
     Display: block;
     margin-top: -13px;
@@ -90,7 +91,6 @@
     font-weight: 400;
     font-size: 15px;
     color: rgba(0, 0, 0, 0.6);
-
     opacity: 0.6;
 }
 

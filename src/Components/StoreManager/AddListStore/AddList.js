@@ -9,7 +9,6 @@ import FormLabel from '@mui/material/FormLabel';
 import InputBase from '@mui/material/InputBase';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import axios from 'axios';
 
 import { Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -49,7 +48,7 @@ const AddList = () => {
 
         axios({
             method: 'post',
-            url: 'http://tranvancaotung-001-site1.atempurl.com/api/v1/branch/CreateBranch',
+            url: '/branch/CreateBranch',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },

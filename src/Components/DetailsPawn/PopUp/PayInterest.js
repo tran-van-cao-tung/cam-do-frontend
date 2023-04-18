@@ -13,7 +13,7 @@ import {
 import CreateIcon from '@mui/icons-material/Create';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import axios from 'axios';
+
 import { Uploader } from 'uploader';
 import moment from 'moment';
 import { UploadDropzone } from 'react-uploader';

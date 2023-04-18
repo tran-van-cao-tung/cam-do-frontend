@@ -18,8 +18,7 @@ function Commodity() {
         }).then((res) => {
             console.log(res.data);
             setCommodity(res.data);
-        })
-
+        });
     }, []);
     // =========================================
     // |                Search                 |
@@ -53,52 +52,46 @@ function Commodity() {
     // ==================================
     const [pageNumber, setPageNumber] = useState(0);
 
-    const usersPerPage = 6;// số lượng cửa hàng hiển thị trên mỗi trang
+    const usersPerPage = 6; // số lượng cửa hàng hiển thị trên mỗi trang
     const pagesVisited = pageNumber * usersPerPage;
     // được sử dụng để hiển thị danh sách sản phẩm trên trang hiện tại
-    const displayUsers = filteredData
-        .slice(pagesVisited, pagesVisited + usersPerPage)
-        .map((val) => (
-            <tr>
-                <td>{val.pawnableProductId}</td>
-                <td>Cầm đồ</td>
-                <td>
-                    <Link to={`/commodity/edit/${val.pawnableProductId}`}>
-                        {val.typeOfProduct}
-                    </Link>
-                </td>
-                <td>
-                    <Link to={`/commodity/edit/${val.pawnableProductId}`}>
-                        {val.commodityCode}
-                    </Link>
-                </td>
-                <td className="Style Frond">
-                    {val.status === 0 ? (
-                        <div className="MuiTableBody_working-status">
-                            <p>Đang hoạt động</p>
-                        </div>
-                    ) : (
-                        <div className="MuiTableBody_stop-status">
-                            <p>Đã tạm dừng</p>
-                        </div>
-                    )}
-                </td>
-            </tr>
-        ));
+    const displayUsers = filteredData.slice(pagesVisited, pagesVisited + usersPerPage).map((val) => (
+        <tr>
+            <td>{val.pawnableProductId}</td>
+            <td>Cầm đồ</td>
+            <td>
+                <Link to={`/commodity/edit/${val.pawnableProductId}`}>{val.typeOfProduct}</Link>
+            </td>
+            <td>
+                <Link to={`/commodity/edit/${val.pawnableProductId}`}>{val.commodityCode}</Link>
+            </td>
+            <td className="Style Frond">
+                {val.status === 0 ? (
+                    <div className="MuiTableBody_working-status">
+                        <p>Đang hoạt động</p>
+                    </div>
+                ) : (
+                    <div className="MuiTableBody_stop-status">
+                        <p>Đã tạm dừng</p>
+                    </div>
+                )}
+            </td>
+        </tr>
+    ));
 
-    const pageCount = Math.ceil(filteredData.length / usersPerPage);// tính toán số lượng trang
+    const pageCount = Math.ceil(filteredData.length / usersPerPage); // tính toán số lượng trang
 
     const changePage = ({ selected }) => {
         setPageNumber(selected);
     };
     return (
         <>
-            <h1 className="liststore-h1">Danh sách hàng hóa</h1>
-            <div className="liststore">
-                <div className="liststorebody">
+            <h1 className="listCommodity-h1">Danh sách hàng hóa</h1>
+            <div className="listCommodity">
+                <div className="listCommoditybody">
                     {/* Button  Add */}
                     <a href="/commodity/add">
-                        <button className="addliststore">Thêm mới hàng hóa</button>
+                        <button className="addlistCommodity">Thêm mới hàng hóa</button>
                     </a>
                     {/* Status */}
                     <div className="status">
@@ -107,7 +100,7 @@ function Commodity() {
                         <span className="fromstatus">
                             <FormControl className="form-iteam">
                                 <RadioGroup
-                                    className="radio-item"
+                                    className="radioItem"
                                     aria-label="status"
                                     name="status"
                                     value={statusFilter}
@@ -157,7 +150,7 @@ function Commodity() {
                 {/* ================================ */}
                 {/* =            Table Show        = */}
                 {/* ================================ */}
-                <div className="table">
+                <div className="tableCommodity">
                     <table class="responstable">
                         <tr>
                             <th>STT</th>
@@ -173,20 +166,20 @@ function Commodity() {
                     {/* ================================ */}
                     {/* =            Phân trang        = */}
                     {/* ================================ */}
-                    <ReactPaginate
-                        className='paginate-commodity'
-                        previousLabel={"Previous"}
-                        nextLabel={"Next"}
-                        pageCount={pageCount}
-                        onPageChange={changePage}
-                        containerClassName={"paginationBttns"}
-                        previousLinkClassName={"previousBttn"}
-                        nextLinkClassName={"nextBttn"}
-                        disabledClassName={"paginationDisabled"}
-                        activeClassName={"paginationActive"}
-                    />
                 </div>
             </div>
+            <ReactPaginate
+                className="paginate-commodity"
+                previousLabel={'Previous'}
+                nextLabel={'Next'}
+                pageCount={pageCount}
+                onPageChange={changePage}
+                containerClassName={'paginationBttns'}
+                previousLinkClassName={'previousBttn'}
+                nextLinkClassName={'nextBttn'}
+                disabledClassName={'paginationDisabled'}
+                activeClassName={'paginationActive'}
+            />
         </>
     );
 }

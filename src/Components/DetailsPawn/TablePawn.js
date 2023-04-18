@@ -172,7 +172,7 @@ const TablePawn = ({
     ];
 
     return (
-        <div style={{ height: 510, width: '99%' }}>
+        <div style={{ height: 510, width: '100%' }}>
             <DataGrid
                 rows={rowsContract}
                 getRowId={(row) => row.contractId}
