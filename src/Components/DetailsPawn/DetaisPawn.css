@@ -69,7 +69,7 @@
 
 .export {
     background-color: white;
-    border: 1px solid green;
+    border: 2px solid green;
     padding: 5px 10px;
     color: green;
 }
@@ -344,12 +344,13 @@ div[title='Đã Đóng'] {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f65151;
-    color: #ffffff;
+    border: 2px solid green;
+    color: green;
 }
 
 .activity {
-    background: #14a87b;
+    border: 2px solid red;
+    color: red;
 }
 
 .MuiTableBody_root-itemLast {
