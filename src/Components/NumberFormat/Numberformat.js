@@ -8,6 +8,8 @@ import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import { useState } from 'react';
+import callAPI from '../../API';
+import { useEffect } from 'react';
 
 const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -42,6 +44,8 @@ export default function FormattedInputs({ item }) {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
 
+    const id = item.interestDiaryId;
+    console.log('interestDiaryId:', id);
     const [paidMoney, setPaidMoney] = useState(0);
     const [interestDiary, setInterestDiary] = useState([]);
 
@@ -57,6 +61,16 @@ export default function FormattedInputs({ item }) {
         console.log('value:', setPaidMoney);
     };
 
+    useEffect(() => {
+        const slug = item.interestDiaryId;
+        callAPI({
+            method: 'get',
+            url: `interestDiary/getInterestDiariesByContractId/${slug}}`,
+        }).then((res) => {
+            setInterestDiary(res.data);
+        });
+    }, [item.interestDiaryId]);
+
     return (
         <Box
             sx={{
@@ -68,9 +82,7 @@ export default function FormattedInputs({ item }) {
             <TextField
                 label="Tiền khách trả"
                 value={item.paidMoney}
-                onChange={(e) => {
-                    setPaidMoney(e.target.value);
-                }}
+                onChange={(e) => handleInput(e)}
                 name="numberformat"
                 id="formatted-numberformat-input"
                 InputProps={{

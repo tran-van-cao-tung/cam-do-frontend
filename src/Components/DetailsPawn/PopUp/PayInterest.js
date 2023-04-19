@@ -20,19 +20,9 @@ import { UploadDropzone } from 'react-uploader';
 import callAPI from '../../../API';
 import BasicModal from '../../Modal/Modal';
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import SendIcon from '@mui/icons-material/Send';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import FormattedInputs from '../../NumberFormat/Numberformat';
-
-import Input from '@mui/material/Input';
-import InputLabel from '@mui/material/InputLabel';
-import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
 import { NumericFormat } from 'react-number-format';
-import { useParams } from 'react-router-dom';
+import SwipeableTextMobileStepper from './CarouselImg';
+import ModalImg from './ModalImg';
 
 const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -220,14 +210,15 @@ function PayInterest({ showContractId }) {
         });
     };
     useEffect(() => {
-        const slug = isChecked;
+        const slug = interestDiary.interestDiaryId;
+        console.log('slug', slug);
         callAPI({
             method: 'get',
-            url: `interestDiary/updateInterestDiary/${slug}`,
+            url: `interestDiary/getInterestDiariesByContractId/${slug}}`,
         }).then((res) => {
             setInterestDiary(res.data);
         });
-    }, [isChecked]);
+    }, [interestDiary.interestDiaryId]);
     const handleInput = (e) => {
         e.persist();
         setInterestDiary({ ...interestDiary, [e.target.name]: e.target.value });
@@ -262,6 +253,7 @@ function PayInterest({ showContractId }) {
                             <TableCell>Tổng tiền</TableCell>
                             <TableCell>Tiền khách trả</TableCell>
                             <TableCell>Ghi Chú</TableCell>
+                            <TableCell>Hình ảnh</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody
@@ -301,6 +293,9 @@ function PayInterest({ showContractId }) {
                                         </TableCell>
                                         <TableCell>
                                             <BasicModal item={item} />
+                                        </TableCell>
+                                        <TableCell>
+                                            <ModalImg item={item} />
                                         </TableCell>
                                     </TableRow>
                                     {showNote[`${item.interestDiaryId}`] === item.interestDiaryId ? (
