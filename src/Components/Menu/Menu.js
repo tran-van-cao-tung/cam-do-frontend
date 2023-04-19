@@ -7,7 +7,6 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import './menu.css';
-import { AiOutlineDown, AiOutlineAlignRight } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
 
 import API from '../../API';

@@ -37,8 +37,9 @@ const EditWarehouse = () => {
     const handleSubmitEdit = () => {
         API({
             method: 'put',
-            url: `/warehouse/updateWareHouse/${params.id}`,
+            url: `/warehouse/updateWareHouse/`,
             data: {
+                warehouseId: params.id,
                 warehouseName: item.branchName,
                 warehouseAddress: item.address,
                 status: item.status,

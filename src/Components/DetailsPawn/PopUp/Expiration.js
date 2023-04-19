@@ -5,7 +5,8 @@ import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
 import callAPI from '../../../API';
 import { useNavigate } from 'react-router-dom';
-
+import moment from 'moment';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 function Expiration({ setShowExpiration, showContractId }) {
 
     const history = useNavigate();
@@ -52,6 +53,21 @@ function Expiration({ setShowExpiration, showContractId }) {
             window.location.reload(false);
         });
     }
+    console.log("Dao han")
+    const [contractDetail, setContractDetail] = useState([]);
+    useEffect(() => {
+      callAPI({
+          method: 'get',
+          url: `/contract/getContractDetail/` + localStorage.getItem("PawnDetailID"),
+      }).then((res) => {
+          setContractDetail(res.data);
+          console.log(res.data);
+      });
+    }, []);
+
+    const formatMoney = (value) => {
+      return value.toLocaleString('vi-VN') + ' VNĐ';
+    };
 
 
 
@@ -64,57 +80,104 @@ function Expiration({ setShowExpiration, showContractId }) {
                 </div>
                 <div className="contents">
                     <div className="box__liquidation">
-                        <Box sx={{ flexGrow: 1 }}>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} md={6}>
-                                    <table className="table__liquidation">
-                                        <tr>
-                                            <th>Khách hàng</th>
-                                            <th colSpan="2">
-                                                <span className="start-red">Nguyễn Trần Khánh Hoa</span>{" "}
-                                                - 098989898
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th>Tiền cầm</th>
-                                            <th colSpan="2">10,000,000 VNĐ</th>
-                                        </tr>
-                                        <tr>
-                                            <th>Vay từ ngày</th>
-                                            <th>23/12/2022</th>
-                                            <th>01/01/2022</th>
-                                        </tr>
-                                        <tr>
-                                            <th>Ngày trả lãi gần nhất</th>
-                                            <th colSpan="2"></th>
-                                        </tr>
-                                    </table>
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <table className="table__liquidation">
-                                        <tr>
-                                            <th>Lãi xuất</th>
-                                            <th colSpan="2">
-                                                <span className="start-red">5k/ngày</span>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th>Tiền lãi đã đóng</th>
-                                            <th className="start-red">0 VNĐ</th>
-                                        </tr>
-                                        <tr>
-                                            <th>Gốc còn nợ: <span className="start-red">8,000,000 VNĐ</span></th>
-                                            <th>Nợ lãi cũ: <span className="start-red">0 VNĐ</span></th>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Trạng thái</th>
-                                            <th>Đang cầm</th>
-                                        </tr>
-                                    </table>
-                                </Grid>
-                            </Grid>
-                        </Box>
+                        <div className="full_detailContract">
+                            <table className="table__detailContract">
+                                <tr>
+                                    <th colSpan="2">Khách hàng</th>
+                                    <th colSpan="2" style={{ textAlign: 'right' }}>
+                                        <span className="start-red">{contractDetail.customerName} </span>
+                                        <span> - </span>
+                                        <span>
+                                            <span>
+                                                <LocalPhoneIcon
+                                                    fontSize="small"
+                                                    className="detailContract_icon-phone"
+                                                />
+                                            </span>{' '}
+                                            {contractDetail.phone}
+                                        </span>
+                                        {/* <span> - </span>
+                    <span style={{ fontSize: "14px" }}>
+                      <span ><HomeIcon fontSize="small" className="detailContract_icon-phone" />
+                      </span> {detailPawn.branchId}</span> */}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colSpan="2">Tiền cầm</th>
+                                    <th colSpan="2" className="start-red" style={{ textAlign: 'right' }}>
+                                        {contractDetail.loan ? formatMoney(contractDetail.loan) : '0 VNĐ'}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colSpan="2">Vay từ ngày</th>
+                                    <th colSpan="1" style={{ textAlign: 'right' }}>
+                                        {moment(contractDetail.contractStartDate).format('DD/MM/YYYY')}
+                                    </th>
+                                    <th colSpan="1" style={{ textAlign: 'right' }}>
+                                        {moment(contractDetail.contractEndDate).format('DD/MM/YYYY')}
+                                    </th>
+                                </tr>
+                            </table>
+                            <table className="table__detailContract">
+                                <tr>
+                                    <th>Lãi suất</th>
+                                    <th style={{ textAlign: 'right' }}>
+                                        <span>{contractDetail.packageInterest}%</span>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Tiền lãi đã đóng</th>
+                                    <th className="start-red" style={{ textAlign: 'right' }}>
+                                        {contractDetail.interestPaid ? formatMoney(contractDetail.interestPaid) : '0 VNĐ'}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Nợ lãi cũ:</th>
+                                    <th style={{ textAlign: 'right' }}>
+                                        <span className="start-red">
+                                            {contractDetail.interestDebt ? formatMoney(contractDetail.interestDebt) : ''}
+                                        </span>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Trạng thái:</th>
+                                    {contractDetail.status === 1 ? (
+                                        <th style={{ textAlign: 'right' }}>
+                                            <span className="detailContract_status" style={{ color: 'rgb(0, 166, 0)' }}>
+                                                Đang Cầm
+                                            </span>
+                                        </th>
+                                    ) : contractDetail.status === 2 ? (
+                                        <th style={{ textAlign: 'right' }}>
+                                            <span
+                                                className="detailContract_status"
+                                                style={{ color: 'rgb(83, 83, 255)' }}
+                                            >
+                                                Trễ Hẹn
+                                            </span>
+                                        </th>
+                                    ) : contractDetail.status === 3 ? (
+                                        <th style={{ textAlign: 'right' }}>
+                                            <span
+                                                className="detailContract_status"
+                                                style={{ color: 'rgb(255, 255, 106)' }}
+                                            >
+                                                Thanh Lý
+                                            </span>
+                                        </th>
+                                    ) : contractDetail.status === 4 ? (
+                                        <th style={{ textAlign: 'right' }}>
+                                            <span className="detailContract_status" style={{ color: 'red' }}>
+                                                Đã Đóng
+                                            </span>
+                                        </th>
+                                    ) : (
+                                        ''
+                                    )}
+                                </tr>
+                            </table>
+                        </div>
+                      
                     </div>
                 </div>
                 <div className="info__asset">

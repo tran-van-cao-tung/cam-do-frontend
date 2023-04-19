@@ -40,8 +40,8 @@ const AddContract = ({ setShowAddContract }) => {
         e.preventDefault();
         const data = {
             customerId: customer.customerId,
-            userId: '678ab687-ad77-4723-9154-08db27adccae',
-            branchId: 1,
+            userId: localStorage.getItem("userId"),
+            branchId: localStorage.getItem("branchId"),
             totalProfit: 0,
             warehouseId: 1,
             pawnableProductId: contract.pawnableProductId,
@@ -55,15 +55,13 @@ const AddContract = ({ setShowAddContract }) => {
             interestRecommend: contract.interestRecommend,
             description: 'string',
         };
-        console.log(data);
-        alert('Đang tạo hợp đồng, xin vui lòng chờ');
         API({
             method: 'post',
-            url: 'contract/createContract',
+            url: '/contract/createContract',
+            data: data
         }).then((res) => {
-            alert('Tạo hợp đồng thành công');
+            alert("Tạo hợp đồng thành công");
             console.log('thành công');
-
             window.location.reload(false);
         });
     };
@@ -451,7 +449,7 @@ const AddContract = ({ setShowAddContract }) => {
                                                           })
                                                         : ''}
                                                     <p>
-                                                        Hình hảnh <span class="start-red">*</span>:
+                                                        Hình ảnh <span class="start-red">*</span>:
                                                     </p>
                                                 </div>
                                                 <div className="user__info-input">
@@ -459,18 +457,7 @@ const AddContract = ({ setShowAddContract }) => {
                                                     {attributes
                                                         ? attributes.map((item, index) => {
                                                               return (
-                                                                  <input
-                                                                      type="text"
-                                                                      name={index}
-                                                                      onChange={(e) =>
-                                                                          hanleInputAttribute(
-                                                                              e,
-                                                                              item.pawnableProductId,
-                                                                              index,
-                                                                          )
-                                                                      }
-                                                                      placeholder={`Nhập ${item.description}`}
-                                                                  />
+                                                                  <p>index</p>
                                                               );
                                                           })
                                                         : ''}

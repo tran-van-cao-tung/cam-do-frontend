@@ -23,7 +23,8 @@ const TablePawn = ({
     };
     const handleShowLiquidation = (id) => {
         setShowliquidation(true);
-        console.log(id);
+        localStorage.setItem('PawnDetailID', id);
+        console.log('Liquid',id);
     };
 
     const handleShowDetailContract = (id) => {
@@ -33,6 +34,7 @@ const TablePawn = ({
 
     const hanleShowExpiration = (id) => {
         setShowExpiration(true);
+        localStorage.setItem('PawnDetailID', id);
         setShowContractId(id);
     };
     console.log();

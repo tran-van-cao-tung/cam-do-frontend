@@ -128,7 +128,7 @@ const NavMenu = () => {
                         <NavLink to="/warehouse" className="text-menu home">
                             {' '}
                             <img src={menu2} className="iconMenu" />
-                            <span>Quản lý kho</span>
+                            <span>Quản lý tài sản</span>
                         </NavLink>
                     </li>
                 )}
