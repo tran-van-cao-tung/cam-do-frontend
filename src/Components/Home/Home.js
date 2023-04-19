@@ -99,30 +99,28 @@ const Home = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <Item>
-                            <p className="title">Tổng số vốn</p>
+                            <p className="title">VỐN ĐẦU TƯ</p>
                             <span className="title">{homePage ? formatMoney(homePage.fund) : '0 VNĐ'}</span>
                         </Item>
                     </Grid>
                     <Grid item xs={6}>
                         <Item>
-                            <p className="title">Số hợp đồng đang vay</p>
+                            <p className="title">HỢP ĐỒNG MỞ</p>
                             <span className="title">{homePage ? homePage.openContract : '0'}</span>
                         </Item>
                     </Grid>
                     <Grid item xs={6}>
                         <Item>
-                            <p className="title">Tiền đang cho vay</p>
-                            <span className="title">{homePage ? formatMoney(homePage.loanLedger) : '0 VNĐ'}</span>
+                            <p className="title">HỢP ĐỒNG TRỄ HẸN</p>
+                            <span className="title">{homePage ? homePage.lateContract : '0'}</span>
                         </Item>
                     </Grid>
                     <Grid item xs={6}>
                         <Item>
-                            <p className="title">Lãi đã thu trong tháng</p>
-                            <span className="title">
-                                {homePage ? formatMoney(homePage.recveivedInterest) : '0 VNĐ'}
-                            </span>
+                            <p className="title">HỢP ĐỒNG THANH LÝ</p>
+                            <span className="title">{homePage ? homePage.liquidationContract : '0'}</span>
                         </Item>
-                    </Grid>
+                    </Grid>             
                     <Grid item xs={12}>
                         <Item>
                             <div className="transaction">

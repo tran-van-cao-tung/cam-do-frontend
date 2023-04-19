@@ -31,6 +31,11 @@ const ChainStores = () => {
     const handlePageClick = ({ selected: selectedPage }) => {
         setCurrentPage(selectedPage);
     };
+
+    const formatMoney = (value) => {
+        return value.toLocaleString('vi-VN') + ' VNĐ';
+    };
+
     return (
         <>
             <div className="tableChainStores">
@@ -42,36 +47,30 @@ const ChainStores = () => {
                     {/* ================================ */}
                     <table className="responstable">
                         <tr>
-                            <th>Tên cửa hàng</th>
+                            <th style={{maxWidth:"100px"}}>Tên cửa hàng</th>
                             <th data-th="Driver details">
-                                <span>Quỹ tiền mặt</span>
+                                Vốn hiện tại
                             </th>
-                            <th>Vốn đầu tư</th>
-                            <th>Cho vay cầm đồ</th>
-                            <th>Lãi đã thu</th>
+                            <th style={{minWidth:"200px"}}>Địa chỉ</th>
+                            <th>Số điện thoại</th>
+                            <th /* style={{maxWidth:"100px"}} */>Hợp đồng thanh lý</th>
                         </tr>
-                        {currentPageData.map((currentPageData) => (
-                            <tr key={currentPageData.branchName}>
-                                <td>{currentPageData.branchName}</td>
+                        {currentPageData.map((currentPageData, index) => (
+                            <tr key={index}>
+                                <td align="center" style={{textAlign:"left"/* ,paddingLeft:"50px" */}}>{currentPageData.branchName}</td>
                                 <td align="center">
-                                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                                        currentPageData.balance,
+                                    {formatMoney(
+                                        currentPageData.currentFund
                                     )}
                                 </td>
                                 <td align="center">
-                                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                                        currentPageData.fund,
-                                    )}
+                                    {currentPageData.address}
                                 </td>
                                 <td align="center">
-                                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                                        currentPageData.loan,
-                                    )}
+                                    {currentPageData.phoneNumber}
                                 </td>
                                 <td align="center">
-                                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                                        currentPageData.recveivedInterest,
-                                    )}
+                                    {currentPageData.liquidationContracts}
                                 </td>
                             </tr>
                         ))}

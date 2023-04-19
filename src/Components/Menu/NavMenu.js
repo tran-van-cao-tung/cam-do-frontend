@@ -96,7 +96,7 @@ const NavMenu = () => {
                                     <NavLink to="/chainstores">&#128900; Chuỗi cửa hàng</NavLink>
                                 </li>
                                 <li className="subtext">
-                                    <NavLink to="/detailsStore/1" className="subtext">
+                                    <NavLink to="/detailsStore" className="subtext">
                                         &#128900; Chi tiết cửa hàng
                                     </NavLink>
                                 </li>

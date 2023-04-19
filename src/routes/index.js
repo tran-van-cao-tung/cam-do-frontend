@@ -78,7 +78,7 @@ const publicRoutes = [
     //     component: DetailsStore,
     // },
     {
-        path: '/detailsStore/:id',
+        path: '/detailsStore',
         component: DetailsStore,
     },
     {

@@ -21,13 +21,18 @@ function Commodity() {
     const [detail, setDetail] = useState([]);
     // Axios
     useEffect(() => {
+        const branchId = localStorage.getItem('branchId');
         API({
             method: 'get',
-            url: `/branch/getDetailById/${param.id}`,
+            url: `/branch/getDetailById/${branchId}`,
         }).then((res) => {
             setDetail(res.data);
         });
-    }, []);
+    }, [localStorage.getItem('branchId')]);
+
+    const formatMoney = (value) => {
+        return value.toLocaleString('vi-VN') + ' VNĐ';
+    };
 
     return (
         <div className="conten">
@@ -40,20 +45,19 @@ function Commodity() {
                             <div className="information chill-3">Thông tin chi tiết cầm đồ</div>
                             <div className="text">
                                 <p>Tiền cho vay</p>
-                                <p>Lãi dự kiến</p>
-                                <p>Lãi đã thu</p>
+                                <p>Số tiền hiện có</p>
                                 <p>Tiền khách nợ</p>
                             </div>
                             <div className="number">
                                 <p>
                                     {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                                        detail.loanLedger,
+                                        detail.loan,
                                     )}
                                 </p>
                                 <p>
                                     {' '}
                                     {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                                        detail.totalProfit,
+                                        detail.totalContracts,
                                     )}
                                 </p>
                                 <p>
@@ -74,30 +78,50 @@ function Commodity() {
                         <Item className="item-detail">
                             <div className="information chill-4">Thông tin hợp đồng cầm đồ</div>
                             <div className="text">
-                                <p>Số hợp đồng</p>
+                                <p>Lợi nhuận</p>
+                                <p>Tiền cho vay</p>
+                                <p>Số tiền hiện có</p>
+                                <p>Tổng số hợp đồng</p>
                                 <p>Hợp đồng mở</p>
                                 <p>Hợp đồng đóng</p>
-                                <p></p>
-                                <p></p>
                             </div>
                             <div className="number">
                                 <p>
-                                    {Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(
-                                        detail.numberContract,
-                                    )}
+                                    {
+                                        detail.profit ?
+                                            formatMoney(
+                                                detail.profit
+                                            ) : "0 VNĐ"}
                                 </p>
                                 <p>
-                                    {Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(
-                                        detail.openContract,
-                                    )}
+                                    {
+                                        detail.loan ?
+                                            formatMoney(
+                                                detail.loan
+                                            ) : "0 VNĐ"}
                                 </p>
                                 <p>
-                                    {Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(
-                                        detail.closeContract,
-                                    )}
+                                    {
+                                        detail.currentFund ?
+                                            formatMoney(
+                                                detail.currentFund
+                                            ) : "0 VNĐ"}
                                 </p>
-                                <p></p>
-                                <p></p>
+                                <p>
+                                    {
+                                        detail ? detail.totalContracts : "0"
+                                    }
+                                </p>
+                                <p>
+                                    {
+                                        detail ? detail.openContract : "0"
+                                    }
+                                </p>
+                                <p>
+                                    {
+                                        detail ? detail.closeContract : "0"
+                                    }
+                                </p>
                             </div>
                         </Item>
                     </Grid>
