@@ -19,8 +19,6 @@ const DetailsPawn = () => {
 
     const [searchedProduct, setSearchedProduct] = useState();
     const [rowsContract, setContract] = useState([]);
-    console.log(rowsContract);
-    console.log(searchedProduct);
 
     return (
         <div className="details-pawn">
@@ -43,7 +41,7 @@ const DetailsPawn = () => {
             />
             {showAddContract && <AddContract setShowAddContract={setShowAddContract} />}
             {showUpdateContract && <UpdateContract setShowUpdateContract={setShowUpdateContract} />}
-            {showliquidation && <Liquidation setShowliquidation={setShowliquidation} />}
+            {showliquidation && (<Liquidation setShowliquidation={setShowliquidation} />)}
             {showdetailContract && (
                 <DetailContract setshowdetailContract={setshowdetailContract} showContractId={showContractId} />
             )}

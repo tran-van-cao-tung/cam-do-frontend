@@ -14,26 +14,63 @@ const UpdateContract = ({ setShowUpdateContract }) => {
   const imginput = useRef();
   const [detailContract, setDetailContract] = useState([]);
   const [warehouse, setWarehouse] = useState([]);
+  const [pawnableProduct, setPawnableProduct] = useState();
   const saveContract = () => {
+    console.log("This is get pawn product")
     API({
-      method: 'put',
-      url: '/contract/updateContract/' + localStorage.getItem("PawnDetailID"),
-      data: {
-        insuranceFee: detailContract.insuranceFee,
-        storageFee: detailContract.storageFee,
-        loan: detailContract.loan,
-        warehouseId: warehouse.warehouseId
-      },
-    })
-      .then((res) => {
-        console.log('Success Full');
-        alert('Lưu Thành Công');
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+      method: 'get',
+      url: 'pawnableProduct/getAll/0',
+    }).then((res) => {
+      // console.log(detailContract.typeOfProduct);
+      setPawnableProduct(res.data.filter((item, index) => {
+        return item.typeOfProduct == detailContract.typeOfProduct;
+      }),);
+    });
+    console.log(pawnableProduct[0].pawnableProductId);
+    showAttribute();
+    // API({
+    //   method: 'put',
+    //   url: '/contract/updateContract/' + localStorage.getItem("PawnDetailID"),
+    //   data: {
+    //     insuranceFee: detailContract.insuranceFee,
+    //     storageFee: detailContract.storageFee,
+    //     loan: detailContract.loan,
+    //     warehouseId: warehouse.warehouseId
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log('Success Full');
+    //     alert('Lưu Thành Công');
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
   };
+  const [attributes, setAttributes] = useState();
+  function showAttribute(){
+     API({
+      method: 'get',
+      url: `pawnableProduct/getPawnAbleProductById/`+ pawnableProduct[0].pawnableProductId,
+  })
+      .then((res) => {
+          setAttributes(res.data.attributes);
+      })
+      .catch((err) => console.log(err));
+  }
 
+  const [contractAttributes, setContractAttributes] = useState([]);
+
+  const hanleInputAttribute = (e, id, index) => {
+    const newArray = [...contractAttributes];
+    if (e.target.name == index) {
+        newArray[index] = {
+            pawnableProductId: id,
+            description: e.target.value,
+        };
+    }
+    setContractAttributes(newArray);
+    console.log(contractAttributes);
+};
   useEffect(() => {
     API({
       method: 'get',
@@ -55,6 +92,7 @@ const UpdateContract = ({ setShowUpdateContract }) => {
       img && URL.revokeObjectURL(img.preview);
     };
   }, [img]);
+
   const handleClickImg = () => {
     imginput.current.click();
   };
@@ -63,6 +101,12 @@ const UpdateContract = ({ setShowUpdateContract }) => {
     setNameImg(file.name);
     file.preview = URL.createObjectURL(file);
     setImg(file.preview);
+  };
+
+
+
+  const formatMoney = (value) => {
+    return value.toLocaleString('vi-VN') + ' VNĐ';
   };
   return (
     <div>
@@ -161,13 +205,13 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                           <p>{detailContract.typeOfProduct}</p>
                           <p>{detailContract.assetName}</p>
                           <div className="box__input">
-                            <p>{detailContract.insuranceFee} VND</p>
+                            {detailContract.insuranceFee ? formatMoney(detailContract.insuranceFee) : '0 VNĐ'}
                           </div>
                           <div className="box__input">
-                            <p>{detailContract.storageFee} VND</p>
+                            {detailContract.storageFee ? formatMoney(detailContract.storageFee) : '0 VNĐ'}
                           </div>
                           <div className="box__input">
-                            <p>{detailContract.loan} VND</p>
+                            {detailContract.loan ? formatMoney(detailContract.loan) : '0 VNĐ'}
                           </div>
                           <p>{detailContract.userName} </p>
                         </div>
@@ -180,8 +224,8 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                             Hình thức lãi:
                           </p>
                           <p>Kỳ lãi:</p>
-                          <p>Ngày vay:</p>
-                          <p>Số tháng vay:</p>
+                          {/* <p>Ngày vay:</p> */}
+                          <p>Lãi mặc định</p>
                           <p>Số tiền lãi dự kiến :</p>
                           <p>Kho: </p>
                         </div>
@@ -205,56 +249,71 @@ const UpdateContract = ({ setShowUpdateContract }) => {
               </div>
             </div>
             {/* Thông tin tài sản */}
-
             <div className="mgb21">
-              <div className="heading-info-user heading-user">
-                <div className="heading-info-user">
-                  <img src={bike} alt="hk" />
-                  <h1 className="titile-user">Thông tin tài sản</h1>
-                </div>
-              </div>
-              <div className="box__user">
-                <Box sx={{ flexGrow: 1 }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                      <div className="user__info">
-                        <div className="user__info-label">
-                          <p>
-                            Số seri :
-                          </p>
-                          <p>
-                            Hình ảnh :
-                          </p>
+                            <div className="heading-info-user heading-user">
+                                <div className="heading-info-user">
+                                    <img src={bike} alt="hk" />
+                                    <h1 className="titile-user">Thông tin tài sản</h1>
+                                </div>
+                            </div>
+                            <div className="box__user">
+                                <Box sx={{ flexGrow: 1 }}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} md={6}>
+                                            <div className="user__info">
+                                                <div className="user__info-label">
+                                                    {/* <p>
+                            Số seri <span class="start-red">*</span>:
+                          </p> */}
+                                                    {attributes
+                                                        ? attributes.map((item, index) => {
+                                                              return (
+                                                                  <p key={index}>
+                                                                      {item.description}{' '}
+                                                                      <span class="start-red">*</span>:
+                                                                  </p>
+                                                              );
+                                                          })
+                                                        : ''}
+                                                    <p>
+                                                        Hình ảnh <span class="start-red">*</span>:
+                                                    </p>
+                                                </div>
+                                                <div className="user__info-input">
+                                                    {/* <input type="text" name="name" placeholder="Nhập tên khách hàng" value={seri[0] ? seri[0].attributes.length : ""} /> */}
+                                                    {attributes
+                                                        ? attributes.map((item, index) => {
+                                                              return (
+                                                                  <p></p>
+                                                              );
+                                                          })
+                                                        : ''}
+                                                    <div className="input__img" onClick={handleClickImg}>
+                                                        {nameImg === '' ? <p>Thả tệp</p> : <p>{nameImg}</p>}
+                                                        <input ref={imginput} onChange={handleImg} type="file" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <div className="btn__group">
+                                                <button className="btn btn__save" type="submit" onClick={saveContract}> 
+                                                    <img src={save} alt="" />
+                                                    Lưu lại
+                                                </button>
+                                                <button
+                                                    className="btn btn__close"
+                                                    onClick={() => setShowUpdateContract(false)}
+                                                >
+                                                    <img src={close} alt="" />
+                                                    Đóng
+                                                </button>
+                                            </div>
+                                        </Grid>
+                                    </Grid>
+                                </Box>
+                            </div>
                         </div>
-                        <div className="user__info-input">
-                          <input type="text" placeholder="Nhập tên khách hàng" />
-                          <div className="input__img" onClick={handleClickImg}>
-                            {nameImg === "" ? <p>Thả tệp</p> : <p>{nameImg}</p>}
-                            <input
-                              ref={imginput}
-                              onChange={handleImg}
-                              type="file"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <div className="btn__group">
-                        <button className="btn btn__save" >
-                          <img src={save} alt="" />
-                          Lưu lại
-                        </button>
-                        <button className="btn btn__close">
-                          <img src={close} alt="" />
-                          Đóng
-                        </button>
-                      </div>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </div>
-            </div>
             <div>
               <img src={img} alt="" style={{ width: "100%" }} />
             </div>
