@@ -55,16 +55,16 @@ function History({ showContractId }) {
             headerName: 'Nội dung',
             width: 150,
             valueGetter: (params) =>
-                `${
-                    params.row.eventType === 1
-                        ? 'Tạo hợp đồng'
-                        : params.row.eventType === 2
+                `${params.row.eventType === 1
+                    ? 'Tạo hợp đồng'
+                    : params.row.eventType === 2
                         ? 'Chưa đóng lãi'
                         : params.row.eventType === 3
-                        ? 'Đã đóng lãi'
-                        : params.row.eventType === 4
-                        ? 'Đóng hợp đồng'
-                        : ''
+                            ? 'Đã đóng lãi'
+                            : params.row.eventType === 4
+                                ? 'Đóng hợp đồng'
+                                : params.row.eventType === 5 ?
+                                    'Còn nợ lãi' : ""
                 }`,
         },
         {
@@ -72,16 +72,17 @@ function History({ showContractId }) {
             headerName: 'Ghi chú',
             width: 500,
             valueGetter: (params) =>
-                `${
-                    params.row.eventType === 1
-                        ? `Tạo hợp đồng: ${params.row.description ? params.row.description : ''}`
-                        : params.row.eventType === 2
-                        ? `Kỳ hạn: ${params.row.description}`
+                `${params.row.eventType === 1
+                    ? `Tạo hợp đồng: ${params.row.description ? params.row.description : ''}`
+                    : params.row.eventType === 2
+                        ? `Kỳ hạn: ${params.row.description ? params.row.description : ''}`
                         : params.row.eventType === 3
-                        ? `Kỳ hạn: ${params.row.description}`
-                        : params.row.eventType === 4
-                        ? `Đóng hợp đồng: ${params.row.description ? params.row.description : ''}`
-                        : ''
+                            ? `Kỳ hạn: ${params.row.description ? params.row.description : ''}`
+                            : params.row.eventType === 4
+                                ? `Đóng hợp đồng: ${params.row.description ? params.row.description : ''}`
+                                : params.row.eventType === 5
+                                    ? `Còn nợ lãi: ${params.row.description ? params.row.description : ''}`
+                                    : ""
                 }`,
         },
     ];

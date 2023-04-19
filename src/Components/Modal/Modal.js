@@ -4,7 +4,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import CreateIcon from '@mui/icons-material/Create';
-
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import { Uploader } from 'uploader';
 import moment from 'moment';
 import { UploadDropzone } from 'react-uploader';
@@ -13,7 +14,7 @@ import SendIcon from '@mui/icons-material/Send';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import callAPI from '../../API';
 import { useState } from 'react';
-import { Input, TextField } from '@mui/material';
+import { Input, TextField, linearProgressClasses } from '@mui/material';
 import { useEffect } from 'react';
 import { NumericFormat } from 'react-number-format';
 import PropTypes from 'prop-types';
@@ -89,7 +90,6 @@ export default function BasicModal({ item }) {
     console.log('interestDiaryId:', id);
     console.log('contractID', item.contractId);
     const [paidMoney, setPaidMoney] = useState(0);
-    const [img, setImg] = useState([]);
 
     const handleChange = (event) => {
         setValues({
@@ -108,25 +108,33 @@ export default function BasicModal({ item }) {
     //         setInterestDiary(res.data);
     //     });
     // }, [item.interestDiaryId]);
-    const handleImg = (files) => {
-        // setImg(files.map((x) => x.fileUrl).join('\n'));
-
-        setImg(...img, files);
-        console.log('img: ', img);
+    const [listImg, setListImg] = useState([]);
+    const handleImg = (img) => {
+        const newArray = [...listImg];
+        for (var i = 0; i < img.length; i++) {
+            newArray[i] = img[i].fileUrl;
+        }
+        setListImg(newArray);
     };
     const handleInput = (e) => {
         setInterestDiary({ ...interestDiary, [e.target.name]: e.target.value });
         console.log('alo', interestDiary);
     };
+    const MySwal = withReactContent(Swal)
     const handleSubmit = (event) => {
         event.preventDefault();
         const interestDiaryId = item.interestDiaryId;
         console.log('userId:', interestDiaryId);
 
+        if (interestDiary.paidMoney == 0 || listImg.length == 0) {
+            alert('Vui lòng nhập đầy đủ')
+            return;
+        }
+
         const data = {
             interestDiaryId: interestDiaryId,
             paidMoney: interestDiary.paidMoney,
-            proofImg: img,
+            proofImg: listImg,
         };
         console.log('data:', data);
         callAPI({
@@ -134,7 +142,17 @@ export default function BasicModal({ item }) {
             url: `interestDiary/updateInterestDiary/${interestDiaryId}`,
             data: data,
         }).then((res) => {
-            alert('Chỉnh sửa Thành công!');
+            console.log(res.data);
+            /* MySwal.fire({
+                title: <p>Hello World</p>,
+              }).then(() => {
+                return MySwal.fire(<p>Shorthand works too</p>)
+              }) */
+            Swal.fire({
+                text: "Bạn chưa nhập hết thông tin",
+                icon: 'warning',
+            }).then((result) => {
+            })
         });
     };
     return (
@@ -157,9 +175,8 @@ export default function BasicModal({ item }) {
                             uploader={uploader}
                             options={uploaderOptions}
                             onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
-                            onComplete={(files) => {
-                                handleImg(files.map((x) => x.fileUrl).join('\n'));
-                            }}
+                            onComplete={(files) => handleImg(files)
+                            }
                             alert={(files) => {
                                 files.map((x) => x.fileUrl).join('\n');
                             }}

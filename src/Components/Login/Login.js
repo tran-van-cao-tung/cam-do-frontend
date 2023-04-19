@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './login.scss';
 import API from '../../API';
 
@@ -9,7 +9,6 @@ const Login = () => {
     const history = useNavigate();
 
     const [branch, setBranch] = useState([]);
-    useEffect(() => {}, []);
 
     const hanldeSubmit = (e) => {
         e.preventDefault();
@@ -60,7 +59,7 @@ const Login = () => {
                         }}
                     />
                     <div className="content-login_text">
-                        <a href="/unlogin">Quên mật khẩu ?</a>
+                        <Link to="/unlogin">Quên mật khẩu ?</Link>
                     </div>
                     <button className="btn_login" type="submit">
                         Đăng Nhập

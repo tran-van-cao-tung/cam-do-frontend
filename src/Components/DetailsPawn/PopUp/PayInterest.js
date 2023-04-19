@@ -273,6 +273,7 @@ function PayInterest({ showContractId }) {
                                         setShow({ ...show, [item.interestDiaryId]: item.interestDiaryId });
                                     }
                                 } */
+                                console.log(item.interestDiaryId)
                             return (
                                 <>
                                     <TableRow

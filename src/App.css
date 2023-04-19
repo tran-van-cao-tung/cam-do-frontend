@@ -47,3 +47,7 @@ html {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.swal2-container {
+    z-index: 9999;
+}
