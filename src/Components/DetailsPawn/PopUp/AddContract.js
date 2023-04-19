@@ -449,7 +449,7 @@ const AddContract = ({ setShowAddContract }) => {
                                                           })
                                                         : ''}
                                                     <p>
-                                                        Hình ảnh <span class="start-red">*</span>:
+                                                        Hình hảnh <span class="start-red">*</span>:
                                                     </p>
                                                 </div>
                                                 <div className="user__info-input">
@@ -457,7 +457,18 @@ const AddContract = ({ setShowAddContract }) => {
                                                     {attributes
                                                         ? attributes.map((item, index) => {
                                                               return (
-                                                                  <p>index</p>
+                                                                  <input
+                                                                      type="text"
+                                                                      name={index}
+                                                                      onChange={(e) =>
+                                                                          hanleInputAttribute(
+                                                                              e,
+                                                                              item.pawnableProductId,
+                                                                              index,
+                                                                          )
+                                                                      }
+                                                                      placeholder={`Nhập ${item.description}`}
+                                                                  />
                                                               );
                                                           })
                                                         : ''}

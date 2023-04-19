@@ -15,6 +15,7 @@ const UpdateContract = ({ setShowUpdateContract }) => {
   const [detailContract, setDetailContract] = useState([]);
   const [warehouse, setWarehouse] = useState([]);
   const [pawnableProduct, setPawnableProduct] = useState();
+  const [attributeInfo, setAttributeInfo] = useState([]);
   const saveContract = () => {
     console.log("This is get pawn product")
     API({
@@ -48,7 +49,7 @@ const UpdateContract = ({ setShowUpdateContract }) => {
   };
   const [attributes, setAttributes] = useState();
   function showAttribute(){
-     API({
+    API({
       method: 'get',
       url: `pawnableProduct/getPawnAbleProductById/`+ pawnableProduct[0].pawnableProductId,
   })
@@ -59,7 +60,6 @@ const UpdateContract = ({ setShowUpdateContract }) => {
   }
 
   const [contractAttributes, setContractAttributes] = useState([]);
-
   const hanleInputAttribute = (e, id, index) => {
     const newArray = [...contractAttributes];
     if (e.target.name == index) {
@@ -77,7 +77,8 @@ const UpdateContract = ({ setShowUpdateContract }) => {
       url: '/contract/getContractInfoByContractId/' + localStorage.getItem("PawnDetailID"),
     }).then((res) => {
       setDetailContract(res.data);
-      // console.log('aaaaa', res.data);
+      setAttributeInfo(res.data.attributeInfos);
+      // console.log('attr info', res.data.attributeInfos[]);
     });
 
     API({
@@ -249,6 +250,7 @@ const UpdateContract = ({ setShowUpdateContract }) => {
               </div>
             </div>
             {/* Thông tin tài sản */}
+
             <div className="mgb21">
                             <div className="heading-info-user heading-user">
                                 <div className="heading-info-user">
@@ -282,9 +284,9 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                                                 <div className="user__info-input">
                                                     {/* <input type="text" name="name" placeholder="Nhập tên khách hàng" value={seri[0] ? seri[0].attributes.length : ""} /> */}
                                                     {attributes
-                                                        ? attributes.map((item, index) => {
+                                                        ? attributeInfo.map((item, index) => {
                                                               return (
-                                                                  <p></p>
+                                                                  <p>{item}</p>
                                                               );
                                                           })
                                                         : ''}
@@ -297,7 +299,7 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                                         </Grid>
                                         <Grid item xs={12} md={6}>
                                             <div className="btn__group">
-                                                <button className="btn btn__save" type="submit" onClick={saveContract}> 
+                                                <button className="btn btn__save" type="submit" onClick={saveContract}>
                                                     <img src={save} alt="" />
                                                     Lưu lại
                                                 </button>
