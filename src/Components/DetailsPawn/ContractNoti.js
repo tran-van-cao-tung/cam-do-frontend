@@ -45,12 +45,14 @@ const ContractNoti = () => {
     setCurrentPage(selectedPage);
   };
   return (
-    <div className="details-pawn">
-      <h1 className="header"> <h1>Thông báo thu nợ hôm nay</h1></h1>
-            {/* ================================ */}
-            {/* =            Table Show        = */}
-            {/* ================================ */}
-            <div className="table">
+     <>
+     <div className="listStoreContainer">
+         <h1 className="liststorebody-h1">Thông báo thu nợ hôm nay</h1>
+         <div className="ListStore1">
+             {/* ================================ */}
+             {/* =            Table Show        = */}
+             {/* ================================ */}
+             <div className="table">
               <table className="responstable">
                 <tr>
                 <th>#</th>
@@ -88,10 +90,12 @@ const ContractNoti = () => {
                 ))}
               </table>
             </div>
-            {/* ================================ */}
-            {/* =            Phân Trang        = */}
-            {/* ================================ */}
-            <ReactPaginate
+             {/* ================================ */}
+             {/* =            Phân Trang        = */}
+             {/* ================================ */}
+         </div>
+     </div>
+     <ReactPaginate
               className="paginate-listStore"
               previousLabel={'Trang trước'}
               nextLabel={'Trang sau'}
@@ -103,8 +107,8 @@ const ContractNoti = () => {
               onPageChange={handlePageClick}
               containerClassName={'pagination'}
               activeClassName={'active'}
-            />
-    </div>
+        />
+ </>
   );
 };
 
