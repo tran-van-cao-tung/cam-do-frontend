@@ -16,19 +16,32 @@ const UpdateContract = ({ setShowUpdateContract }) => {
   const [warehouse, setWarehouse] = useState([]);
   const [pawnableProduct, setPawnableProduct] = useState();
   const [attributeInfo, setAttributeInfo] = useState([]);
+  const [branch, setbranch] = useState();
+  const updateValue = ({ target }) => {
+    setbranch(target.value);
+};
+
+function getPermission(e) {
+  updateValue(e);
+  console.log('log at get permission', e.target.value);
+  sessionStorage.setItem('selected branch', e.target.value);
+  // API({
+  //     method: 'post',
+  //     url: '/permission/showpermission',
+  //     data: {
+  //         userId: e.target.value,
+  //         nameUser: 'string',
+  //     },
+  // }).then((res) => {
+  //     setEmployeePermission(res.data);
+  //     for (let i = 0; i < 5; i++) {
+  //         localStorage.setItem('permis ' + i, res.data[i].status);
+  //         console.log('employee permis:', res.data[i].status);
+  //     }
+      
+  // });
+}
   const saveContract = () => {
-    console.log("This is get pawn product")
-    API({
-      method: 'get',
-      url: 'pawnableProduct/getAll/0',
-    }).then((res) => {
-      // console.log(detailContract.typeOfProduct);
-      setPawnableProduct(res.data.filter((item, index) => {
-        return item.typeOfProduct == detailContract.typeOfProduct;
-      }),);
-    });
-    console.log(pawnableProduct[0].pawnableProductId);
-    showAttribute();
     // API({
     //   method: 'put',
     //   url: '/contract/updateContract/' + localStorage.getItem("PawnDetailID"),
@@ -48,10 +61,10 @@ const UpdateContract = ({ setShowUpdateContract }) => {
     //   })
   };
   const [attributes, setAttributes] = useState();
-  function showAttribute(){
+  function showAttribute(id){
     API({
       method: 'get',
-      url: `pawnableProduct/getPawnAbleProductById/`+ pawnableProduct[0].pawnableProductId,
+      url: `pawnableProduct/getPawnAbleProductById/`+ id,
   })
       .then((res) => {
           setAttributes(res.data.attributes);
@@ -60,18 +73,8 @@ const UpdateContract = ({ setShowUpdateContract }) => {
   }
 
   const [contractAttributes, setContractAttributes] = useState([]);
-  const hanleInputAttribute = (e, id, index) => {
-    const newArray = [...contractAttributes];
-    if (e.target.name == index) {
-        newArray[index] = {
-            pawnableProductId: id,
-            description: e.target.value,
-        };
-    }
-    setContractAttributes(newArray);
-    console.log(contractAttributes);
-};
-  useEffect(() => {
+  function loadDetail() {
+    console.log("Load detail")
     API({
       method: 'get',
       url: '/contract/getContractInfoByContractId/' + localStorage.getItem("PawnDetailID"),
@@ -89,28 +92,43 @@ const UpdateContract = ({ setShowUpdateContract }) => {
       // console.log('aaaaa', res.data);
     });
 
-    return () => {
-      img && URL.revokeObjectURL(img.preview);
+    API({
+      method: 'get',
+      url: 'pawnableProduct/getAll/0',
+    }).then((res) => {
+      // console.log(detailContract.typeOfProduct);
+      setPawnableProduct(res.data.filter((item, index) => {
+        return item.typeOfProduct == detailContract.typeOfProduct;
+      }),);
+    });
+  };
+
+  // useEffect(() => {
+    
+  //   return () => {
+  //     const doneStatus = loadDetail();
+  //   console.log("Use effect:")
+  //   console.log(doneStatus)
+  //   };
+  // },[]);
+  useEffect(() => {
+    const getUsers = async () => {
+      const status = await loadDetail();
+      console.log("Status1 : 1")
+      console.log(pawnableProduct[0]);
+      showAttribute(pawnableProduct[0].pawnableProductId);
     };
-  }, [img]);
-
-  const handleClickImg = () => {
-    imginput.current.click();
-  };
-  const handleImg = (e) => {
-    const file = e.target.files[0];
-    setNameImg(file.name);
-    file.preview = URL.createObjectURL(file);
-    setImg(file.preview);
-  };
-
-
+    getUsers();
+    return () => {
+      // this now gets called when the component unmounts
+    };
+  }, []);
 
   const formatMoney = (value) => {
     return value.toLocaleString('vi-VN') + ' VNĐ';
   };
   return (
-    <div>
+    <div onLoad={loadDetail}> 
       <div className="add-contract" onClick={() => setShowUpdateContract(false)}>
 
         <div className="content-contract" onClick={(e) => e.stopPropagation()}>
@@ -235,7 +253,7 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                           <p className="flcenter">{detailContract.paymentPeriod}</p>
                           <p className="flcenter">{detailContract.packageInterest}</p>
                           <p className="flcenter">{detailContract.totalProfit}</p>
-                          <select>
+                          <select value={branch} onChange={getPermission}>
                             {
                               warehouse.map((item, index) => {
                                 return <option key={index} value={item.warehouseId}>{item.warehouseName}</option>
@@ -290,9 +308,8 @@ const UpdateContract = ({ setShowUpdateContract }) => {
                                                               );
                                                           })
                                                         : ''}
-                                                    <div className="input__img" onClick={handleClickImg}>
-                                                        {nameImg === '' ? <p>Thả tệp</p> : <p>{nameImg}</p>}
-                                                        <input ref={imginput} onChange={handleImg} type="file" />
+                                                    <div>
+                                                       {/* <img src="" alt="img"/> */}
                                                     </div>
                                                 </div>
                                             </div>
