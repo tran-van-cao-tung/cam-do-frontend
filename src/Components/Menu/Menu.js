@@ -16,6 +16,7 @@ const Menuh = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     // const [showMenuUser, setShowMenuUser] = useState(false);
     const open = Boolean(anchorEl);
+    const [notiNum, setNotiNum] = useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -63,10 +64,20 @@ const Menuh = () => {
                 })[0],
             );
         });
+
+        
     }, [branchID]);
 
-    console.log(branchUser);
-
+    useEffect(() => {
+        API({
+            method: 'get',
+            url: '/notification/notificationList/'+ localStorage.getItem("branchId"),
+              }).then((res) => {
+            setNotiNum(res.data.length);
+            // console.log('aaaaa', res.data);
+        });
+    }, []);
+    
     /* const [selectedOption, setSelectedOption] = useState(); */
     const [showValue, setShowValue] = useState();
     const handleBranch = (e) => {
@@ -113,12 +124,12 @@ const Menuh = () => {
                     <Link to={`/report-customer`}>
                         <img src={warning} alt="" />
                     </Link>
-                    <span>1</span>
+                    {/* <span>1</span> Hiện số  */}
                 </div>
                 <div className="icon2">
                     <Link to={`/noti`}>
                         <img src={clock} alt="" />
-                        <span>1</span>
+                        <span>{notiNum}</span>
                     </Link>
                 </div>
                 <div className="account">

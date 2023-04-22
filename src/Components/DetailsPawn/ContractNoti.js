@@ -12,10 +12,10 @@ const ContractNoti = () => {
   useEffect(() => {
     API({
       method: 'get',
-      url: '/notification/notificationList/1',
+      url: '/notification/notificationList/'+ localStorage.getItem("branchId"),
   }).then((res) => {
       setList(res.data);
-      // console.log('aaaaa', res.data);
+      console.log(res.data);
   });
   }, []);
   // ==================================
@@ -26,32 +26,33 @@ const ContractNoti = () => {
   const filteredData = list
     .filter((item) => {
       if (statusFilter === 'all') return true;
-      return item.status === (statusFilter === 'active' ? 0 : 1);
     })
     .filter((item) => {
       if (searchTerm.value === '') return item;
-      if (item.branchName.toLowerCase().includes(searchTerm.toLowerCase())) return item;
+      if (item.customerName.toLowerCase().includes(searchTerm.toLowerCase())) return item;
     });
   // ==================================
   // |            Phân Trang        |
   // ==================================
   const [currentPage, setCurrentPage] = useState('');
   const storesPerPage = 4; // số lượng cửa hàng hiển thị trên mỗi trang
-  const totalPages = Math.ceil(filteredData.length / storesPerPage); // tính toán số lượng trang
+  const totalPages = Math.ceil(list.length / storesPerPage); // tính toán số lượng trang
   const startIndex = currentPage * storesPerPage;
   const endIndex = startIndex + storesPerPage;
-  const currentPageData = filteredData.slice(startIndex, endIndex);
+  const currentPageData = list.slice(startIndex, endIndex);
 
   const handlePageClick = ({ selected: selectedPage }) => {
     setCurrentPage(selectedPage);
   };
   return (
-    <div className="details-pawn">
-      <h1 className="header"> <h1>Thông báo thu nợ hôm nay</h1></h1>
-            {/* ================================ */}
-            {/* =            Table Show        = */}
-            {/* ================================ */}
-            <div className="table">
+     <>
+     <div className="listStoreContainer">
+         <h1 className="liststorebody-h1">Thông báo thu nợ hôm nay</h1>
+         <div className="ListStore1">
+             {/* ================================ */}
+             {/* =            Table Show        = */}
+             {/* ================================ */}
+             <div className="table">
               <table className="responstable">
                 <tr>
                 <th>#</th>
@@ -61,6 +62,7 @@ const ContractNoti = () => {
                   </th>
                   <th>Mã TS</th>
                   <th>Tài sản</th>
+                  <th>Tổng tiền cần đóng</th>
                   <th>Ngày cầm</th>
                   <th>Ngày đến hạn</th>
                   <th>Lý do</th>
@@ -69,31 +71,31 @@ const ContractNoti = () => {
                 {currentPageData.map((item, index) => (
                   <tr key={index.branchId}>
                     <td>{index + 1}</td>
-                    <td>{item.branchName}</td>
-                    <td>{item.address}</td>
-                    <td>{item.phoneNumber}</td>
-                    <td>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(item.fund)}</td>
-                    <td>{moment(item.createDate).format('DD/MM/YYYY')}</td>
-                    <td>
-                      {item.status === 1 ? (
-                        <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                      ) : (
-                        <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
-                      )}
-                    </td>
+                    <td>{item.contractCode}</td>
+                    <td>{item.customerName}</td>
+                    <td>{item.commodityCode}</td>
+                    <td>{item.contractAssetName}</td>
+                    <td>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(item.totalPay)} VNĐ</td>
+                    <td>{moment(item.contractStartDate).format('DD/MM/YYYY')}</td>
+                    <td>{moment(item.contractEndDate).format('DD/MM/YYYY')}</td>
+                    <td>{item.description}</td>
                     <td>
                       <div className="MuiTableBody_root-itemLast">
+                      <Link to={`/detaipawn/`}>
                         <img src={cash} alt="" />
+                      </Link>
                       </div>
                     </td>
                   </tr>
                 ))}
               </table>
             </div>
-            {/* ================================ */}
-            {/* =            Phân Trang        = */}
-            {/* ================================ */}
-            <ReactPaginate
+             {/* ================================ */}
+             {/* =            Phân Trang        = */}
+             {/* ================================ */}
+         </div>
+     </div>
+     <ReactPaginate
               className="paginate-listStore"
               previousLabel={'Trang trước'}
               nextLabel={'Trang sau'}
@@ -105,8 +107,8 @@ const ContractNoti = () => {
               onPageChange={handlePageClick}
               containerClassName={'pagination'}
               activeClassName={'active'}
-            />
-    </div>
+        />
+ </>
   );
 };
 
