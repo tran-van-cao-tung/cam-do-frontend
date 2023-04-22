@@ -24,7 +24,7 @@ const TablePawn = ({
     const handleShowLiquidation = (id) => {
         setShowliquidation(true);
         localStorage.setItem('PawnDetailID', id);
-        console.log('Liquid',id);
+        console.log('Liquid', id);
     };
 
     const handleShowDetailContract = (id) => {
@@ -41,13 +41,11 @@ const TablePawn = ({
     useEffect(() => {
         API({
             method: 'get',
-            url: `contract/getAll/0`,
+            url: `contract/getAll/0/${localStorage.getItem('branchId')}`,
         }).then((res) => {
             console.log(res.data);
             setContract(
-                res.data.filter((item, index) => {
-                    return item.status;
-                }),
+                res.data
             );
         });
     }, []);
@@ -136,16 +134,15 @@ const TablePawn = ({
             field: 'status',
             headerName: 'Tình Trạng',
             valueGetter: (params) =>
-                `${
-                    params.row.status === 1
-                        ? 'Đang Cầm'
-                        : params.row.status === 2
+                `${params.row.status === 1
+                    ? 'Đang Cầm'
+                    : params.row.status === 2
                         ? 'Trễ Hẹn'
                         : params.row.status === 3
-                        ? 'Thanh Lý'
-                        : params.row.status === 4
-                        ? 'Đã Đóng'
-                        : ''
+                            ? 'Thanh Lý'
+                            : params.row.status === 4
+                                ? 'Đã Đóng'
+                                : ''
                 }`,
             width: 140,
         },
