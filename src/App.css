@@ -48,6 +48,8 @@ html {
     margin: 0;
 }
 
-.swal2-container {
+
+.swal2-container.swal2-center>.swal2-popup{
     z-index: 9999;
+
 }

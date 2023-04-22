@@ -10,6 +10,7 @@ import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md';
 import API from '../../API';
 import { AiOutlineAlignRight } from 'react-icons/ai';
 const NavMenu = () => {
+    
     const [show1, setShow1] = useState(JSON.parse(localStorage.getItem('show1')) || false);
     const [show2, setShow2] = useState(JSON.parse(localStorage.getItem('show2')) || false);
     const [show3, setShow3] = useState(JSON.parse(localStorage.getItem('show3')) || false);
@@ -41,7 +42,7 @@ const NavMenu = () => {
     const clickShow2 = () => {
         setShow3(!show3);
     };
-
+    
     useEffect(() => {
         localStorage.setItem('show1', JSON.stringify(show1));
         localStorage.setItem('show2', JSON.stringify(show2));
@@ -55,6 +56,13 @@ const NavMenu = () => {
         setShow2(false);
         setShow3(false);
     };
+    useEffect(() => {
+        const shouldReload = !localStorage.getItem('pageLoaded');
+        if (shouldReload) {
+            localStorage.setItem('pageLoaded', 'true');
+            window.location.reload(false);
+        }
+    }, []);
     return (
         <div className="menu-conten" onLoad={getPermission}>
             <div className="logos">

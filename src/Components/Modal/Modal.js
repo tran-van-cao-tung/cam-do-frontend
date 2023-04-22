@@ -19,6 +19,8 @@ import { useEffect } from 'react';
 import { NumericFormat } from 'react-number-format';
 import PropTypes from 'prop-types';
 import { unstable_HistoryRouter, useNavigate } from 'react-router-dom';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import zIndex from '@mui/material/styles/zIndex';
 
 const style = {
     position: 'absolute',
@@ -30,6 +32,13 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    zIndex: "99"
+};
+
+
+
+const styleModal = {
+    zIndex: "99"
 };
 
 const uploader = Uploader({ apiKey: 'public_FW25bDE3z6GM9yWkBESNoAkzEgWY' }); // Your real API key.
@@ -77,8 +86,9 @@ NumericFormatCustom.propTypes = {
 };
 export default function BasicModal({ item }) {
     const [open, setOpen] = React.useState(false);
+    const [showMessage, setShowMessage] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {setOpen(false); setShowMessage(false)};
     const [interestDiary, setInterestDiary] = useState({ paidMoney: '0', proofImg: [] });
 
     const [values, setValues] = React.useState({});
@@ -115,11 +125,17 @@ export default function BasicModal({ item }) {
             newArray[i] = img[i].fileUrl;
         }
         setListImg(newArray);
+        setShowMessage(true);
     };
+    var messageImg = ''
+    if (showMessage) {
+        messageImg = 'Thêm ảnh thành công!';
+    }
     const handleInput = (e) => {
         setInterestDiary({ ...interestDiary, [e.target.name]: e.target.value });
         console.log('alo', interestDiary);
     };
+    const history = useNavigate()
     const MySwal = withReactContent(Swal)
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -127,7 +143,11 @@ export default function BasicModal({ item }) {
         console.log('userId:', interestDiaryId);
 
         if (interestDiary.paidMoney == 0 || listImg.length == 0) {
-            alert('Vui lòng nhập đầy đủ')
+            Swal.fire({
+                text: "Bạn chưa nhập hết thông tin",
+                icon: 'warning',
+            }).then((result) => {
+            })
             return;
         }
 
@@ -148,19 +168,31 @@ export default function BasicModal({ item }) {
               }).then(() => {
                 return MySwal.fire(<p>Shorthand works too</p>)
               }) */
-            Swal.fire({
-                text: "Bạn chưa nhập hết thông tin",
-                icon: 'warning',
-            }).then((result) => {
-            })
+            if (res.data == false) {
+                Swal.fire({
+                    text: "Bạn chưa nhập hết thông tin",
+                    icon: 'warning',
+                }).then((result) => {
+                })
+            }
+            if (res.data == true) {
+                Swal.fire({
+                    text: "Thêm thành công!",
+                    icon: 'success',
+                }).then((result) => {
+
+                })
+                history('/detaipawn')
+            }
         });
     };
     return (
-        <div>
+        <div >
             <Button onClick={handleOpen}>
                 <CreateIcon />
             </Button>
             <Modal
+                sx={styleModal}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -168,6 +200,7 @@ export default function BasicModal({ item }) {
             >
                 <Box sx={style}>
                     <form onSubmit={handleSubmit}>
+
                         <Typography id="modal-modal-title" variant="h6" component="h2">
                             Upload hình ảnh chứng từ
                         </Typography>
@@ -183,6 +216,18 @@ export default function BasicModal({ item }) {
                             width="1000px"
                             height="500px"
                         />
+                        <Typography id="modal-modal-title" variant="h6" component="h2" style={{ position: "absolute", top: "40%", left: "25%", color: "#45ba30" }}>
+                            <div style={{ textAlign: "center" }}>
+                                {
+                                    messageImg ?
+                                        <CheckCircleOutlineIcon
+                                            style={{ color: "#45ba30", fontSize: "47px" }}
+                                        />
+                                        : ""
+                                }
+                            </div>
+                            {messageImg ? messageImg : ""}
+                        </Typography>
                         <Typography id="modal-modal-description" variant="h6" component="h2" sx={{ mt: 2 }}>
                             Tiền khách trả:
                         </Typography>

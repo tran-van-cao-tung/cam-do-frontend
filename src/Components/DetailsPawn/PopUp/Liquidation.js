@@ -8,7 +8,6 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import callAPI from '../../../API';
 
 const Liquidation = ({ setShowliquidation}) => {
-  console.log("Thanh ly")
   const [contractDetail, setContractDetail] = useState([]);
   useEffect(() => {
       callAPI({

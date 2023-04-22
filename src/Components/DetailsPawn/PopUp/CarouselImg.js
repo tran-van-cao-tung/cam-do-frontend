@@ -9,29 +9,43 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import { useEffect, useState } from 'react';
+import callAPI from '../../../API';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-const images = [
-    {
-        label: 'San Francisco – Oakland Bay Bridge, United States',
-        imgPath: 'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-    },
-    {
-        label: 'Bird',
-        imgPath: 'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
-    },
-    {
-        label: 'Bali, Indonesia',
-        imgPath: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
-    },
-    {
-        label: 'Goč, Serbia',
-        imgPath: 'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-    },
-];
+
 
 function SwipeableTextMobileStepper({ item }) {
+    /* const images = [
+        {
+            label: 'San Francisco – Oakland Bay Bridge, United States',
+            imgPath: 'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
+        },
+        {
+            label: 'Bird',
+            imgPath: 'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
+        },
+        {
+            label: 'Bali, Indonesia',
+            imgPath: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
+        },
+        {
+            label: 'Goč, Serbia',
+            imgPath: 'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
+        },
+    ]; */
+    const id = item.interestDiaryId;
+    const [images, setImages] = useState([]);
+    useEffect(() => {
+        callAPI({
+            method: 'get',
+            url: `diaryImg/getAll/${id}`,
+        }).then((res) => {
+            setImages(res.data)
+        });
+    }, [id])
+
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = images.length;
@@ -47,7 +61,7 @@ function SwipeableTextMobileStepper({ item }) {
     const handleStepChange = (step) => {
         setActiveStep(step);
     };
-    const id = item.interestDiaryId;
+
     console.log('interestDiaryId:', id);
     console.log('item:', item);
 
@@ -64,7 +78,6 @@ function SwipeableTextMobileStepper({ item }) {
                     bgcolor: 'background.default',
                 }}
             >
-                <Typography>{images[activeStep].label}</Typography>
             </Paper>
             <AutoPlaySwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -84,8 +97,7 @@ function SwipeableTextMobileStepper({ item }) {
                                     overflow: 'hidden',
                                     width: '100%',
                                 }}
-                                src={step.imgPath}
-                                alt={step.label}
+                                src={step.proofImg}
                             />
                         ) : null}
                     </div>

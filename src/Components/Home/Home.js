@@ -8,6 +8,7 @@ import moment from 'moment';
 import API from '../../API';
 const Home = () => {
     const history = useNavigate();
+    const [showTest, setShowTest] = useState(false);
     useEffect(() => {
         if (!localStorage.getItem('accessToken')) {
             history('/login');
@@ -15,6 +16,16 @@ const Home = () => {
             console.log('Login with token');
         }
     }, []);
+
+    useEffect(() => {
+        const shouldReload = !localStorage.getItem('pageLoaded');
+        if (shouldReload) {
+            localStorage.setItem('pageLoaded', 'true');
+            window.location.reload(false);
+        }
+    }, []);
+
+
 
     useEffect(() => {
         if (localStorage.getItem('userName') === 'Admin') {
@@ -120,7 +131,7 @@ const Home = () => {
                             <p className="title">HỢP ĐỒNG THANH LÝ</p>
                             <span className="title">{homePage ? homePage.liquidationContract : '0'}</span>
                         </Item>
-                    </Grid>             
+                    </Grid>
                     <Grid item xs={12}>
                         <Item>
                             <div className="transaction">
@@ -143,12 +154,12 @@ const Home = () => {
                                                         {item.eventType === 1
                                                             ? 'Tạo hợp đồng'
                                                             : item.eventType === 2
-                                                            ? 'Chưa đóng lãi'
-                                                            : item.eventType === 3
-                                                            ? 'Đã đóng lãi'
-                                                            : item.eventType === 4
-                                                            ? 'Đóng hợp đồng'
-                                                            : ''}
+                                                                ? 'Chưa đóng lãi'
+                                                                : item.eventType === 3
+                                                                    ? 'Đã đóng lãi'
+                                                                    : item.eventType === 4
+                                                                        ? 'Đóng hợp đồng'
+                                                                        : ''}
                                                         :{' '}
                                                     </b>
                                                     {item.customerName}{' '}
