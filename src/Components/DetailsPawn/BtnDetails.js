@@ -70,17 +70,19 @@ const BtnDetails = ({ rowsContract, setContract }) => {
                 ) {
                     return true;
                 }
-                if (data.contractStartDate !== '' && formatDate(item.contractStartDate) === data.contractStartDate) {
-                    return true;
-                }
-                if (data.contractEndDate !== '' && formatDate(item.contractEndDate) === data.contractEndDate) {
-                    return true;
-                }
-                if (data.commodityCode !== '' && item.commodityCode === data.commodityCode) {
-                    return true;
-                }
-                if (data.status !== '' && item.status === data.status) {
-                    return true;
+                else {
+                    if (data.contractStartDate !== '' && formatDate(item.contractStartDate) === data.contractStartDate) {
+                        return true;
+                    }
+                    if (data.contractEndDate !== '' && formatDate(item.contractEndDate) === data.contractEndDate) {
+                        return true;
+                    }
+                    if (data.commodityCode !== '' && item.commodityCode === data.commodityCode) {
+                        return true;
+                    }
+                    if (data.status !== '' && item.status === data.status) {
+                        return true;
+                    }
                 }
                 return false;
             }),

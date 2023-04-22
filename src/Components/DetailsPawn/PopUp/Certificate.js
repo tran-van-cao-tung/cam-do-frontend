@@ -38,13 +38,21 @@ const Certificate = ({ showContractId }) => {
             method: 'put',
             url: `/contract/uploadContractImg/${showContractId}?customerImg=${customerImg}`,
         })
-            .then((res) => {
-                alert('Lưu Hỉnh KH thành công');
+        .then((res) => {
+            Swal.fire({
+                text: "Lưu hình thành công",
+                icon: 'success',
+            }).then((result) => {
             })
-            .catch((err) => {
-                console.log(err);
-                alert('Lưu Hỉnh KH fail');
-            });
+        })
+        .catch((err) => {
+            console.log(err);
+            Swal.fire({
+                text: "Lưu hình thất bại",
+                icon: 'error',
+            }).then((result) => {
+            })
+        });
     }
     function uploadContractImg(contractImg) {
         API({

@@ -170,7 +170,7 @@ export default function BasicModal({ item }) {
               }) */
             if (res.data == false) {
                 Swal.fire({
-                    text: "Bạn chưa nhập hết thông tin",
+                    text: "Tiền khách trả lớn hơn tổng tiền",
                     icon: 'warning',
                 }).then((result) => {
                 })
