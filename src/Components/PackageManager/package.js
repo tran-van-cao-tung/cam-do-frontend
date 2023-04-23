@@ -1,40 +1,43 @@
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 import API from '../../API';
 import edit from './../../asset/img/edit.png';
-import ext from './../../asset/img/ext.png';
 import './package.css';
 
 const Package = () => {
     //
-    const [list, setList] = useState([]);
+    const [packageList, setPackageList] = useState([]);
     // Axios
-    useEffect(() => {}, []);
+    useEffect(() => {
+        API({
+            method: 'get',
+            url: '/package/getAll/0',
+        })
+            .then((res) => {
+                setPackageList(res.data);
+            })
+            .catch((err) => console.log("Err at API package"));
+    }, []);
     // ==================================
     // |  Filter Value Radio and Search |
     // ==================================
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
-    const filteredData = list
+    const filteredData = packageList
         .filter((item) => {
             if (statusFilter === 'all') return true;
             return item.status === (statusFilter === 'active' ? 0 : 1);
         })
         .filter((item) => {
             if (searchTerm.value === '') return item;
-            if (item.branchName.toLowerCase().includes(searchTerm.toLowerCase())) return item;
+            if (item.packageName.toLowerCase().includes(searchTerm.toLowerCase())) return item;
         });
     // ==================================
     // |            Phân Trang        |
     // ==================================
     const [currentPage, setCurrentPage] = useState('');
-    const storesPerPage = 4; // số lượng cửa hàng hiển thị trên mỗi trang
+    const storesPerPage = 6; // số lượng cửa hàng hiển thị trên mỗi trang
     const totalPages = Math.ceil(filteredData.length / storesPerPage); // tính toán số lượng trang
     const startIndex = currentPage * storesPerPage;
     const endIndex = startIndex + storesPerPage;
@@ -53,9 +56,10 @@ const Package = () => {
                 <div className="tablePackage">
                     <table className="responstable">
                         <tr>
+                            <th>STT</th>
                             <th>Tên gói vay</th>
                             <th data-th="Driver details">
-                                <span>Lãi suất</span>
+                                <span>Lãi suất (%)</span>
                             </th>
                             <th>Số ngày</th>
                             <th>Kỳ lãi</th>
@@ -66,23 +70,27 @@ const Package = () => {
                             <th>Chức năng</th>
                         </tr>
                         {currentPageData.map((item, index) => (
-                            <tr key={index.branchId}>
+                            <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td>{item.branchName}</td>
-                                <td>{item.address}</td>
-                                <td>{item.phoneNumber}</td>
-                                <td>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(item.fund)}</td>
-                                <td>{moment(item.createDate).format('DD/MM/YYYY')}</td>
-                                <td>
+                                <td>{item.packageName}</td>
+                                <td>{item.packageInterest}</td>
+                                <td>{item.day}</td>
+                                {/* <td>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(item.fund)}</td> */}
+                                <td>{item.paymentPeriod}</td>
+                                {/* <td>{moment(item.createDate).format('DD/MM/YYYY')}</td> */}
+                                <td>{item.limitation}</td>
+                                {/* <td>
                                     {item.status === 1 ? (
                                         <div className="MuiTableBody_root-status">Đã tạm đừng</div>
                                     ) : (
                                         <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
                                     )}
-                                </td>
+                                </td> */}
+                                <td>{item.punishDay1}</td>
+                                <td>{item.punishDay2}</td>
+                                <td>{item.liquitationDay}</td>
                                 <td>
                                     <div className="MuiTableBody_root-itemLast">
-                                        <img src={ext} alt="..." />
                                         <img src={edit} alt="Edit" />
                                     </div>
                                 </td>

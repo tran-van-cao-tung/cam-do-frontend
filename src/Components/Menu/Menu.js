@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import homemenu from '../../asset/img/homemenu.png';
 import warning from '../../asset/img/warning.png';
-import clock from '../../asset/img/clock.jpg';
+import bell from '../../asset/img/bell.jpg'
 import usera from '../../asset/img/userAccount.png';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -10,12 +10,15 @@ import './menu.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 import API from '../../API';
+import { Divider } from '@mui/material';
 
 const Menuh = () => {
     const history = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
+    const [showNoti, setShowNoti] = useState(null);
     // const [showMenuUser, setShowMenuUser] = useState(false);
     const open = Boolean(anchorEl);
+    const NotiOpen = Boolean(showNoti);
     const [notiNum, setNotiNum] = useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -23,6 +26,14 @@ const Menuh = () => {
 
     const handleClose = () => {
         setAnchorEl(null);
+    };
+    const handleNoti = (event) => {
+        console.log(event.currentTarget);
+        setShowNoti(event.currentTarget);
+    };
+
+    const handleCloseNoti = () => {
+        setShowNoti(null);
     };
     const deleteToken = () => {
         localStorage.clear();
@@ -127,10 +138,35 @@ const Menuh = () => {
                     {/* <span>1</span> Hiện số  */}
                 </div>
                 <div className="icon2">
-                    <Link to={`/noti`}>
+                    {/* <Link to={`/noti`}>
                         <img src={clock} alt="" />
                         <span>{notiNum}</span>
-                    </Link>
+                    </Link> */}
+                        <Button
+                            id="basic-button"
+                            aria-controls={NotiOpen ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={NotiOpen ? 'true' : undefined}
+                            onClick={handleNoti}
+                            style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
+                        >
+                            <img src={bell} alt=""/>
+                            <span>{notiNum}</span>
+                        </Button>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={showNoti}
+                            open={NotiOpen}
+                            onClose={handleCloseNoti}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem>CĐ-1 Lãi cần trả 1,500,000 VND</MenuItem>
+                            <Divider sx={{ my: 0.5 }} />
+                            <MenuItem>CĐ-2 Lãi cần trả 3,500,000 VND</MenuItem>
+                            <Divider sx={{ my: 0.5 }} />
+                        </Menu>
                 </div>
                 <div className="account">
                     <div className="setting">
