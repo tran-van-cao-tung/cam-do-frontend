@@ -17,7 +17,6 @@ const DetailsPawn = () => {
     const [showExpiration, setShowExpiration] = useState(false);
     const [showContractId, setShowContractId] = useState();
 
-    const [searchedProduct, setSearchedProduct] = useState();
     const [rowsContract, setContract] = useState([]);
 
     return (

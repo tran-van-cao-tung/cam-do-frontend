@@ -64,12 +64,8 @@ const BtnDetails = ({ rowsContract, setContract }) => {
         console.log(data);
         setContract(
             rowsContract.filter((item) => {
-                if (
-                    data.customerName !== '' &&
-                    item.customerName.toLowerCase().includes(data.customerName.toLowerCase())
-                ) {
-                    return true;
-                }
+                if (data.customerName === '') return item;
+                if (item.customerName.toLowerCase().includes(data.customerName.toLowerCase())) return item;
                 else {
                     if (data.contractStartDate !== '' && formatDate(item.contractStartDate) === data.contractStartDate) {
                         return true;

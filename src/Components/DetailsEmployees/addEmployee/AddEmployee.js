@@ -10,6 +10,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Swal from 'sweetalert2';
 
 function AddEmployee() {
     const history = useNavigate();
@@ -71,7 +72,11 @@ function AddEmployee() {
 
     const onSubmit = (data) => {
         if (data.password !== confirmPassword) {
-            alert('Mật khẩu không trùng khớp!');
+            Swal.fire({
+                text: "Mật khẩu không trùng khớp!",
+                icon: 'warning',
+            }).then((result) => {
+            })
             return;
         }
         data.status = parseInt(data.status);

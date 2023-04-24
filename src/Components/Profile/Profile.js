@@ -1,24 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import ReplyIcon from '@mui/icons-material/Reply';
-import './editemployee.css';
-import PasswordInput from '../PasswordInput';
+import React, { useEffect, useState } from 'react'
+import callAPI from '../../API';
 import * as Yup from 'yup';
-import API from '../../../API';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import ReplyIcon from '@mui/icons-material/Reply';
+import { useNavigate, useParams } from 'react-router-dom';
+import { TextField } from '@mui/material';
 import Swal from 'sweetalert2';
 
-function EditEmployee() {
+
+function Profile() {
     const history = useNavigate();
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [branch, setBranch] = useState([]);
     const [listEmployees, setListEmployees] = useState([]);
     const [password, setPassword] = useState('');
-    const [branch, setBranch] = useState([]);
-
+    const [confirmPassword, setConfirmPassword] = useState('');
     const validationSchema = Yup.object().shape({
         fullName: Yup.string()
             .required('Tên nhân viên không được để trống')
@@ -35,25 +32,33 @@ function EditEmployee() {
             .email('Nhập đúng định dạng email, ví dụ: example@gmail.com')
             .required('Email không được để trống'),
     });
+    const [showPassword1, setShowPassword1] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+    const toggleShowPassword1 = () => {
+        setShowPassword1((prev) => !prev);
+    };
+    const toggleShowPassword2 = () => {
+        setShowPassword2((prev) => !prev);
+    };
+    const handlePasswordChange = (event) => {
+        setConfirmPassword(event.target.value);
+    };
 
-
-    const id = useParams();
-
-    const onSubmit = (event) => {
-        event.preventDefault();
-        const userId = id.id;
+    const onSubmit = (e) => {
+        e.preventDefault();
         const data = {
-            userId: userId,
             roleId: 1,
+            userId: localStorage.getItem('userId'),
+            fullName: listEmployees.fullName,
             branchId: listEmployees.branchId,
             userName: listEmployees.userName,
-            password: password,
             email: listEmployees.email,
-            fullName: listEmployees.fullName,
             address: listEmployees.address,
+            status: listEmployees.status,
             phone: listEmployees.phone,
-            status: parseInt(listEmployees.status),
-        };
+            password: password,
+        }
+        console.log(data)
         validationSchema.validate(data, { abortEarly: false })
             .then(() => {
                 if (password !== confirmPassword) {
@@ -66,7 +71,7 @@ function EditEmployee() {
                 }
                 data.status = parseInt(listEmployees.status);
                 data.branchId = parseInt(listEmployees.branchId);
-                API({
+                callAPI({
                     method: 'put',
                     url: `user/updateUser`,
                     data: data,
@@ -87,66 +92,35 @@ function EditEmployee() {
                 })
             });
     };
-
-    //Đổ dữ liệu user
-    useEffect(() => {
-        const slug = id.id;
-        API({
-            method: 'get',
-            url: `user/getUserById/${slug}`,
-        }).then((res) => {
-            setListEmployees(res.data);
-            /* setInitialValues(res.data) */
-            console.log(res.data);
-        });
-    }, [id.id]);
-
     //đổ dữ liệu branch
     useEffect(() => {
-        API({
+        callAPI({
             method: 'get',
             url: `branch/getChain`,
         }).then((res) => {
             setBranch(res.data);
         });
     }, []);
+    //Đổ dữ liệu user
+    useEffect(() => {
+        callAPI({
+            method: 'get',
+            url: `user/getUserById/${localStorage.getItem('userId')}`,
+        }).then((res) => {
+            setListEmployees(res.data);
+            /* setInitialValues(res.data) */
+            console.log(res.data);
+        });
+    }, []);
 
-    const [showPassword1, setShowPassword1] = useState(false);
-    const [showPassword2, setShowPassword2] = useState(false);
-
-    const toggleShowPassword1 = () => {
-        setShowPassword1((prev) => !prev);
-    };
-    const toggleShowPassword2 = () => {
-        setShowPassword2((prev) => !prev);
-    };
-    const handlePasswordChange = (event) => {
-        setConfirmPassword(event.target.value);
-    };
-
-    /* const initialValue = {
-        roleId: listEmployees.roleId,
-        fullName: listEmployees.fullName,
-        branchId: listEmployees?.branchId || '',
-        userName: listEmployees?.userName || '',
-        email: listEmployees?.email || '',
-        address: listEmployees?.address || '',
-        status: listEmployees?.status || '',
-        phone: listEmployees?.phone || '',
-        password: '',
-    }; */
-
-
-    /*     const handleInput = (e) => {
-            e.persist();
-            setListEmployees({ ...listEmployees, [e.target.name]: e.target.value });
-        }; */
     const handleInput = (e) => {
         setListEmployees({ ...listEmployees, [e.target.name]: e.target.value });
     }
+    console.log(listEmployees)
+
     return (
         <div className="box_employee">
-            <h1 className="employee_heading-add">Cập nhật nhân viên</h1>
+            <h1 className="employee_heading-add">Thông tin cá nhân</h1>
             <div className="wareh-content">
                 <form /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
                     <div className="employeeAdd">
@@ -158,7 +132,7 @@ function EditEmployee() {
                                 type="text"
                                 name="fullName"
                                 onChange={(e) => handleInput(e)}
-                                value={listEmployees.fullName}
+                                placeholder={listEmployees.fullName}
                             />
                         </div>
                         <div className="employee_input">
@@ -220,7 +194,7 @@ function EditEmployee() {
                                 type="text"
                                 name="email"
                                 onChange={(e) => handleInput(e)}
-                                value={listEmployees.email}
+                                placeholder={listEmployees.email}
                             />
                         </div>
                         <div className="employee_input">
@@ -231,7 +205,7 @@ function EditEmployee() {
                                 type="text"
                                 name="address"
                                 onChange={(e) => handleInput(e)}
-                                value={listEmployees.address}
+                                placeholder={listEmployees.address}
                             />
                         </div>
                         <div className="employee_input">
@@ -242,7 +216,7 @@ function EditEmployee() {
                                 type="text"
                                 name="phone"
                                 onChange={(e) => handleInput(e)}
-                                value={listEmployees.phone}
+                                placeholder={listEmployees.phone}
                             />
                         </div>
                         <div className="employee-btn">
@@ -265,8 +239,8 @@ function EditEmployee() {
                     </div>
                 </form>
             </div>
-        </div>
-    );
+        </div >
+    )
 }
 
-export default EditEmployee;
+export default Profile

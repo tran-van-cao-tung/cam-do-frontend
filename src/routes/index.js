@@ -40,6 +40,7 @@ import AddNewCustomer from '../Components/CustomerManager/Popup/AddNewCustomer';
 
 //Package
 import PackageList from '../Components/PackageManager/package'
+import Profile from '../Components/Profile/Profile';
 const publicRoutes = [
     {
         path: '/login',
@@ -169,6 +170,10 @@ const publicRoutes = [
     {
         path: '/package',
         component: PackageList,
+    },
+    {
+        path: '/profile',
+        component: Profile,
     }
 ];
 

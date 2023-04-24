@@ -65,19 +65,19 @@ const Menuh = () => {
             );
         });
 
-        
+
     }, [branchID]);
 
     useEffect(() => {
         API({
             method: 'get',
-            url: '/notification/notificationList/'+ localStorage.getItem("branchId"),
-              }).then((res) => {
+            url: '/notification/notificationList/' + localStorage.getItem("branchId"),
+        }).then((res) => {
             setNotiNum(res.data.length);
             // console.log('aaaaa', res.data);
         });
     }, []);
-    
+
     /* const [selectedOption, setSelectedOption] = useState(); */
     const [showValue, setShowValue] = useState();
     const handleBranch = (e) => {
@@ -96,12 +96,12 @@ const Menuh = () => {
                                 <option style={{ textAlign: 'center' }}>--Cửa hàng--</option>
                                 {branch
                                     ? branch.map((item, index) => {
-                                          return (
-                                              <option key={index} value={item.branchId}>
-                                                  {item.branchName}
-                                              </option>
-                                          );
-                                      })
+                                        return (
+                                            <option key={index} value={item.branchId}>
+                                                {item.branchName}
+                                            </option>
+                                        );
+                                    })
                                     : ''}
                             </select>
                         ) : (
@@ -146,8 +146,8 @@ const Menuh = () => {
                             {itemUser
                                 ? itemUser.fullName
                                 : localStorage.getItem('userName')
-                                ? localStorage.getItem('userName')
-                                : ''}{' '}
+                                    ? localStorage.getItem('userName')
+                                    : ''}{' '}
                         </Button>
                         <Menu
                             id="basic-menu"
@@ -158,7 +158,7 @@ const Menuh = () => {
                                 'aria-labelledby': 'basic-button',
                             }}
                         >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                            <MenuItem onClick={() => { history('/profile') }}>Profile</MenuItem>
                             <MenuItem onClick={handleClose}>My account</MenuItem>
                             <MenuItem onClick={deleteToken}>Logout</MenuItem>
                         </Menu>
