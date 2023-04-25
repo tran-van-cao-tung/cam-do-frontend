@@ -190,7 +190,7 @@
 /* Phân trang */
 
 .paginate-commodity {
-    /* position: absolute; */
+    position: absolute;
     bottom: 20px;
     right: 0;
     left: 0;
