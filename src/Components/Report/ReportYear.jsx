@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ErrorBoundary from '../../ErrorBoundary';
 import './ReportComponent.css';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 import BtnForReportYear from './BtnForReportYear';
-import TableReportYear from './TableReportYear';
+import ChartLine from './LineChart/ChartLine';
 
 const ReportYear = () => {
+    const [value, setValue] = useState();
+    const [year, setYear] = useState([]);
+    console.log('value', value);
+    console.log('valueYear', year);
+    console.log('valuevalue', setValue);
     return (
         <div className="report">
             <h1 className="reportTitle">Báo Cáo</h1>
             <div className="parperCustomer">
-                <BtnForReportYear />
-                <TableReportYear />
+                <BtnForReportYear setValue={setValue} year={year} />
+                <ErrorBoundary>
+                    <ChartLine value={value} setYear={setYear} />
+                </ErrorBoundary>
             </div>
         </div>
     );
