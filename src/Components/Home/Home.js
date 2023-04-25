@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -6,9 +6,11 @@ import './home.css';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import API from '../../API';
+import { AuthContext } from '../../helpers/AuthContext';
 const Home = () => {
     const history = useNavigate();
-    const [showTest, setShowTest] = useState(false);
+    const { authState, setAuthState } = useContext(AuthContext);
+    console.log(authState)
     useEffect(() => {
         if (!localStorage.getItem('accessToken')) {
             history('/login');
@@ -24,19 +26,9 @@ const Home = () => {
             window.location.reload(false);
         }
     }, []);
+    console.log(authState)
 
 
-
-    useEffect(() => {
-        if (localStorage.getItem('userName') === 'Admin') {
-            API({
-                method: 'get',
-                url: `/branch/getAll/0`,
-            }).then((res) => {
-                localStorage.setItem('branchId', res.data[0].branchId);
-            });
-        }
-    }, [localStorage.getItem('userName')]);
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -47,48 +39,29 @@ const Home = () => {
     }));
 
     const [logContract, setLogContract] = useState([]);
-    useEffect(
-        () => {
-            const branchId = localStorage.getItem('branchId');
-            API({
-                method: 'get',
-                url: `/logContract/logContractByBranchId/${branchId}`,
-            }).then((res) => {
-                setLogContract(res.data);
-            });
-        },
-        [
-            /* localStorage.getItem("branchId") */
-        ],
-    );
+    useEffect(() => {
+        API({
+            method: 'get',
+            url: `/logContract/logContractByBranchId/1`,
+        }).then((res) => {
+            setLogContract(res.data);
+        });
+    }, [authState.branchId]);
 
     console.log(logContract);
 
-    //Lấy username của loginUser dựa vào localStorage
-    /*   const [branchId, setBranchId] = useState('')
-    useEffect(() => {
-      API({
-        method: 'get',
-        url: `/user/getAll/0`,
-      }).then((res) => {
-        if (localStorage.getItem('userName') != "Admin") {
-          setBranchId(res.data.filter(log => {
-            return log.userName === localStorage.getItem('userName');
-          })[0].branchId)
-        }
-      });
-  
-    }, []) */
+
 
     const [homePage, setHomePage] = useState();
     useEffect(() => {
         API({
             method: 'get',
-            url: `/contract/homepage/` + localStorage.getItem('branchId'),
+            url: `/contract/homepage/${authState.branchId}`,
         }).then((res) => {
             setHomePage(res.data);
         });
-    }, [localStorage.getItem('branchId')]);
+    }, [authState.branchId]);
+    console.log('sdd', homePage)
 
     //Ép kiểu dữ liệu date
     const formatDate = (value) => {

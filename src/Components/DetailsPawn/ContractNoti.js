@@ -1,18 +1,20 @@
 import "./DetaisPawn.css";
 import moment from "moment";
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 import API from '../../API';
 import cash from './../../asset/img/cash.png';
+import { AuthContext } from "../../helpers/AuthContext";
 const ContractNoti = () => {
+  const {authState} = useContext(AuthContext);
   //
   const [list, setList] = useState([]);
   // Axios
   useEffect(() => {
     API({
       method: 'get',
-      url: '/notification/notificationList/'+ localStorage.getItem("branchId"),
+      url: '/notification/notificationList/'+ authState.branchId,
   }).then((res) => {
       setList(res.data);
       console.log(res.data);

@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import './details.css';
 import API from '../../../API';
 import { useParams } from 'react-router-dom';
+import { AuthContext } from '../../../helpers/AuthContext';
 
 function Commodity() {
     const param = useParams();
+    const {authState} = useContext(AuthContext);
+
     // Them dark mod
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -21,14 +24,14 @@ function Commodity() {
     const [detail, setDetail] = useState([]);
     // Axios
     useEffect(() => {
-        const branchId = localStorage.getItem('branchId');
+        const branchId = authState.branchId;
         API({
             method: 'get',
             url: `/branch/getDetailById/${branchId}`,
         }).then((res) => {
             setDetail(res.data);
         });
-    }, [localStorage.getItem('branchId')]);
+    }, [authState.branchId]);
 
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';

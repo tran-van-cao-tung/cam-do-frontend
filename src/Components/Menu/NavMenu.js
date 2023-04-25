@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import menu1 from '../../asset/img/menu1.png';
 import menu2 from '../../asset/img/menu2.png';
@@ -9,7 +9,9 @@ import menu7 from '../../asset/img/menu7.png';
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md';
 import API from '../../API';
 import { AiOutlineAlignRight } from 'react-icons/ai';
+import { AuthContext } from '../../helpers/AuthContext';
 const NavMenu = () => {
+    const { authState } = useContext(AuthContext);
     
     const [show1, setShow1] = useState(JSON.parse(localStorage.getItem('show1')) || false);
     const [show2, setShow2] = useState(JSON.parse(localStorage.getItem('show2')) || false);
@@ -22,7 +24,7 @@ const NavMenu = () => {
             method: 'post',
             url: '/permission/showpermission',
             data: {
-                userId: localStorage.getItem('userId'),
+                userId: authState.userId,
                 nameUser: 'string',
             },
         }).then((res) => {
@@ -80,7 +82,7 @@ const NavMenu = () => {
                     </NavLink>
                 </li>
                 {/* Cầm đồ */}
-                {(sessionStorage.getItem('permis 0') === 'true' || localStorage.getItem('userName') === 'Admin') && (
+                {(sessionStorage.getItem('permis 0') === 'true' || authState.userName === 'Admin') && (
                     <li>
                         <NavLink to="/detaipawn" className="text-menu home">
                             {' '}
@@ -91,7 +93,7 @@ const NavMenu = () => {
                 )}
 
                 {/* Quản lý cửa hàng */}
-                {(sessionStorage.getItem('permis 1') === 'true' || localStorage.getItem('userName') === 'Admin') && (
+                {(sessionStorage.getItem('permis 1') === 'true' || authState.userName === 'Admin') && (
                     <li>
                         <a className="text-menu home" onClick={clickShow}>
                             {' '}
@@ -131,7 +133,7 @@ const NavMenu = () => {
                 )}
 
                 {/* Quản lý kho */}
-                {(sessionStorage.getItem('permis 2') === 'true' || localStorage.getItem('userName') === 'Admin') && (
+                {(sessionStorage.getItem('permis 2') === 'true' || authState.userName === 'Admin') && (
                     <li>
                         <NavLink to="/warehouse" className="text-menu home">
                             {' '}
@@ -142,7 +144,7 @@ const NavMenu = () => {
                 )}
 
                 {/* Quản lý nhân viên */}
-                {(sessionStorage.getItem('permis 3') === 'true' || localStorage.getItem('userName') === 'Admin') && (
+                {(sessionStorage.getItem('permis 3') === 'true' || authState.userName === 'Admin') && (
                     <li>
                         <a className="text-menu home" onClick={clickShow1}>
                             <img src={menu5} className="iconMenu" />
@@ -164,7 +166,7 @@ const NavMenu = () => {
                 )}
 
                 {/* Quản lý khách hàng */}
-                {(sessionStorage.getItem('permis 4') === 'true' || localStorage.getItem('userName') === 'Admin') && (
+                {(sessionStorage.getItem('permis 4') === 'true' || authState.userName === 'Admin') && (
                     <li>
                         <NavLink to="/customer-manager" className="text-menu home">
                             <img src={menu6} className="iconMenu" />
@@ -173,7 +175,7 @@ const NavMenu = () => {
                     </li>
                 )}
                 {/* Quản lý gói vay */}
-                {(sessionStorage.getItem('permis 5') === 'true' || localStorage.getItem('userName') === 'Admin') && (
+                {(sessionStorage.getItem('permis 5') === 'true' || authState.userName === 'Admin') && (
                     <li>
                         <NavLink to="/package" className="text-menu home">
                             <img src={menu6} className="iconMenu" />

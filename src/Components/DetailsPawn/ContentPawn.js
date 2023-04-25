@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -6,9 +6,11 @@ import Grid from '@mui/material/Grid';
 import API from '../../API.js';
 
 import callAPI from '../../API.js';
+import { AuthContext } from '../../helpers/AuthContext.js';
 
 const ContentPawn = () => {
     const [data, setData] = useState(null);
+    const {authState} = useContext(AuthContext);
 
     //Lấy username của loginUser dựa vào localStorage
     /* const [branchId, setBranchId] = useState('')
@@ -29,11 +31,11 @@ const ContentPawn = () => {
     useEffect(() => {
         callAPI({
             method: 'get',
-            url: `contract/homepage/` + localStorage.getItem('branchId'),
+            url: `contract/homepage/` + authState.branchId,
         }).then((res) => {
             setHomePage(res.data);
         });
-    }, [localStorage.getItem('branchId')]);
+    }, [authState.branchId]);
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };

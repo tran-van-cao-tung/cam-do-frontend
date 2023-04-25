@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './login.scss';
 import API from '../../API';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../../helpers/AuthContext'
 
 const Login = () => {
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
+    const {setAuthState} = useContext(AuthContext);
     const history = useNavigate();
 
     const hanldeSubmit = (e) => {
@@ -21,13 +23,6 @@ const Login = () => {
             data: data,
         }).then((res) => {
             localStorage.setItem('accessToken', res.data.token.accessToken);
-            localStorage.setItem('userName', res.data.account.userName);
-            if (res.data.account.userName !== 'Admin') {
-                localStorage.setItem('branchId', res.data.account.branchId);
-            }
-            if (res.data.account.userId) {
-                localStorage.setItem('userId', res.data.account.userId);
-            }
             history('/');
             window.location.reload(false);
         }).catch((error)=>{

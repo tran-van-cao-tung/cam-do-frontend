@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import homemenu from '../../asset/img/homemenu.png';
 import warning from '../../asset/img/warning.png';
 import bell from '../../asset/img/bell.jpg'
@@ -11,8 +11,10 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import API from '../../API';
 import { Divider } from '@mui/material';
+import { AuthContext } from '../../helpers/AuthContext';
 
 const Menuh = () => {
+    const { authState, setAuthState } = useContext(AuthContext);
     const history = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const [showNoti, setShowNoti] = useState(null);
@@ -53,7 +55,7 @@ const Menuh = () => {
             .then((res) => {
                 setItemUser(
                     res.data.filter((item, index) => {
-                        return item.userId === localStorage.getItem('userId');
+                        return item.userId === authState.userId;
                     })[0],
                 );
             })
@@ -62,7 +64,7 @@ const Menuh = () => {
 
     const [branch, setBranch] = useState([]);
     const [branchUser, setBranchUser] = useState([]);
-    const branchID = localStorage.getItem('branchId');
+    const branchID = authState.branchId;
     useEffect(() => {
         API({
             method: 'get',
@@ -71,7 +73,7 @@ const Menuh = () => {
             setBranch(res.data);
             setBranchUser(
                 res.data.filter((item, index) => {
-                    return item.branchId == localStorage.getItem('branchId');
+                    return item.branchId == authState.branchId;
                 })[0],
             );
         });
@@ -82,7 +84,7 @@ const Menuh = () => {
     useEffect(() => {
         API({
             method: 'get',
-            url: '/notification/notificationList/' + localStorage.getItem("branchId"),
+            url: '/notification/notificationList/' + authState.branchId,
         }).then((res) => {
             setNotiNum(res.data.length);
             // console.log('aaaaa', res.data);
@@ -92,8 +94,13 @@ const Menuh = () => {
     /* const [selectedOption, setSelectedOption] = useState(); */
     const [showValue, setShowValue] = useState();
     const handleBranch = (e) => {
-        setShowValue(e.target.value);
-        window.location.reload(false);
+        setAuthState({
+            userName: authState.userName,
+            userId: authState.userId,
+            branchId: e.target.value,
+            status: true,
+        });
+
     };
 
     return (
@@ -102,7 +109,7 @@ const Menuh = () => {
                 <div className="content1Container">
                     <div className="select_option">
                         <img src={homemenu} alt="Home" />
-                        {localStorage.getItem('userName') === 'Admin' ? (
+                        {authState.userName === 'Admin' ? (
                             <select onChange={handleBranch} value={showValue}>
                                 <option style={{ textAlign: 'center' }}>--Cửa hàng--</option>
                                 {branch
@@ -142,31 +149,31 @@ const Menuh = () => {
                         <img src={clock} alt="" />
                         <span>{notiNum}</span>
                     </Link> */}
-                        <Button
-                            id="basic-button"
-                            aria-controls={NotiOpen ? 'basic-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={NotiOpen ? 'true' : undefined}
-                            onClick={handleNoti}
-                            style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
-                        >
-                            <img src={bell} alt=""/>
-                            <span>{notiNum}</span>
-                        </Button>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={showNoti}
-                            open={NotiOpen}
-                            onClose={handleCloseNoti}
-                            MenuListProps={{
-                                'aria-labelledby': 'basic-button',
-                            }}
-                        >
-                            <MenuItem>CĐ-1 Lãi cần trả 1,500,000 VND</MenuItem>
-                            <Divider sx={{ my: 0.5 }} />
-                            <MenuItem>CĐ-2 Lãi cần trả 3,500,000 VND</MenuItem>
-                            <Divider sx={{ my: 0.5 }} />
-                        </Menu>
+                    <Button
+                        id="basic-button"
+                        aria-controls={NotiOpen ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={NotiOpen ? 'true' : undefined}
+                        onClick={handleNoti}
+                        style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
+                    >
+                        <img src={bell} alt="" />
+                        <span>{notiNum}</span>
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={showNoti}
+                        open={NotiOpen}
+                        onClose={handleCloseNoti}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        <MenuItem>CĐ-1 Lãi cần trả 1,500,000 VND</MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem>CĐ-2 Lãi cần trả 3,500,000 VND</MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                    </Menu>
                 </div>
                 <div className="account">
                     <div className="setting">
@@ -181,8 +188,8 @@ const Menuh = () => {
                             <img src={usera} alt="user" className="avata" />
                             {itemUser
                                 ? itemUser.fullName
-                                : localStorage.getItem('userName')
-                                    ? localStorage.getItem('userName')
+                                : authState.userName
+                                    ? authState.userName
                                     : ''}{' '}
                         </Button>
                         <Menu

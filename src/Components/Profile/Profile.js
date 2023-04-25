@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import callAPI from '../../API';
 import * as Yup from 'yup';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -8,9 +8,12 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TextField } from '@mui/material';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../../helpers/AuthContext';
 
 
 function Profile() {
+    const {authState} = useContext(AuthContext);
+    
     const history = useNavigate();
     const [branch, setBranch] = useState([]);
     const [listEmployees, setListEmployees] = useState([]);
@@ -48,7 +51,7 @@ function Profile() {
         e.preventDefault();
         const data = {
             roleId: 1,
-            userId: localStorage.getItem('userId'),
+            userId: authState.userId,
             fullName: listEmployees.fullName,
             branchId: listEmployees.branchId,
             userName: listEmployees.userName,
@@ -105,7 +108,7 @@ function Profile() {
     useEffect(() => {
         callAPI({
             method: 'get',
-            url: `user/getUserById/${localStorage.getItem('userId')}`,
+            url: `user/getUserById/${authState.userId}`,
         }).then((res) => {
             setListEmployees(res.data);
             /* setInitialValues(res.data) */

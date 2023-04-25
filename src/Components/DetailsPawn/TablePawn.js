@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import cash from '../../asset/img/cash.png';
 import wallet from '../../asset/img/wallet.png';
@@ -6,6 +6,7 @@ import API from '../../API.js';
 import subwallet from '../../asset/img/subwallet.png';
 import note from '../../asset/img/note.png';
 import moment from 'moment';
+import { AuthContext } from '../../helpers/AuthContext';
 
 const TablePawn = ({
     setShowUpdateContract,
@@ -16,6 +17,8 @@ const TablePawn = ({
     setContract,
     rowsContract,
 }) => {
+    const { authState } = useContext(AuthContext);
+
     const handleShow = (id) => {
         setShowUpdateContract(true);
         localStorage.setItem('PawnDetailID', id);
@@ -41,7 +44,7 @@ const TablePawn = ({
     useEffect(() => {
         API({
             method: 'get',
-            url: `contract/getAll/0/${localStorage.getItem('branchId')}`,
+            url: `contract/getAll/0/${authState.branchId}`,
         }).then((res) => {
             console.log(res.data);
             setContract(
@@ -54,15 +57,15 @@ const TablePawn = ({
     //Lấy dữ liệu BrandID có userId
     const [branchIdUser, setBranchIdUser] = useState([]);
     useEffect(() => {
-        if (localStorage.getItem('userId')) {
+        if (authState.userId) {
             API({
                 method: 'get',
                 url: `user/getAll/0`,
             }).then((res) => {
                 setBranchIdUser(
                     res.data.filter((user) => {
-                        if (localStorage.getItem('userId')) {
-                            return user.userId === localStorage.getItem('userId');
+                        if (authState.userId) {
+                            return user.userId === authState.userId;
                         }
                     })[0].branchId,
                 );

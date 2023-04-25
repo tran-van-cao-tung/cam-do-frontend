@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import './popup.css';
 import bike from '../../../asset/img/bike.png';
 import save from '../../../asset/img/save1.png';
@@ -6,8 +6,10 @@ import close from '../../../asset/img/close1.png';
 import API from '../../../API';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { AuthContext } from '../../../helpers/AuthContext';
 
 const AddContract = ({ setShowAddContract }) => {
+    const {authState} = useContext(AuthContext);
     const [nameImg, setNameImg] = useState('');
     const [img, setImg] = useState('');
     const [refesh, setRefesh] = useState(false);
@@ -40,8 +42,8 @@ const AddContract = ({ setShowAddContract }) => {
         e.preventDefault();
         const data = {
             customerId: customer.customerId,
-            userId: localStorage.getItem("userId"),
-            branchId: localStorage.getItem("branchId"),
+            userId: authState.userId,
+            branchId: authState.branchId,
             totalProfit: 0,
             warehouseId: 1,
             pawnableProductId: contract.pawnableProductId,
@@ -95,7 +97,7 @@ const AddContract = ({ setShowAddContract }) => {
             .then((res) => {
                 setUser(
                     res.data.filter((item, index) => {
-                        return item.userId === localStorage.getItem('userId');
+                        return item.userId === authState.userId;
                     })[0],
                 );
             })
