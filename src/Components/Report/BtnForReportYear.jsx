@@ -1,22 +1,33 @@
 // import { Grid } from "@mui/material";
-import React from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
-const BtnForReportYear = () => {
+import React, { useEffect, useState } from 'react';
+import API from '../../API';
+const BtnForReportYear = ({ setValue }) => {
+    const [listYear, setListYear] = useState([]);
+    // const currentYear = new Date().getFullYear();
+    // setValue(currentYear);
+    useEffect(() => {
+        API({
+            method: 'get',
+            url: '/ledger/yearsOfLeger',
+        }).then((res) => {
+            setListYear(res.data);
+        });
+    });
+    const handleChange = (e) => {
+        setValue(e.target.value);
+    };
     return (
         <div>
             <div className="reportYearContainer">
                 <div className="yearOption">
-                    <select className="ltsReport">
-                        <option>2023</option>
-                        <option>2022</option>
-                        <option>2021</option>
+                    <select className="ltsReport" onChange={handleChange}>
+                        {listYear.map((value, i) => (
+                            <option key={i}>{value}</option>
+                        ))}
                     </select>
-                </div>
-
-                <div className="searchReport">
-                    <button className="btn__clickSearchReport">
-                        <AiOutlineSearch className="posi__none" />
-                    </button>
+                    {/* <option>{currentYear}</option>
+                        <option>2022</option>
+                        <option>2021</option> */}
                 </div>
             </div>
         </div>
