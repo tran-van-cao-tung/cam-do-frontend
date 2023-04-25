@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import API from '../../API';
 import edit from './../../asset/img/edit.png';
 import './package.css';
 
 const Package = () => {
     //
+    const history = useNavigate();
     const [packageList, setPackageList] = useState([]);
     // Axios
     useEffect(() => {
@@ -50,6 +51,14 @@ const Package = () => {
         <>
             <h1 className="listPackagebody-h1">Điều chỉnh gói vay</h1>
             <div className="listPackage">
+                <button
+                    className="employee_button"
+                    onClick={() => {
+                        history('/addPackage');
+                    }}
+                >
+                    Thêm mới
+                </button>
                 {/* ================================ */}
                 {/* =            Table Show        = */}
                 {/* ================================ */}
@@ -90,7 +99,7 @@ const Package = () => {
                                 <td>{item.punishDay2}</td>
                                 <td>{item.liquitationDay}</td>
                                 <td>
-                                    <div className="MuiTableBody_root-itemLast">
+                                    <div className="MuiTableBody_root-itemLast" onClick={() => { history(`/editPackage/${item.packageId}`) }}>
                                         <img src={edit} alt="Edit" />
                                     </div>
                                 </td>

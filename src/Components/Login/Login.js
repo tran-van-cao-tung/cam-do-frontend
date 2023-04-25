@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './login.scss';
 import API from '../../API';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
     const history = useNavigate();
-
-    const [branch, setBranch] = useState([]);
 
     const hanldeSubmit = (e) => {
         e.preventDefault();
@@ -21,7 +20,6 @@ const Login = () => {
             url: `authentication/login`,
             data: data,
         }).then((res) => {
-            console.log(res.data.account.branchId);
             localStorage.setItem('accessToken', res.data.token.accessToken);
             localStorage.setItem('userName', res.data.account.userName);
             if (res.data.account.userName !== 'Admin') {
@@ -32,6 +30,14 @@ const Login = () => {
             }
             history('/');
             window.location.reload(false);
+        }).catch((error)=>{
+            if(error.response.status){
+                Swal.fire({
+                    text: `Sai tài khoản hoặc mật khẩu!`,
+                    icon: 'warning',
+                }).then((result) => {
+                })
+            }
         });
     };
 
