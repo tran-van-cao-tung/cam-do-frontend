@@ -10,7 +10,6 @@ import { AuthContext } from '../../helpers/AuthContext';
 const Home = () => {
     const history = useNavigate();
     const { authState, setAuthState } = useContext(AuthContext);
-    console.log(authState)
     useEffect(() => {
         if (!localStorage.getItem('accessToken')) {
             history('/login');
@@ -26,7 +25,6 @@ const Home = () => {
             window.location.reload(false);
         }
     }, []);
-    console.log(authState)
 
 
 
@@ -47,7 +45,6 @@ const Home = () => {
             setLogContract(res.data);
         });
     }, [authState.branchId]);
-
     console.log(logContract);
 
 
@@ -59,9 +56,10 @@ const Home = () => {
             url: `/contract/homepage/${authState.branchId}`,
         }).then((res) => {
             setHomePage(res.data);
+            console.log(res.data);
         });
     }, [authState.branchId]);
-    console.log('sdd', homePage)
+
 
     //Ép kiểu dữ liệu date
     const formatDate = (value) => {

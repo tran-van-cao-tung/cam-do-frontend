@@ -51,30 +51,8 @@ const TablePawn = ({
                 res.data
             );
         });
-    }, []);
+    }, [authState.branchId]);
     console.log(rowsContract);
-
-    //Lấy dữ liệu BrandID có userId
-    const [branchIdUser, setBranchIdUser] = useState([]);
-    useEffect(() => {
-        if (authState.userId) {
-            API({
-                method: 'get',
-                url: `user/getAll/0`,
-            }).then((res) => {
-                setBranchIdUser(
-                    res.data.filter((user) => {
-                        if (authState.userId) {
-                            return user.userId === authState.userId;
-                        }
-                    })[0].branchId,
-                );
-            });
-        }
-    }, []);
-
-    //dựa vào BranchId
-    console.log(branchIdUser);
 
     //Ép kiểu dữ liệu date
     const formatDate = (value) => {

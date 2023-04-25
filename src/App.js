@@ -24,8 +24,8 @@ function App() {
 
     const [authState, setAuthState] = useState({
         userName: "",
-        userId: 0,
-        branchId : 0,
+        userId: '',
+        branchId : 1,
         status: false,
     });
 

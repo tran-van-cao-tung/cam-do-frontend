@@ -92,7 +92,6 @@ const Menuh = () => {
     }, []);
 
     /* const [selectedOption, setSelectedOption] = useState(); */
-    const [showValue, setShowValue] = useState();
     const handleBranch = (e) => {
         setAuthState({
             userName: authState.userName,
@@ -100,7 +99,6 @@ const Menuh = () => {
             branchId: e.target.value,
             status: true,
         });
-
     };
 
     return (
@@ -110,8 +108,7 @@ const Menuh = () => {
                     <div className="select_option">
                         <img src={homemenu} alt="Home" />
                         {authState.userName === 'Admin' ? (
-                            <select onChange={handleBranch} value={showValue}>
-                                <option style={{ textAlign: 'center' }}>--Cửa hàng--</option>
+                            <select onChange={handleBranch} value={authState.branchId}>
                                 {branch
                                     ? branch.map((item, index) => {
                                         return (

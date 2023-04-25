@@ -42,15 +42,10 @@ function ListEmployees() {
         API({
             method: 'get',
             url: '/user/getAll/0',
-        })
-            .then((res) => {
+        }).then((res) => {
                 setListEmployee(res.data);
                 console.log('aaaaa', res.data);
             })
-            .catch((err) => {
-                alert('Token đã hết hạn, vui lòng đăng nhập lại');
-                history('/');
-            });
     }, []);
 
     const [branch, setBranch] = useState([]);
