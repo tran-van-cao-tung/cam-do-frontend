@@ -75,7 +75,7 @@ export default function BasicTabs({ contract, showContractId }) {
                 <Ransom contract={contract} showContractId={showContractId} />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <Asset setshowdetailContract={showContractId} />
+                <Asset showContractId={showContractId} />
             </TabPanel>
             <TabPanel value={value} index={4}>
                 <History showContractId={showContractId} />

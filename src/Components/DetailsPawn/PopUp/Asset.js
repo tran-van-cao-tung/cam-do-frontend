@@ -8,8 +8,16 @@ import callAPI from '../../../API';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { UploadDropzone } from 'react-uploader';
 import { Uploader } from 'uploader';
+import BasicModal from '../../Modal/Modal';
+import ModalAsset from './AssetImport';
+import AssetImport from './AssetImport';
+import AssetExport from './AssetExport';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
+import AssetNote from './AssetNote';
 
-function Asset({ showContractId }) {
+const Asset = ({ showContractId }) => {
+    const [logAsset, setlogAsset] = useState([]);
+    const [isChecked, setIsChecked] = useState([]);
     //Ép kiểu dữ liệu date
     const formatDate = (value) => {
         return moment(value).format('MM/DD/YYYY');
@@ -21,7 +29,6 @@ function Asset({ showContractId }) {
     };
 
     //Upload img
-
     const uploader = Uploader({ apiKey: 'public_FW25bDE3z6GM9yWkBESNoAkzEgWY' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
@@ -36,17 +43,18 @@ function Asset({ showContractId }) {
             },
         },
     };
-    const [ransomDetail, setRansom] = useState([]);
-    // Axios
-    /*     useEffect(() => {
-            API({
-                method: 'get',
-                url: 'contract/uploadContractImg/' + showContractId,
-            }).then((res) => {
-                setRansom(res.data);
-            });
-        }, []); */
-
+    useEffect(() => {
+        const id = showContractId;
+        console.log('contract id asset', id);
+        callAPI({
+            method: 'get',
+            url: `logAsset/getLogAssetsByContractId/${id}`,
+        }).then((res) => {
+            setlogAsset(res.data);
+            console.log('logAsset:', res.data);
+        });
+    }, [showContractId]);
+    console.log('logAsset:', logAsset);
     return (
         <div className="contents">
             <h2> Lịch sử đóng tiền lãi</h2>
@@ -75,6 +83,7 @@ function Asset({ showContractId }) {
                             <TableCell>Biên nhập kho</TableCell>
                             <TableCell>Biên xuất kho</TableCell>
                             <TableCell>Giao dịch viên</TableCell>
+                            <TableCell>Hình ảnh</TableCell>
                             <TableCell>Ghi chú</TableCell>
                         </TableRow>
                     </TableHead>
@@ -87,109 +96,35 @@ function Asset({ showContractId }) {
                             },
                         }}
                     >
-                        <TableRow
-                            style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}
-                            sx={{ '& td, & th': { textAlign: 'center' } }}
-                        >
-                            <TableCell>Xe SH trắng</TableCell>
-                            <TableCell>Kho 1</TableCell>
-                            <TableCell>
-                                <Button /* style={{ border: "2px solid #000", width: "30px", height: "30px", borderRadius: "10px", margin: "0 auto" }} */
+                        {logAsset.map((item, index) => {
+                            return (
+                                <TableRow
+                                    style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}
+                                    sx={{ '& td, & th': { textAlign: 'center' } }}
                                 >
-                                    <CreateIcon />
-                                </Button>
-                            </TableCell>
-                            <TableCell>
-                                <Button /* style={{ border: "2px solid #000", width: "30px", height: "30px", borderRadius: "10px", margin: "0 auto" }} */
-                                >
-                                    <CreateIcon />
-                                </Button>
-                            </TableCell>
-                            <TableCell>User1</TableCell>
-                            <TableCell>
-                                <input
-                                    style={{
-                                        padding: '5px',
-                                        borderRadius: '5px',
-                                        border: '1px solid rgba(0, 0, 0, 0.1)',
-                                        backgroundColor: 'rgba(80, 157, 168, 0.1)',
-                                        borderRadius: '10px',
-                                    }}
-                                    type="text"
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow
-                            style={{ height: '200px' }}
-                            sx={{ '&:last-child td, &:last-child th': { border: '1px solid rgba(0, 0, 0, 0.1)' } }}
-                        >
-                            <h3 style={{ padding: '10px' }}>Upload hình ảnh chứng từ</h3>
-                            <UploadDropzone
-                                uploader={uploader}
-                                options={uploaderOptions}
-                                onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
-                                onComplete={(files) => {
-                                    /*  handleImg(files, item.interestDiaryId); */
-                                    alert(files.map((x) => x.fileUrl).join('\n'));
-                                }}
-                                width="600px"
-                                height="375px"
-                            />
-                        </TableRow>
-                        <TableRow
-                            style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}
-                            sx={{ '& td, & th': { textAlign: 'center' } }}
-                        >
-                            <TableCell>Xe SH trắng</TableCell>
-                            <TableCell>Kho 1</TableCell>
-                            <TableCell>
-                                <Button /* style={{ border: "2px solid #000", width: "30px", height: "30px", borderRadius: "10px", margin: "0 auto" }} */
-                                >
-                                    <CreateIcon />
-                                </Button>
-                            </TableCell>
-                            <TableCell>
-                                <Button /* style={{ border: "2px solid #000", width: "30px", height: "30px", borderRadius: "10px", margin: "0 auto" }} */
-                                >
-                                    <CreateIcon />
-                                </Button>
-                            </TableCell>
-                            <TableCell>User1</TableCell>
-                            <TableCell>
-                                <input
-                                    style={{
-                                        padding: '5px',
-                                        borderRadius: '5px',
-                                        border: '1px solid rgba(0, 0, 0, 0.1)',
-                                        backgroundColor: 'rgba(80, 157, 168, 0.1)',
-                                        borderRadius: '10px',
-                                    }}
-                                    type="text"
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow
-                            style={{ height: '200px' }}
-                            sx={{ '&:last-child td, &:last-child th': { border: '1px solid rgba(0, 0, 0, 0.1)' } }}
-                        >
-                            <h3 style={{ padding: '10px' }}>Upload hình ảnh chứng từ</h3>
-                            <UploadDropzone
-                                uploader={uploader}
-                                options={uploaderOptions}
-                                onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
-                                onComplete={(files) => {
-                                    /*  handleImg(files, item.interestDiaryId); */
-                                    alert(files.map((x) => x.fileUrl).join('\n'));
-                                }}
-                                width="600px"
-                                height="375px"
-                            />
-                        </TableRow>
+                                    <TableCell>{item.assetName}</TableCell>
+                                    <TableCell>{item.wareHouseName}</TableCell>
+                                    <TableCell>
+                                        <AssetImport item={item} />
+                                    </TableCell>
+                                    <TableCell>
+                                        <AssetExport item={item} />
+                                    </TableCell>
+                                    <TableCell>{item.userName}</TableCell>
+                                    <TableCell>
+                                        <ModalAsset />
+                                    </TableCell>
+                                    <TableCell>
+                                        <AssetNote item={item} />
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>
         </div>
     );
-}
+};
 
 export default Asset;
