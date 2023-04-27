@@ -10,6 +10,9 @@ import { Link } from 'react-router-dom';
 import { Uploader } from 'uploader';
 import { UploadButton, UploadDropzone } from 'react-uploader';
 import API from '../../../API';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import { Button } from '@mui/material';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 
 const AddNewCustomer = () => {
     const uploader = Uploader({ apiKey: 'public_FW25bDE3z6GM9yWkBESNoAkzEgWY' }); // Your real API key.
@@ -42,8 +45,8 @@ const AddNewCustomer = () => {
                 cccd: cccd,
                 phone: phone,
                 address: address,
-                identityCardFronting: "string",
-                identityCardBacking: "string",
+                identityCardFronting: 'string',
+                identityCardBacking: 'string',
                 faceImg: faceImg,
                 status: 1,
                 point: 50,
@@ -139,15 +142,13 @@ const AddNewCustomer = () => {
                             </div>
                         </form>
                         <div className="comfirmBtn">
-                            <button className="saveBtn" onClick={onAddNewCustomer}>
-                                <img src={saveBtn} alt="" />
-                                Lưu lại
-                            </button>
+                            <Button onClick={onAddNewCustomer}>
+                                <BtnSave />
+                            </Button>
                             <Link to="/customer-manager">
-                                <button className="returnBtn">
-                                    <img src={returnBtn} alt="" />
-                                    Quay lại
-                                </button>
+                                <Button>
+                                    <BtnCloseAnimation />
+                                </Button>
                             </Link>
                         </div>
                     </div>

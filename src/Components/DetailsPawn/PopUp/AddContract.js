@@ -7,9 +7,12 @@ import API from '../../../API';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { AuthContext } from '../../../helpers/AuthContext';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import { Button } from '@mui/material';
 
-const AddContract = ({ setShowAddContract }) => {
-    const {authState} = useContext(AuthContext);
+const AddContract = ({ setShowAddContract, showAddContract }) => {
+    const { authState } = useContext(AuthContext);
     const [nameImg, setNameImg] = useState('');
     const [img, setImg] = useState('');
     const [refesh, setRefesh] = useState(false);
@@ -60,9 +63,9 @@ const AddContract = ({ setShowAddContract }) => {
         API({
             method: 'post',
             url: '/contract/createContract',
-            data: data
+            data: data,
         }).then((res) => {
-            alert("Tạo hợp đồng thành công");
+            alert('Tạo hợp đồng thành công');
             console.log('thành công');
             window.location.reload(false);
         });
@@ -481,23 +484,22 @@ const AddContract = ({ setShowAddContract }) => {
                                                 </div>
                                             </div>
                                         </Grid>
-                                        <Grid item xs={12} md={6}>
-                                            <div className="btn__group">
-                                                <button className="btn btn__save" type="submit">
-                                                    <img src={save} alt="" />
-                                                    Lưu lại
-                                                </button>
-                                                <button
-                                                    className="btn btn__close"
-                                                    onClick={() => setShowAddContract(false)}
-                                                >
-                                                    <img src={close} alt="" />
-                                                    Đóng
-                                                </button>
-                                            </div>
-                                        </Grid>
+                                        <Grid item xs={12} md={6}></Grid>
                                     </Grid>
                                 </Box>
+                            </div>
+                            <div className="btn__group">
+                                {/* <button className="btn btn__save" type="submit">
+                                    <img src={save} alt="" />
+                                    Lưu lại
+                                </button> */}
+                                <Button onClick={hanldeSubmit} type="submit">
+                                    <BtnSave />
+                                </Button>
+                                <BtnCloseAnimation
+                                    showAddContract={showAddContract}
+                                    setShowAddContract={setShowAddContract}
+                                />
                             </div>
                         </div>
                         <div>

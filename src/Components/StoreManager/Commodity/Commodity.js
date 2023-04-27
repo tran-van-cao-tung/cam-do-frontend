@@ -90,9 +90,9 @@ function Commodity() {
             <div className="listCommodity">
                 <div className="listCommoditybody">
                     {/* Button  Add */}
-                    <a href="/commodity/add">
+                    <Link to="/commodity/add">
                         <button className="addlistCommodity">Thêm mới hàng hóa</button>
-                    </a>
+                    </Link>
                     {/* Status */}
                     <div className="status">
                         <span>Tình Trạng</span>

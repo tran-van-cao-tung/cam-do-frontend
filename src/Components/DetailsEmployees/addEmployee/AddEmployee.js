@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import ReplyIcon from '@mui/icons-material/Reply';
 import '../listEmployees/employee.css';
@@ -11,6 +11,9 @@ import * as Yup from 'yup';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Swal from 'sweetalert2';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import { Button } from '@mui/material';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 
 function AddEmployee() {
     const history = useNavigate();
@@ -73,10 +76,9 @@ function AddEmployee() {
     const onSubmit = (data) => {
         if (data.password !== confirmPassword) {
             Swal.fire({
-                text: "Mật khẩu không trùng khớp!",
+                text: 'Mật khẩu không trùng khớp!',
                 icon: 'warning',
-            }).then((result) => {
-            })
+            }).then((result) => {});
             return;
         }
         data.status = parseInt(data.status);
@@ -214,19 +216,14 @@ function AddEmployee() {
                             </div>
                             <div className="employee-btn">
                                 <div className="employee_btn-group">
-                                    <button className="employee_btn-item aqua" type="submit">
-                                        <SaveAltIcon />
-                                        <span>Lưu lại</span>
-                                    </button>
-                                    <button
-                                        className="employee_btn-item yellow"
-                                        onClick={(e) => {
-                                            history('/listemployees');
-                                        }}
-                                    >
-                                        <ReplyIcon />
-                                        <span>Quay lại</span>
-                                    </button>
+                                    <Button onClick={onSubmit} s type="submit">
+                                        <BtnSave />
+                                    </Button>
+                                    <Button>
+                                        <Link to="/listemployees">
+                                            <BtnCloseAnimation />
+                                        </Link>
+                                    </Button>
                                 </div>
                             </div>
                         </div>

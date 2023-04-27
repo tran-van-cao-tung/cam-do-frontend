@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import ReplyIcon from '@mui/icons-material/Reply';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import callAPI from '../../API';
 import Swal from 'sweetalert2';
+import { Button } from '@mui/material';
+import BtnSave from '../ButtonUI/BtnSave/BtnSave';
+import BtnCloseAnimation from '../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 
 function EditPackage() {
     const [listPackage, setListPackage] = useState([]);
@@ -11,10 +14,10 @@ function EditPackage() {
     const id = useParams();
     const handleInput = (e) => {
         setListPackage({ ...listPackage, [e.target.name]: e.target.value });
-    }
+    };
 
     useEffect(() => {
-        const slug = id.id
+        const slug = id.id;
         callAPI({
             method: 'get',
             url: `package/getPackageById/${slug}`,
@@ -22,9 +25,8 @@ function EditPackage() {
             .then((res) => {
                 setListPackage(res.data);
             })
-            .catch((err) => console.log("Err at API package"));
+            .catch((err) => console.log('Err at API package'));
     }, [id.id]);
-
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -50,15 +52,13 @@ function EditPackage() {
             Swal.fire({
                 text: `Chỉnh sửa thành công!`,
                 icon: 'success',
-            }).then((result) => {
-            })
+            }).then((result) => {});
         });
     };
 
-
     return (
         <div className="box_employee">
-            <h1 className="employee_heading-add">Cập nhật nhân viên</h1>
+            <h1 className="employee_heading-add">Cập nhật gói vay</h1>
             <div className="wareh-content">
                 <form /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
                     <div className="employeeAdd">
@@ -88,12 +88,7 @@ function EditPackage() {
                             <span>
                                 Số ngày vay <span>*</span>:
                             </span>
-                            <input
-                                type="text"
-                                name="day"
-                                onChange={(e) => handleInput(e)}
-                                value={listPackage.day}
-                            />
+                            <input type="text" name="day" onChange={(e) => handleInput(e)} value={listPackage.day} />
                         </div>
                         <div className="employee_input">
                             <span>
@@ -174,26 +169,21 @@ function EditPackage() {
                         </div>
                         <div className="employee-btn">
                             <div className="employee_btn-group">
-                                <button className="employee_btn-item aqua" type="submit">
-                                    <SaveAltIcon />
-                                    <span>Lưu lại</span>
-                                </button>
-                                <button
-                                    className="employee_btn-item yellow"
-                                    onClick={() => {
-                                        history('/package');
-                                    }}
-                                >
-                                    <ReplyIcon />
-                                    <span>Quay lại</span>
-                                </button>
+                                <Button type="submit">
+                                    <BtnSave />
+                                </Button>
+                                <Button>
+                                    <Link to="/package">
+                                        <BtnCloseAnimation />
+                                    </Link>
+                                </Button>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-    )
+    );
 }
 
-export default EditPackage
+export default EditPackage;

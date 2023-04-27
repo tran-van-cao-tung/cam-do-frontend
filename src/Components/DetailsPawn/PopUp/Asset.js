@@ -71,9 +71,9 @@ const Asset = ({ showContractId }) => {
                             sx={{
                                 '&:last-child td, &:last-child th': {
                                     border: '1px solid rgba(0, 0, 0, 0.1)',
-                                    background: '#167F92',
+                                    background: 'orange',
                                     textAlign: 'center',
-                                    color: '#fff',
+                                    color: '#000',
                                 },
                             }}
                             style={{ borderRadius: '5px' }}

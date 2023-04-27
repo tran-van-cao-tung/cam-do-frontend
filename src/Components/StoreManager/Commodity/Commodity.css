@@ -164,8 +164,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #14a87b;
-    color: #ffffff;
+    color: #14a87b;
+    border: 2px solid #14a87b;
 }
 
 .MuiTableBody_stop-status {
@@ -176,8 +176,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f65151;
-    color: #ffffff;
+    color: #f65151;
+    border: 2px solid #f65151;
 }
 
 .MuiTableBody_root-itemLast {

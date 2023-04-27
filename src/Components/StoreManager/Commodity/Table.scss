@@ -7,8 +7,8 @@ $table-cell-border: 1px solid #D9E4E6;
 // Extra options for table style (parse these arguments when including your mixin)
 $table-border-radius: 10px;
 $table-highlight-color: #EAF3F3;
-$table-header-background-color: #167F92;
-$table-header-text-color: #FFF;
+$table-header-background-color: #ffb800;
+$table-header-text-color: black;
 $table-header-border: 1px solid #FFF;
 // The Responstable mixin
 @mixin responstable( $breakpoint: $table-breakpoint, $background-color: $table-background-color, $text-color: $table-text-color, $outer-border: $table-outer-border, $cell-border: $table-cell-border, $border-radius: none, $highlight-color: none, $header-background-color: $table-background-color, $header-text-color: $table-text-color, $header-border: $table-cell-border) {

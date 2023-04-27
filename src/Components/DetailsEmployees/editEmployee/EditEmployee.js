@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import ReplyIcon from '@mui/icons-material/Reply';
 import './editemployee.css';
@@ -11,6 +11,9 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Swal from 'sweetalert2';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import { Button } from '@mui/material';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 
 function EditEmployee() {
     const history = useNavigate();
@@ -36,7 +39,6 @@ function EditEmployee() {
             .required('Email không được để trống'),
     });
 
-
     const id = useParams();
 
     const onSubmit = (event) => {
@@ -54,14 +56,14 @@ function EditEmployee() {
             phone: listEmployees.phone,
             status: parseInt(listEmployees.status),
         };
-        validationSchema.validate(data, { abortEarly: false })
+        validationSchema
+            .validate(data, { abortEarly: false })
             .then(() => {
                 if (password !== confirmPassword) {
                     Swal.fire({
                         text: `Mật khẩu không trùng khớp!`,
                         icon: 'warning',
-                    }).then((result) => {
-                    })
+                    }).then((result) => {});
                     return;
                 }
                 data.status = parseInt(listEmployees.status);
@@ -74,17 +76,15 @@ function EditEmployee() {
                     Swal.fire({
                         text: `Chỉnh sửa thành công!`,
                         icon: 'success',
-                    }).then((result) => {
-                    })
+                    }).then((result) => {});
                 });
             })
             .catch((error) => {
-                const errorMessages = error.inner.map(e => e.message).join('. ');
+                const errorMessages = error.inner.map((e) => e.message).join('. ');
                 Swal.fire({
                     text: `${errorMessages}`,
                     icon: 'warning',
-                }).then((result) => {
-                })
+                }).then((result) => {});
             });
     };
 
@@ -136,14 +136,13 @@ function EditEmployee() {
         password: '',
     }; */
 
-
     /*     const handleInput = (e) => {
             e.persist();
             setListEmployees({ ...listEmployees, [e.target.name]: e.target.value });
         }; */
     const handleInput = (e) => {
         setListEmployees({ ...listEmployees, [e.target.name]: e.target.value });
-    }
+    };
     return (
         <div className="box_employee">
             <h1 className="employee_heading-add">Cập nhật nhân viên</h1>
@@ -165,9 +164,16 @@ function EditEmployee() {
                             <span>
                                 Tên cửa hàng <span>*</span>:
                             </span>
-                            <select name='branchId' onChange={(e) => { handleInput(e) }} value={listEmployees.branchId} style={{
-                                width: '576px',
-                            }}>
+                            <select
+                                name="branchId"
+                                onChange={(e) => {
+                                    handleInput(e);
+                                }}
+                                value={listEmployees.branchId}
+                                style={{
+                                    width: '576px',
+                                }}
+                            >
                                 <option>--Tên cửa hàng--</option>
                                 {branch.map((item, index) => {
                                     return (
@@ -189,7 +195,14 @@ function EditEmployee() {
                                 Mật khẩu<span>*</span>:
                             </span>
                             <div className="password-input">
-                                <input type={showPassword1 ? 'text' : 'password'} id="password" name="password" onChange={(e) => { setPassword(e.target.value) }} />
+                                <input
+                                    type={showPassword1 ? 'text' : 'password'}
+                                    id="password"
+                                    name="password"
+                                    onChange={(e) => {
+                                        setPassword(e.target.value);
+                                    }}
+                                />
                                 <button type="button" onClick={toggleShowPassword1}>
                                     {showPassword1 ? <VisibilityIcon /> : <VisibilityOffIcon />}
                                 </button>
@@ -247,19 +260,14 @@ function EditEmployee() {
                         </div>
                         <div className="employee-btn">
                             <div className="employee_btn-group">
-                                <button className="employee_btn-item aqua" type="submit">
-                                    <SaveAltIcon />
-                                    <span>Lưu lại</span>
-                                </button>
-                                <button
-                                    className="employee_btn-item yellow"
-                                    onClick={() => {
-                                        history('/listemployees');
-                                    }}
-                                >
-                                    <ReplyIcon />
-                                    <span>Quay lại</span>
-                                </button>
+                                <Button type="submit">
+                                    <BtnSave />
+                                </Button>
+                                <Button>
+                                    <Link to="/listemployees">
+                                        <BtnCloseAnimation />
+                                    </Link>
+                                </Button>
                             </div>
                         </div>
                     </div>

@@ -12,6 +12,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import API from '../../../API';
 import { Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 
 const AddList = () => {
     // const [id, setId] = useState();
@@ -227,13 +229,13 @@ const AddList = () => {
                     <Divider />
 
                     <div className="add-actions">
-                        <Button onClick={handleSubmit} className="save-btn" variant="contained">
-                            Lưu lại
+                        <Button onClick={handleSubmit}>
+                            <BtnSave />
                         </Button>
 
                         <Link to="/liststore">
-                            <Button className="back-btn" variant="contained">
-                                Quay lại
+                            <Button>
+                                <BtnCloseAnimation />
                             </Button>
                         </Link>
                     </div>

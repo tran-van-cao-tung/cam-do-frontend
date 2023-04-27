@@ -38,13 +38,29 @@ const DetailsPawn = () => {
                 setContract={setContract}
                 rowsContract={rowsContract}
             />
-            {showAddContract && <AddContract setShowAddContract={setShowAddContract} />}
-            {showUpdateContract && <UpdateContract setShowUpdateContract={setShowUpdateContract} />}
-            {showliquidation && (<Liquidation setShowliquidation={setShowliquidation} />)}
-            {showdetailContract && (
-                <DetailContract setshowdetailContract={setshowdetailContract} showContractId={showContractId} />
+            {showAddContract && (
+                <AddContract showAddContract={showAddContract} setShowAddContract={setShowAddContract} />
             )}
-            {showExpiration && <Expiration setShowExpiration={setShowExpiration} showContractId={showContractId} />}
+            {showUpdateContract && (
+                <UpdateContract showUpdateContract={showUpdateContract} setShowUpdateContract={setShowUpdateContract} />
+            )}
+            {showliquidation && (
+                <Liquidation showliquidation={showliquidation} setShowliquidation={setShowliquidation} />
+            )}
+            {showdetailContract && (
+                <DetailContract
+                    showdetailContract={showdetailContract}
+                    setshowdetailContract={setshowdetailContract}
+                    showContractId={showContractId}
+                />
+            )}
+            {showExpiration && (
+                <Expiration
+                    showExpiration={showExpiration}
+                    setShowExpiration={setShowExpiration}
+                    showContractId={showContractId}
+                />
+            )}
         </div>
     );
 };

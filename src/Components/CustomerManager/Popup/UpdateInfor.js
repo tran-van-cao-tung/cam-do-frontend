@@ -5,6 +5,9 @@ import returnBtn from '../../../asset/img/returnBTN.png';
 import { Link } from 'react-router-dom';
 import API from '../../../API';
 import BanSomeOne from './BanSomeOne';
+import { Button } from '@mui/material';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 const UpdateInfor = () => {
     const [showBanReason, setShowBanReason] = useState(false);
     const handleShow = () => {
@@ -104,21 +107,25 @@ const UpdateInfor = () => {
                             </div>
                         </div>
                         <div className="comfirmBtn">
-                            <button className="saveBtn">
-                                <img src={saveBtn} alt="" />
-                                Lưu lại
-                            </button>
-                            <Link to="/customer-manager">
-                                <button className="returnBtn">
-                                    <img src={returnBtn} alt="" />
-                                    Quay lại
-                                </button>
-                            </Link>
+                            <Button type="submit">
+                                <BtnSave />
+                            </Button>
+                            <Button>
+                                <Link to="/customer-manager">
+                                    <BtnCloseAnimation />
+                                </Link>
+                            </Button>
                         </div>
                     </div>
                 </div>
             </div>
-            {showBanReason && <BanSomeOne setShowBanReason={setShowBanReason} cccd={customerInfo.cccd} />}
+            {showBanReason && (
+                <BanSomeOne
+                    showBanReason={showBanReason}
+                    setShowBanReason={setShowBanReason}
+                    cccd={customerInfo.cccd}
+                />
+            )}
         </div>
     );
 };

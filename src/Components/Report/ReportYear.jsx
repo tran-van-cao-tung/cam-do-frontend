@@ -12,9 +12,11 @@ const ReportYear = () => {
     console.log('valuevalue', setValue);
     return (
         <div className="report">
-            <h1 className="reportTitle">Báo Cáo</h1>
-            <div className="parperCustomer">
+            <div className="headerReport">
+                <h1 className="reportTitle">Báo Cáo</h1>
                 <BtnForReportYear setValue={setValue} year={year} />
+            </div>
+            <div className="parperCustomer">
                 <ErrorBoundary>
                     <ChartLine value={value} setYear={setYear} />
                 </ErrorBoundary>

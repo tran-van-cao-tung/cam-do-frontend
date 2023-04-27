@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
+import React, { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import { Button } from '@mui/material';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
-import callAPI from '../../../API';
+import API from '../../../API';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-function Expiration({ setShowExpiration, showContractId }) {
-
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+function Expiration({ setShowExpiration, showContractId, showExpiration }) {
     const history = useNavigate();
 
     const uploader = Uploader({ apiKey: 'public_FW25bDE3z6GM9yWkBESNoAkzEgWY' }); // Your real API key.
@@ -40,36 +42,34 @@ function Expiration({ setShowExpiration, showContractId }) {
     const [linkImg, setLinkImg] = useState();
     const handleImg = (img) => {
         setLinkImg(img[0].fileUrl);
-    }
+    };
 
-    console.log(linkImg)
-    console.log(showContractId)
+    console.log(linkImg);
+    console.log(showContractId);
     const handleSubmit = () => {
-        callAPI({
+        API({
             method: 'post',
             url: `contract/createContractExpiration/${showContractId}?proofImg=${linkImg}`,
         }).then((res) => {
-            console.log(res.data)
+            console.log(res.data);
             window.location.reload(false);
         });
-    }
-    console.log("Dao han")
+    };
+    console.log('Dao han');
     const [contractDetail, setContractDetail] = useState([]);
     useEffect(() => {
-      callAPI({
-          method: 'get',
-          url: `/contract/getContractDetail/` + localStorage.getItem("PawnDetailID"),
-      }).then((res) => {
-          setContractDetail(res.data);
-          console.log(res.data);
-      });
+        API({
+            method: 'get',
+            url: `/contract/getContractDetail/` + localStorage.getItem('PawnDetailID'),
+        }).then((res) => {
+            setContractDetail(res.data);
+            console.log(res.data);
+        });
     }, []);
 
     const formatMoney = (value) => {
-      return value.toLocaleString('vi-VN') + ' VNĐ';
+        return value.toLocaleString('vi-VN') + ' VNĐ';
     };
-
-
 
     return (
         <div className="add-contract" onClick={() => setShowExpiration(false)}>
@@ -128,14 +128,18 @@ function Expiration({ setShowExpiration, showContractId }) {
                                 <tr>
                                     <th>Tiền lãi đã đóng</th>
                                     <th className="start-red" style={{ textAlign: 'right' }}>
-                                        {contractDetail.interestPaid ? formatMoney(contractDetail.interestPaid) : '0 VNĐ'}
+                                        {contractDetail.interestPaid
+                                            ? formatMoney(contractDetail.interestPaid)
+                                            : '0 VNĐ'}
                                     </th>
                                 </tr>
                                 <tr>
                                     <th>Nợ lãi cũ:</th>
                                     <th style={{ textAlign: 'right' }}>
                                         <span className="start-red">
-                                            {contractDetail.interestDebt ? formatMoney(contractDetail.interestDebt) : ''}
+                                            {contractDetail.interestDebt
+                                                ? formatMoney(contractDetail.interestDebt)
+                                                : ''}
                                         </span>
                                     </th>
                                 </tr>
@@ -177,7 +181,6 @@ function Expiration({ setShowExpiration, showContractId }) {
                                 </tr>
                             </table>
                         </div>
-                      
                     </div>
                 </div>
                 <div className="info__asset">
@@ -185,25 +188,31 @@ function Expiration({ setShowExpiration, showContractId }) {
                         <p>Bạn có chắc chắn muốn đáo hạn hợp đồng cầm đồ này?</p>
                     </div>
                     <div className="asset">
-                        <p>Hình ảnh <span style={{ color: "red" }}>*</span>:</p>
-                        <UploadDropzone uploader={uploader}
+                        <p>
+                            Hình ảnh <span style={{ color: 'red' }}>*</span>:
+                        </p>
+                        <UploadDropzone
+                            uploader={uploader}
                             options={uploaderOptions}
-                            onUpdate={files => console.log(files.map(x => x.fileUrl).join("\n"))}
-                            onComplete={files => {
+                            onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
+                            onComplete={(files) => {
                                 handleImg(files);
-                                alert(files.map(x => x.fileUrl).join("\n"))
+                                alert(files.map((x) => x.fileUrl).join('\n'));
                             }}
                             width="350px"
-                            height="250px" />
+                            height="250px"
+                        />
                     </div>
                 </div>
                 <div className="btn__group btn__group-liquidation">
-                    <button className="btn btn__save" onClick={handleSubmit}>Chấp nhận</button>
-                    <button className="btn btn__close" onClick={() => { setShowExpiration(false) }}>Đóng</button>
+                    <Button onClick={handleSubmit}>
+                        <BtnSave />
+                    </Button>
+                    <BtnCloseAnimation showExpiration={showExpiration} setShowExpiration={setShowExpiration} />
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default Expiration
+export default Expiration;

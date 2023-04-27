@@ -25,9 +25,6 @@ const BtnForReportYear = ({ setValue }) => {
                             <option key={i}>{value}</option>
                         ))}
                     </select>
-                    {/* <option>{currentYear}</option>
-                        <option>2022</option>
-                        <option>2021</option> */}
                 </div>
             </div>
         </div>
