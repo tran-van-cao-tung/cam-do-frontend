@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import './details.css';
 import API from '../../../API';
 import { useParams } from 'react-router-dom';
+import { AuthContext } from '../../../helpers/AuthContext';
 
 function DetailsReport({ value }) {
+    const { authState } = useContext(AuthContext);
     const currentYear = new Date().getFullYear();
     // setValue(currentYear);
     const param = useParams();
@@ -23,14 +25,14 @@ function DetailsReport({ value }) {
     const [detail, setDetail] = useState([]);
     // Axios
     useEffect(() => {
-        const branchId = localStorage.getItem('branchId');
+        const branchId = authState.branchId;
         API({
             method: 'get',
             url: `/branch/getDetailById/${branchId}`,
         }).then((res) => {
             setDetail(res.data);
         });
-    }, [localStorage.getItem('branchId')]);
+    }, [authState.branchId]);
 
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';

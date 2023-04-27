@@ -7,9 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import API from '../../API';
 import { AuthContext } from '../../helpers/AuthContext';
+import { Pagination, PaginationItem, Stack } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 const Home = () => {
     const history = useNavigate();
-    const { authState, setAuthState } = useContext(AuthContext);
+    const { authState } = useContext(AuthContext);
     useEffect(() => {
         if (!localStorage.getItem('accessToken')) {
             history('/login');
@@ -37,15 +41,15 @@ const Home = () => {
     }));
 
     const [logContract, setLogContract] = useState([]);
-    useEffect(() => {
+   /*  useEffect(() => {
         API({
             method: 'get',
-            url: `/logContract/logContractByBranchId/1`,
+            url: `/logContract/all/2`,
         }).then((res) => {
             setLogContract(res.data);
         });
     }, [authState.branchId]);
-    console.log(logContract);
+    console.log(logContract); */
 
 
 
@@ -73,6 +77,22 @@ const Home = () => {
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
+
+    const [page,setPage] = useState(1);
+    const handlePagination = (e,value) => {
+        setPage(value);
+        console.log(value);
+    }
+
+    useEffect(()=>{
+        API({
+            method: 'get',
+            url: `/logContract/all/${page}`,
+        }).then((res) => {
+            setLogContract(res.data);
+            console.log(res.data);
+        });
+    },[page])
 
     return (
         <div className="conten">
@@ -141,6 +161,11 @@ const Home = () => {
                                         </div>
                                     );
                                 })}
+                            </div>
+                            <div >
+                                <Stack spacing={2} >
+                                    <Pagination style={{margin:"0 auto"}} count={logContract.length > 0 ? logContract.length : 0} page={page} onChange={handlePagination} color="primary" />
+                                </Stack>
                             </div>
                         </Item>
                     </Grid>
