@@ -12,6 +12,8 @@ import API from '../../../API';
 import './AddWareHouse.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 
 const WareHouse = () => {
     const [statusFilter, setStatusFilter] = useState('available');
@@ -120,20 +122,15 @@ const WareHouse = () => {
                     <Divider />
 
                     <div className="add-actions">
-                        <Button
-                            className="save-btn"
-                            variant="contained"
-                            startIcon={<SearchIcon />}
-                            onClick={handleSubmit}
-                        >
-                            Lưu lại
+                        <Button onClick={handleSubmit}>
+                            <BtnSave />
                         </Button>
 
-                        <Link to="/warehouse">
-                            <Button className="back-btn" variant="contained" startIcon={<ArrowBackIcon />}>
-                                Quay lại
-                            </Button>
-                        </Link>
+                        <Button>
+                            <Link to="/warehouse">
+                                <BtnCloseAnimation />
+                            </Link>
+                        </Button>
                     </div>
                 </div>
             </div>

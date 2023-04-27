@@ -1,13 +1,16 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import ReplyIcon from '@mui/icons-material/Reply';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import callAPI from '../../API';
 import Swal from 'sweetalert2';
+import BtnCloseAnimation from '../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import { Button } from '@mui/material';
+import BtnSave from '../ButtonUI/BtnSave/BtnSave';
 
 function AddPackage() {
-    const history = useNavigate()
+    const history = useNavigate();
     const initialValues = {
         packageId: 0,
         packageName: '',
@@ -19,7 +22,7 @@ function AddPackage() {
         punishDay2: '',
         liquitationDay: '',
         interestDiaryPenalty: '',
-        ransomPenalty: ''
+        ransomPenalty: '',
     };
 
     const onSubmit = (data) => {
@@ -31,13 +34,12 @@ function AddPackage() {
             Swal.fire({
                 text: `Thêm thành công!`,
                 icon: 'success',
-            }).then((result) => {
-            })
+            }).then((result) => {});
         });
-    }
+    };
     return (
         <div className="box_employee">
-            <h1 className="employee_heading-add">Thêm mới nhân viên</h1>
+            <h1 className="employee_heading-add">Thêm gói vay mới</h1>
             <div className="wareh-content">
                 <Formik initialValues={initialValues} /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
                     <Form>
@@ -120,19 +122,14 @@ function AddPackage() {
 
                             <div className="employee-btn">
                                 <div className="employee_btn-group">
-                                    <button className="employee_btn-item aqua" type="submit">
-                                        <SaveAltIcon />
-                                        <span>Lưu lại</span>
-                                    </button>
-                                    <button
-                                        className="employee_btn-item yellow"
-                                        onClick={(e) => {
-                                            history('/package');
-                                        }}
-                                    >
-                                        <ReplyIcon />
-                                        <span>Quay lại</span>
-                                    </button>
+                                    <Button type="submit">
+                                        <BtnSave />
+                                    </Button>
+                                    <Button>
+                                        <Link to="/package">
+                                            <BtnCloseAnimation />
+                                        </Link>
+                                    </Button>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +137,7 @@ function AddPackage() {
                 </Formik>
             </div>
         </div>
-    )
+    );
 }
 
-export default AddPackage
+export default AddPackage;

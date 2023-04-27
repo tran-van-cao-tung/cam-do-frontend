@@ -10,8 +10,10 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import { Divider } from '@mui/material';
 
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import API from '../../../API';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 
 const EditListStore = () => {
     const id = useParams();
@@ -59,7 +61,7 @@ const EditListStore = () => {
     return (
         <>
             <div className="Addliststore">
-                <h1>Cập Nhật cửa hàng</h1>
+                <h1>Cập nhật cửa hàng</h1>
                 <div className="wareh-content">
                     <div className="add-section">
                         <FormControl className="add-input-group">
@@ -143,12 +145,13 @@ const EditListStore = () => {
                     <Divider />
 
                     <div className="add-actions">
-                        <Button className="save-btn" variant="contained" onClick={handleSubmitEdit}>
-                            Lưu lại
+                        <Button onClick={handleSubmitEdit}>
+                            <BtnSave />
                         </Button>
-
-                        <Button className="back-btn" variant="contained" href="/liststore">
-                            Quay lại
+                        <Button>
+                            <Link to="/liststore">
+                                <BtnCloseAnimation />
+                            </Link>
                         </Button>
                     </div>
                 </div>

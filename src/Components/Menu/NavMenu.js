@@ -12,7 +12,7 @@ import { AiOutlineAlignRight } from 'react-icons/ai';
 import { AuthContext } from '../../helpers/AuthContext';
 const NavMenu = () => {
     const { authState } = useContext(AuthContext);
-    
+
     const [show1, setShow1] = useState(JSON.parse(localStorage.getItem('show1')) || false);
     const [show2, setShow2] = useState(JSON.parse(localStorage.getItem('show2')) || false);
     const [show3, setShow3] = useState(JSON.parse(localStorage.getItem('show3')) || false);
@@ -44,7 +44,7 @@ const NavMenu = () => {
     const clickShow2 = () => {
         setShow3(!show3);
     };
-    
+
     useEffect(() => {
         localStorage.setItem('show1', JSON.stringify(show1));
         localStorage.setItem('show2', JSON.stringify(show2));
@@ -105,11 +105,11 @@ const NavMenu = () => {
                                 <li className="subtext">
                                     <NavLink to="/chainstores">&#128900; Chuỗi cửa hàng</NavLink>
                                 </li>
-                                <li className="subtext">
+                                {/* <li className="subtext">
                                     <NavLink to="/detailsStore" className="subtext">
                                         &#128900; Chi tiết cửa hàng
                                     </NavLink>
-                                </li>
+                                </li> */}
                                 <li className="subtext">
                                     <NavLink to="/liststore" className="subtext">
                                         &#128900; Danh sách cửa hàng

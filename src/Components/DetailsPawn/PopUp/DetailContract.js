@@ -9,7 +9,7 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import HomeIcon from '@mui/icons-material/Home';
 import callAPI from '../../../API';
 
-const DetailContract = ({ setshowdetailContract, showContractId }) => {
+const DetailContract = ({ setshowdetailContract, showContractId, showdetailContract }) => {
     // Function active button (Button Deatail Contract)
 
     console.log(showContractId);
@@ -152,7 +152,12 @@ const DetailContract = ({ setshowdetailContract, showContractId }) => {
                         </div>
                         {/* Button Deatail Contract */}
                         <div sx={{ alignItems: 'center', alignContent: 'center' }}>
-                            <BasicTabs contract={detailPawn} showContractId={showContractId} />
+                            <BasicTabs
+                                showdetailContract={showdetailContract}
+                                setshowdetailContract={setshowdetailContract}
+                                contract={detailPawn}
+                                showContractId={showContractId}
+                            />
                         </div>
                     </div>
                 </div>

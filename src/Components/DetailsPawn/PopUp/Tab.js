@@ -42,7 +42,7 @@ function a11yProps(index) {
     };
 }
 
-export default function BasicTabs({ contract, showContractId }) {
+export default function BasicTabs({ contract, showContractId, showdetailContract, setshowdetailContract }) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -72,7 +72,12 @@ export default function BasicTabs({ contract, showContractId }) {
                 <Certificate showContractId={showContractId} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <Ransom contract={contract} showContractId={showContractId} />
+                <Ransom
+                    showdetailContract={showdetailContract}
+                    setshowdetailContract={setshowdetailContract}
+                    contract={contract}
+                    showContractId={showContractId}
+                />
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <Asset showContractId={showContractId} />

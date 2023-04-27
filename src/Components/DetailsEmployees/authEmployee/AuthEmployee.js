@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Grid, Paper } from '@mui/material';
+import { Button, Grid, Paper } from '@mui/material';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import ReplyIcon from '@mui/icons-material/Reply';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import file from '../../../asset/img/file.png';
 import './authemployee.css';
 import API from '../../../API';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 function AuthEmployee() {
     const history = useNavigate();
     const [employeeList, setEmployeeList] = useState([]);
@@ -415,19 +417,16 @@ function AuthEmployee() {
                         </div>
                     </div>
                     <div className="employee_btn-group" style={{ marginLeft: '10%' }}>
-                        <button type="submit" className="employee_btn-item auth_btn-item aqua" onClick={savePermission}>
-                            <SaveAltIcon />
-                            <span>Lưu lại</span>
-                        </button>
-                        <button
-                            className="employee_btn-item auth_btn-item yellow"
-                            onClick={() => {
-                                history('/listemployees');
-                            }}
-                        >
-                            <ReplyIcon />
-                            <span>Quay lại</span>
-                        </button>
+                        <div className="employee_btn-group">
+                            <Button type="submit">
+                                <BtnSave />
+                            </Button>
+                            <Button>
+                                <Link to="/listemployees">
+                                    <BtnCloseAnimation />
+                                </Link>
+                            </Button>
+                        </div>
                     </div>
                 </div>
 

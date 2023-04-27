@@ -194,10 +194,11 @@
 }
 
 .btn__group {
+    margin-top: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 25px;
+    /* gap: 25px; */
     height: 100%;
 }
 
@@ -219,11 +220,11 @@
 }
 
 .btn__save {
-    background-color: #50C2DA;
+    background-color: #1AAB8A;
 }
 
 .btn__close {
-    background-color: #EAEC81;
+    background-color: red;
 }
 
 .table__liquidation,

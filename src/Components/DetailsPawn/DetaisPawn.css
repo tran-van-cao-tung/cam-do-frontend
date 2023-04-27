@@ -39,7 +39,7 @@
     font-weight: 400;
     font-size: 35px;
     border-radius: 10px;
-    color: #FFFBFB;
+    color: black;
 }
 
 .btn__click-search {
@@ -65,6 +65,7 @@
 .addnew {
     background-color: orange;
     padding: 5px 10px;
+    color: white;
 }
 
 .export {
@@ -344,12 +345,13 @@ div[title='Đã Đóng'] {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f65151;
-    color: #ffffff;
+    color: #f65151;
+    border: 2px solid #f65151;
 }
 
 .activity {
-    background: #14a87b;
+    color: #14a87b;
+    border: 2px solid #14a87b;
 }
 
 .MuiTableBody_root-itemLast {

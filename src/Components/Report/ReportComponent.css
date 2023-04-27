@@ -1,11 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+.headerReport {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .reportTitle {
     font-family: 'Francois One';
     font-style: nomal;
     font-weight: 400;
     font-size: 45px;
-    margin-bottom: 23px;
 }
 
 .search-hd {}
@@ -24,7 +29,7 @@
 
 .reportYearContainer {
     display: flex;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
 }
 

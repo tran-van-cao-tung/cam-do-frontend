@@ -1,7 +1,9 @@
-import React, { useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import API from '../../../API';
 import { useNavigate } from 'react-router-dom';
-const BanSomeOne = ({ setShowBanReason, cccd }) => {
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import { Button } from '@mui/material';
+const BanSomeOne = ({ showBanReason, setShowBanReason, cccd }) => {
     const history = useNavigate();
     const [customerInfo, setCustomerInfo] = useState([]);
 
@@ -15,13 +17,13 @@ const BanSomeOne = ({ setShowBanReason, cccd }) => {
     }, []);
 
     const handleShowBan = () => {
-        console.log(cccd)
-        console.log(reason)
-          API({
+        console.log(cccd);
+        console.log(reason);
+        API({
             method: 'put',
             url: '/customer/updateCustomer',
             data: {
-              customerId: customerInfo.customerId,
+                customerId: customerInfo.customerId,
                 cccd: cccd,
                 fullName: customerInfo.fullName,
                 phone: customerInfo.phone,
@@ -56,12 +58,9 @@ const BanSomeOne = ({ setShowBanReason, cccd }) => {
                     <input className="inputReason" value={reason} onChange={handleReason} />
                 </div>
                 <div className="btnReason">
-                    <button className="banBtn" onClick={() => handleShowBan()}>
-                        Cấm
-                    </button>
-                    <button className="closeBtn" onClick={() => setShowBanReason(false)}>
-                        Đóng
-                    </button>
+                    <Button onClick={() => handleShowBan()}>Cấm</Button>
+
+                    <BtnCloseAnimation showBanReason={showBanReason} setShowBanReason={setShowBanReason} />
                 </div>
             </div>
         </div>

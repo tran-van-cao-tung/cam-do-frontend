@@ -11,6 +11,9 @@ import API from '../../../API';
 import { Divider } from '@mui/material';
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 
 const Addcommondity = () => {
     const [code, setCode] = useState('');
@@ -174,13 +177,14 @@ const Addcommondity = () => {
                     <Divider />
 
                     <div className="add-actions">
-                        <Button className="save-btn" variant="contained" onClick={handleSumbitCommondy}>
-                            Lưu lại
+                        <Button onClick={handleSumbitCommondy}>
+                            <BtnSave />
                         </Button>
-
-                        <Button className="back-btn" variant="contained" href="/commodity">
-                            Quay lại
-                        </Button>
+                        <Link to="/commodity">
+                            <Button>
+                                <BtnCloseAnimation />
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

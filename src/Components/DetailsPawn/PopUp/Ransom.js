@@ -7,9 +7,11 @@ import API from '../../../API.js';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
 import CurrencyFormat from 'react-currency-format';
-import BtnSubmit from '../../btnSubmit/BtnSubmit';
+import BtnSubmit from '../../ButtonUI/btnSubmit/BtnSubmit';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 
-const Ransom = ({ showContractId, contract }) => {
+const Ransom = ({ showContractId, contract, showdetailContract, setshowdetailContract }) => {
     // Function active button (Button Deatail Contract)
     const Item = styled(Box)(({ theme }) => ({
         padding: theme.spacing(1),
@@ -217,7 +219,13 @@ const Ransom = ({ showContractId, contract }) => {
                         <Grid item xs={12}>
                             {/* {packageInt >= 7 && totalRecived == totalProfit / 2 &&  */}
                             <Button onClick={handleSubmit}>
-                                <BtnSubmit />
+                                <BtnSave />
+                            </Button>
+                            <Button>
+                                <BtnCloseAnimation
+                                    showdetailContract={showdetailContract}
+                                    setshowdetailContract={setshowdetailContract}
+                                />
                             </Button>
                             {/* // )} */}
                         </Grid>

@@ -10,7 +10,9 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import { Divider } from '@mui/material';
 import API from '../../../API';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 
 const EditWarehouse = () => {
     const params = useParams();
@@ -133,13 +135,15 @@ const EditWarehouse = () => {
                     <Divider />
 
                     <div className="add-actions">
-                        <Button className="save-btn" variant="contained" onClick={handleSubmitEdit}>
-                            Lưu lại
+                        <Button onClick={handleSubmitEdit}>
+                            <BtnSave />
                         </Button>
 
-                        <Button className="back-btn" variant="contained" href="/warehouse">
-                            Quay lại
-                        </Button>
+                        <Link to="/warehouse">
+                            <Button>
+                                <BtnCloseAnimation />
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

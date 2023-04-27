@@ -8,8 +8,9 @@ import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../../helpers/AuthContext';
 
 function DetailsReport({ value }) {
-    const { authState } = useContext(AuthContext);
     const currentYear = new Date().getFullYear();
+    const { authState } = useContext(AuthContext);
+
     // setValue(currentYear);
     const param = useParams();
     // Them dark mod
@@ -33,6 +34,15 @@ function DetailsReport({ value }) {
             setDetail(res.data);
         });
     }, [authState.branchId]);
+    // useEffect(() => {
+    //     const branchId = authState.branchId;
+    //     API({
+    //         method: 'get',
+    //         url: `/branch/getDetailById/${branchId}`,
+    //     }).then((res) => {
+    //         setDetail(res.data);
+    //     });
+    // }, [authState.branchId]);
 
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
@@ -45,7 +55,7 @@ function DetailsReport({ value }) {
                     {/* Thông tin chi tiết cầm đồ */}
                     <Grid item xs={6}>
                         <Item className="item-detail">
-                            <div className="information chill-4">
+                            <div className="information chill-1">
                                 Thông tin hợp đồng cầm đồ năm {value == null ? currentYear : value}
                             </div>
                             <div className="text">
@@ -69,7 +79,7 @@ function DetailsReport({ value }) {
                     {/* Thông tin hợp đồng cầm đồ */}
                     <Grid item xs={6}>
                         <Item className="item-detail">
-                            <div className="information chill-4">Tổng hợp thông tin cầm đồ</div>
+                            <div className="information chill-2">Tổng hợp thông tin cầm đồ</div>
                             <div className="text">
                                 <p>Lợi nhuận</p>
                                 <p>Tiền cho vay</p>

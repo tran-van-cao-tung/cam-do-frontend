@@ -6,31 +6,34 @@ import Grid from '@mui/material/Grid';
 import moment from 'moment';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import callAPI from '../../../API';
+import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import { Button } from '@mui/material';
 
-const Liquidation = ({ setShowliquidation}) => {
-  const [contractDetail, setContractDetail] = useState([]);
-  useEffect(() => {
-      callAPI({
-          method: 'get',
-          url: `/contract/getContractDetail/` + localStorage.getItem("PawnDetailID"),
-      }).then((res) => {
-          setContractDetail(res.data);
-          console.log(res.data);
-      });
-  }, []);
+const Liquidation = ({ showliquidation, setShowliquidation }) => {
+    const [contractDetail, setContractDetail] = useState([]);
+    useEffect(() => {
+        callAPI({
+            method: 'get',
+            url: `/contract/getContractDetail/` + localStorage.getItem('PawnDetailID'),
+        }).then((res) => {
+            setContractDetail(res.data);
+            console.log(res.data);
+        });
+    }, []);
 
-  const formatMoney = (value) => {
-      return value.toLocaleString('vi-VN') + ' VNĐ';
-  };
+    const formatMoney = (value) => {
+        return value.toLocaleString('vi-VN') + ' VNĐ';
+    };
 
-  return (
-    <div className="add-contract" onClick={() => setShowliquidation(false)}>
-      <div className="content-contract" onClick={(e) => e.stopPropagation()}>
-        {/* Tiêu đề */}
-        <div className="heading-contract">
-          <h1>Thanh lý đồ</h1>
-        </div>
-        <div className="contents">
+    return (
+        <div className="add-contract" onClick={() => setShowliquidation(false)}>
+            <div className="content-contract" onClick={(e) => e.stopPropagation()}>
+                {/* Tiêu đề */}
+                <div className="heading-contract">
+                    <h1>Thanh lý đồ</h1>
+                </div>
+                <div className="contents">
                     <div className="box__liquidation">
                         <div className="full_detailContract">
                             <table className="table__detailContract">
@@ -80,14 +83,18 @@ const Liquidation = ({ setShowliquidation}) => {
                                 <tr>
                                     <th>Tiền lãi đã đóng</th>
                                     <th className="start-red" style={{ textAlign: 'right' }}>
-                                        {contractDetail.interestPaid ? formatMoney(contractDetail.interestPaid) : '0 VNĐ'}
+                                        {contractDetail.interestPaid
+                                            ? formatMoney(contractDetail.interestPaid)
+                                            : '0 VNĐ'}
                                     </th>
                                 </tr>
                                 <tr>
                                     <th>Nợ lãi cũ:</th>
                                     <th style={{ textAlign: 'right' }}>
                                         <span className="start-red">
-                                            {contractDetail.interestDebt ? formatMoney(contractDetail.interestDebt) : ''}
+                                            {contractDetail.interestDebt
+                                                ? formatMoney(contractDetail.interestDebt)
+                                                : ''}
                                         </span>
                                     </th>
                                 </tr>
@@ -129,43 +136,49 @@ const Liquidation = ({ setShowliquidation}) => {
                                 </tr>
                             </table>
                         </div>
-                      
                     </div>
                 </div>
-        <div className="info__asset">
-          <div className="asset">
-            <div className="w30 text__right">
-              <p><b>Loại tài sản:</b></p>
-              <p>
-                <b>Tên tài sản <span className="start-red">*</span>:</b>
-              </p>
+                <div className="info__asset">
+                    <div className="asset">
+                        <div className="w30 text__right">
+                            <p>
+                                <b>Loại tài sản:</b>
+                            </p>
+                            <p>
+                                <b>
+                                    Tên tài sản <span className="start-red">*</span>:
+                                </b>
+                            </p>
 
-              <p>
-                <b>Số tiền thanh lý<span className="start-red">*</span>:</b>
-              </p>
-              
+                            <p>
+                                <b>
+                                    Số tiền thanh lý<span className="start-red">*</span>:
+                                </b>
+                            </p>
 
-              <b>Ngày thanh lý:</b>
+                            <b>Ngày thanh lý:</b>
+                        </div>
+                        <div className="w30">
+                            <p>Xe máy</p>
+                            <p>Xe AB</p>
+                            <div className="box__input">
+                                <input type="number" placeholder="0" />
+                                <span>VNĐ</span>
+                            </div>
+
+                            <p className="line__height">01/01/2022</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="btn__group btn__group-liquidation">
+                    <Button>
+                        <BtnSave />
+                    </Button>
+                    <BtnCloseAnimation showliquidation={showliquidation} setShowliquidation={setShowliquidation} />
+                </div>
             </div>
-            <div className="w30">
-              <p>Xe máy</p>
-              <p>Xe AB</p>
-              <div className="box__input">
-                <input type="number" placeholder="0" />
-                <span>VNĐ</span>
-              </div>
-
-              <p className="line__height">01/01/2022</p>
-            </div>
-          </div>
         </div>
-        <div className="btn__group btn__group-liquidation">
-          <button className="btn btn__save">Thanh lý</button>
-          <button className="btn btn__close">Đóng</button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Liquidation;
