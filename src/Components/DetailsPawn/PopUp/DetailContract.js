@@ -27,7 +27,7 @@ const DetailContract = ({ setshowdetailContract, showContractId }) => {
         });
     }, [showContractId]);
 
-    console.log(contractDetail);
+    console.log('contract id:', contractDetail);
     const [detailPawn, setDetailPawn] = useState([]);
     useEffect(() => {
         const id = contractDetail.contractId;
