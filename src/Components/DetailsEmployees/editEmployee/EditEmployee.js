@@ -63,7 +63,7 @@ function EditEmployee() {
                     Swal.fire({
                         text: `Mật khẩu không trùng khớp!`,
                         icon: 'warning',
-                    }).then((result) => {});
+                    }).then((result) => { });
                     return;
                 }
                 data.status = parseInt(listEmployees.status);
@@ -76,7 +76,7 @@ function EditEmployee() {
                     Swal.fire({
                         text: `Chỉnh sửa thành công!`,
                         icon: 'success',
-                    }).then((result) => {});
+                    }).then((result) => { });
                 });
             })
             .catch((error) => {
@@ -84,7 +84,7 @@ function EditEmployee() {
                 Swal.fire({
                     text: `${errorMessages}`,
                     icon: 'warning',
-                }).then((result) => {});
+                }).then((result) => { });
             });
     };
 
@@ -257,6 +257,20 @@ function EditEmployee() {
                                 onChange={(e) => handleInput(e)}
                                 value={listEmployees.phone}
                             />
+                        </div>
+                        <div className="employee_search employee_style-search">
+                            <div className="employee_search-check employee_style-check">
+                                <span className="employee_search-heading">
+                                    Tình trạng<span>*</span>:
+                                </span>
+                                <input type="radio" name="status" value="1" onChange={handleInput} checked = {listEmployees.status == 1 ? true : false } />
+                                {/* <input type="radio" name='status' onChange={(e) => handleInput(e)} value={1} /> */}
+                                <label className="check2">Đang làm việc</label>
+                                <input type="radio" name="status" value="2" 
+                                onChange={handleInput}checked = {listEmployees.status == 2 ? true : false } />
+                                {/* <input type="radio" name='status' onChange={(e) => handleInput(e)} value="2" /> */}
+                                <label className="check3">Tạm khóa</label>
+                            </div>
                         </div>
                         <div className="employee-btn">
                             <div className="employee_btn-group">

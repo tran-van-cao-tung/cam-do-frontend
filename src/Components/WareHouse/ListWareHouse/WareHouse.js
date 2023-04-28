@@ -26,7 +26,7 @@ const WareHouse = () => {
             url: '/warehouse/GetAll/0',
         }).then((res) => {
             setListWarehouse(res.data);
-            // console.log('aaaaa', res.data);
+             console.log('aaaaa', res.data);
         });
     }, []);
     // ==================================
@@ -79,10 +79,10 @@ const WareHouse = () => {
                                         </td>
                                         <td>{i.warehouseAddress}</td>
                                         <td>
-                                            {i.status === 1 ? (
-                                                <div className="MuiTableBody_root-status">Đang hoạt động</div>
+                                            {i.status === 0 ? (
+                                                <div className="MuiTableBody_root-status activity" >Đang hoạt động</div>
                                             ) : (
-                                                <div className="MuiTableBody_root-status activity">Đã tạm dừng</div>
+                                                <div className="MuiTableBody_root-status">Đã tạm dừng</div>
                                             )}
                                         </td>
                                         <td>

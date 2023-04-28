@@ -13,68 +13,52 @@ import API from '../../../API';
 import { Link, useParams } from 'react-router-dom';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import Swal from 'sweetalert2';
 
 const EditWarehouse = () => {
     const params = useParams();
-
+    const [item, setItem] = useState([]);
     // Axios
     useEffect(() => {
         async function callAPI() {
             await API({
                 method: 'get',
-                url: `/warehouse/GetAllDetail/${params.id},1`,
+                url: `/warehouse/GetAllDetail/${params.id},0`,
             }).then((res) => {
                 setItem(res.data);
-                console.log(res.data);
                 // console.log('aaaaa', res.data);
             });
         }
         callAPI();
     }, []);
 
-    const [item, setItem] = useState([]);
 
-    // console.log('aaaaaaaaaaaaaaaaaaaaaaa', item);
 
     const handleSubmitEdit = () => {
+        const data = {
+            warehouseId: parseInt(params.id),
+            warehouseName: item.warehouseName,
+            warehouseAddress: item.warehouseAddress,
+            status: item.status,
+            contractAssets: []
+        }
         API({
             method: 'put',
             url: `/warehouse/updateWareHouse/`,
-            data: {
-                warehouseId: params.id,
-                warehouseName: item.branchName,
-                warehouseAddress: item.address,
-                status: item.status,
-            },
+            data: data,
         })
             .then((res) => {
-                console.log('Success Full');
-                alert('Lưu Thành Công');
+                Swal.fire({
+                    text: `Cập nhật thành công`,
+                    icon: 'success',
+                }).then((result) => { });
             })
-            .catch((err) => console.log(err));
     };
 
     const handleOnChangeName = (e) => {
-        /* setName(e.target.value); */
         setItem({ ...item, [e.target.name]: e.target.value });
-        // console.log(name);
     };
-    /* const handleOnChangePhone = (e) => {
-        setPhone(e.target.value);
-        // console.log(phone);
-    };
-    const handleOnChangeAddress = (e) => {
-        setAddress(e.target.value);
-        // console.log(address);
-    };
-    const handleOnChangeFund = (e) => {
-        setFund(JSON.parse(e.target.value));
-        // console.log(fund);
-    };
-    const handleOnChangeStatus = (e) => {
-        setStatus(e.target.value);
-        // console.log(status);
-    }; */
+
 
     return (
         <>
@@ -87,11 +71,11 @@ const EditWarehouse = () => {
                                 Tên kho&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
                             <InputBase
-                                value={item.branchName}
+                                value={item.warehouseName}
                                 placeholder="Nhập tên cửa hàng"
                                 inputProps={{ 'aria-label': 'search' }}
                                 className="add-input"
-                                name="branchName"
+                                name="warehouseName"
                                 onChange={handleOnChangeName}
                             />
                         </FormControl>
@@ -101,11 +85,11 @@ const EditWarehouse = () => {
                                 Địa chỉ&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
                             <InputBase
-                                value={item.address}
+                                value={item.warehouseAddress}
                                 placeholder="Nhập địa chỉ"
                                 inputProps={{ 'aria-label': 'search' }}
                                 className="add-input"
-                                name="address"
+                                name="warehouseAddress"
                                 onChange={handleOnChangeName}
                             />
                         </FormControl>
@@ -114,7 +98,7 @@ const EditWarehouse = () => {
                             <FormLabel className="label">
                                 Tình trạng&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
-                            <RadioGroup row name="status" defaultValue={0}>
+                            <RadioGroup row name="status" value={item.status ? item.status : 0} onChange={handleOnChangeName} >
                                 <FormControlLabel
                                     value="0"
                                     control={<Radio />}
