@@ -6,7 +6,7 @@ import { UploadDropzone } from 'react-uploader';
 import Swal from 'sweetalert2';
 const Certificate = ({ showContractId }) => {
     // Function active button (Button Deatail Contract)
-    const uploader = Uploader({ apiKey: 'public_FW25bDE3z6GM9yWkBESNoAkzEgWY' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 

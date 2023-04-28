@@ -122,7 +122,7 @@ function PayInterest({ showContractId }) {
 
     //Upload img
 
-    const uploader = Uploader({ apiKey: 'public_FW25bDE3z6GM9yWkBESNoAkzEgWY' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 

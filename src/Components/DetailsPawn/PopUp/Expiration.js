@@ -13,7 +13,7 @@ import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimatio
 function Expiration({ setShowExpiration, showContractId, showExpiration }) {
     const history = useNavigate();
 
-    const uploader = Uploader({ apiKey: 'public_FW25bDE3z6GM9yWkBESNoAkzEgWY' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 
