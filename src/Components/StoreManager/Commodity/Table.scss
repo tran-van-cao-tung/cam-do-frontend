@@ -1,12 +1,12 @@
 // Default options for table style
 $table-breakpoint: 480px;
 $table-background-color: #FFF;
-$table-text-color: #024457;
-$table-outer-border: 1px solid #167F92;
-$table-cell-border: 1px solid #D9E4E6;
+$table-text-color: #024557ba;
+$table-outer-border: 1px solid #168092d6;
+$table-cell-border: 1px solid #d9e4e6c6;
 // Extra options for table style (parse these arguments when including your mixin)
 $table-border-radius: 10px;
-$table-highlight-color: #EAF3F3;
+$table-highlight-color: #f3f0ea;
 $table-header-background-color: #ffb800;
 $table-header-text-color: black;
 $table-header-border: 1px solid #FFF;

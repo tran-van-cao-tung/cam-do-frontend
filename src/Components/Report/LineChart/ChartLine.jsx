@@ -28,12 +28,15 @@ function ChartLine({ value, setYear }) {
                 label: '',
                 data: [],
                 // backgroundColor: () => {},
+                //     const ctx = canvas.getContext('2d');
+                //     let gradient = ctx.createLinearGradient(0, 0, 0, 150);
+                //     gradient.addColorStop(0, 'rgba(0, 124, 194, 0.1)');
+                //     gradient.addColorStop(0.5, 'rgba(0, 124, 194, 0.3)');
+                //     gradient.addColorStop(1, 'rgba(0, 124, 194, 0.7)');
+                // },
                 borderColor: '',
                 tension: 0.6,
                 fill: true,
-                pointStyle: 'star',
-                pointBorderColor: 'blue',
-                pointBackgroundColor: '#fff',
             },
         ],
     });
@@ -48,7 +51,7 @@ function ChartLine({ value, setYear }) {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         };
         fetch(
-            `https://tranvancaotung1-001-site1.htempurl.com/api/v1/ledger/getbyBranchId/1/${
+            `https://tranvancaotung1-001-site1.htempurl.com/api/v1/ledger/getbyBranchId/2/${
                 value == null ? currentYear : value
             }`,
             { headers },
