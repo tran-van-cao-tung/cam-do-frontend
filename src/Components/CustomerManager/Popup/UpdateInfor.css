@@ -4,36 +4,65 @@ html {
 }
 
 .infoCustomer {
+    position: relative;
     margin-top: 20px;
+    height: 60vh;
 }
 
 .userInfo {
-    display: flex;
-    justify-content: center;
+    /* display: flex; */
     margin-bottom: 10px;
-    align-content: center;
 }
 
 .userInfoLabel {
-    display: grid;
-    grid-gap: 20px;
-    text-align: right;
-    padding-right: 30px;
-    line-height: 50px;
-    width: 40%;
-    font-size: 20px;
+    float: left;
+    padding-right: 15px;
+    width: 30%;
 }
 
 .userInfoInput {
-    display: grid;
-    grid-gap: 20px;
-    width: 40%;
+    width: 70%;
+    padding-left: 15px;
 }
 
-.userInfoInput>input {
-    width: 80%;
+.userInfoLabel,
+.userInfoInput {
+    display: grid;
+    grid-gap: 10px;
+    gap: 15px;
+    font-size: 24px;
+}
+
+.userInfoInput img {
+    width: 50%;
+    height: 200px
+}
+
+.userInfoLabel p,
+.userInfoInput p {
+    padding-left: 10px;
+}
+
+.userInfoLabel input,
+.userInfoInput input {
+    width: 90%;
+    /* border-radius: 10px; */
+    /* border: none; */
+    text-align: center;
+    padding: 4px 10px;
+    font-size: 24px;
+    /* box-shadow: 3px 3px 5px 2px rgba(151, 151, 151, 0.485); */
+}
+
+
+/* .userInfoInput>input {
+    width: 100%;
     font-size: 20px;
     line-height: 37px;
+} */
+
+.chungtuTitle {
+    float: left;
 }
 
 .chungtu {
@@ -49,8 +78,23 @@ html {
     border: none;
 }
 
+.imgCCCD {
+    gap: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .starRed {
     color: red;
+}
+
+.creditContainer {
+    display: flex;
+}
+
+.creditContainer p {
+    width: 38%;
 }
 
 .creditPointUser {
@@ -77,6 +121,14 @@ html {
 .chungtu button:hover {
     /* background-color: gray; */
     opacity: 0.5;
+}
+
+.statusContainer {
+    display: flex;
+}
+
+.statusContainer p {
+    width: 38%;
 }
 
 .radioStatus {
@@ -108,9 +160,11 @@ html {
 }
 
 .comfirmBtn {
-    margin-top: 50px;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    margin: 0 auto;
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 

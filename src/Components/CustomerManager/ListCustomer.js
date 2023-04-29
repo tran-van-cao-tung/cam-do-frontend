@@ -76,48 +76,54 @@ function ListCustomer({ numPage }) {
                 {/* ================================ */}
                 {/* =            Table Show        = */}
                 {/* ================================ */}
-                <div className="tableReport">
-                    <table className="responstable">
-                        <tr>
-                            <th>STT</th>
-                            <th>
-                                <span>Cửa hàng</span>
-                            </th>
-                            <th>Họ và tên</th>
-                            <th>CMND/CCCD</th>
-                            <th>Số điện thoại</th>
-                            <th>Địa chỉ</th>
-                            <th>Ngày tạo</th>
-                            <th>Hạng TD</th>
-                            <th>Chức năng</th>
-                        </tr>
-                        {currentCustomers.map((customer) => (
-                            <tr key={customer.id}>
-                                <td>{customer.numerical}</td>
-                                <td>{customer.nameBranch}</td>
-                                <td>{customer.fullName}</td>
-                                <td>{customer.cccd}</td>
-                                <td>{customer.phone}</td>
-                                <td>{customer.address}</td>
-                                <td>{moment(customer.createdDate).format('DD/MM/YYYY')}</td>
-                                <td>{customer.point}</td>
-                                <td>
-                                    <Link to={`/customer-manager/updateinfo/`}>
-                                        <img
-                                            src={edit}
-                                            alt="Edit"
-                                            onClick={() => {
-                                                sessionStorage.setItem('num', customer.cccd);
-                                            }}
-                                        />
-                                    </Link>
-                                </td>
+
+                <div className="tableContainer">
+                    <div
+                        className="tableReport"
+                        style={{ overflowX: 'scroll', minWidth: '500px', borderRadius: '10px' }}
+                    >
+                        <table className="responstable" style={{ width: '110%' }}>
+                            <tr>
+                                <th>STT</th>
+                                <th>
+                                    <span>Cửa hàng</span>
+                                </th>
+                                <th>Họ và tên</th>
+                                <th>CMND/CCCD</th>
+                                <th>Số điện thoại</th>
+                                <th style={{ width: '23%' }}>Địa chỉ</th>
+                                <th>Ngày tạo</th>
+                                <th>Hạng TD</th>
+                                <th>Chức năng</th>
                             </tr>
-                        ))}
-                    </table>
-                    {/* ================================ */}
-                    {/* =            Phân Trang        = */}
-                    {/* ================================ */}
+                            {currentCustomers.map((customer) => (
+                                <tr key={customer.id}>
+                                    <td>{customer.numerical}</td>
+                                    <td>{customer.nameBranch}</td>
+                                    <td>{customer.fullName}</td>
+                                    <td>{customer.cccd}</td>
+                                    <td>{customer.phone}</td>
+                                    <td>{customer.address}</td>
+                                    <td>{moment(customer.createdDate).format('DD/MM/YYYY')}</td>
+                                    <td>{customer.point}</td>
+                                    <td>
+                                        <Link to={`/customer-manager/updateinfo/`}>
+                                            <img
+                                                src={edit}
+                                                alt="Edit"
+                                                onClick={() => {
+                                                    sessionStorage.setItem('num', customer.cccd);
+                                                }}
+                                            />
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </table>
+                        {/* ================================ */}
+                        {/* =            Phân Trang        = */}
+                        {/* ================================ */}
+                    </div>
                 </div>
             </div>
             <ReactPaginate

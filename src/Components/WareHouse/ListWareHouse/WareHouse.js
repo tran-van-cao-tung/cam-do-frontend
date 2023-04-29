@@ -26,7 +26,7 @@ const WareHouse = () => {
             url: '/warehouse/GetAll/0',
         }).then((res) => {
             setListWarehouse(res.data);
-             console.log('aaaaa', res.data);
+            console.log('aaaaa', res.data);
         });
     }, []);
     // ==================================
@@ -60,41 +60,45 @@ const WareHouse = () => {
                         {/* ================================ */}
                         {/* =            Table Show        = */}
                         {/* ================================ */}
-                        <div className="tableWareHouse">
-                            <table className="responstable">
-                                <tr>
-                                    <th>STT</th>
-                                    <th data-th="Driver details">
-                                        <span>Tên kho</span>
-                                    </th>
-                                    <th>Địa chỉ</th>
-                                    <th>Tình trạng</th>
-                                    <th>Chức năng</th>
-                                </tr>
-                                {currentWarehouses.map((i) => (
-                                    <tr key={i.warehouseId}>
-                                        <td>{i.warehouseId}</td>
-                                        <td>
-                                            <Link to={`/viewproduct/${i.warehouseId}`}>{i.warehouseName}</Link>
-                                        </td>
-                                        <td>{i.warehouseAddress}</td>
-                                        <td>
-                                            {i.status === 0 ? (
-                                                <div className="MuiTableBody_root-status activity" >Đang hoạt động</div>
-                                            ) : (
-                                                <div className="MuiTableBody_root-status">Đã tạm dừng</div>
-                                            )}
-                                        </td>
-                                        <td>
-                                            <div className="MuiTableBody_root-itemLast">
-                                                <Link to={`/editwarehouse/edit/${i.warehouseId}`}>
-                                                    <img src={editIcon} alt="Edit" />
-                                                </Link>
-                                            </div>
-                                        </td>
+                        <div className="tableContainer">
+                            <div className="tableWareHouse">
+                                <table className="responstable" style={{ borderRadius: '10px' }}>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th data-th="Driver details">
+                                            <span>Tên kho</span>
+                                        </th>
+                                        <th>Địa chỉ</th>
+                                        <th>Tình trạng</th>
+                                        <th>Chức năng</th>
                                     </tr>
-                                ))}
-                            </table>
+                                    {currentWarehouses.map((i) => (
+                                        <tr key={i.warehouseId}>
+                                            <td>{i.warehouseId}</td>
+                                            <td>
+                                                <Link to={`/viewproduct/${i.warehouseId}`}>{i.warehouseName}</Link>
+                                            </td>
+                                            <td>{i.warehouseAddress}</td>
+                                            <td>
+                                                {i.status === 0 ? (
+                                                    <div className="MuiTableBody_root-status activity">
+                                                        Đang hoạt động
+                                                    </div>
+                                                ) : (
+                                                    <div className="MuiTableBody_root-status">Đã tạm dừng</div>
+                                                )}
+                                            </td>
+                                            <td>
+                                                <div className="MuiTableBody_root-itemLast">
+                                                    <Link to={`/editwarehouse/edit/${i.warehouseId}`}>
+                                                        <img src={editIcon} alt="Edit" />
+                                                    </Link>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

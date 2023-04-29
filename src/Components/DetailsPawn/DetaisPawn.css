@@ -149,10 +149,67 @@
     padding: 10px 0 9px 5px;
 }
 
-div[title='Đang Cầm'] {
+.statusDangCam {
     border: 1px solid rgb(0, 166, 0);
     color: rgb(0, 166, 0);
 }
+
+.statusTreHen {
+    border: 1px solid rgb(83, 83, 255);
+    color: rgb(83, 83, 255);
+}
+
+.statusThanhLy {
+    border: 1px solid rgb(255, 255, 106);
+    color: rgb(255, 255, 106);
+}
+
+.statusDaDong {
+    border: 1px solid rgb(255, 100, 100);
+    color: rgb(255, 100, 100);
+}
+
+.statusDangCam,
+.statusTreHen,
+.statusThanhLy,
+.statusDaDong {
+    border-radius: 7px;
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 5px;
+    width: 100%;
+}
+
+.paginatePawns {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 40px;
+    list-style: none;
+}
+
+.paginatePawns a {
+    padding: 15px;
+    /* background-color: white; */
+    /* border: 1px solid orange; */
+}
+
+.paginatePawns .active {
+    color: orange;
+    background-color: white;
+    border: 2px solid orange;
+}
+
+
+/* 
+div[title='Đang Cầm'] {}
 
 div[title='Trễ Hẹn'] {
     border: 1px solid rgb(83, 83, 255);
@@ -166,10 +223,16 @@ div[title='Thanh Lý'] {
 
 div[title='Đã Đóng'] {
     /* border: 1px solid rgb(255, 100, 100); */
-    border: 1px solid rgb(255, 100, 100);
-    color: rgb(255, 100, 100);
-}
 
+
+/* border: 1px solid rgb(255,
+100,
+100);
+color: rgb(255,
+100,
+100);
+
+}
 div[title='Trễ Hẹn'],
 div[title='Thanh Lý'],
 div[title='Đang Cầm'],
@@ -181,9 +244,9 @@ div[title='Đã Đóng'] {
     font-size: 15px;
     padding: 5px;
     width: 100%;
-}
+} */
 
-
+*/
 /* ======================================================================= */
 
 

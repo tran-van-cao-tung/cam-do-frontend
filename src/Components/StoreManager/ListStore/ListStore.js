@@ -115,50 +115,54 @@ const ListStore = () => {
                     {/* ================================ */}
                     {/* =            Table Show        = */}
                     {/* ================================ */}
-                    <div className="tableStore">
-                        <table className="responstable">
-                            <tr>
-                                <th>STT</th>
-                                <th data-th="Driver details">
-                                    <span>Cửa hàng</span>
-                                </th>
-                                <th>Địa chỉ</th>
-                                <th>Số điện thoại</th>
-                                <th>Vốn đầu tư</th>
-                                <th>Ngày tạo</th>
-                                <th>Tình trạng</th>
-                                <th>Chức năng</th>
-                            </tr>
-                            {currentPageData.map((item, index) => (
-                                <tr key={index.branchId}>
-                                    <td>{index + 1}</td>
-                                    <td>{item.branchName}</td>
-                                    <td>{item.address}</td>
-                                    <td>{item.phoneNumber}</td>
-                                    <td>
-                                        {Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(item.fund)}
-                                    </td>
-                                    <td>{moment(item.createDate).format('DD/MM/YYYY')}</td>
-                                    <td>
-                                        {item.status === 1 ? (
-                                            <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                                        ) : (
-                                            <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
-                                        )}
-                                    </td>
-                                    <td>
-                                        <div className="MuiTableBody_root-itemLast">
-                                            <Link to={`/detailsStore/${item.branchId}`}>
-                                                <img src={ext} alt="..." />
-                                            </Link>
-                                            <Link to={`/editliststore/edit/${item.branchId}`}>
-                                                <img src={edit} alt="Edit" />
-                                            </Link>
-                                        </div>
-                                    </td>
+                    <div className="tableContainer">
+                        <div className="tableStore">
+                            <table className="responstable">
+                                <tr>
+                                    <th>STT</th>
+                                    <th data-th="Driver details">
+                                        <span>Cửa hàng</span>
+                                    </th>
+                                    <th>Địa chỉ</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Vốn đầu tư</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Tình trạng</th>
+                                    <th>Chức năng</th>
                                 </tr>
-                            ))}
-                        </table>
+                                {currentPageData.map((item, index) => (
+                                    <tr key={index.branchId}>
+                                        <td>{index + 1}</td>
+                                        <td>{item.branchName}</td>
+                                        <td>{item.address}</td>
+                                        <td>{item.phoneNumber}</td>
+                                        <td>
+                                            {Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(
+                                                item.fund,
+                                            )}
+                                        </td>
+                                        <td>{moment(item.createDate).format('DD/MM/YYYY')}</td>
+                                        <td>
+                                            {item.status === 1 ? (
+                                                <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                            ) : (
+                                                <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
+                                            )}
+                                        </td>
+                                        <td>
+                                            <div className="MuiTableBody_root-itemLast">
+                                                <Link to={`/detailsStore/${item.branchId}`}>
+                                                    <img src={ext} alt="..." />
+                                                </Link>
+                                                <Link to={`/editliststore/edit/${item.branchId}`}>
+                                                    <img src={edit} alt="Edit" />
+                                                </Link>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </table>
+                        </div>
                     </div>
                     {/* ================================ */}
                     {/* =            Phân Trang        = */}
