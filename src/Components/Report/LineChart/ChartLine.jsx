@@ -20,6 +20,12 @@ ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale
 
 function ChartLine({ value, setYear }) {
     const currentYear = new Date().getFullYear();
+    const [authState, setAuthState] = useState({
+        userName: '',
+        userId: '',
+        branchId: 1,
+        status: false,
+    });
     const [dateYearReport, setDateYearReport] = useState([]);
     const [data, setData] = useState({
         labels: [],
@@ -51,7 +57,7 @@ function ChartLine({ value, setYear }) {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         };
         fetch(
-            `https://tranvancaotung1-001-site1.htempurl.com/api/v1/ledger/getbyBranchId/2/${
+            `https://tranvancaotung1-001-site1.htempurl.com/api/v1/ledger/getbyBranchId/1/${
                 value == null ? currentYear : value
             }`,
             { headers },
@@ -72,47 +78,92 @@ function ChartLine({ value, setYear }) {
                     console.log('date year', dateYear);
                 });
                 setYear(dateYear);
-                setData({
-                    labels: dateMonth,
-                    datasets: [
-                        {
-                            label: 'Doanh Thu',
-                            data: arrRevenue,
-                            borderColor: 'orange',
-                            backgroundColor: 'rgba(250, 160, 95, 0)',
-                            tension: 0.6,
-                            fill: true,
-                            pointStyle: 'star',
-                            pointBorderColor: 'blue',
-                            pointBackgroundColor: '#fff',
-                            showLine: true,
-                            drawBorder: false,
-                        },
-                        {
-                            label: 'Lợi Nhuận',
-                            data: arrProfit,
-                            backgroundColor: 'rgba(250, 160, 95, 0)',
+                // eslint-disable-next-line no-lone-blocks
+                {
+                    dateMonth.length = 1
+                        ? setData({
+                              labels: ['', ...dateMonth],
+                              datasets: [
+                                  {
+                                      label: 'Doanh Thu',
+                                      data: [0, ...arrRevenue],
+                                      borderColor: 'orange',
+                                      backgroundColor: 'rgba(250, 160, 95, 0)',
+                                      tension: 0.6,
+                                      fill: true,
+                                      pointStyle: 'star',
+                                      pointBorderColor: 'blue',
+                                      pointBackgroundColor: '#fff',
+                                      showLine: true,
+                                      drawBorder: false,
+                                  },
+                                  {
+                                      label: 'Lợi Nhuận',
+                                      data: [0, ...arrProfit],
+                                      backgroundColor: 'rgba(250, 160, 95, 0)',
 
-                            borderColor: 'green',
-                            tension: 0.6,
-                            fill: true,
-                            pointStyle: 'star',
-                            pointBorderColor: 'blue',
-                            pointBackgroundColor: '#fff',
-                        },
-                        {
-                            label: 'Tiền Cho Vay',
-                            data: arrLoan,
-                            backgroundColor: 'rgba(250, 160, 95, 0)',
-                            borderColor: 'blue',
-                            tension: 0.6,
-                            fill: true,
-                            pointStyle: 'star',
-                            pointBorderColor: 'blue',
-                            pointBackgroundColor: '#fff',
-                        },
-                    ],
-                });
+                                      borderColor: 'green',
+                                      tension: 0.6,
+                                      fill: true,
+                                      pointStyle: 'star',
+                                      pointBorderColor: 'blue',
+                                      pointBackgroundColor: '#fff',
+                                  },
+                                  {
+                                      label: 'Tiền Cho Vay',
+                                      data: [0, ...arrLoan],
+                                      backgroundColor: 'rgba(250, 160, 95, 0)',
+                                      borderColor: 'blue',
+                                      tension: 0.6,
+                                      fill: true,
+                                      pointStyle: 'star',
+                                      pointBorderColor: 'blue',
+                                      pointBackgroundColor: '#fff',
+                                  },
+                              ],
+                          })
+                        : setData({
+                              labels: dateMonth,
+                              datasets: [
+                                  {
+                                      label: 'Doanh Thu',
+                                      data: [0, ...arrRevenue],
+                                      borderColor: 'orange',
+                                      backgroundColor: 'rgba(250, 160, 95, 0)',
+                                      tension: 0.6,
+                                      fill: true,
+                                      pointStyle: 'star',
+                                      pointBorderColor: 'blue',
+                                      pointBackgroundColor: '#fff',
+                                      showLine: true,
+                                      drawBorder: false,
+                                  },
+                                  {
+                                      label: 'Lợi Nhuận',
+                                      data: arrProfit,
+                                      backgroundColor: 'rgba(250, 160, 95, 0)',
+
+                                      borderColor: 'green',
+                                      tension: 0.6,
+                                      fill: true,
+                                      pointStyle: 'star',
+                                      pointBorderColor: 'blue',
+                                      pointBackgroundColor: '#fff',
+                                  },
+                                  {
+                                      label: 'Tiền Cho Vay',
+                                      data: arrLoan,
+                                      backgroundColor: 'rgba(250, 160, 95, 0)',
+                                      borderColor: 'blue',
+                                      tension: 0.6,
+                                      fill: true,
+                                      pointStyle: 'star',
+                                      pointBorderColor: 'blue',
+                                      pointBackgroundColor: '#fff',
+                                  },
+                              ],
+                          });
+                }
             });
         // console.log('arr', arr);
     }, [value]);

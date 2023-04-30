@@ -18,7 +18,7 @@ const Package = () => {
             .then((res) => {
                 setPackageList(res.data);
             })
-            .catch((err) => console.log("Err at API package"));
+            .catch((err) => console.log('Err at API package'));
     }, []);
     // ==================================
     // |  Filter Value Radio and Search |
@@ -64,7 +64,7 @@ const Package = () => {
                 {/* ================================ */}
                 <div className="tablePackage">
                     <table className="responstable">
-                        <tr>
+                        <tr className="headerTable">
                             <th>STT</th>
                             <th>Tên gói vay</th>
                             <th data-th="Driver details">
@@ -99,7 +99,12 @@ const Package = () => {
                                 <td>{item.punishDay2}</td>
                                 <td>{item.liquitationDay}</td>
                                 <td>
-                                    <div className="MuiTableBody_root-itemLast" onClick={() => { history(`/editPackage/${item.packageId}`) }}>
+                                    <div
+                                        className="MuiTableBody_root-itemLast"
+                                        onClick={() => {
+                                            history(`/editPackage/${item.packageId}`);
+                                        }}
+                                    >
                                         <img src={edit} alt="Edit" />
                                     </div>
                                 </td>

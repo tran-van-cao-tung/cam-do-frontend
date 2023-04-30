@@ -4,8 +4,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import CreateIcon from '@mui/icons-material/Create';
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { Uploader } from 'uploader';
 import moment from 'moment';
 import { UploadDropzone } from 'react-uploader';
@@ -32,13 +32,11 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-    zIndex: "99"
+    zIndex: '99',
 };
 
-
-
 const styleModal = {
-    zIndex: "99"
+    zIndex: '99',
 };
 
 const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
@@ -88,7 +86,10 @@ export default function BasicModal({ item }) {
     const [open, setOpen] = React.useState(false);
     const [showMessage, setShowMessage] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => {setOpen(false); setShowMessage(false)};
+    const handleClose = () => {
+        setOpen(false);
+        setShowMessage(false);
+    };
     const [interestDiary, setInterestDiary] = useState({ paidMoney: '0', proofImg: [] });
 
     const [values, setValues] = React.useState({});
@@ -127,7 +128,7 @@ export default function BasicModal({ item }) {
         setListImg(newArray);
         setShowMessage(true);
     };
-    var messageImg = ''
+    var messageImg = '';
     if (showMessage) {
         messageImg = 'Thêm ảnh thành công!';
     }
@@ -135,8 +136,8 @@ export default function BasicModal({ item }) {
         setInterestDiary({ ...interestDiary, [e.target.name]: e.target.value });
         console.log('alo', interestDiary);
     };
-    const history = useNavigate()
-    const MySwal = withReactContent(Swal)
+    const history = useNavigate();
+    const MySwal = withReactContent(Swal);
     const handleSubmit = (event) => {
         event.preventDefault();
         const interestDiaryId = item.interestDiaryId;
@@ -144,10 +145,9 @@ export default function BasicModal({ item }) {
 
         if (interestDiary.paidMoney == 0 || listImg.length == 0) {
             Swal.fire({
-                text: "Bạn chưa nhập hết thông tin",
+                text: 'Bạn chưa nhập hết thông tin',
                 icon: 'warning',
-            }).then((result) => {
-            })
+            }).then((result) => {});
             return;
         }
 
@@ -170,24 +170,21 @@ export default function BasicModal({ item }) {
               }) */
             if (res.data == false) {
                 Swal.fire({
-                    text: "Tiền khách trả lớn hơn tổng tiền",
+                    text: 'Tiền khách trả lớn hơn tổng tiền',
                     icon: 'warning',
-                }).then((result) => {
-                })
+                }).then((result) => {});
             }
             if (res.data == true) {
                 Swal.fire({
-                    text: "Thêm thành công!",
+                    text: 'Thêm thành công!',
                     icon: 'success',
-                }).then((result) => {
-
-                })
-                history('/detaipawn')
+                }).then((result) => {});
+                history('/detaipawn');
             }
         });
     };
     return (
-        <div >
+        <div>
             <Button onClick={handleOpen}>
                 <CreateIcon />
             </Button>
@@ -200,7 +197,6 @@ export default function BasicModal({ item }) {
             >
                 <Box sx={style}>
                     <form onSubmit={handleSubmit}>
-
                         <Typography id="modal-modal-title" variant="h6" component="h2">
                             Upload hình ảnh chứng từ
                         </Typography>
@@ -208,25 +204,27 @@ export default function BasicModal({ item }) {
                             uploader={uploader}
                             options={uploaderOptions}
                             onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
-                            onComplete={(files) => handleImg(files)
-                            }
+                            onComplete={(files) => handleImg(files)}
                             alert={(files) => {
                                 files.map((x) => x.fileUrl).join('\n');
                             }}
                             width="1000px"
                             height="500px"
                         />
-                        <Typography id="modal-modal-title" variant="h6" component="h2" style={{ position: "absolute", top: "40%", left: "25%", color: "#45ba30" }}>
-                            <div style={{ textAlign: "center" }}>
-                                {
-                                    messageImg ?
-                                        <CheckCircleOutlineIcon
-                                            style={{ color: "#45ba30", fontSize: "47px" }}
-                                        />
-                                        : ""
-                                }
+                        <Typography
+                            id="modal-modal-title"
+                            variant="h6"
+                            component="h2"
+                            style={{ position: 'absolute', top: '40%', left: '25%', color: '#45ba30' }}
+                        >
+                            <div style={{ textAlign: 'center' }}>
+                                {messageImg ? (
+                                    <CheckCircleOutlineIcon style={{ color: '#45ba30', fontSize: '47px' }} />
+                                ) : (
+                                    ''
+                                )}
                             </div>
-                            {messageImg ? messageImg : ""}
+                            {messageImg ? messageImg : ''}
                         </Typography>
                         <Typography id="modal-modal-description" variant="h6" component="h2" sx={{ mt: 2 }}>
                             Tiền khách trả:

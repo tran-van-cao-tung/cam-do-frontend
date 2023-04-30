@@ -53,56 +53,72 @@ const UpdateInfor = () => {
                                 <p>
                                     Tên khách hàng <span class="starRed">*</span>:
                                 </p>
+                                <input type="text" placeholder="Nhập tên khách hàng..." value={customerInfo.fullName} />
                                 <p>
-                                    Số CMND/Hộ chiếu:<span class="starRed">*</span>:
+                                    Số CCCD / Hộ chiếu:<span class="starRed">*</span>:
                                 </p>
+                                <input type="text" placeholder="Nhập CMND/Hộ chiếu..." value={customerInfo.cccd} />
                                 <p>
                                     Số điện thoại <span class="starRed">*</span>:
                                 </p>
+                                <input type="text" placeholder="Nhập số điện thoại..." value={customerInfo.phone} />
                                 <p>
                                     Địa chỉ <span class="starRed">*</span>:
                                 </p>
-                                <p>
-                                    Chứng từ <span class="starRed">*</span>:
-                                </p>
-                                <p>Điểm tín dụng:</p>
-                                <p>
-                                    Tình trạng <span class="starRed">*</span>:
-                                </p>
+                                <input type="text" placeholder="Nhập địa chỉ..." value={customerInfo.address} />
                             </div>
                             <div className="userInfoInput">
-                                <input type="text" placeholder="Nhập tên khách hàng..." value={customerInfo.fullName} />
-                                <input type="text" placeholder="Nhập CMND/Hộ chiếu..." value={customerInfo.cccd} />
-                                <input type="text" placeholder="Nhập số điện thoại..." value={customerInfo.address} />
-                                <input type="text" placeholder="Nhập địa chỉ..." value={customerInfo.phone} />
-                                <div className="chungtu">
-                                    <button onClick={onHandleNewFile}>Thêm mới</button>
-                                    <a href={faceImg} target="_blank" rel="noopener noreferrer">
-                                        <img src={faceImg} width={100} height={65} />
-                                    </a>
-                                </div>
-                                <div className="creditPointUser">
-                                    <span>300</span>
-                                    <Link to="/customer-manager/updateinfo/detail-credit">
-                                        <button>Chi tiết</button>
-                                    </Link>
-                                </div>
-                                <div className="radioStatus">
-                                    <div className="radioContent ">
-                                        <input checked type="radio" name="status" value="Hoạt động" id="active" />
-                                        <label for="active" style={{ color: 'green' }}>
-                                            Hoạt động
-                                        </label>
+                                <div className="chungtuContainer">
+                                    <p className="chungtuTitle">
+                                        Hình ảnh CCCD <span class="starRed">*</span>:
+                                    </p>
+                                    <div className="chungtu">
+                                        {/* <button onClick={onHandleNewFile}>Thêm mới</button> */}
+                                        {/* <a href={faceImg} target="_blank" rel="noopener noreferrer">
+                                            <img src={faceImg} width={100} height={65} />
+                                        </a> */}
                                     </div>
+                                </div>
+                                <div className="imgCCCD">
+                                    <img
+                                        src="https://luatsux.vn/wp-content/uploads/2022/10/Can-cuoc-cong-dan-bao-lau-het-han-theo-quy-dinh-nam-2022-1-800x570.jpg"
+                                        alt=""
+                                    />
+                                    <img
+                                        src="https://luatsux.vn/wp-content/uploads/2022/10/Can-cuoc-cong-dan-bao-lau-het-han-theo-quy-dinh-nam-2022-1-800x570.jpg"
+                                        alt=""
+                                    />
+                                </div>
+                                <div className="creditContainer">
+                                    <p>Điểm tín dụng:</p>
+                                    <div className="creditPointUser">
+                                        <span>300</span>
+                                        {/* <Link to="/customer-manager/updateinfo/detail-credit">
+                                            <button>Chi tiết</button>
+                                        </Link> */}
+                                    </div>
+                                </div>
+                                <div className="statusContainer">
+                                    <p>
+                                        Tình trạng <span class="starRed">*</span>:
+                                    </p>
+                                    <div className="radioStatus">
+                                        <div className="radioContent ">
+                                            <input checked type="radio" name="status" value="Hoạt động" id="active" />
+                                            <label for="active" style={{ color: 'green' }}>
+                                                Hoạt động
+                                            </label>
+                                        </div>
 
-                                    {/* <Link to="/report-customer/update-report/ban-customer"> */}
-                                    <div className="radioContent" onClick={handleShow}>
-                                        <input type="radio" name="status" value="Cấm" id="ban" />
-                                        <label for="ban" style={{ color: 'red' }}>
-                                            Cấm
-                                        </label>
+                                        {/* <Link to="/report-customer/update-report/ban-customer"> */}
+                                        <div className="radioContent" onClick={handleShow}>
+                                            <input type="radio" name="status" value="Cấm" id="ban" />
+                                            <label for="ban" style={{ color: 'red' }}>
+                                                Cấm
+                                            </label>
+                                        </div>
+                                        {/* </Link> */}
                                     </div>
-                                    {/* </Link> */}
                                 </div>
                             </div>
                         </div>

@@ -8,11 +8,11 @@
      cursor: pointer;
      outline: none;
      border-radius: 12px;
-     border-color: #099171;
-     box-shadow: 0 0 40px 40px #099171 inset, 0 0 0 0 #099171;
+     border-color: #0dc499;
+     box-shadow: 0 0 40px 40px #0dc499 inset, 0 0 0 0 #0dc499;
      transition: all 150ms ease-in-out;
      &:hover {
-         box-shadow: 0 0 10px 0 #099171 inset, 0 0 10px 4px #099171;
-         color: #099171;
+         box-shadow: 0 0 10px 0 #0dc499 inset, 0 0 10px 4px #0dc499;
+         color: #0dc499;
      }
  }

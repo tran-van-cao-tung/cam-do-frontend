@@ -39,46 +39,40 @@ const ChainStores = () => {
     return (
         <>
             <div className="tableChainStores">
-                <TableContainer>
-                    <h1 className="heading">Tổng quát các cửa hàng</h1>
-                    <div className="transaction"></div>
-                    {/* ================================ */}
-                    {/* =            Table Show        = */}
-                    {/* ================================ */}
-                    <table className="responstable">
-                        <tr>
-                            <th style={{maxWidth:"100px"}}>Tên cửa hàng</th>
-                            <th data-th="Driver details">
-                                Vốn hiện tại
-                            </th>
-                            <th style={{minWidth:"200px"}}>Địa chỉ</th>
-                            <th>Số điện thoại</th>
-                            <th /* style={{maxWidth:"100px"}} */>Hợp đồng thanh lý</th>
-                        </tr>
-                        {currentPageData.map((currentPageData, index) => (
-                            <tr key={index}>
-                                <td align="center" style={{textAlign:"left"/* ,paddingLeft:"50px" */}}>{currentPageData.branchName}</td>
-                                <td align="center">
-                                    {formatMoney(
-                                        currentPageData.currentFund
-                                    )}
-                                </td>
-                                <td align="center">
-                                    {currentPageData.address}
-                                </td>
-                                <td align="center">
-                                    {currentPageData.phoneNumber}
-                                </td>
-                                <td align="center">
-                                    {currentPageData.liquidationContracts}
-                                </td>
+                {/* <TableContainer> */}
+                <h1 className="heading">Tổng quát các cửa hàng</h1>
+                <div className="transaction"></div>
+                {/* ================================ */}
+                {/* =            Table Show        = */}
+                {/* ================================ */}
+                <div className="tableContainer">
+                    <div className="tableChain" style={{ borderRadius: '10px' }}>
+                        <table className="responstable">
+                            <tr>
+                                <th style={{ maxWidth: '100px' }}>Tên cửa hàng</th>
+                                <th data-th="Driver details">Vốn hiện tại</th>
+                                <th style={{ minWidth: '200px' }}>Địa chỉ</th>
+                                <th>Số điện thoại</th>
+                                <th /* style={{maxWidth:"100px"}} */>Hợp đồng thanh lý</th>
                             </tr>
-                        ))}
-                    </table>
-                    {/* ================================ */}
-                    {/* =            Phân Trang        = */}
-                    {/* ================================ */}
-                </TableContainer>
+                            {currentPageData.map((currentPageData, index) => (
+                                <tr key={index}>
+                                    <td align="center" style={{ textAlign: 'center' /* ,paddingLeft:"50px" */ }}>
+                                        {currentPageData.branchName}
+                                    </td>
+                                    <td align="center">{formatMoney(currentPageData.currentFund)}</td>
+                                    <td align="center">{currentPageData.address}</td>
+                                    <td align="center">{currentPageData.phoneNumber}</td>
+                                    <td align="center">{currentPageData.liquidationContracts}</td>
+                                </tr>
+                            ))}
+                        </table>
+                    </div>
+                </div>
+                {/* ================================ */}
+                {/* =            Phân Trang        = */}
+                {/* ================================ */}
+                {/* </TableContainer> */}
             </div>
             <ReactPaginate
                 className="paginate-chainStore"

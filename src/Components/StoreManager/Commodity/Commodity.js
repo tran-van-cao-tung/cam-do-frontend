@@ -65,15 +65,11 @@ function Commodity() {
             <td>
                 <Link to={`/commodity/edit/${val.pawnableProductId}`}>{val.commodityCode}</Link>
             </td>
-            <td className="Style Frond">
+            <td style={{ fontSize: '16px' }}>
                 {val.status === 0 ? (
-                    <div className="MuiTableBody_working-status">
-                        <p>Đang hoạt động</p>
-                    </div>
+                    <div className="MuiTableBody_working-status">Đang hoạt động</div>
                 ) : (
-                    <div className="MuiTableBody_stop-status">
-                        <p>Đã tạm dừng</p>
-                    </div>
+                    <div className="MuiTableBody_stop-status">Đã tạm dừng</div>
                 )}
             </td>
         </tr>
@@ -150,22 +146,24 @@ function Commodity() {
                 {/* ================================ */}
                 {/* =            Table Show        = */}
                 {/* ================================ */}
-                <div className="tableCommodity">
-                    <table class="responstable">
-                        <tr>
-                            <th>STT</th>
-                            <th data-th="Driver details">
-                                <span>Lĩnh vực</span>
-                            </th>
-                            <th>Tên hàng hoá</th>
-                            <th>Mã</th>
-                            <th>Tình trạng</th>
-                        </tr>
-                        {displayUsers}
-                    </table>
-                    {/* ================================ */}
-                    {/* =            Phân trang        = */}
-                    {/* ================================ */}
+                <div className="tableContainer">
+                    <div className="tableCommodity" style={{ borderRadius: '10px' }}>
+                        <table class="responstable">
+                            <tr>
+                                <th>STT</th>
+                                <th data-th="Driver details">
+                                    <span>Lĩnh vực</span>
+                                </th>
+                                <th>Tên hàng hoá</th>
+                                <th>Mã</th>
+                                <th>Tình trạng</th>
+                            </tr>
+                            {displayUsers}
+                        </table>
+                        {/* ================================ */}
+                        {/* =            Phân trang        = */}
+                        {/* ================================ */}
+                    </div>
                 </div>
             </div>
             <ReactPaginate

@@ -113,7 +113,13 @@
 
 /* Table */
 
-.tablePackage {}
+.tablePackage {
+    /* padding-bottom: 5px; */
+}
+
+.headerTable {
+    font-size: 20px;
+}
 
 .MuiTable-bordered {
     border-collapse: collapse;
@@ -149,7 +155,7 @@
 }
 
 .MuiTableBody_root-status {
-    width: 136px;
+    width: 166px;
     height: 35px;
     border-radius: 10px;
     display: flex;
