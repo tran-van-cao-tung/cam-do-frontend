@@ -28,7 +28,7 @@ const AddList = () => {
 
     const handleSubmit = (e) => {
         // check điều kiện ở input
-        if (name.length > 100 || phone.length < 10 || phone.length > 11 || address.length > 200 || fundError) {
+        if (name.length > 100 || phone.length < 11 || phone.length > 12 || address.length > 200 || fundError) {
             setNotification('Bạn đang có điều kiện không đúng!');
             setTimeout(() => {
                 setNotification(null);
@@ -76,10 +76,18 @@ const AddList = () => {
         // console.log(name);
     };
 
-    const handleOnChangePhone = (e) => {
-        setPhone(e.target.value);
-        // console.log(phone);
+    const handleOnChangePhone = (event) => {
+        const inputPhone = event.target.value;
+        const formattedPhone = inputPhone
+            .replace(/\D/g, '') // loại bỏ các ký tự không phải số
+            .replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3'); // chèn dấu cách vào giữa các số
+
+        setPhone(formattedPhone);
     };
+    // const handleOnChangePhone = (e) => {
+    //     setPhone(e.target.value);
+    //     // console.log(phone);
+    // };
     const handleOnChangeAddress = (e) => {
         setAddress(e.target.value);
         // console.log(address);
@@ -147,12 +155,12 @@ const AddList = () => {
                                 placeholder="Nhập số điện thoại …"
                                 // inputProps={{ 'aria-label': 'search', maxLength: 12 }}
                                 className="add-input"
-                                type="number"
+                                type="text"
                                 value={phone}
                                 onChange={handleOnChangePhone}
                             />
-                            {phone.length < 10 ||
-                                (phone.length > 11 && (
+                            {phone.length < 11 ||
+                                (phone.length > 12 && (
                                     <div style={{ color: 'red' }}>
                                         {' '}
                                         Nhập đúng định dạng số điện thoại, 10 hoặc 11 số
