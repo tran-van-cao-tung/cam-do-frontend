@@ -92,7 +92,7 @@ const NavMenu = () => {
                 <li onClick={clickHide}>
                     <NavLink to="/" className="text-menu home">
                         {' '}
-                        <img src={menu1} className="iconMenu" />
+                        <img src={menu1} className="iconMenu" alt="..." />
                         <span>Trang chủ</span>
                     </NavLink>
                 </li>
@@ -101,7 +101,7 @@ const NavMenu = () => {
                     <li>
                         <NavLink to="/detaipawn" className="text-menu home">
                             {' '}
-                            <img src={menu2} className="iconMenu" />
+                            <img src={menu2} className="iconMenu" alt="..." />
                             <span>Cầm đồ</span>
                         </NavLink>
                     </li>
@@ -110,11 +110,14 @@ const NavMenu = () => {
                 {/* Quản lý cửa hàng */}
                 {hasPermission(PERMISSIONS['Quản Lý Cửa Hàng']) && (
                     <li>
-                        <a className="text-menu home" onClick={clickShow}>
+                        <div
+                            className="text-menu home"
+                            onClick={clickShow}
+                        >
                             {' '}
-                            <img src={menu3} className="iconMenu" />
+                            <img src={menu3} className="iconMenu" alt="..." />
                             <span>Quản lý cửa hàng</span>
-                        </a>
+                        </div>
                         {show1 && show1 ? (
                             <ul className={`submenu ${show1}`}>
                                 <li className="subtext">
@@ -152,7 +155,7 @@ const NavMenu = () => {
                     <li>
                         <NavLink to="/warehouse" className="text-menu home">
                             {' '}
-                            <img src={menu2} className="iconMenu" />
+                            <img src={menu2} className="iconMenu" alt="..." />
                             <span>Quản lý tài sản</span>
                         </NavLink>
                     </li>
@@ -161,10 +164,10 @@ const NavMenu = () => {
                 {/* Quản lý nhân viên */}
                 {hasPermission(PERMISSIONS['Quản Lý Nhân Viên']) && (
                     <li>
-                        <a className="text-menu home" onClick={clickShow1}>
-                            <img src={menu5} className="iconMenu" />
+                        <div className="text-menu home" onClick={clickShow1}>
+                            <img src={menu5} className="iconMenu" alt="..." />
                             <span>Quản lý nhân viên</span>
-                        </a>
+                        </div>
                         {show2 && (
                             <ul className={`submenu ${show1}`}>
                                 <li className="subtext">
@@ -184,7 +187,7 @@ const NavMenu = () => {
                 {hasPermission(PERMISSIONS['Quản Lý Khách Hàng']) && (
                     <li>
                         <NavLink to="/customer-manager" className="text-menu home">
-                            <img src={menu6} className="iconMenu" />
+                            <img src={menu6} className="iconMenu" alt="..." />
                             <span>Quản lý khách hàng</span>
                         </NavLink>
                     </li>
@@ -194,7 +197,7 @@ const NavMenu = () => {
                 {authState.userName === 'Admin' && (
                     <li>
                         <NavLink to="/package" className="text-menu home">
-                            <img src={menu6} className="iconMenu" />
+                            <img src={menu6} className="iconMenu" alt="..." />
                             <span>Quản lý gói vay</span>
                         </NavLink>
                     </li>
@@ -203,7 +206,7 @@ const NavMenu = () => {
                 {/* Báo cáo */}
                 <li>
                     <NavLink to="/report-years" className="text-menu home">
-                        <img src={menu7} className="iconMenu" />
+                        <img src={menu7} className="iconMenu" alt="..." />
                         <span>Báo cáo</span>
                     </NavLink>
                 </li>
