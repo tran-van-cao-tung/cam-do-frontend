@@ -17,8 +17,11 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
     useEffect(() => {
         callAPI({
             method: 'get',
-            url: `contract/getAll/0`,
+            url: `contract/getAll/0/${showContractId}`,
         }).then((res) => {
+            console.log("-------------------------------------------");
+            console.log(res);
+            console.log("-------------------------------------------");
             setContractDetail(
                 res.data.filter((item, index) => {
                     return item.contractId == showContractId;
@@ -37,7 +40,7 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
         }).then((res) => {
             setDetailPawn(res.data);
         });
-    }, [contractDetail.contractId]);
+    }, [contractDetail?.contractId]);
 
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';

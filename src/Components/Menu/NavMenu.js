@@ -6,34 +6,25 @@ import menu3 from '../../asset/img/menu3.png';
 import menu5 from '../../asset/img/menu5.png';
 import menu6 from '../../asset/img/menu6.png';
 import menu7 from '../../asset/img/menu7.png';
-import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md';
 import API from '../../API';
 import { AiOutlineAlignRight } from 'react-icons/ai';
 import { AuthContext } from '../../helpers/AuthContext';
+import { isAvailableArray } from '../../helpers/utils';
+
+export const PERMISSIONS = {
+    "Cầm Đồ": 1,
+    "Quản Lý Cửa Hàng": 2,
+    "Quản Lý Kho": 3,
+    "Quản Lý Nhân Viên": 4,
+    "Quản Lý Khách Hàng": 5
+}
+
 const NavMenu = () => {
-    const { authState } = useContext(AuthContext);
+    const { authState, setPermissions, permissions } = useContext(AuthContext);
 
     const [show1, setShow1] = useState(JSON.parse(localStorage.getItem('show1')) || false);
     const [show2, setShow2] = useState(JSON.parse(localStorage.getItem('show2')) || false);
     const [show3, setShow3] = useState(JSON.parse(localStorage.getItem('show3')) || false);
-
-    function getPermission() {
-        console.log('check permission after login');
-        // setEmployeeList(e.target.value);
-        API({
-            method: 'post',
-            url: '/permission/showpermission',
-            data: {
-                userId: authState.userId,
-                nameUser: 'string',
-            },
-        }).then((res) => {
-            for (let i = 0; i < 5; i++) {
-                sessionStorage.setItem('permis ' + i, res.data[i].status);
-                console.log('user permis:', res.data[i].status);
-            }
-        });
-    }
 
     const clickShow = () => {
         setShow1(!show1);
@@ -65,8 +56,32 @@ const NavMenu = () => {
             window.location.reload(false);
         }
     }, []);
+
+    useEffect(() => {
+        console.log('check permission after login');
+        if (authState?.userId) {
+            API({
+                method: 'post',
+                url: '/permission/showpermission',
+                data: {
+                    userId: authState.userId,
+                    nameUser: 'string',
+                },
+            }).then((res) => {
+                const permissions = isAvailableArray(res.data) ? res.data : [];
+                setPermissions(permissions);
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [authState?.userId]);
+
+    const hasPermission = (id) => {
+        const permission = permissions.find(item => item.permissionId === id);
+        return permission?.status === true;
+    }
+
     return (
-        <div className="menu-conten" onLoad={getPermission}>
+        <div className="menu-conten">
             <div className="logos">
                 <p className="logo">
                     P<span style={{ color: 'orange' }}>awnS</span>
@@ -82,7 +97,7 @@ const NavMenu = () => {
                     </NavLink>
                 </li>
                 {/* Cầm đồ */}
-                {(sessionStorage.getItem('permis 0') === 'true' || authState.userName === 'Admin') && (
+                {hasPermission(PERMISSIONS['Cầm Đồ']) && (
                     <li>
                         <NavLink to="/detaipawn" className="text-menu home">
                             {' '}
@@ -93,7 +108,7 @@ const NavMenu = () => {
                 )}
 
                 {/* Quản lý cửa hàng */}
-                {(sessionStorage.getItem('permis 1') === 'true' || authState.userName === 'Admin') && (
+                {hasPermission(PERMISSIONS['Quản Lý Cửa Hàng']) && (
                     <li>
                         <a className="text-menu home" onClick={clickShow}>
                             {' '}
@@ -133,7 +148,7 @@ const NavMenu = () => {
                 )}
 
                 {/* Quản lý kho */}
-                {(sessionStorage.getItem('permis 2') === 'true' || authState.userName === 'Admin') && (
+                {hasPermission(PERMISSIONS['Quản Lý Kho']) && (
                     <li>
                         <NavLink to="/warehouse" className="text-menu home">
                             {' '}
@@ -144,7 +159,7 @@ const NavMenu = () => {
                 )}
 
                 {/* Quản lý nhân viên */}
-                {(sessionStorage.getItem('permis 3') === 'true' || authState.userName === 'Admin') && (
+                {hasPermission(PERMISSIONS['Quản Lý Nhân Viên']) && (
                     <li>
                         <a className="text-menu home" onClick={clickShow1}>
                             <img src={menu5} className="iconMenu" />
@@ -166,7 +181,7 @@ const NavMenu = () => {
                 )}
 
                 {/* Quản lý khách hàng */}
-                {(sessionStorage.getItem('permis 4') === 'true' || authState.userName === 'Admin') && (
+                {hasPermission(PERMISSIONS['Quản Lý Khách Hàng']) && (
                     <li>
                         <NavLink to="/customer-manager" className="text-menu home">
                             <img src={menu6} className="iconMenu" />
@@ -174,8 +189,9 @@ const NavMenu = () => {
                         </NavLink>
                     </li>
                 )}
+
                 {/* Quản lý gói vay */}
-                {(sessionStorage.getItem('permis 5') === 'true' || authState.userName === 'Admin') && (
+                {authState.userName === 'Admin' && (
                     <li>
                         <NavLink to="/package" className="text-menu home">
                             <img src={menu6} className="iconMenu" />

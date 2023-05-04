@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Button, Grid, Paper } from '@mui/material';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
@@ -12,11 +12,14 @@ import './authemployee.css';
 import API from '../../../API';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import { AuthContext } from '../../../helpers/AuthContext';
 function AuthEmployee() {
     const history = useNavigate();
     const [employeeList, setEmployeeList] = useState([]);
     const [employeePermission, setEmployeePermission] = useState([]);
     const [value, setValue] = useState();
+
+    const { permissions } = useContext(AuthContext);
 
     const updateValue = ({ target }) => {
         setValue(target.value);
@@ -129,6 +132,7 @@ function AuthEmployee() {
             status: localStorage.getItem('permis 4'),
         },
     ];
+
     function savePermission() {
         API({
             method: 'put',
@@ -418,7 +422,8 @@ function AuthEmployee() {
                     </div>
                     <div className="employee_btn-group" style={{ marginLeft: '10%' }}>
                         <div className="employee_btn-group">
-                            <Button type="submit">
+                            {/**Todo: add action here */}
+                            <Button type="submit" onClick={savePermission}>
                                 <BtnSave />
                             </Button>
                             <Button>
