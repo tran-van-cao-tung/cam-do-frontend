@@ -1,95 +1,90 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import './home.css';
 import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
 import API from '../../API';
 import { AuthContext } from '../../helpers/AuthContext';
-import { Pagination, PaginationItem, Stack } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Pagination, Stack } from '@mui/material';
+import { formatDate, formatMoney, formatTime } from '../../helpers/dateTimeUtils';
+import { isAvailableArray } from '../../helpers/utils';
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: '22px 0 22px 27px',
+    borderRadius: '10px',
+    color: theme.palette.text.secondary,
+}));
+
+const DEFAULT = {
+    pageNumber: 1,
+    pageSize: 6,
+    totalPage: 1
+}
 
 const Home = () => {
     const history = useNavigate();
-    const { authState } = useContext(AuthContext);
+
+    const [homePage, setHomePage] = useState();
+    const { token, authState } = useContext(AuthContext);
+
+
+    // State
+    const [logContract, setLogContract] = useState([]);
+    const [page, setPage] = useState(DEFAULT.pageNumber);
+    const [pageSize] = useState(DEFAULT.pageSize);
+
+    // Memorize
+    const totalPage = useMemo(() => {
+        const result = Math.ceil(logContract.length / pageSize);
+        return result;
+    }, [logContract?.length, pageSize]);
+
+    const renderedData = useMemo(() => {
+        if (!isAvailableArray(logContract)) return [];
+
+        const start = (page - 1) * 6;
+        const end = page * 6;
+        return logContract.slice(start, end);
+    }, [logContract, page]);
+
+
     useEffect(() => {
-        if (!localStorage.getItem('accessToken')) {
+        if (!token && !localStorage.getItem('accessToken')) {
             history('/login');
         } else {
             console.log('Login with token');
         }
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [token]);
 
-    // useEffect(() => {
-    //     const shouldReload = !localStorage.getItem('pageLoaded');
-    //     if (shouldReload) {
-    //         localStorage.setItem('pageLoaded', 'true');
-    //         window.location.reload(false);
-    //     }
-    // }, []);
-
-
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: '22px 0 22px 27px',
-        borderRadius: '10px',
-        color: theme.palette.text.secondary,
-    }));
-
-    const [logContract, setLogContract] = useState([]);
-    /*  useEffect(() => {
-         API({
-             method: 'get',
-             url: `/logContract/all/2`,
-         }).then((res) => {
-             setLogContract(res.data);
-         });
-     }, [authState.branchId]);
-     console.log(logContract); */
-
-
-
-    const [homePage, setHomePage] = useState();
     useEffect(() => {
-        API({
-            method: 'get',
-            url: `/contract/homepage/${authState.branchId}`,
-        }).then((res) => {
-            setHomePage(res.data);
-            console.log(res.data);
-        });
+        if (authState?.branchId) {
+            API({
+                method: 'get',
+                url: `/contract/homepage/${authState.branchId}`,
+            }).then((res) => {
+                setHomePage(res.data);
+            });
+        }
     }, [authState.branchId]);
 
-
     //Ép kiểu dữ liệu date
-    const formatDate = (value) => {
-        return moment(value).format('DD/MM/YYYY');
-    };
 
-    const formatTime = (value) => {
-        return moment(value).format('HH:mm');
-    };
-
-    const formatMoney = (value) => {
-        return value.toLocaleString('vi-VN') + ' VNĐ';
-    };
-
-    const [page, setPage] = useState(1);
     const handlePagination = (e, value) => {
         setPage(value);
-        console.log(value);
     }
 
     useEffect(() => {
+        //Get all log contract
+
         API({
             method: 'get',
-            url: `/logContract/all/${page}`,
+            url: `/logContract/all/0`,
         }).then((res) => {
             setLogContract(res.data);
-            console.log(res.data);
         });
     }, [page])
 
@@ -128,7 +123,7 @@ const Home = () => {
                                 <h1>Giao dịch trong tháng</h1>
                             </div>
                             <div className="content">
-                                {logContract.map((item, index) => {
+                                {renderedData.map((item, index) => {
                                     return (
                                         <div key={index} className="detai-content">
                                             <div className="timme">
@@ -163,7 +158,13 @@ const Home = () => {
                             </div>
                             <div >
                                 <Stack spacing={2} >
-                                    <Pagination style={{ margin: "0 auto" }} count={logContract.length > 0 ? logContract.length : 0} page={page} onChange={handlePagination} color="primary" />
+                                    <Pagination
+                                        style={{ margin: "0 auto" }}
+                                        count={totalPage}
+                                        page={page}
+                                        onChange={handlePagination}
+                                        color="primary"
+                                    />
                                 </Stack>
                             </div>
                         </Item>
