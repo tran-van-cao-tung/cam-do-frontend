@@ -22,7 +22,7 @@ const ChainStores = () => {
     // |            Phân Trang        |
     // ==================================
     const [currentPage, setCurrentPage] = useState('');
-    const storesPerPage = 6; // số lượng cửa hàng hiển thị trên mỗi trang
+    const storesPerPage = 9; // số lượng cửa hàng hiển thị trên mỗi trang
     const totalPages = Math.ceil(chainstores.length / storesPerPage); // tính toán số lượng trang
     const startIndex = currentPage * storesPerPage;
     const endIndex = startIndex + storesPerPage;
@@ -40,7 +40,7 @@ const ChainStores = () => {
         <>
             <div className="tableChainStores">
                 {/* <TableContainer> */}
-                <h1 className="heading">Tổng quát các cửa hàng</h1>
+                <h1 id="heading">Tổng quát các cửa hàng</h1>
                 <div className="transaction"></div>
                 {/* ================================ */}
                 {/* =            Table Show        = */}

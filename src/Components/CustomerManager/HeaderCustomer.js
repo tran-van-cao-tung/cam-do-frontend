@@ -7,7 +7,7 @@ import ListCustomer from './ListCustomer';
 const HeaderCustomer = () => {
     return (
         <div className="headerCustomer">
-            <h1 className="headerCustomerName">Quản Lý Khách Hàng</h1>
+            <h1 id="heading">Quản Lý Khách Hàng</h1>
             <div>
                 {/* <Grid container spacing={2}>
           <Grid item xs={12}> */}

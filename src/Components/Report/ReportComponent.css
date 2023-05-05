@@ -70,11 +70,6 @@ th {
     margin: 5px 0;
 }
 
-th {
-    /* font-size: larger; */
-    /* background-color: rgb(172, 172, 172); */
-}
-
 .tableLosses {
     background-color: red;
     color: white;

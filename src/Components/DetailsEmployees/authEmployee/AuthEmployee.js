@@ -54,6 +54,7 @@ function AuthEmployee() {
                 console.log('employee permis:', res.data[i].status);
             }
             setPermission();
+            console.log('permisstion :', employeePermission);
         });
     }
 
@@ -400,7 +401,7 @@ function AuthEmployee() {
 
     return (
         <div className="box_employee">
-            <h1 className="employee_heading-add">Phân quyền nhân viên</h1>
+            <h1 id="heading">Phân quyền nhân viên</h1>
 
             <div className="authContainer">
                 <div className="auth_input">

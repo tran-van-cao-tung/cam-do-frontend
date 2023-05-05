@@ -48,8 +48,13 @@ html {
     margin: 0;
 }
 
-
-.swal2-container.swal2-center>.swal2-popup{
+.swal2-container.swal2-center>.swal2-popup {
     z-index: 9999;
+}
 
+#heading {
+    font-family: 'Arimo', sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    margin-bottom: 23px;
 }

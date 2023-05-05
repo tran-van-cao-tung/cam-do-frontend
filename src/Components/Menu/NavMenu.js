@@ -12,12 +12,12 @@ import { AuthContext } from '../../helpers/AuthContext';
 import { isAvailableArray } from '../../helpers/utils';
 
 export const PERMISSIONS = {
-    "Cầm Đồ": 1,
-    "Quản Lý Cửa Hàng": 2,
-    "Quản Lý Kho": 3,
-    "Quản Lý Nhân Viên": 4,
-    "Quản Lý Khách Hàng": 5
-}
+    'Cầm Đồ': 1,
+    'Quản Lý Cửa Hàng': 2,
+    'Quản Lý Kho': 3,
+    'Quản Lý Nhân Viên': 4,
+    'Quản Lý Khách Hàng': 5,
+};
 
 const NavMenu = () => {
     const { authState, setPermissions, permissions } = useContext(AuthContext);
@@ -76,9 +76,9 @@ const NavMenu = () => {
     }, [authState?.userId]);
 
     const hasPermission = (id) => {
-        const permission = permissions.find(item => item.permissionId === id);
+        const permission = permissions.find((item) => item.permissionId === id);
         return permission?.status === true;
-    }
+    };
 
     return (
         <div className="menu-conten">
@@ -110,10 +110,7 @@ const NavMenu = () => {
                 {/* Quản lý cửa hàng */}
                 {hasPermission(PERMISSIONS['Quản Lý Cửa Hàng']) && (
                     <li>
-                        <div
-                            className="text-menu home"
-                            onClick={clickShow}
-                        >
+                        <div className="text-menu home" onClick={clickShow}>
                             {' '}
                             <img src={menu3} className="iconMenu" alt="..." />
                             <span>Quản lý cửa hàng</span>

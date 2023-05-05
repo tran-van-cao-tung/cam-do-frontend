@@ -82,7 +82,7 @@ function Commodity() {
     };
     return (
         <>
-            <h1 className="listCommodity-h1">Danh sách hàng hóa</h1>
+            <h1 id="heading">Danh sách hàng hóa</h1>
             <div className="listCommodity">
                 <div className="listCommoditybody">
                     {/* Button  Add */}

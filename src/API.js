@@ -6,5 +6,4 @@ const callAPI = axios.create({
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
 });
-
 export default callAPI;

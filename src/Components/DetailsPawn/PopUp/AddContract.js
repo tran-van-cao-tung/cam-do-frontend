@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import './popup.css';
 import bike from '../../../asset/img/bike.png';
-import save from '../../../asset/img/save1.png';
-import close from '../../../asset/img/close1.png';
+// import save from '../../../asset/img/save1.png';
+// import close from '../../../asset/img/close1.png';
 import API from '../../../API';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -69,6 +69,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             console.log('thành công');
             window.location.reload(false);
         });
+        console.log(data);
     };
 
     //get dữ liệu pawnableProduct
@@ -493,7 +494,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                     <img src={save} alt="" />
                                     Lưu lại
                                 </button> */}
-                                <Button onClick={hanldeSubmit} type="submit">
+                                <Button onClick={(e) => hanldeSubmit(e)}>
                                     <BtnSave />
                                 </Button>
                                 <BtnCloseAnimation

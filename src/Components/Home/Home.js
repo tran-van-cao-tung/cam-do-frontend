@@ -30,7 +30,6 @@ const Home = () => {
     //     }
     // }, []);
 
-
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,
@@ -50,8 +49,6 @@ const Home = () => {
      }, [authState.branchId]);
      console.log(logContract); */
 
-
-
     const [homePage, setHomePage] = useState();
     useEffect(() => {
         API({
@@ -62,7 +59,6 @@ const Home = () => {
             console.log(res.data);
         });
     }, [authState.branchId]);
-
 
     //Ép kiểu dữ liệu date
     const formatDate = (value) => {
@@ -81,7 +77,7 @@ const Home = () => {
     const handlePagination = (e, value) => {
         setPage(value);
         console.log(value);
-    }
+    };
 
     useEffect(() => {
         API({
@@ -91,11 +87,11 @@ const Home = () => {
             setLogContract(res.data);
             console.log(res.data);
         });
-    }, [page])
+    }, [page]);
 
     return (
         <div className="conten">
-            <h1 className="heading">Trang chủ</h1>
+            <h1 id="heading">Trang chủ</h1>
             <div>
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
@@ -144,12 +140,12 @@ const Home = () => {
                                                         {item.eventType === 1
                                                             ? 'Tạo hợp đồng'
                                                             : item.eventType === 2
-                                                                ? 'Chưa đóng lãi'
-                                                                : item.eventType === 3
-                                                                    ? 'Đã đóng lãi'
-                                                                    : item.eventType === 4
-                                                                        ? 'Đóng hợp đồng'
-                                                                        : ''}
+                                                            ? 'Chưa đóng lãi'
+                                                            : item.eventType === 3
+                                                            ? 'Đã đóng lãi'
+                                                            : item.eventType === 4
+                                                            ? 'Đóng hợp đồng'
+                                                            : ''}
                                                         :{' '}
                                                     </b>
                                                     {item.customerName}{' '}
@@ -161,9 +157,15 @@ const Home = () => {
                                     );
                                 })}
                             </div>
-                            <div >
-                                <Stack spacing={2} >
-                                    <Pagination style={{ margin: "0 auto" }} count={logContract.length > 0 ? logContract.length : 0} page={page} onChange={handlePagination} color="primary" />
+                            <div>
+                                <Stack spacing={2}>
+                                    <Pagination
+                                        style={{ margin: '0 auto' }}
+                                        count={logContract.length > 0 ? logContract.length : 0}
+                                        page={page}
+                                        onChange={handlePagination}
+                                        color="primary"
+                                    />
                                 </Stack>
                             </div>
                         </Item>
