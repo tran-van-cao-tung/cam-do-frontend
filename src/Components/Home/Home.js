@@ -22,14 +22,13 @@ const Home = () => {
         }
     }, []);
 
-    useEffect(() => {
-        const shouldReload = !localStorage.getItem('pageLoaded');
-        if (shouldReload) {
-            localStorage.setItem('pageLoaded', 'true');
-            window.location.reload(false);
-        }
-    }, []);
-
+    // useEffect(() => {
+    //     const shouldReload = !localStorage.getItem('pageLoaded');
+    //     if (shouldReload) {
+    //         localStorage.setItem('pageLoaded', 'true');
+    //         window.location.reload(false);
+    //     }
+    // }, []);
 
 
     const Item = styled(Paper)(({ theme }) => ({
@@ -41,15 +40,15 @@ const Home = () => {
     }));
 
     const [logContract, setLogContract] = useState([]);
-   /*  useEffect(() => {
-        API({
-            method: 'get',
-            url: `/logContract/all/2`,
-        }).then((res) => {
-            setLogContract(res.data);
-        });
-    }, [authState.branchId]);
-    console.log(logContract); */
+    /*  useEffect(() => {
+         API({
+             method: 'get',
+             url: `/logContract/all/2`,
+         }).then((res) => {
+             setLogContract(res.data);
+         });
+     }, [authState.branchId]);
+     console.log(logContract); */
 
 
 
@@ -78,13 +77,13 @@ const Home = () => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
 
-    const [page,setPage] = useState(1);
-    const handlePagination = (e,value) => {
+    const [page, setPage] = useState(1);
+    const handlePagination = (e, value) => {
         setPage(value);
         console.log(value);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         API({
             method: 'get',
             url: `/logContract/all/${page}`,
@@ -92,7 +91,7 @@ const Home = () => {
             setLogContract(res.data);
             console.log(res.data);
         });
-    },[page])
+    }, [page])
 
     return (
         <div className="conten">
@@ -164,7 +163,7 @@ const Home = () => {
                             </div>
                             <div >
                                 <Stack spacing={2} >
-                                    <Pagination style={{margin:"0 auto"}} count={logContract.length > 0 ? logContract.length : 0} page={page} onChange={handlePagination} color="primary" />
+                                    <Pagination style={{ margin: "0 auto" }} count={logContract.length > 0 ? logContract.length : 0} page={page} onChange={handlePagination} color="primary" />
                                 </Stack>
                             </div>
                         </Item>

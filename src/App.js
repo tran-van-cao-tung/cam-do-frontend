@@ -25,33 +25,45 @@ function App() {
     const [authState, setAuthState] = useState({
         userName: "",
         userId: '',
-        branchId : 1,
+        branchId: 1,
         status: false,
     });
 
+    const [token, setToken] = useState(null);
+    const [permissions, setPermissions] = useState([]);
+
     useEffect(() => {
-        const data = {
-            accessToken : localStorage.getItem('accessToken'),
-        }
-        callAPI({
-            method: 'post',
-            url: `authentication/decrypttoken`,
-            data: data,
-        }).then((res) => {
-            setAuthState({
-                userName: res.data.name,
-                userId: res.data.userId,
-                branchId : res.data.branchId,
-                status: true,
+        setToken(localStorage.getItem('accessToken') ?? null);
+    }, []);
+
+    useEffect(() => {
+        console.log("Trigger get user data");
+        console.log("Token:", token);
+        if (token) {
+            const data = {
+                accessToken: token,
+            }
+            callAPI({
+                method: 'post',
+                url: `authentication/decrypttoken`,
+                data: data,
+            }).then((res) => {
+                setAuthState({
+                    userName: res.data.name,
+                    userId: res.data.userId,
+                    branchId: res.data.branchId,
+                    status: true,
+                });
+            }).catch((err) => {
+                setAuthState({ ...authState, status: false });
             });
-        }).catch((err) => {
-            setAuthState({ ...authState, status: false });
-        });
-    },[])
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [token])
 
     return (
         <div className="App">
-            <AuthContext.Provider value={{ authState, setAuthState }}>
+            <AuthContext.Provider value={{ authState, setAuthState, setToken, setPermissions, permissions }}>
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/unlogin" element={<Unlogin />} />
