@@ -1,61 +1,170 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import menu1 from '../../asset/img/menu1.png';
-import menu2 from '../../asset/img/menu2.png';
-import menu3 from '../../asset/img/menu3.png';
-import menu5 from '../../asset/img/menu5.png';
-import menu6 from '../../asset/img/menu6.png';
-import menu7 from '../../asset/img/menu7.png';
-import API from '../../API';
-import { AiOutlineAlignRight } from 'react-icons/ai';
-import { AuthContext } from '../../helpers/AuthContext';
-import { isAvailableArray } from '../../helpers/utils';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export const PERMISSIONS = {
-    'Cầm Đồ': 1,
-    'Quản Lý Cửa Hàng': 2,
-    'Quản Lý Kho': 3,
-    'Quản Lý Nhân Viên': 4,
-    'Quản Lý Khách Hàng': 5,
-};
+import API from '../../API';
+
+import { AuthContext } from '../../helpers/AuthContext';
+import { isAvailableArray, lowercaseText } from '../../helpers/utils';
+import { PERMISSIONS } from '../../setting/permission';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+//mui
+import { styled } from '@mui/material/styles';
+import MuiDrawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+
+import { Collapse } from '@mui/material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+
+const drawerWidth = 300;
+const openedMixin = (theme) => ({
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: 'hidden',
+});
+
+const closedMixin = (theme) => ({
+    transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: `calc(${theme.spacing(7)} + 1px)`,
+    [theme.breakpoints.up('sm')]: {
+        width: `calc(${theme.spacing(8)} + 1px)`,
+    },
+});
+
+const sidebarMenu = [
+    {
+        key: 'overview',
+        icon: <DashboardIcon />,
+        label: 'Tổng quan',
+        to: '/',
+    },
+    {
+        key: 'pawns',
+        icon: <DashboardIcon />,
+        label: 'Cầm Đồ',
+        to: '/detaipawn',
+        permission: PERMISSIONS['Cầm Đồ'],
+    },
+    {
+        key: 'storeManager',
+        icon: <DashboardIcon />,
+        label: 'Quản lý cửa hàng',
+
+        permission: PERMISSIONS['Quản Lý Cửa Hàng'],
+        children: [
+            {
+                key: 'storeManager_stores',
+                icon: <DashboardIcon />,
+                label: 'Danh sách cửa hàng',
+                to: '/chainstores',
+            },
+            {
+                key: 'storeManager_assetCategory',
+                icon: <DashboardIcon />,
+                label: 'Cấu hình loại tài sản',
+                to: '/liststore',
+            },
+        ],
+    },
+    {
+        key: 'assetManager',
+        icon: <DashboardIcon />,
+        label: 'Quản lý tài sản',
+        to: '/commodity',
+        // to: '/warehouse',
+        permission: PERMISSIONS['Quản Lý Kho'],
+    },
+    {
+        key: 'emloyeeManager',
+        icon: <DashboardIcon />,
+        label: 'Quản lý nhân viên',
+        permission: PERMISSIONS['Quản Lý Nhân Viên'],
+        children: [
+            {
+                key: 'emloyeeManager_emloyees',
+                icon: <DashboardIcon />,
+                label: 'Danh sách nhân viên',
+                to: '/listemployees',
+            },
+            {
+                key: 'emloyeeManager_permission',
+                icon: <DashboardIcon />,
+                label: 'Phân quyền nhân viên',
+                to: '/authorization',
+            },
+        ],
+    },
+    {
+        key: 'customerManager',
+        icon: <DashboardIcon />,
+        label: 'Quản lý khách hàng',
+        // to: '/package',
+        to: '/customer-manager',
+        permission: PERMISSIONS['Quản Lý Khách Hàng'],
+    },
+    {
+        key: 'report',
+        icon: <DashboardIcon />,
+        label: 'Báo cáo',
+        to: '/report-years',
+    },
+];
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+}));
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    ...(open && {
+        ...openedMixin(theme),
+        '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+        ...closedMixin(theme),
+        '& .MuiDrawer-paper': closedMixin(theme),
+    }),
+}));
 
 const NavMenu = () => {
     const { authState, setPermissions, permissions } = useContext(AuthContext);
+    const navigate = useNavigate();
 
-    const [show1, setShow1] = useState(JSON.parse(localStorage.getItem('show1')) || false);
-    const [show2, setShow2] = useState(JSON.parse(localStorage.getItem('show2')) || false);
-    const [show3, setShow3] = useState(JSON.parse(localStorage.getItem('show3')) || false);
+    const [collapsMap, setCollapsMap] = useState(() => {
+        const map = {};
+        sidebarMenu.forEach((item) => {
+            if (isAvailableArray(item.children)) {
+                map[item.key] = false;
+            }
+        });
+        return map;
+    });
 
-    const clickShow = () => {
-        setShow1(!show1);
+    const handleToggerMenu = (key) => {
+        setCollapsMap((prev) => ({
+            ...prev,
+            [key]: !prev[key],
+        }));
     };
-    const clickShow1 = () => {
-        setShow2(!show2);
-    };
-    const clickShow2 = () => {
-        setShow3(!show3);
-    };
-
-    useEffect(() => {
-        localStorage.setItem('show1', JSON.stringify(show1));
-        localStorage.setItem('show2', JSON.stringify(show2));
-        localStorage.setItem('show3', JSON.stringify(show3));
-    }, [show1, show2, show3]);
-    const clickHide = () => {
-        localStorage.setItem('show1', JSON.stringify(false));
-        localStorage.setItem('show2', JSON.stringify(false));
-        localStorage.setItem('show3', JSON.stringify(false));
-        setShow1(false);
-        setShow2(false);
-        setShow3(false);
-    };
-    useEffect(() => {
-        const shouldReload = !localStorage.getItem('pageLoaded');
-        if (shouldReload) {
-            localStorage.setItem('pageLoaded', 'true');
-            window.location.reload(false);
-        }
-    }, []);
 
     useEffect(() => {
         console.log('check permission after login');
@@ -76,138 +185,110 @@ const NavMenu = () => {
     }, [authState?.userId]);
 
     const hasPermission = (id) => {
+        if (lowercaseText(authState.userName) === 'admin') {
+            return true;
+        }
+
         const permission = permissions.find((item) => item.permissionId === id);
         return permission?.status === true;
     };
 
+    const renderExpandIcon = (item) => (collapsMap[item.key] ? <ExpandLess /> : <ExpandMore />);
+
     return (
-        <div className="menu-conten">
-            <div className="logos">
-                <p className="logo">
-                    P<span style={{ color: 'orange' }}>awnS</span>
-                </p>
-                <AiOutlineAlignRight className="ouline" />
-            </div>
-            <ul className="menu-text">
-                <li onClick={clickHide}>
-                    <NavLink to="/" className="text-menu home">
-                        {' '}
-                        <img src={menu1} className="iconMenu" alt="..." />
-                        <span>Trang chủ</span>
-                    </NavLink>
-                </li>
-                {/* Cầm đồ */}
-                {hasPermission(PERMISSIONS['Cầm Đồ']) && (
-                    <li>
-                        <NavLink to="/detaipawn" className="text-menu home">
-                            {' '}
-                            <img src={menu2} className="iconMenu" alt="..." />
-                            <span>Cầm đồ</span>
-                        </NavLink>
-                    </li>
-                )}
-
-                {/* Quản lý cửa hàng */}
-                {hasPermission(PERMISSIONS['Quản Lý Cửa Hàng']) && (
-                    <li>
-                        <div className="text-menu home" onClick={clickShow}>
-                            {' '}
-                            <img src={menu3} className="iconMenu" alt="..." />
-                            <span>Quản lý cửa hàng</span>
-                        </div>
-                        {show1 && show1 ? (
-                            <ul className={`submenu ${show1}`}>
-                                <li className="subtext">
-                                    <NavLink to="/chainstores">&#128900; Chuỗi cửa hàng</NavLink>
-                                </li>
-                                {/* <li className="subtext">
-                                    <NavLink to="/detailsStore" className="subtext">
-                                        &#128900; Chi tiết cửa hàng
-                                    </NavLink>
-                                </li> */}
-                                <li className="subtext">
-                                    <NavLink to="/liststore" className="subtext">
-                                        &#128900; Danh sách cửa hàng
-                                    </NavLink>
-                                </li>
-                                <li className="subtext">
-                                    <NavLink to="/commodity" className="subtext">
-                                        &#128900; Cấu hình hàng hóa
-                                    </NavLink>
-                                </li>
-                                {/* <li className="subtext">
-                                    <NavLink to="/money" className="subtext">
-                                        &#128900; Nhập quỹ tiền mặt
-                                    </NavLink>
-                                </li> */}
-                            </ul>
-                        ) : (
-                            <></>
-                        )}
-                    </li>
-                )}
-
-                {/* Quản lý kho */}
-                {hasPermission(PERMISSIONS['Quản Lý Kho']) && (
-                    <li>
-                        <NavLink to="/warehouse" className="text-menu home">
-                            {' '}
-                            <img src={menu2} className="iconMenu" alt="..." />
-                            <span>Quản lý tài sản</span>
-                        </NavLink>
-                    </li>
-                )}
-
-                {/* Quản lý nhân viên */}
-                {hasPermission(PERMISSIONS['Quản Lý Nhân Viên']) && (
-                    <li>
-                        <div className="text-menu home" onClick={clickShow1}>
-                            <img src={menu5} className="iconMenu" alt="..." />
-                            <span>Quản lý nhân viên</span>
-                        </div>
-                        {show2 && (
-                            <ul className={`submenu ${show1}`}>
-                                <li className="subtext">
-                                    <NavLink to="/listemployees">&#128900; Danh sách nhân viên</NavLink>
-                                </li>
-                                <li className="subtext">
-                                    <NavLink to="/authorization" className="subtext">
-                                        &#128900; Phân quyền nhân viên
-                                    </NavLink>
-                                </li>
-                            </ul>
-                        )}
-                    </li>
-                )}
-
-                {/* Quản lý khách hàng */}
-                {hasPermission(PERMISSIONS['Quản Lý Khách Hàng']) && (
-                    <li>
-                        <NavLink to="/customer-manager" className="text-menu home">
-                            <img src={menu6} className="iconMenu" alt="..." />
-                            <span>Quản lý khách hàng</span>
-                        </NavLink>
-                    </li>
-                )}
-
-                {/* Quản lý gói vay */}
-                {authState.userName === 'Admin' && (
-                    <li>
-                        <NavLink to="/package" className="text-menu home">
-                            <img src={menu6} className="iconMenu" alt="..." />
-                            <span>Quản lý gói vay</span>
-                        </NavLink>
-                    </li>
-                )}
-
-                {/* Báo cáo */}
-                <li>
-                    <NavLink to="/report-years" className="text-menu home">
-                        <img src={menu7} className="iconMenu" alt="..." />
-                        <span>Báo cáo</span>
-                    </NavLink>
-                </li>
-            </ul>
+        <div>
+            <Drawer variant="permanent" open={true}>
+                <DrawerHeader>
+                    <div className="logos">
+                        <p className="logo">
+                            P<span style={{ color: 'orange' }}>awnS</span>
+                        </p>
+                    </div>
+                </DrawerHeader>
+                <Divider />
+                <List>
+                    {sidebarMenu.map((item, index) =>
+                        !hasPermission(item.permission) ? null : (
+                            <Fragment key={item.key}>
+                                <ListItem
+                                    key={item.key}
+                                    disablePadding
+                                    sx={{ display: 'block' }}
+                                    onClick={() => {
+                                        if (item.to) {
+                                            navigate(item.to);
+                                            return;
+                                        }
+                                        handleToggerMenu(item.key);
+                                    }}
+                                >
+                                    <ListItemButton
+                                        sx={{
+                                            minHeight: 48,
+                                            justifyContent: 1 ? 'initial' : 'center',
+                                            px: 2.5,
+                                        }}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 0,
+                                                mr: 1 ? 3 : 'auto',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                            {item.icon}
+                                        </ListItemIcon>
+                                        <ListItemText primary={item.label} sx={{ opacity: 1 ? 1 : 0 }} />
+                                        {isAvailableArray(item.children) ? renderExpandIcon(item) : null}
+                                    </ListItemButton>
+                                </ListItem>
+                                {isAvailableArray(item.children) ? (
+                                    <Collapse in={collapsMap[item.key]} timeout="auto" unmountOnExit>
+                                        <List
+                                            component="div"
+                                            disablePadding
+                                            sx={{
+                                                paddingLeft: '24px',
+                                            }}
+                                        >
+                                            {item.children.map((item) => (
+                                                <ListItem
+                                                    key={item.key}
+                                                    disablePadding
+                                                    sx={{ display: 'block' }}
+                                                    onClick={() => navigate(item.to)}
+                                                >
+                                                    <ListItemButton
+                                                        sx={{
+                                                            minHeight: 48,
+                                                            justifyContent: 1 ? 'initial' : 'center',
+                                                            px: 2.5,
+                                                        }}
+                                                    >
+                                                        <ListItemIcon
+                                                            sx={{
+                                                                minWidth: 0,
+                                                                mr: 1 ? 3 : 'auto',
+                                                                justifyContent: 'center',
+                                                            }}
+                                                        >
+                                                            {item.icon}
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            primary={item.label}
+                                                            sx={{ opacity: 1 ? 1 : 0 }}
+                                                        />
+                                                    </ListItemButton>
+                                                </ListItem>
+                                            ))}
+                                        </List>
+                                    </Collapse>
+                                ) : null}
+                            </Fragment>
+                        ),
+                    )}
+                </List>
+            </Drawer>
         </div>
     );
 };
