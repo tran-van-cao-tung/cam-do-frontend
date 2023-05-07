@@ -11,7 +11,6 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AiOutlineSearch } from 'react-icons/ai';
 import API from '../../API';
 import moment from 'moment/moment';
-// import { Link } from "react-router-dom";
 
 const TableReport = ({ setShowUpdateContract }) => {
     const [list, setList] = useState([]);

@@ -51,7 +51,7 @@ const Home = () => {
 
     useEffect(() => {
         if (!token && !localStorage.getItem('accessToken')) {
-            history('/login');
+            history('/auth/login');
         } else {
             console.log('Login with token');
         }
@@ -85,6 +85,8 @@ const Home = () => {
             setLogContract(res.data);
         });
     }, [page]);
+
+    console.log('login succes');
 
     return (
         <div className="conten">

@@ -1,32 +1,45 @@
-import React from 'react';
-import Menu from '../Menu/Menu';
-import NavMenu from './../Menu/NavMenu';
+import React, { useState } from 'react';
+import NavBar from '../Menu/NavBar';
+import SideBar from './../Menu/SideBar';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+
 import './layoutDefault.css';
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+}));
+
 const LayoutDefault = ({ children }) => {
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        height: '100%',
-        color: theme.palette.text.secondary,
-        borderRadius: 0,
-        boxShadow: 'none',
-    }));
+    const [openSideBar, setOpenSideBar] = useState(true);
+
+    const handleToggleSideBar = () => {
+        setOpenSideBar((prev) => !prev);
+    };
+
     return (
-        <div className="containerLayout">
-            <div className="leftContainer">
-                <div className="layout">
-                    <NavMenu />
-                </div>
-            </div>
-            <div className="rightContainer">
-                <Menu />
-                <div className="containers">{children}</div>
-            </div>
-        </div>
+        <Box sx={{ display: 'flex', position: 'relative' }}>
+            <SideBar open={openSideBar} />
+
+            <Box
+                className="childrenContent"
+                sx={{ display: 'flex', position: 'relative', flexGrow: 1, overflow: 'hidden' }}
+            >
+                <NavBar onClickMenuIcon={handleToggleSideBar} />
+                <Box component="main" sx={{ flexGrow: 1 }}>
+                    <DrawerHeader />
+                    <Box component="div" sx={{ overflow: 'auto' }}>
+                        {children}
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
     );
 };
 
