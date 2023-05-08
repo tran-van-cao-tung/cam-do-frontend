@@ -57,7 +57,7 @@ const Asset = ({ showContractId }) => {
     console.log('logAsset:', logAsset);
     return (
         <div className="contents">
-            <h2> Lịch sử đóng tiền lãi</h2>
+            <h2> Lịch sử tài sản</h2>
             <TableContainer>
                 <Table
                     sx={{ minWidth: '700px', '&:last-child td, &:last-child ': { border: 0 } }}

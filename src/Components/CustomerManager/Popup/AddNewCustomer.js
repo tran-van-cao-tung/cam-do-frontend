@@ -31,8 +31,11 @@ const AddNewCustomer = () => {
     };
 
     // API upload img
-    function uploadCusImg(customerImg) {
-        setFaceImg(customerImg);
+    function uploadFrontImg(frontImg) {
+        setFrontImg(frontImg);
+    }
+    function uploadBackImg(backImg) {
+        setBackImg(backImg);
     }
 
     const onAddNewCustomer = () => {
@@ -45,8 +48,8 @@ const AddNewCustomer = () => {
                 cccd: cccd,
                 phone: phone,
                 address: address,
-                identityCardFronting: 'string',
-                identityCardBacking: 'string',
+                identityCardFronting: frontImg,
+                identityCardBacking: backImg,
                 faceImg: faceImg,
                 status: 1,
                 point: 50,
@@ -65,6 +68,9 @@ const AddNewCustomer = () => {
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [faceImg, setFaceImg] = useState('');
+    const [frontImg, setFrontImg] = useState('');
+    const [backImg, setBackImg] = useState('');
+
 
     const handleName = (e) => {
         setName(e.target.value);
@@ -101,7 +107,7 @@ const AddNewCustomer = () => {
                                         Địa chỉ <span class="starRed">*</span>:
                                     </p>
                                     <p>
-                                        Chứng từ <span class="starRed">*</span>:
+                                        CMND/CCCD <span class="starRed">*</span>:
                                     </p>
                                 </div>
                                 <div className="userInfoInput">
@@ -133,9 +139,16 @@ const AddNewCustomer = () => {
                                         <UploadButton
                                             uploader={uploader}
                                             options={{ multi: true }}
-                                            onComplete={(files) => uploadCusImg(files.map((x) => x.fileUrl).join('\n'))}
+                                            onComplete={(files) => uploadFrontImg(files.map((x) => x.fileUrl).join('\n'))}
                                         >
-                                            {({ onClick }) => <button onClick={onClick}>Upload a file...</button>}
+                                            {({ onClick }) => <button onClick={onClick}>Upload Mặt Trước...</button>}
+                                        </UploadButton>
+                                        <UploadButton
+                                            uploader={uploader}
+                                            options={{ multi: true }}
+                                            onComplete={(files) => uploadBackImg(files.map((x) => x.fileUrl).join('\n'))}
+                                        >
+                                            {({ onClick }) => <button onClick={onClick}>Upload Mặt Sau...</button>}
                                         </UploadButton>
                                     </div>
                                 </div>

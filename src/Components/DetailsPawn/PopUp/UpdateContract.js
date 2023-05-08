@@ -282,52 +282,44 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                             <div className="box__user">
                                 <Box sx={{ flexGrow: 1 }}>
                                     <Grid container spacing={2}>
+                                    <Grid container spacing={2}>
                                         <Grid item xs={12} md={6}>
                                             <div className="user__info">
                                                 <div className="user__info-label">
-                                                    {/* <p>
-                            Số seri <span class="start-red">*</span>:
-                          </p> */}
                                                     {attributes
                                                         ? attributes.map((item, index) => {
                                                             return (
                                                                 <p key={index}>
                                                                     {item.description}{' '}
-                                                                    <span class="start-red">*</span>:
                                                                 </p>
                                                             );
                                                         })
                                                         : ''}
-                                                    <p>
-                                                        Hình ảnh <span class="start-red">*</span>:
-                                                    </p>
+
                                                 </div>
                                                 <div className="user__info-input">
-                                                    {/* <input type="text" name="name" placeholder="Nhập tên khách hàng" value={seri[0] ? seri[0].attributes.length : ""} /> */}
-                                                    {attributes
+                                                {attributes
                                                         ? attributeInfo.map((item, index) => {
                                                             return <p>{item}</p>;
                                                         })
                                                         : ''}
-                                                    <div>{/* <img src="" alt="img"/> */}</div>
                                                 </div>
                                             </div>
                                         </Grid>
                                         <Grid item xs={12} md={6}>
-                                            <div className="btn__group">
-                                                {/* <button className="btn btn__save" type="submit" onClick={saveContract}>
-                                                    <img src={save} alt="" />
-                                                    Lưu lại
-                                                </button> */}
+                                            <div className="user__info-label">
+                                                <p>
+                                                    Hình ảnh: 
 
-                                                <Button type="submit" onClick={saveContract}>
-                                                    <BtnSave />
-                                                </Button>
-                                                <Button variant="outlined" color="error" size="medium">
-  Error
-</Button>
+                                                </p>
+                                            </div>
+                                            <div>
+                                                        <a href={detailContract.assetImg} target="_blank" rel="noopener noreferrer">
+                                                            <img src={detailContract.assetImg} alt="" style={{ width: '400px', height: '300px' }} />
+                                                        </a>
                                             </div>
                                         </Grid>
+                                    </Grid>
                                     </Grid>
                                 </Box>
                             </div>

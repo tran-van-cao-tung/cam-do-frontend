@@ -10,9 +10,7 @@ import {
     TableRow,
     imageListItemBarClasses,
 } from '@mui/material';
-import CreateIcon from '@mui/icons-material/Create';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+
 
 import { Uploader } from 'uploader';
 import moment from 'moment';
@@ -23,6 +21,7 @@ import BasicModal from '../../Modal/Modal';
 import { NumericFormat } from 'react-number-format';
 import SwipeableTextMobileStepper from './CarouselImg';
 import ModalImg from './ModalImg';
+import { useCallback } from 'react';
 
 const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -55,7 +54,7 @@ function PayInterest({ showContractId }) {
     const [values, setValues] = useState([]);
     const [showCheck, setShowCheck] = useState([]);
     const [interestDiary, setInterestDiary] = useState([]);
-
+    const [checkStatus, setCheckStatus] = useState(0);
     const style = {
         position: 'absolute',
         top: '50%',
@@ -68,7 +67,7 @@ function PayInterest({ showContractId }) {
         p: 4,
     };
 
-    useEffect(() => {
+    const refreshTable = useCallback(() => {
         const id = showContractId;
         console.log('dasssssssdasdasd', id);
         callAPI({
@@ -86,6 +85,23 @@ function PayInterest({ showContractId }) {
             }
             console.log('interestDiary:', interestDiary);
         });
+    }, [showContractId, check]);
+
+    useEffect(() => {
+        refreshTable();
+    }, [showContractId, check]);
+
+    //Check contract status to show tableCell
+    useEffect(() => {
+        const id = localStorage.getItem('PawnDetailID');
+        if (id) {
+            callAPI({
+                method: 'get',
+                url: `contract/getContractDetail/${id}`,
+            }).then((res) => {
+                setCheckStatus(res.data.status);
+            });
+        }
     }, [showContractId, check]);
 
     const [dis, setDis] = useState(false);
@@ -137,15 +153,6 @@ function PayInterest({ showContractId }) {
         },
     };
 
-    // Axios
-    /*     useEffect(() => {
-            API({
-                method: 'get',
-                url: 'contract/uploadContractImg/' + showContractId,
-            }).then((res) => {
-                setRansom(res.data);
-            });
-        }, []); */
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -252,7 +259,9 @@ function PayInterest({ showContractId }) {
                             <TableCell>Tiền khác</TableCell>
                             <TableCell>Tổng tiền</TableCell>
                             <TableCell>Tiền khách trả</TableCell>
+                            {(checkStatus != 4) && (
                             <TableCell>Ghi Chú</TableCell>
+                            )}
                             <TableCell>Hình ảnh</TableCell>
                         </TableRow>
                     </TableHead>
@@ -292,9 +301,11 @@ function PayInterest({ showContractId }) {
                                         <TableCell style={{ textAlign: 'center' }}>
                                             <span>{formatMoney(item.paidMoney)}</span>
                                         </TableCell>
-                                        <TableCell>
-                                            <BasicModal item={item} />
+                                        {(checkStatus != 4) && (
+                                            <TableCell>
+                                            <BasicModal item={item} refresh={refreshTable} />
                                         </TableCell>
+                                        )}
                                         <TableCell>
                                             <ModalImg item={item} />
                                         </TableCell>

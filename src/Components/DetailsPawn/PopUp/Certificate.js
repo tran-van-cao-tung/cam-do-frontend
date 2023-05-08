@@ -31,7 +31,7 @@ const Certificate = ({ showContractId }) => {
             setImg(res.data);
             // console.log('aaaaa', res.data);
         });
-    });
+    }, [showContractId]);
 
     function uploadCusImg(customerImg) {
         API({

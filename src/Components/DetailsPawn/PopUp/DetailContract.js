@@ -13,28 +13,29 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
 
     const [contractDetail, setContractDetail] = useState([]);
 
-    useEffect(() => {
-        if (showContractId) {
-            callAPI({
-                method: 'get',
-                url: `contract/getAll/0/${showContractId}`,
-            }).then((res) => {
-                console.log("-------------------------------------------");
-                console.log(res);
-                console.log("-------------------------------------------");
-                setContractDetail(
-                    res.data.filter((item, index) => {
-                        return item.contractId === showContractId;
-                    })[0],
-                );
-            });
-        }
-    }, [showContractId]);
+    // useEffect(() => {
+    //     console.log(showContractId);
+    //     if (showContractId) {
+    //         callAPI({
+    //             method: 'get',
+    //             url: `contract/getAll/0/${showContractId}`,
+    //         }).then((res) => {
+    //             console.log("-------------------------------------------");
+    //             console.log(res.data);
+    //             console.log("-------------------------------------------");
+    //             setContractDetail(
+    //                 res.data.filter((item, index) => {
+    //                     return item.contractId === showContractId;
+    //                 })[0],
+    //             );
+    //         });
+    //     }
+    // }, [showContractId]);
 
     const [detailPawn, setDetailPawn] = useState([]);
 
     useEffect(() => {
-        const id = contractDetail.contractId;
+        const id = localStorage.getItem('PawnDetailID');
         if (id) {
             callAPI({
                 method: 'get',
@@ -43,7 +44,7 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
                 setDetailPawn(res.data);
             });
         }
-    }, [contractDetail?.contractId]);
+    }, []);
 
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';

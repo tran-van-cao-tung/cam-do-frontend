@@ -58,9 +58,9 @@ function History({ showContractId }) {
                 `${params.row.eventType === 1
                     ? 'Tạo hợp đồng'
                     : params.row.eventType === 2
-                        ? 'Chưa đóng lãi'
+                        ? 'Trễ hạn đóng lãi'
                         : params.row.eventType === 3
-                            ? 'Đã đóng lãi'
+                            ? 'Đã đóng đủ lãi'
                             : params.row.eventType === 4
                                 ? 'Đóng hợp đồng'
                                 : params.row.eventType === 5 ?

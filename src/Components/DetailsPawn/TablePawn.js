@@ -4,12 +4,10 @@ import cash from '../../asset/img/cash.png';
 import wallet from '../../asset/img/wallet.png';
 import API from '../../API.js';
 import subwallet from '../../asset/img/subwallet.png';
-import note from '../../asset/img/note.png';
 import moment from 'moment';
 import { AuthContext } from '../../helpers/AuthContext';
-import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
-
+import { formatMoney } from '../../helpers/dateTimeUtils';
 const TablePawn = ({
     setShowUpdateContract,
     setShowliquidation,
@@ -33,6 +31,7 @@ const TablePawn = ({
     };
 
     const handleShowDetailContract = (id) => {
+        localStorage.setItem('PawnDetailID', id);
         setshowdetailContract(true);
         setShowContractId(id);
     };
@@ -57,10 +56,6 @@ const TablePawn = ({
     //Ép kiểu dữ liệu date
     const formatDate = (value) => {
         return moment(value).format('DD/MM/YYYY');
-    };
-
-    const formatMoney = (value) => {
-        return value.toLocaleString('vi-VN') + ' VNĐ';
     };
 
     const [currentPage, setCurrentPage] = useState(0);
@@ -187,7 +182,7 @@ const TablePawn = ({
                                     <td>{i.customerName}</td>
                                     <td>{i.commodityCode}</td>
                                     <td>{i.contractAssetName}</td>
-                                    <td>{i.loan}</td>
+                                    <td>{formatMoney(i.loan)}</td>
                                     <td>{formatDate(i.contractStartDate)}</td>
                                     <td>{formatDate(i.contractEndDate)}</td>
                                     <td>{i.warehouseName}</td>

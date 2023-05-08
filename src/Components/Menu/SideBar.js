@@ -124,6 +124,14 @@ const sidebarMenu = [
         permission: PERMISSIONS['Quản Lý Khách Hàng'],
     },
     {
+        key: 'packageManager',
+        icon: <PeopleAltIcon />,
+        label: 'Quản lý Gói Vay',
+        // to: '/package',
+        to: '/package',
+        permission: PERMISSIONS['Quản Lý Gói Vay'],
+    },
+    {
         key: 'report',
         icon: <AssessmentIcon />,
         label: 'Báo cáo',
