@@ -17,7 +17,7 @@ const TablePawn = ({
     setContract,
     rowsContract,
 }) => {
-    const { authState } = useContext(AuthContext);
+    const { authState, currentBranchId} = useContext(AuthContext);
 
     const handleShow = (id) => {
         setShowUpdateContract(true);
@@ -41,18 +41,18 @@ const TablePawn = ({
         localStorage.setItem('PawnDetailID', id);
         setShowContractId(id);
     };
-    console.log();
+    
     useEffect(() => {
-        API({
-            method: 'get',
-            url: `contract/getAll/0/${authState.branchId}`,
-        }).then((res) => {
-            console.log(res.data);
-            setContract(res.data);
-        });
-    }, [authState.branchId]);
-    console.log(rowsContract);
-
+        if(currentBranchId){
+            API({
+                method: 'get',
+                url: `contract/getAll/0/${currentBranchId}`,
+            }).then((res) => {
+                console.log(res.data);
+                setContract(res.data);
+            });
+        }
+    }, [currentBranchId]);
     //Ép kiểu dữ liệu date
     const formatDate = (value) => {
         return moment(value).format('DD/MM/YYYY');

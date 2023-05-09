@@ -36,7 +36,7 @@ const UpdateInfor = () => {
             method: 'GET',
             url: '/customer/getByCCCD/' + sessionStorage.getItem('num'),
         }).then((response) => {
-            setKyc(response.data.kycId);
+            // setKyc(response.data.kycId);
             setCustomerInfo(response.data);
             console.log('this is kyc' + response.data.kycId);
         });

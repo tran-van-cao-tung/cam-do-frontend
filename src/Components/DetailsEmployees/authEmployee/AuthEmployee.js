@@ -42,11 +42,7 @@ function AuthEmployee() {
         // setEmployeeList(e.target.value);
         API({
             method: 'post',
-            url: '/permission/showpermission',
-            data: {
-                userId: e.target.value,
-                nameUser: 'string',
-            },
+            url: '/permission/showpermission/' + e.target.value,
         }).then((res) => {
             setEmployeePermission(res.data);
             for (let i = 0; i < 5; i++) {

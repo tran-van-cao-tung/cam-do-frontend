@@ -149,7 +149,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const SideBar = ({ open }) => {
-    const { authState, setPermissions, permissions } = useContext(AuthContext);
+    const { authState, permissions } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [collapsMap, setCollapsMap] = useState(() => {
@@ -169,33 +169,13 @@ const SideBar = ({ open }) => {
         }));
     };
 
-    useEffect(() => {
-        console.log('check permission after login');
-        if (authState?.userId) {
-            API({
-                method: 'post',
-                url: '/permission/showpermission',
-                data: {
-                    userId: authState.userId,
-                    nameUser: 'string',
-                },
-            }).then((res) => {
-                const permissions = isAvailableArray(res.data) ? res.data : [];
-                setPermissions(permissions);
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authState?.userId]);
-
     const hasPermission = (id) => {
-        return true;
+        if (lowercaseText(authState?.user?.userName) === 'admin') {
+            return true;
+        }
 
-        // if (lowercaseText(authState.userName) === 'admin') {
-        //     return true;
-        // }
-
-        // const permission = permissions.find((item) => item.permissionId === id);
-        // return permission?.status === true;
+        const permission = permissions.find((item) => item.perId === id);
+        return permission?.status === true;
     };
 
     const renderExpandIcon = (item) => (collapsMap[item.key] ? <ExpandLess /> : <ExpandMore />);

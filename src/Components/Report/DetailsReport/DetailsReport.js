@@ -9,7 +9,7 @@ import { AuthContext } from '../../../helpers/AuthContext';
 
 function DetailsReport({ value }) {
     const currentYear = new Date().getFullYear();
-    const { authState } = useContext(AuthContext);
+    const { authState, currentBranchId } = useContext(AuthContext);
 
     // setValue(currentYear);
     const param = useParams();
@@ -26,23 +26,15 @@ function DetailsReport({ value }) {
     const [detail, setDetail] = useState([]);
     // Axios
     useEffect(() => {
-        const branchId = authState.branchId;
-        API({
-            method: 'get',
-            url: `/branch/getDetailById/${branchId}`,
-        }).then((res) => {
-            setDetail(res.data);
-        });
-    }, [authState.branchId]);
-    // useEffect(() => {
-    //     const branchId = authState.branchId;
-    //     API({
-    //         method: 'get',
-    //         url: `/branch/getDetailById/${branchId}`,
-    //     }).then((res) => {
-    //         setDetail(res.data);
-    //     });
-    // }, [authState.branchId]);
+        if(currentBranchId){
+            API({
+                method: 'get',
+                url: `/branch/getDetailById/${currentBranchId}`,
+            }).then((res) => {
+                setDetail(res.data);
+            });  
+        }
+    }, [currentBranchId]);
 
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';

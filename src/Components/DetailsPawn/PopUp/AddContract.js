@@ -14,7 +14,7 @@ import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
 
 const AddContract = ({ setShowAddContract, showAddContract }) => {
-    const { authState } = useContext(AuthContext);
+    const { authState, currentBranchId, userInfo} = useContext(AuthContext);
     const [img, setImg] = useState('');
     const [refesh, setRefesh] = useState(false);
     const [contract, setContract] = useState([]);
@@ -53,8 +53,8 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
         e.preventDefault();
         const data = {
             customerId: customer.customerId,
-            userId: authState.userId,
-            userBranchId: authState.branchId,
+            userId: userInfo.userId,
+            userBranchId: currentBranchId,
             totalProfit: 0,
             warehouseId: 1,
             pawnableProductId: contract.pawnableProductId,
@@ -109,12 +109,12 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             .then((res) => {
                 setUser(
                     res.data.filter((item, index) => {
-                        return item.userId === authState.userId;
+                        return item.userId === userInfo.userId;
                     })[0],
                 );
             })
             .catch((err) => console.log(err));
-    }, []);
+    }, [userInfo]);
 
     const hanldePackageItem = (e) => {
         setPackageItem(

@@ -10,6 +10,7 @@ import API from './API';
 
 import Auth from './Components/Login/Auth';
 import NoAuth from './Components/Login/NoAuth';
+import { isAvailableArray } from './helpers/utils';
 
 const initializeAuthState = {
     userName: '',
@@ -24,6 +25,7 @@ function App() {
 
     const [token, setToken] = useState(localStorage.getItem('accessToken'));
     const [permissions, setPermissions] = useState([]);
+    const [currentBranchId, setCurrentBranchId] = useState(null);
 
     useEffect(() => {
         console.log('Trigger get user data');
@@ -38,12 +40,15 @@ function App() {
                 data: data,
             })
                 .then((res) => {
-                    setAuthState({
-                        userName: res.data.name,
-                        userId: res.data.userId,
-                        branchId: res.data.branchId,
-                        status: true,
-                    });
+                    setAuthState(res.data);
+                    setUserInfo(res.data?.user);
+                    setPermissions(res.data?.user.userPermission);
+                    setCurrentBranchId(() =>{
+                        if(isAvailableArray(res.data?.branchIds)){
+                            return res.data.branchIds[0];
+                        }
+                        return null;
+                    })
                 })
                 .catch((err) => {
                     setAuthState({ ...authState, status: false });
@@ -67,21 +72,6 @@ function App() {
         }
     }, []);
 
-    //get dữ liệu Lấy userId
-    useEffect(() => {
-        if (authState.userId) {
-            API({
-                method: 'get',
-                url: `/user/getUserById/${authState.userId}`,
-            })
-                .then((res) => {
-                    setUserInfo(res.data);
-                })
-                .catch((err) => console.log(err));
-            console.log(authState);
-        }
-    }, [authState]);
-
     const handleSignOut = useCallback(() => {
         setAuthState(initializeAuthState);
         setToken(null);
@@ -90,7 +80,8 @@ function App() {
         setPermissions([]);
         userInfo(null);
     }, []);
-    const values = { authState, setAuthState, setToken, setPermissions, permissions, userInfo, handleSignOut, token };
+    const values = { authState, setAuthState, setToken, setPermissions, permissions, userInfo, handleSignOut, token, 
+        currentBranchId, setCurrentBranchId};
 
     return (
         <div className="App">

@@ -25,7 +25,6 @@ const Login = () => {
             .then((res) => {
                 const token = res?.data?.token?.accessToken;
                 if (token) {
-                    console.log(token);
                     setToken(token);
                     localStorage.setItem('accessToken', res.data.token.accessToken);
                 }

@@ -28,7 +28,7 @@ const Home = () => {
     const history = useNavigate();
 
     const [homePage, setHomePage] = useState();
-    const { token, authState } = useContext(AuthContext);
+    const { token, authState, currentBranchId} = useContext(AuthContext);
 
     // State
     const [logContract, setLogContract] = useState([]);
@@ -50,24 +50,15 @@ const Home = () => {
     }, [logContract, page]);
 
     useEffect(() => {
-        if (!token && !localStorage.getItem('accessToken')) {
-            history('/auth/login');
-        } else {
-            console.log('Login with token');
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [token]);
-
-    useEffect(() => {
-        if (authState?.branchId) {
+        if (currentBranchId) {
             API({
                 method: 'get',
-                url: `/contract/homepage/${authState.branchId}`,
+                url: `/contract/homepage/${currentBranchId}`,
             }).then((res) => {
                 setHomePage(res.data);
             });
         }
-    }, [authState.branchId]);
+    }, [currentBranchId]);
 
     //Ép kiểu dữ liệu date
 
@@ -85,8 +76,6 @@ const Home = () => {
             setLogContract(res.data);
         });
     }, [page]);
-
-    console.log('login succes');
 
     return (
         <div className="conten">
