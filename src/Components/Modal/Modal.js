@@ -110,15 +110,6 @@ export default function BasicModal({ item, refresh }) {
         console.log('value:', setPaidMoney);
     };
 
-    // useEffect(() => {
-    //     const slug = item.interestDiaryId;
-    //     callAPI({
-    //         method: 'get',
-    //         url: `interestDiary/getInterestDiariesByContractId/${slug}}`,
-    //     }).then((res) => {
-    //         setInterestDiary(res.data);
-    //     });
-    // }, [item.interestDiaryId]);
     const [listImg, setListImg] = useState([]);
     const handleImg = (img) => {
         const newArray = [...listImg];
@@ -137,7 +128,6 @@ export default function BasicModal({ item, refresh }) {
         console.log('alo', interestDiary);
     };
     const history = useNavigate();
-    const MySwal = withReactContent(Swal);
     const handleSubmit = (event) => {
         event.preventDefault();
         const interestDiaryId = item.interestDiaryId;
@@ -163,11 +153,6 @@ export default function BasicModal({ item, refresh }) {
             data: data,
         }).then((res) => {
             console.log(res.data);
-            /* MySwal.fire({
-                title: <p>Hello World</p>,
-              }).then(() => {
-                return MySwal.fire(<p>Shorthand works too</p>)
-              }) */
             if (res.data == false) {
                 Swal.fire({
                     text: 'Tiền khách trả lớn hơn tổng tiền',

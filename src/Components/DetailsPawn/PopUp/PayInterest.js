@@ -320,7 +320,7 @@ function PayInterest({ showContractId }) {
                                                     },
                                                 }}
                                             >
-                                                <h3 style={{ padding: '10px' }}>Upload hình ảnh chứng từ</h3>
+                                                <h3 style={{ padding: '10px' }}>Upload hình đóng lãi</h3>
                                                 <UploadDropzone
                                                     uploader={uploader}
                                                     options={uploaderOptions}

@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
-
+import React, { useEffect, useState, useCallback } from 'react';
 import moment from 'moment';
 import './popup.css';
-import CreateIcon from '@mui/icons-material/Create';
 import callAPI from '../../../API';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { UploadDropzone } from 'react-uploader';
 import { Uploader } from 'uploader';
-import BasicModal from '../../Modal/Modal';
-import ModalAsset from './AssetImport';
+import AssetImg from './AssetImgModal';
 import AssetImport from './AssetImport';
 import AssetExport from './AssetExport';
-import TextareaAutosize from '@mui/base/TextareaAutosize';
 import AssetNote from './AssetNote';
 
 const Asset = ({ showContractId }) => {
@@ -51,10 +46,23 @@ const Asset = ({ showContractId }) => {
             url: `logAsset/getLogAssetsByContractId/${id}`,
         }).then((res) => {
             setlogAsset(res.data);
-            console.log('logAsset:', res.data);
         });
     }, [showContractId]);
-    console.log('logAsset:', logAsset);
+
+    const refreshImg = useCallback(() => {
+        const id = showContractId;
+        console.log('contract id asset', id);
+        callAPI({
+            method: 'get',
+            url: `logAsset/getLogAssetsByContractId/${id}`,
+        }).then((res) => {
+            setlogAsset(res.data);
+        });
+    }, [showContractId]);
+
+    useEffect(() => {
+        refreshImg();
+    }, [showContractId]);
     return (
         <div className="contents">
             <h2> Lịch sử tài sản</h2>
@@ -112,7 +120,7 @@ const Asset = ({ showContractId }) => {
                                     </TableCell>
                                     <TableCell>{item.userName}</TableCell>
                                     <TableCell>
-                                        <ModalAsset />
+                                        <AssetImg item={item} refresh={refreshImg}/>
                                     </TableCell>
                                     <TableCell>
                                         <AssetNote item={item} />
