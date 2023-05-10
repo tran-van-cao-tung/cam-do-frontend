@@ -3,7 +3,6 @@ import NavBar from '../Menu/NavBar';
 import SideBar from './../Menu/SideBar';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 
 import './layoutDefault.css';
 
@@ -34,7 +33,16 @@ const LayoutDefault = ({ children }) => {
                 <NavBar onClickMenuIcon={handleToggleSideBar} />
                 <Box component="main" sx={{ flexGrow: 1 }}>
                     <DrawerHeader />
-                    <Box component="div" sx={{ overflow: 'auto' }}>
+                    <Box
+                        component="div"
+                        sx={{
+                            overflow: 'auto',
+                            padding: '20px',
+                            backgroundColor: '#FAFBFE',
+                            color: '#637381',
+                            fontSize: '14px',
+                        }}
+                    >
                         {children}
                     </Box>
                 </Box>

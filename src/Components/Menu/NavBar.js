@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -12,45 +12,38 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import API from '../../API';
-import { AppBar, Badge, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import { AppBar, Badge, Box, IconButton, MenuItem, Toolbar } from '@mui/material';
 import { AuthContext } from '../../helpers/AuthContext';
 import CustomizePopper from '../../helpers/CustomizePopper';
 import NotiDropdown from './NotiDropdown';
+import StoreOption from './StoreOption';
+import { isAvailableArray } from '../../helpers/utils';
 
 const NavBar = ({ onClickMenuIcon }) => {
-    const { userInfo, handleSignOut } = useContext(AuthContext);
+    const { userInfo, authState, currentBranchId, setCurrentBranchId, handleSignOut } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
-    const [notiNum, setNotiNum] = useState(null);
+    const [notiNum] = useState(null);
 
-    const [branch, setBranch] = useState([]);
-    const [branchUser, setBranchUser] = useState([]);
+    const [branches, setBranches] = useState([]);
 
     useEffect(() => {
         API({
             method: 'get',
             url: `/branch/getAll/0`,
         }).then((res) => {
-            setBranch(res.data);
-            setBranchUser(
-                res.data.find((item, index) => {
-                    return item.branchId === userInfo.branchId;
-                }),
-            );
+            setBranches(res.data);
         });
     }, [userInfo]);
 
-    useEffect(() => {
-        if (userInfo.branchId) {
-            API({
-                method: 'get',
-                url: '/notification/notificationList/' + userInfo.branchId,
-            }).then((res) => {
-                setNotiNum(res.data.length);
-            });
+    const branchOptions = useMemo(() => {
+        const ids = authState?.branchIds;
+        if (isAvailableArray(ids)) {
+            return branches.filter((item) => ids.includes(item.branchId));
         }
-    }, [userInfo]);
+        return [];
+    }, [authState?.branchIds, branches]);
 
     const handleChangePage = () => {
         navigate('/report-customer');
@@ -149,11 +142,27 @@ const NavBar = ({ onClickMenuIcon }) => {
 
     return (
         <>
-            <AppBar position="absolute" sx={{ background: '#fff', top: 0, left: 0 }}>
+            <AppBar
+                id="hai"
+                position="absolute"
+                sx={{
+                    background: '#fff',
+                    top: 0,
+                    left: 0,
+                    boxShadow: 'none',
+                    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                }}
+            >
                 <Toolbar>
                     <IconButton size="large" edge="start" sx={{ mr: 2 }} onClick={onClickMenuIcon}>
                         <MenuIcon />
                     </IconButton>
+                    <StoreOption
+                        value={currentBranchId}
+                        onChange={setCurrentBranchId}
+                        options={branchOptions}
+                        branches={branches}
+                    />
 
                     <Box sx={{ flexGrow: 1 }} />
                     <Box position="relative" sx={{ display: { xs: 'none', md: 'flex' } }}>

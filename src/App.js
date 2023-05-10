@@ -7,7 +7,6 @@ import Unlogin from './Components/UnLogin/Unlogin';
 import { AuthContext } from './helpers/AuthContext';
 import { useCallback, useEffect, useState } from 'react';
 import API from './API';
-
 import Auth from './Components/Login/Auth';
 import NoAuth from './Components/Login/NoAuth';
 import { isAvailableArray } from './helpers/utils';
@@ -43,15 +42,16 @@ function App() {
                     setAuthState(res.data);
                     setUserInfo(res.data?.user);
                     setPermissions(res.data?.user.userPermission);
-                    setCurrentBranchId(() =>{
-                        if(isAvailableArray(res.data?.branchIds)){
+                    setCurrentBranchId(() => {
+                        if (isAvailableArray(res.data?.branchIds)) {
                             return res.data.branchIds[0];
                         }
                         return null;
-                    })
+                    });
                 })
                 .catch((err) => {
-                    setAuthState({ ...authState, status: false });
+                    handleSignOut();
+                    window.location.reload();
                 });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,10 +78,20 @@ function App() {
         localStorage.clear();
         sessionStorage.clear();
         setPermissions([]);
-        userInfo(null);
+        setUserInfo(null);
     }, []);
-    const values = { authState, setAuthState, setToken, setPermissions, permissions, userInfo, handleSignOut, token, 
-        currentBranchId, setCurrentBranchId};
+    const values = {
+        authState,
+        setAuthState,
+        setToken,
+        setPermissions,
+        permissions,
+        userInfo,
+        handleSignOut,
+        token,
+        currentBranchId,
+        setCurrentBranchId,
+    };
 
     return (
         <div className="App">
