@@ -81,20 +81,9 @@ const AddList = () => {
             .replace(/\D/g, '') // loại bỏ các ký tự không phải số
             .replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3'); // chèn dấu cách vào giữa các số
 
-<<<<<<< HEAD
-    const handleOnChangePhone = (event) => {
-        const inputPhone = event.target.value;
-        const formattedPhone = inputPhone
-            .replace(/\D/g, '') // loại bỏ các ký tự không phải số
-            .replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3'); // chèn dấu cách vào giữa các số
-
-        setPhone(formattedPhone);
-    };
-=======
         setPhone(formattedPhone);
     };
 
->>>>>>> 1ed4fce170626add22336e40b64a698b0d1b2553
     // const handleOnChangePhone = (e) => {
     //     setPhone(e.target.value);
     //     // console.log(phone);
