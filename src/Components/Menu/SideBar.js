@@ -1,7 +1,5 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import API from '../../API';
 
 import { AuthContext } from '../../helpers/AuthContext';
 import { isAvailableArray, lowercaseText } from '../../helpers/utils';
@@ -9,7 +7,7 @@ import { PERMISSIONS } from '../../setting/permission';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 //mui
 import { styled } from '@mui/material/styles';
-import MuiDrawer from '@mui/material/Drawer';
+
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ReceiptIcon from '@mui/icons-material/Receipt';
@@ -31,32 +29,12 @@ import { Box, Collapse, Drawer } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 const drawerWidth = 280;
-const openedMixin = (theme) => ({
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-});
-
-const closedMixin = (theme) => ({
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
-    },
-});
 
 const sidebarMenu = [
     {
         key: 'overview',
         icon: <DashboardIcon />,
-        label: 'Tổng quan',
+        label: 'Tổng Quan',
         to: '/',
     },
     {
@@ -69,20 +47,20 @@ const sidebarMenu = [
     {
         key: 'storeManager',
         icon: <StoreMallDirectoryIcon />,
-        label: 'Quản lý cửa hàng',
+        label: 'Quản Lý Cửa Hàng',
 
         permission: PERMISSIONS['Quản Lý Cửa Hàng'],
         children: [
             {
                 key: 'storeManager_stores',
                 icon: <FormatListBulletedIcon />,
-                label: 'Danh sách cửa hàng',
+                label: 'Danh Sách Cửa Hàng',
                 to: '/chainstores',
             },
             {
                 key: 'storeManager_assetCategory',
                 icon: <SettingsIcon />,
-                label: 'Cấu hình loại tài sản',
+                label: 'Cấu Hình Loại Tài Sản',
                 to: '/liststore',
             },
         ],
@@ -90,7 +68,7 @@ const sidebarMenu = [
     {
         key: 'assetManager',
         icon: <MonetizationOnIcon />,
-        label: 'Quản lý tài sản',
+        label: 'Quản Lý Tài Sản',
         to: '/commodity',
         // to: '/warehouse',
         permission: PERMISSIONS['Quản Lý Kho'],
@@ -98,19 +76,19 @@ const sidebarMenu = [
     {
         key: 'emloyeeManager',
         icon: <SupervisedUserCircleIcon />,
-        label: 'Quản lý nhân viên',
+        label: 'Quản Lý Nhân Viên',
         permission: PERMISSIONS['Quản Lý Nhân Viên'],
         children: [
             {
                 key: 'emloyeeManager_emloyees',
                 icon: <FormatListBulletedIcon />,
-                label: 'Danh sách nhân viên',
+                label: 'Danh Sách Nhân Viên',
                 to: '/listemployees',
             },
             {
                 key: 'emloyeeManager_permission',
                 icon: <AdminPanelSettingsIcon />,
-                label: 'Phân quyền nhân viên',
+                label: 'Phân Quyền Nhân Viên',
                 to: '/authorization',
             },
         ],
@@ -118,23 +96,21 @@ const sidebarMenu = [
     {
         key: 'customerManager',
         icon: <PeopleAltIcon />,
-        label: 'Quản lý khách hàng',
-        // to: '/package',
+        label: 'Quản Lý Khách Hàng',
         to: '/customer-manager',
         permission: PERMISSIONS['Quản Lý Khách Hàng'],
     },
     {
         key: 'packageManager',
         icon: <PeopleAltIcon />,
-        label: 'Quản lý Gói Vay',
-        // to: '/package',
+        label: 'Quản Lý Gói Vay',
         to: '/package',
         permission: PERMISSIONS['Quản Lý Gói Vay'],
     },
     {
         key: 'report',
         icon: <AssessmentIcon />,
-        label: 'Báo cáo',
+        label: 'Báo Cáo',
         to: '/report-years',
     },
 ];
@@ -253,7 +229,7 @@ const SideBar = ({ open }) => {
                                         component="div"
                                         disablePadding
                                         sx={{
-                                            paddingLeft: '24px',
+                                            paddingLeft: '20px',
                                         }}
                                     >
                                         {item.children.map((item) => (

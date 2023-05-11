@@ -52,13 +52,6 @@
     font-size: 15px;
 }
 
-table,
-td,
-th {
-    border: 1px solid black;
-    text-align: center;
-}
-
 table {
     width: 100%;
     border-collapse: collapse;

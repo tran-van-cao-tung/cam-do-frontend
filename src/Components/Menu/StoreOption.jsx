@@ -1,10 +1,5 @@
 import { Box, FormControl, MenuItem, OutlinedInput, Select } from '@mui/material';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-
-import API from '../../API';
-import { AuthContext } from '../../helpers/AuthContext';
-import { isArray } from '../../helpers/utils';
-import { isAvailableArray } from '../../helpers/utils';
+import React from 'react';
 
 const ITEM_HEIGHT = 40;
 const ITEM_PADDING_TOP = 8;
@@ -37,7 +32,7 @@ const StoreOption = ({ value, options, onChange, branches }) => {
                     inputProps={{ 'aria-label': 'Without label' }}
                 >
                     {options.map((branch) => (
-                        <MenuItem key={branch.id} value={branch.id}>
+                        <MenuItem key={branch.branchId} value={branch.branchId}>
                             {branch.branchName}
                         </MenuItem>
                     ))}

@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
+
 import Grid from '@mui/material/Grid';
 import './home.css';
-import { useNavigate } from 'react-router-dom';
+
 import API from '../../API';
 import { AuthContext } from '../../helpers/AuthContext';
-import { Pagination, Stack } from '@mui/material';
+import { Box, Pagination, Stack } from '@mui/material';
 import { formatDate, formatMoney, formatTime } from '../../helpers/dateTimeUtils';
 import { isAvailableArray } from '../../helpers/utils';
 import PageHeader from '../../helpers/PageHeader';
@@ -15,26 +14,17 @@ import { AccountBalance } from '@mui/icons-material';
 import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: '22px 0 22px 27px',
-    borderRadius: '10px',
-    color: theme.palette.text.secondary,
-}));
+import CustomizedTables from '../../helpers/CustomizeTable';
 
 const DEFAULT = {
     pageNumber: 1,
-    pageSize: 6,
+    pageSize: 2,
     totalPage: 1,
 };
 
 const Home = () => {
-    const history = useNavigate();
-
     const [homePage, setHomePage] = useState();
-    const { token, authState, currentBranchId } = useContext(AuthContext);
+    const { currentBranchId } = useContext(AuthContext);
 
     // State
     const [logContract, setLogContract] = useState([]);
@@ -50,10 +40,10 @@ const Home = () => {
     const renderedData = useMemo(() => {
         if (!isAvailableArray(logContract)) return [];
 
-        const start = (page - 1) * 6;
-        const end = page * 6;
+        const start = (page - 1) * pageSize;
+        const end = page * pageSize;
         return logContract.slice(start, end);
-    }, [logContract, page]);
+    }, [logContract, page, pageSize]);
 
     useEffect(() => {
         if (currentBranchId) {
@@ -116,10 +106,58 @@ const Home = () => {
         ],
         [homePage],
     );
+
+    const dataTable = [
+        {
+            nameHeader: 'Tên Khách Hàng',
+            dataRow: (element) => {
+                return element.customerName;
+            },
+        },
+        {
+            nameHeader: 'Tiền',
+            dataRow: (element) => {
+                return element.debt.toLocaleString('vi-VN') + ' VNĐ';
+            },
+        },
+        {
+            nameHeader: 'Loại Giao Dịch',
+            dataRow: (element) => {
+                return element.eventType === 1
+                    ? 'Tạo hợp đồng'
+                    : element.eventType === 2
+                    ? 'Chưa đóng lãi'
+                    : element.eventType === 3
+                    ? 'Đã đóng lãi'
+                    : element.eventType === 4
+                    ? 'Đóng hợp đồng'
+                    : '';
+            },
+        },
+        {
+            nameHeader: 'Thời Gian Giao Dịch',
+            dataRow: (element) => {
+                return (
+                    <>
+                        {formatDate(element.logTime)}
+                        <br />
+                        {formatTime(element.logTime)}
+                    </>
+                );
+            },
+        },
+        {
+            nameHeader: 'Người Tạo Giao DỊch',
+            dataRow: (element) => {
+                return element.userName;
+            },
+        },
+    ];
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <PageHeader title="Trang chủ" />
+                <PageHeader title="Tổng Quan" />
             </Grid>
             {statisticData.map((i, index) => (
                 <Grid item key={index} lg={3} md={6} xs={12}>
@@ -128,45 +166,18 @@ const Home = () => {
             ))}
 
             <Grid item xs={12}>
-                <Item>
-                    <div className="transaction">
-                        <h1>Giao dịch trong tháng</h1>
-                    </div>
-                    <div className="content">
-                        {renderedData.map((item, index) => {
-                            return (
-                                <div key={index} className="detai-content">
-                                    <div className="timme">
-                                        <p>{formatDate(item.logTime)}</p>
-                                        <span>{formatTime(item.logTime)}</span>
-                                    </div>
-                                    <div>
-                                        <span className="colum-blue"></span>
-                                    </div>
-                                    <div className="create-new">
-                                        <p>
-                                            <b>
-                                                {item.eventType === 1
-                                                    ? 'Tạo hợp đồng'
-                                                    : item.eventType === 2
-                                                    ? 'Chưa đóng lãi'
-                                                    : item.eventType === 3
-                                                    ? 'Đã đóng lãi'
-                                                    : item.eventType === 4
-                                                    ? 'Đóng hợp đồng'
-                                                    : ''}
-                                                :{' '}
-                                            </b>
-                                            {item.customerName}{' '}
-                                            <span>{item.debt.toLocaleString('vi-VN') + ' VNĐ'}</span>
-                                        </p>
-                                        <span>Tạo bởi: {item.userName}</span>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    <div>
+                <Box
+                    padding="20px"
+                    boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
+                    borderRadius="8px"
+                    bgcolor="#fff"
+                    fontSize="14px"
+                >
+                    <Box marginBottom="12px" fontWeight="700">
+                        <h3>Giao dịch trong tháng</h3>
+                    </Box>
+                    <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                    <Box marginTop="14px">
                         <Stack spacing={2}>
                             <Pagination
                                 style={{ margin: '0 auto' }}
@@ -176,8 +187,8 @@ const Home = () => {
                                 color="primary"
                             />
                         </Stack>
-                    </div>
-                </Item>
+                    </Box>
+                </Box>
             </Grid>
         </Grid>
     );
