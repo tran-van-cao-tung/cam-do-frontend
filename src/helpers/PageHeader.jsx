@@ -7,7 +7,7 @@ const PageHeader = ({ title }) => {
             sx={{
                 fontWeight: '700',
                 color: '#212B36',
-                fontSize: '14px',
+                fontSize: '20px',
             }}
         >
             {title}

@@ -12,7 +12,7 @@ const StatisticCard = ({ Icon, label, value, iconColor, bgColor }) => {
             bgcolor="#fff"
             fontSize="14px"
         >
-            <Box borderRadius="100%" padding="1rem" bgcolor={bgColor}>
+            <Box borderRadius="100%" padding="0.5rem" bgcolor={bgColor}>
                 <Icon sx={{ color: iconColor }} />
             </Box>
             <Box marginLeft="20px">
@@ -26,7 +26,7 @@ const StatisticCard = ({ Icon, label, value, iconColor, bgColor }) => {
                 >
                     {label}
                 </Box>
-                <Box fontSize="18px" fontWeight="700" lineHeight="27px" color="#212B36">
+                <Box fontSize="16px" fontWeight="700" lineHeight="27px" color="#212B36">
                     {value}
                 </Box>
             </Box>

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import cash from '../../asset/img/cash.png';
 import wallet from '../../asset/img/wallet.png';
 import API from '../../API.js';
@@ -17,7 +16,7 @@ const TablePawn = ({
     setContract,
     rowsContract,
 }) => {
-    const { authState, currentBranchId} = useContext(AuthContext);
+    const { authState, currentBranchId } = useContext(AuthContext);
 
     const handleShow = (id) => {
         setShowUpdateContract(true);
@@ -41,9 +40,9 @@ const TablePawn = ({
         localStorage.setItem('PawnDetailID', id);
         setShowContractId(id);
     };
-    
+
     useEffect(() => {
-        if(currentBranchId){
+        if (currentBranchId) {
             API({
                 method: 'get',
                 url: `contract/getAll/0/${currentBranchId}`,
@@ -52,106 +51,18 @@ const TablePawn = ({
                 setContract(res.data);
             });
         }
-    }, [currentBranchId]);
+    }, [currentBranchId, setContract]);
     //Ép kiểu dữ liệu date
     const formatDate = (value) => {
         return moment(value).format('DD/MM/YYYY');
     };
 
     const [currentPage, setCurrentPage] = useState(0);
-    const [customersPerPage, setCustomersPerPage] = useState(6); // số lượng cửa hàng hiển thị trên mỗi trang
+    const [customersPerPage] = useState(6); // số lượng cửa hàng hiển thị trên mỗi trang
     const pageCount = Math.ceil(rowsContract.length / customersPerPage); // tính toán số lượng trang
     const startIndex = currentPage * customersPerPage;
     const endIndex = startIndex + customersPerPage;
     const currentCustomers = rowsContract.slice(startIndex, endIndex);
-    // const columns = [
-    //     {
-    //         field: '#',
-    //         headerName: '#',
-    //         width: 10,
-    //         textAlign: 'center',
-    //         valueGetter: (params) => {
-    //             for (let i = 0; i < rowsContract.length; i++) {
-    //                 if (params.row.contractId === rowsContract[i].contractId) {
-    //                     return i + 1;
-    //                 }
-    //             }
-    //         },
-    //         sortable: false,
-    //     },
-    //     { field: 'contractCode', headerName: 'Mã HĐ', with: 20 },
-    //     { field: 'customerName', headerName: 'Khách Hàng', width: 200 },
-    //     {
-    //         field: 'commodityCode',
-    //         headerName: ' Mã TS',
-    //     },
-    //     {
-    //         field: 'contractAssetName',
-    //         headerName: 'Tài Sản',
-    //         width: 160,
-    //     },
-    //     {
-    //         field: 'loan',
-    //         headerName: 'Tiền Cầm',
-    //         width: 160,
-    //         valueFormatter: (params) => formatMoney(params.value),
-    //     },
-    //     {
-    //         field: 'contractStartDate',
-    //         headerName: 'Ngày Cầm',
-    //         width: 150,
-    //         valueFormatter: (params) => formatDate(params.value),
-    //     },
-    //     {
-    //         field: 'contractEndDate',
-    //         headerName: 'Ngày đến hạn',
-    //         width: 150,
-    //         valueFormatter: (params) => formatDate(params.value),
-    //     },
-    //     {
-    //         field: 'warehouseName',
-    //         headerName: 'Kho',
-    //     },
-    //     {
-    //         field: 'status',
-    //         headerName: 'Tình Trạng',
-    //         valueGetter: (params) =>
-    //             `${
-    //                 params.row.status === 1
-    //                     ? 'Đang Cầm'
-    //                     : params.row.status === 2
-    //                     ? 'Trễ Hẹn'
-    //                     : params.row.status === 3
-    //                     ? 'Thanh Lý'
-    //                     : params.row.status === 4
-    //                     ? 'Đã Đóng'
-    //                     : ''
-    //             }`,
-    //         width: 140,
-    //     },
-    //     {
-    //         field: 'ChucNang',
-    //         headerName: 'Chức năng',
-    //         type: 'actions',
-    //         getActions: (params, index) => [
-    //             <GridActionsCellItem
-    //                 icon={<img src={cash} />}
-    //                 onClick={(e) => handleShowDetailContract(params.row.contractId)}
-    //             />,
-    //             <GridActionsCellItem icon={<img src={wallet} />} onClick={(e) => handleShow(params.row.contractId)} />,
-    //             <GridActionsCellItem
-    //                 icon={<img src={params.row.status === 1 ? note : subwallet} />}
-    //                 onClick={(e) => {
-    //                     params.row.status === 1
-    //                         ? hanleShowExpiration(params.row.contractId)
-    //                         : handleShowLiquidation(params.row.contractId);
-    //                 }}
-    //             />,
-    //         ],
-
-    //         width: 160,
-    //     },
-    // ];
 
     return (
         <>

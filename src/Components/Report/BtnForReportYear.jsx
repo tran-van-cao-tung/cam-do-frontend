@@ -12,7 +12,7 @@ const BtnForReportYear = ({ setValue }) => {
         }).then((res) => {
             setListYear(res.data);
         });
-    });
+    }, []);
     const handleChange = (e) => {
         setValue(e.target.value);
     };

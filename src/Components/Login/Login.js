@@ -9,7 +9,7 @@ const Login = () => {
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
     const { setToken } = useContext(AuthContext);
-    const history = useNavigate();
+    const navigate = useNavigate();
 
     const hanldeSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +28,7 @@ const Login = () => {
                     setToken(token);
                     localStorage.setItem('accessToken', res.data.token.accessToken);
                 }
-                history('/');
+                navigate('/');
             })
             .catch((error) => {
                 if (error.response.status) {
