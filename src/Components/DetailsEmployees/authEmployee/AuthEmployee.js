@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Button, Grid, Paper } from '@mui/material';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
@@ -12,11 +12,14 @@ import './authemployee.css';
 import API from '../../../API';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import { AuthContext } from '../../../helpers/AuthContext';
 function AuthEmployee() {
     const history = useNavigate();
     const [employeeList, setEmployeeList] = useState([]);
     const [employeePermission, setEmployeePermission] = useState([]);
     const [value, setValue] = useState();
+
+    const { permissions } = useContext(AuthContext);
 
     const updateValue = ({ target }) => {
         setValue(target.value);
@@ -39,11 +42,7 @@ function AuthEmployee() {
         // setEmployeeList(e.target.value);
         API({
             method: 'post',
-            url: '/permission/showpermission',
-            data: {
-                userId: e.target.value,
-                nameUser: 'string',
-            },
+            url: '/permission/showpermission/' + e.target.value,
         }).then((res) => {
             setEmployeePermission(res.data);
             for (let i = 0; i < 5; i++) {
@@ -51,6 +50,7 @@ function AuthEmployee() {
                 console.log('employee permis:', res.data[i].status);
             }
             setPermission();
+            console.log('permisstion :', employeePermission);
         });
     }
 
@@ -129,6 +129,7 @@ function AuthEmployee() {
             status: localStorage.getItem('permis 4'),
         },
     ];
+
     function savePermission() {
         API({
             method: 'put',
@@ -396,7 +397,7 @@ function AuthEmployee() {
 
     return (
         <div className="box_employee">
-            <h1 className="employee_heading-add">Phân quyền nhân viên</h1>
+            <h1 id="heading">Phân quyền nhân viên</h1>
 
             <div className="authContainer">
                 <div className="auth_input">
@@ -418,7 +419,8 @@ function AuthEmployee() {
                     </div>
                     <div className="employee_btn-group" style={{ marginLeft: '10%' }}>
                         <div className="employee_btn-group">
-                            <Button type="submit">
+                            {/**Todo: add action here */}
+                            <Button type="submit" onClick={savePermission}>
                                 <BtnSave />
                             </Button>
                             <Button>

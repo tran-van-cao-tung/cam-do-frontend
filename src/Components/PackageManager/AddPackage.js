@@ -46,7 +46,7 @@ function AddPackage() {
                         <div className="employeeAdd">
                             <div className="employee_input">
                                 <span>
-                                    Tiền gói vay <span>*</span>:
+                                    Tên gói vay <span>*</span>:
                                 </span>
                                 <Field id="packageName" name="packageName" />
                                 {/* <input type="text" name='fullName' onChange={(e) => handleInput(e)} value={employeeInput.fullName} /> */}

@@ -10,40 +10,46 @@ import HomeIcon from '@mui/icons-material/Home';
 import callAPI from '../../../API';
 
 const DetailContract = ({ setshowdetailContract, showContractId, showdetailContract }) => {
-    // Function active button (Button Deatail Contract)
 
-    console.log(showContractId);
     const [contractDetail, setContractDetail] = useState([]);
-    useEffect(() => {
-        callAPI({
-            method: 'get',
-            url: `contract/getAll/0`,
-        }).then((res) => {
-            setContractDetail(
-                res.data.filter((item, index) => {
-                    return item.contractId == showContractId;
-                })[0],
-            );
-        });
-    }, [showContractId]);
 
-    console.log('contract id:', contractDetail);
+    // useEffect(() => {
+    //     console.log(showContractId);
+    //     if (showContractId) {
+    //         callAPI({
+    //             method: 'get',
+    //             url: `contract/getAll/0/${showContractId}`,
+    //         }).then((res) => {
+    //             console.log("-------------------------------------------");
+    //             console.log(res.data);
+    //             console.log("-------------------------------------------");
+    //             setContractDetail(
+    //                 res.data.filter((item, index) => {
+    //                     return item.contractId === showContractId;
+    //                 })[0],
+    //             );
+    //         });
+    //     }
+    // }, [showContractId]);
+
     const [detailPawn, setDetailPawn] = useState([]);
+
     useEffect(() => {
-        const id = contractDetail.contractId;
-        callAPI({
-            method: 'get',
-            url: `contract/getContractDetail/${id}`,
-        }).then((res) => {
-            setDetailPawn(res.data);
-        });
-    }, [contractDetail.contractId]);
+        const id = localStorage.getItem('PawnDetailID');
+        if (id) {
+            callAPI({
+                method: 'get',
+                url: `contract/getContractDetail/${id}`,
+            }).then((res) => {
+                setDetailPawn(res.data);
+            });
+        }
+    }, []);
 
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
 
-    console.log(detailPawn);
     return (
         <div className="add-contract" onClick={() => setshowdetailContract(false)}>
             <div className="content-contract" onClick={(e) => e.stopPropagation()}>

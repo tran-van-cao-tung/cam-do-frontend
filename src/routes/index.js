@@ -3,6 +3,7 @@ import DetailsPawn from './../Components/DetailsPawn/DetailsPawn';
 import UpdateContract from './../Components/DetailsPawn/PopUp/UpdateContract';
 import Login from '../Components/Login/Login';
 import Noti from '../Components/DetailsPawn/ContractNoti';
+
 //Employee
 import ListEmployees from '../Components/DetailsEmployees/listEmployees/ListEmployees';
 import AddEmployee from '../Components/DetailsEmployees/addEmployee/AddEmployee';
@@ -37,17 +38,13 @@ import ReportTotal from '../Components/Report/ReportTotal';
 import ReportYear from '../Components/Report/ReportYear';
 import AddNewCustomer from '../Components/CustomerManager/Popup/AddNewCustomer';
 
-
 //Package
-import PackageList from '../Components/PackageManager/package'
+import PackageList from '../Components/PackageManager/package';
 import Profile from '../Components/Profile/Profile';
 import AddPackage from '../Components/PackageManager/AddPackage';
 import EditPackage from '../Components/PackageManager/EditPackage';
-const publicRoutes = [
-    {
-        path: '/login',
-        component: Login,
-    },
+
+const privateRoutes = [
     {
         path: '/',
         component: Home,
@@ -184,8 +181,7 @@ const publicRoutes = [
     {
         path: '/editPackage/:id',
         component: EditPackage,
-    }
+    },
 ];
 
-const privateRoutes = [];
-export { privateRoutes, publicRoutes };
+export { privateRoutes };

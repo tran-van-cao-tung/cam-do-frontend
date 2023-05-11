@@ -82,7 +82,7 @@ NumericFormatCustom.propTypes = {
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
 };
-export default function BasicModal({ item }) {
+export default function BasicModal({ item, refresh }) {
     const [open, setOpen] = React.useState(false);
     const [showMessage, setShowMessage] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -179,7 +179,8 @@ export default function BasicModal({ item }) {
                     text: 'Thêm thành công!',
                     icon: 'success',
                 }).then((result) => {});
-                history('/detaipawn');
+                refresh();
+                setOpen(false);
             }
         });
     };

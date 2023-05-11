@@ -10,7 +10,7 @@ import { AuthContext } from '../../helpers/AuthContext.js';
 
 const ContentPawn = () => {
     const [data, setData] = useState(null);
-    const {authState} = useContext(AuthContext);
+    const {authState, currentBranchId} = useContext(AuthContext);
 
     //Lấy username của loginUser dựa vào localStorage
     /* const [branchId, setBranchId] = useState('')
@@ -29,13 +29,15 @@ const ContentPawn = () => {
 
     const [homePage, setHomePage] = useState();
     useEffect(() => {
-        callAPI({
-            method: 'get',
-            url: `contract/homepage/` + authState.branchId,
-        }).then((res) => {
-            setHomePage(res.data);
-        });
-    }, [authState.branchId]);
+        if(currentBranchId){
+            callAPI({
+                method: 'get',
+                url: `contract/homepage/` + currentBranchId,
+            }).then((res) => {
+                setHomePage(res.data);
+            });
+        }
+    }, [currentBranchId]);
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };

@@ -150,23 +150,23 @@
 }
 
 .statusDangCam {
-    border: 1px solid rgb(0, 166, 0);
-    color: rgb(0, 166, 0);
+    border: 1px solid #00a600;
+    color: #00a600;
 }
 
 .statusTreHen {
-    border: 1px solid rgb(83, 83, 255);
-    color: rgb(83, 83, 255);
+    border: 1px solid #5353ff;
+    color: #5353ff;
 }
 
 .statusThanhLy {
-    border: 1px solid rgb(255, 255, 106);
-    color: rgb(255, 255, 106);
+    border: 1px solid #ffff6a;
+    color: #ffff6a;
 }
 
 .statusDaDong {
-    border: 1px solid rgb(255, 100, 100);
-    color: rgb(255, 100, 100);
+    border: 1px solid #ff6464;
+    color: #ff6464;
 }
 
 .statusDangCam,

@@ -1,0 +1,64 @@
+<div className="menu">
+    <div className="content1">
+        <div className="content1Container">
+            <div className="select_option">
+                <img src={homemenu} alt="Home" /> {userInfo.userName === 'Admin' ? (
+                <select onChange={handleBranch} value={userInfo.branchId}>
+                    {branch
+                    ? branch.map((item, index) => {
+                    return (
+                    <option key={index} value={item.branchId}>
+                        {item.branchName}
+                    </option>
+                    );
+                    })
+                    : ''}
+                </select> ) : (
+                <span style={{ fontSize: '33px' , display: 'flex' , justifyContent: 'center' , alignItems: 'center' ,
+                    }}>
+                    {branchUser ? branchUser.branchName : ''}
+                </span> )}
+            </div>
+        </div>
+    </div>
+    <div className="content2">
+        <div className="icon1 ">
+            <Link to={`/report-customer`}>
+            <img src={warning} alt="" />
+            </Link>
+            {/* <span>1</span> Hiện số */}
+        </div>
+        <div className="icon2">
+            <Button id="basic-button" aria-controls={NotiOpen ? 'basic-menu' : undefined} aria-haspopup="true"
+                aria-expanded={NotiOpen ? 'true' : undefined} onClick={handleNoti} style={{ display: 'flex' ,
+                alignItems: 'center' , flexDirection: 'column' }}>
+                <img src={bell} alt="" />
+                <span>{notiNum}</span>
+            </Button>
+            <Menu id="basic-menu" anchorEl={showNoti} open={NotiOpen} onClose={handleCloseNoti}
+                MenuListProps={{ 'aria-labelledby' : 'basic-button' , }}>
+                <MenuItem>CĐ-1 Lãi cần trả 1,500,000 VND</MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>CĐ-2 Lãi cần trả 3,500,000 VND</MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+            </Menu>
+        </div>
+        <div className="account">
+            <div className="setting">
+                <Button id="basic-button" aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined} onClick={handleClick} style={{ display: 'flex' ,
+                    alignItems: 'center' , flexDirection: 'column' }}>
+                    <img src={usera} alt="user" className="avata" />
+                    {userInfo.fullName ?? userInfo.userName ?? 'no_name'}
+                </Button>
+                <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}
+                    MenuListProps={{ 'aria-labelledby' : 'basic-button' , }}>
+                    <MenuItem onClick={()=> { history('/profile'); }} > Profile
+                    </MenuItem>
+
+                    <MenuItem onClick={deleteToken}>Logout</MenuItem>
+                </Menu>
+            </div>
+        </div>
+    </div>
+</div>

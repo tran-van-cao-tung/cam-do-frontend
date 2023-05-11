@@ -3,16 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arimo:wght@500&family=Great+Vibes&display=swap');
 .conten {
     border-radius: 20px;
-}
-
-.heading {
-    font-family: 'Francois One';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 45px;
-    margin-bottom: 23px;
 }
 
 .title {

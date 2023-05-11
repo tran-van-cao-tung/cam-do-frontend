@@ -16,32 +16,49 @@ const UpdateInfor = () => {
     const onHandleNewFile = () => {
         return <input type="file" />;
     };
-    const [kyc, setKyc] = useState('');
+    const [cusID, setCusID] = useState('');
     const [faceImg, setFaceImg] = useState('');
+    const [frontImg, setFrontImg] = useState('');
+    const [backImg, setBackImg] = useState('');
     const [customerInfo, setCustomerInfo] = useState([]);
     useEffect(() => {
         API({
             method: 'GET',
             url: '/customer/getByCCCD/' + sessionStorage.getItem('num'),
         }).then((response) => {
-            setKyc(response.data.kycId);
+            sessionStorage.clear();
+            setCustomerInfo(response.data);
+        });
+    }, []);
+
+    useEffect(() => {
+        API({
+            method: 'GET',
+            url: '/customer/getByCCCD/' + sessionStorage.getItem('num'),
+        }).then((response) => {
+            // setKyc(response.data.kycId);
             setCustomerInfo(response.data);
             console.log('this is kyc' + response.data.kycId);
         });
     }, []);
-    API({
-        method: 'GET',
-        url: '/kyc/getAll',
-    }).then((res) => {
-        console.log(res.data);
-        console.log(kyc);
-        for (let i = 0; i < res.data.length; i++) {
-            if (res.data[i].kycId === kyc) {
-                setFaceImg(res.data[i].faceImg);
-            }
-        }
-        console.log(faceImg);
-    });
+    // useEffect(() => {
+    //     API({
+    //         method: 'GET',
+    //         url: '/kyc/getAll',
+    //     }).then((res) => {
+    //         console.log(res.data);
+    //         console.log(kyc);
+    //         for (let i = 0; i < res.data.length; i++) {
+    //             if (res.data[i].kycId === kyc) {
+    //                 setFaceImg(res.data[i].faceImg);
+    //                 setFrontImg(res.data[i].identityCardFronting);
+    //                 setFaceImg(res.data[i].identityCardBacking);
+    
+    //             }
+    //         }
+    //     });
+    // }, []);
+    
     return (
         <div className="headerCustomer">
             <h1 className="headerCustomerName">Cập Nhật Khách Hàng</h1>
@@ -81,11 +98,11 @@ const UpdateInfor = () => {
                                 </div>
                                 <div className="imgCCCD">
                                     <img
-                                        src="https://luatsux.vn/wp-content/uploads/2022/10/Can-cuoc-cong-dan-bao-lau-het-han-theo-quy-dinh-nam-2022-1-800x570.jpg"
+                                        src={frontImg}
                                         alt=""
                                     />
                                     <img
-                                        src="https://luatsux.vn/wp-content/uploads/2022/10/Can-cuoc-cong-dan-bao-lau-het-han-theo-quy-dinh-nam-2022-1-800x570.jpg"
+                                        src={backImg}
                                         alt=""
                                     />
                                 </div>

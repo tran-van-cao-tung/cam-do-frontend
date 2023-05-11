@@ -39,7 +39,7 @@ const Ransom = ({ showContractId, contract, showdetailContract, setshowdetailCon
     useEffect(() => {
         API({
             method: 'get',
-            url: 'ramsom/ransombyid/' + showContractId,
+            url: 'ramsom/ransombyid/' + localStorage.getItem("PawnDetailID"),
         }).then((res) => {
             setRansom(res.data);
             // setImg(res.data);
@@ -86,6 +86,7 @@ const Ransom = ({ showContractId, contract, showdetailContract, setshowdetailCon
             console.log('link', res.data);
             console.log('id', ransomDetail.ransomId);
             setRansom(res.data);
+            window.location.reload(false);
         });
     };
 
@@ -94,7 +95,6 @@ const Ransom = ({ showContractId, contract, showdetailContract, setshowdetailCon
     };
 
     return (
-        console.log(packageInt),
         (
             <div>
                 <Grid container spacing={2}>

@@ -10,6 +10,7 @@ import API from '../../../API';
 import edit from './../../../asset/img/edit.png';
 import ext from './../../../asset/img/ext.png';
 import './liststore.css';
+import { CircularProgress } from '@mui/material';
 
 const ListStore = () => {
     //
@@ -42,15 +43,23 @@ const ListStore = () => {
     // |            Phân Trang        |
     // ==================================
     const [currentPage, setCurrentPage] = useState('');
-    const storesPerPage = 4; // số lượng cửa hàng hiển thị trên mỗi trang
+    const storesPerPage = 5; // số lượng cửa hàng hiển thị trên mỗi trang
     const totalPages = Math.ceil(filteredData.length / storesPerPage); // tính toán số lượng trang
     const startIndex = currentPage * storesPerPage;
     const endIndex = startIndex + storesPerPage;
     const currentPageData = filteredData.slice(startIndex, endIndex);
+    const [loading, setLoading] = useState(false);
 
-    const handlePageClick = ({ selected: selectedPage }) => {
+    const handlePageClick = async ({ selected: selectedPage }) => {
+        setLoading(true); // bắt đầu loading
         setCurrentPage(selectedPage);
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // giả lập thời gian loading
+        setLoading(false); // kết thúc loading
     };
+
+    // const handlePageClick = ({ selected: selectedPage }) => {
+    //     setCurrentPage(selectedPage);
+    // };
 
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
@@ -59,7 +68,7 @@ const ListStore = () => {
     return (
         <>
             <div className="listStoreContainer">
-                <h1 className="liststorebody-h1">Danh sách cửa hàng</h1>
+                <h1 id="heading">Danh sách cửa hàng</h1>
                 <div className="ListStore1">
                     <div className="liststorebody">
                         {/* Button  Add */}
@@ -130,37 +139,46 @@ const ListStore = () => {
                                     <th>Tình trạng</th>
                                     <th>Chức năng</th>
                                 </tr>
-                                {currentPageData.map((item, index) => (
-                                    <tr key={index.branchId}>
-                                        <td>{index + 1}</td>
-                                        <td>{item.branchName}</td>
-                                        <td>{item.address}</td>
-                                        <td>{item.phoneNumber}</td>
-                                        <td>
-                                            {Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(
-                                                item.fund,
-                                            )}
-                                        </td>
-                                        <td>{moment(item.createDate).format('DD/MM/YYYY')}</td>
-                                        <td>
-                                            {item.status === 1 ? (
-                                                <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                                            ) : (
-                                                <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
-                                            )}
-                                        </td>
-                                        <td>
-                                            <div className="MuiTableBody_root-itemLast">
-                                                <Link to={`/detailsStore/${item.branchId}`}>
-                                                    <img src={ext} alt="..." />
-                                                </Link>
-                                                <Link to={`/editliststore/edit/${item.branchId}`}>
-                                                    <img src={edit} alt="Edit" />
-                                                </Link>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
+
+                                {loading ? (
+                                    <div>
+                                        <CircularProgress />
+                                    </div>
+                                ) : (
+                                    currentPageData.map((item, index) => (
+                                        <tr key={index.branchId}>
+                                            <td>{index + 1}</td>
+                                            <td>{item.branchName}</td>
+                                            <td>{item.address}</td>
+                                            <td>{item.phoneNumber}</td>
+                                            <td>
+                                                {Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(
+                                                    item.fund,
+                                                )}
+                                            </td>
+                                            <td>{moment(item.createDate).format('DD/MM/YYYY')}</td>
+                                            <td>
+                                                {item.status === 1 ? (
+                                                    <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                                ) : (
+                                                    <div className="MuiTableBody_root-status activity">
+                                                        Đang hoạt động
+                                                    </div>
+                                                )}
+                                            </td>
+                                            <td>
+                                                <div className="MuiTableBody_root-itemLast">
+                                                    <Link to={`/detailsStore/${item.branchId}`}>
+                                                        <img src={ext} alt="..." />
+                                                    </Link>
+                                                    <Link to={`/editliststore/edit/${item.branchId}`}>
+                                                        <img src={edit} alt="Edit" />
+                                                    </Link>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
                             </table>
                         </div>
                     </div>

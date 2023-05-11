@@ -6,10 +6,10 @@ import './details.css';
 import API from '../../../API';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../../helpers/AuthContext';
-
+import { formatMoney } from '../../../helpers/dateTimeUtils';
 function Commodity() {
     const param = useParams();
-    const {authState} = useContext(AuthContext);
+    const {authState, currentBranchId} = useContext(AuthContext);
 
     // Them dark mod
     const Item = styled(Paper)(({ theme }) => ({
@@ -24,18 +24,15 @@ function Commodity() {
     const [detail, setDetail] = useState([]);
     // Axios
     useEffect(() => {
-        const branchId = authState.branchId;
-        API({
-            method: 'get',
-            url: `/branch/getDetailById/${branchId}`,
-        }).then((res) => {
-            setDetail(res.data);
-        });
-    }, [authState.branchId]);
-
-    const formatMoney = (value) => {
-        return value.toLocaleString('vi-VN') + ' VNĐ';
-    };
+        if(currentBranchId){
+            API({
+                method: 'get',
+                url: `/branch/getDetailById/${currentBranchId}`,
+            }).then((res) => {
+                setDetail(res.data);
+            });
+        }
+    }, [currentBranchId]);
 
     return (
         <div className="conten">

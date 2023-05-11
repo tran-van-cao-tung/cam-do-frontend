@@ -13,7 +13,7 @@ const ReportYear = () => {
     return (
         <div className="report">
             <div className="headerReport">
-                <h1 className="reportTitle">Báo Cáo</h1>
+                <h1 id="heading">Báo Cáo</h1>
                 <BtnForReportYear setValue={setValue} year={year} />
             </div>
             <div className="parperCustomer">

@@ -45,6 +45,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
         // });
     }
     const saveContract = () => {
+
         // API({
         //   method: 'put',
         //   url: '/contract/updateContract/' + localStorage.getItem("PawnDetailID"),
@@ -70,23 +71,33 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
             url: `pawnableProduct/getPawnAbleProductById/` + id,
         })
             .then((res) => {
+                console.log(res.data);
                 setAttributes(res.data.attributes);
             })
             .catch((err) => console.log(err));
     }
 
     const [contractAttributes, setContractAttributes] = useState([]);
-    function loadDetail() {
+    async function loadContractDetail() {
         console.log('Load detail');
-        API({
-            method: 'get',
-            url: '/contract/getContractInfoByContractId/' + localStorage.getItem('PawnDetailID'),
-        }).then((res) => {
-            setDetailContract(res.data);
-            setAttributeInfo(res.data.attributeInfos);
-            // console.log('attr info', res.data.attributeInfos[]);
-        });
+        try {
+            API({
+                method: 'get',
+                url: '/contract/getContractInfoByContractId/' + localStorage.getItem('PawnDetailID'),
+            }).then((res) => {
+                console.log("====================")
+                console.log(res.data);
+                console.log("====================")
+                setDetailContract(res.data);
+                setAttributeInfo(res.data.attributeInfos);
+                // console.log('attr info', res.data.attributeInfos[]);
+            });
+        } catch (error) {
 
+        }
+    }
+
+    async function loadWarehouse() {
         API({
             method: 'get',
             url: '/warehouse/GetAll/0',
@@ -94,12 +105,17 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
             setWarehouse(res.data);
             // console.log('aaaaa', res.data);
         });
+    }
 
+
+    async function loadProduct() {
         API({
             method: 'get',
             url: 'pawnableProduct/getAll/0',
         }).then((res) => {
-            // console.log(detailContract.typeOfProduct);
+            console.log("----------------------")
+            console.log(res.data);
+            console.log("----------------------")
             setPawnableProduct(
                 res.data.filter((item, index) => {
                     return item.typeOfProduct == detailContract.typeOfProduct;
@@ -107,33 +123,27 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
             );
         });
     }
-
-    // useEffect(() => {
-
-    //   return () => {
-    //     const doneStatus = loadDetail();
-    //   console.log("Use effect:")
-    //   console.log(doneStatus)
-    //   };
-    // },[]);
     useEffect(() => {
-        const getUsers = async () => {
-            const status = await loadDetail();
-            console.log('Status1 : 1');
-            console.log(pawnableProduct[0]);
-            showAttribute(pawnableProduct[0].pawnableProductId);
-        };
-        getUsers();
-        return () => {
-            // this now gets called when the component unmounts
-        };
+        loadContractDetail();
+        loadWarehouse();
     }, []);
 
+    useEffect(()=>{
+        if(detailContract){
+            loadProduct();
+        }
+    },[detailContract])
+
+    useEffect(() =>{
+        if(pawnableProduct?.[0]?.pawnableProductId){
+            showAttribute(pawnableProduct[0].pawnableProductId);
+        }
+    },[pawnableProduct])
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
     return (
-        <div onLoad={loadDetail}>
+        <div>
             <div className="add-contract" onClick={() => setShowUpdateContract(false)}>
                 <div className="content-contract" onClick={(e) => e.stopPropagation()}>
                     {/* Tiêu đề */}
@@ -240,7 +250,10 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                                                     <p>{detailContract.packageName}</p>
                                                     <p className="flcenter">{detailContract.paymentPeriod}</p>
                                                     <p className="flcenter">{detailContract.packageInterest}</p>
-                                                    <p className="flcenter">{detailContract.totalProfit}</p>
+                                                    <p className="flcenter">
+                                                        {detailContract.totalProfit
+                                                            ? formatMoney(detailContract.totalProfit)
+                                                            : '0 VNĐ'}</p>
                                                     <select value={branch} onChange={getPermission}>
                                                         {warehouse.map((item, index) => {
                                                             return (
@@ -269,53 +282,44 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                             <div className="box__user">
                                 <Box sx={{ flexGrow: 1 }}>
                                     <Grid container spacing={2}>
+                                    <Grid container spacing={2}>
                                         <Grid item xs={12} md={6}>
                                             <div className="user__info">
                                                 <div className="user__info-label">
-                                                    {/* <p>
-                            Số seri <span class="start-red">*</span>:
-                          </p> */}
                                                     {attributes
                                                         ? attributes.map((item, index) => {
-                                                              return (
-                                                                  <p key={index}>
-                                                                      {item.description}{' '}
-                                                                      <span class="start-red">*</span>:
-                                                                  </p>
-                                                              );
-                                                          })
+                                                            return (
+                                                                <p key={index}>
+                                                                    {item.description}{' '}
+                                                                </p>
+                                                            );
+                                                        })
                                                         : ''}
-                                                    <p>
-                                                        Hình ảnh <span class="start-red">*</span>:
-                                                    </p>
+
                                                 </div>
                                                 <div className="user__info-input">
-                                                    {/* <input type="text" name="name" placeholder="Nhập tên khách hàng" value={seri[0] ? seri[0].attributes.length : ""} /> */}
-                                                    {attributes
+                                                {attributes
                                                         ? attributeInfo.map((item, index) => {
-                                                              return <p>{item}</p>;
-                                                          })
+                                                            return <p>{item}</p>;
+                                                        })
                                                         : ''}
-                                                    <div>{/* <img src="" alt="img"/> */}</div>
                                                 </div>
                                             </div>
                                         </Grid>
                                         <Grid item xs={12} md={6}>
-                                            <div className="btn__group">
-                                                {/* <button className="btn btn__save" type="submit" onClick={saveContract}>
-                                                    <img src={save} alt="" />
-                                                    Lưu lại
-                                                </button> */}
+                                            <div className="user__info-label">
+                                                <p>
+                                                    Hình ảnh: 
 
-                                                <Button type="submit" onClick={saveContract}>
-                                                    <BtnSave />
-                                                </Button>
-                                                <BtnCloseAnimation
-                                                    setShowUpdateContract={setShowUpdateContract}
-                                                    showUpdateContract={showUpdateContract}
-                                                />
+                                                </p>
+                                            </div>
+                                            <div>
+                                                        <a href={detailContract.assetImg} target="_blank" rel="noopener noreferrer">
+                                                            <img src={detailContract.assetImg} alt="" style={{ width: '400px', height: '300px' }} />
+                                                        </a>
                                             </div>
                                         </Grid>
+                                    </Grid>
                                     </Grid>
                                 </Box>
                             </div>

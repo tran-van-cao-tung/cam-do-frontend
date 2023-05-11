@@ -6,19 +6,37 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TextField } from '@mui/material';
+import { Box, Grid, TextField, Button} from '@mui/material';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../helpers/AuthContext';
 
+const Field = ({
+    label,
+    content
+}) => {
+    return <>
+        <Grid item xs={12} md={4}>
+            <Box textAlign={"right"} fontSize={25}>
+                {label}
+            </Box>
+        </Grid>
+        <Grid item xs={12} md={8}>
+            <Box textAlign={"left"}>
+                {content}
+            </Box>
+        </Grid>
+    </>
+}
 
 function Profile() {
-    const {authState} = useContext(AuthContext);
-    
+    const { authState, userInfo, currentBranchId} = useContext(AuthContext);
+
     const history = useNavigate();
     const [branch, setBranch] = useState([]);
-    const [listEmployees, setListEmployees] = useState([]);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [profile, setProfile] = useState({})
+
     const validationSchema = Yup.object().shape({
         fullName: Yup.string()
             .required('Tên nhân viên không được để trống')
@@ -26,9 +44,6 @@ function Profile() {
         userName: Yup.string()
             .required('Tài khoản không được để trống')
             .max(30, 'Tài khoản không được vượt quá 30 ký tự'),
-        password: Yup.string()
-            .required('Mật khẩu không được để trống')
-            .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{10,}$/, 'Mật khẩu cần ít nhất 10 ký tự, bao gồm chữ và số'),
         address: Yup.string().max(200, 'Địa chỉ không được vượt quá 200 ký tự'),
         phone: Yup.string().matches(/^\+?\d{10,12}$/, 'Nhập đúng định dạng số điện thoại, 10 số'),
         email: Yup.string()
@@ -47,33 +62,28 @@ function Profile() {
         setConfirmPassword(event.target.value);
     };
 
+    useEffect(() => {
+        setProfile({ ...userInfo ?? {} })
+    }, [userInfo]);
+
     const onSubmit = (e) => {
         e.preventDefault();
         const data = {
             roleId: 1,
-            userId: authState.userId,
-            fullName: listEmployees.fullName,
-            branchId: listEmployees.branchId,
-            userName: listEmployees.userName,
-            email: listEmployees.email,
-            address: listEmployees.address,
-            status: listEmployees.status,
-            phone: listEmployees.phone,
-            password: password,
+            userId: userInfo.userId,
+            fullName: profile.fullName,
+            branchId: 1,
+            userName: profile.userName,
+            email: profile.email,
+            address: profile.address,
+            status: profile.status,
+            phone: profile.phone,
+            password: profile.password,
         }
         console.log(data)
         validationSchema.validate(data, { abortEarly: false })
             .then(() => {
-                if (password !== confirmPassword) {
-                    Swal.fire({
-                        text: `Mật khẩu không trùng khớp!`,
-                        icon: 'warning',
-                    }).then((result) => {
-                    })
-                    return;
-                }
-                data.status = parseInt(listEmployees.status);
-                data.branchId = parseInt(listEmployees.branchId);
+                data.status = parseInt(userInfo.status);
                 callAPI({
                     method: 'put',
                     url: `user/updateUser`,
@@ -104,29 +114,120 @@ function Profile() {
             setBranch(res.data);
         });
     }, []);
-    //Đổ dữ liệu user
-    useEffect(() => {
-        callAPI({
-            method: 'get',
-            url: `user/getUserById/${authState.userId}`,
-        }).then((res) => {
-            setListEmployees(res.data);
-            /* setInitialValues(res.data) */
-            console.log(res.data);
-        });
-    }, []);
-
-    const handleInput = (e) => {
-        setListEmployees({ ...listEmployees, [e.target.name]: e.target.value });
+    const handleOnchange = (key, value) => {
+        setProfile(prev => ({
+            ...prev,
+            [key]: value
+        }))
     }
-    console.log(listEmployees)
-
     return (
         <div className="box_employee">
             <h1 className="employee_heading-add">Thông tin cá nhân</h1>
             <div className="wareh-content">
                 <form /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
-                    <div className="employeeAdd">
+                    <Grid container spacing={1} alignItems={"center"} sx={{ fontFamily: 'Frank Ruhl Libre' }}>
+                        <Field
+                            label={<span>
+                                Họ và tên <span>*</span>:
+                            </span>}
+                            content={<TextField
+                                sx={{
+                                    width: { sm: 200, md: 500 }
+                                }}
+                                type="text"
+                                size='small'
+                                onChange={(e) => handleOnchange('fullName', e.target.value)}
+                                value={profile.fullName}
+                            />}
+                        />
+
+                        {/* Thông tin cửa hàng */}
+                        <Field
+                            label={<span>
+                                Tên cửa hàng:
+                            </span>}
+                            content={"store 1"}
+                        />
+
+                        <Field
+                            label={<span>
+                                Tên đăng nhập:
+                            </span>}
+                            content={<TextField
+                                sx={{
+                                    width: { sm: 200, md: 500 }
+                                }}
+                                type="text"
+                                size='small'
+                                onChange={(e) => handleOnchange('userName', e.target.value)}
+                                value={profile.userName}
+                            />}
+                        />
+
+                        <Field
+                            label={<span>
+                                Email:
+                            </span>}
+                            content={<TextField
+                                sx={{
+                                    width: { sm: 200, md: 500 }
+                                }}
+                                type="text"
+                                size='small'
+                                onChange={(e) => handleOnchange('email', e.target.value)}
+                                value={profile.email}
+                            />}
+                        />
+
+                        <Field
+                            label={<span>
+                                Địa chỉ:
+                            </span>}
+                            content={<TextField
+                                sx={{
+                                    width: { sm: 200, md: 500 }
+                                }}
+                                type="text"
+                                size='small'
+                                onChange={(e) => handleOnchange('address', e.target.value)}
+                                value={profile.address}
+                            />}
+                        />
+
+                        <Field
+                            label={<span>
+                                Số điện thoại:
+                            </span>}
+                            content={<TextField
+                                sx={{
+                                    width: { sm: 200, md: 500 }
+                                }}
+                                type="text"
+                                size='small'
+                                onChange={(e) => handleOnchange('phone', e.target.value)}
+                                value={profile.phone}
+                            />}
+                        />
+
+                        <Field
+                            label={
+                            <Button type="submit" variant="contained" color="success">
+                                <SaveAltIcon />
+                                <span>Lưu lại</span>
+                            </Button>}
+                            content={
+                            <Button variant="contained" color="warning"
+                                onClick={() => {
+                                    history('/listemployees');
+                                }}
+                            >
+                                <ReplyIcon />
+                                <span>Quay lại</span>
+                            </Button>}
+                        />
+                    </Grid>
+
+                    {/* <div className="employeeAdd">
                         <div className="employee_input">
                             <span>
                                 Họ và tên <span>*</span>:
@@ -134,60 +235,21 @@ function Profile() {
                             <input
                                 type="text"
                                 name="fullName"
-                                onChange={(e) => handleInput(e)}
-                                placeholder={listEmployees.fullName}
+                                // onChange={(e) => handleInput(e)}
+                                value={userInfo.fullName}
                             />
                         </div>
                         <div className="employee_input">
                             <span>
                                 Tên cửa hàng <span>*</span>:
                             </span>
-                            <select name='branchId' onChange={(e) => { handleInput(e) }} value={listEmployees.branchId} style={{
-                                width: '576px',
-                            }}>
-                                <option>--Tên cửa hàng--</option>
-                                {branch.map((item, index) => {
-                                    return (
-                                        <option key={index} value={item.branchId}>
-                                            {item.branchName}
-                                        </option>
-                                    );
-                                })}
-                            </select>
+                            <span>abc</span>
                         </div>
                         <div className="employee_username">
                             <span>
                                 Tên đăng nhập <span>*</span>:
                             </span>
-                            <span>{listEmployees.userName}</span>
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Mật khẩu<span>*</span>:
-                            </span>
-                            <div className="password-input">
-                                <input type={showPassword1 ? 'text' : 'password'} id="password" name="password" onChange={(e) => { setPassword(e.target.value) }} />
-                                <button type="button" onClick={toggleShowPassword1}>
-                                    {showPassword1 ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                                </button>
-                            </div>
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Nhập lại mật khẩu<span>*</span>:
-                            </span>
-                            <div className="password-input">
-                                <input
-                                    type={showPassword2 ? 'text' : 'password'}
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    onChange={handlePasswordChange}
-                                    value={confirmPassword}
-                                />
-                                <button type="button" onClick={toggleShowPassword2}>
-                                    {showPassword2 ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                                </button>
-                            </div>
+                            <span>{userInfo.userName}</span>
                         </div>
                         <div className="employee_input">
                             <span>
@@ -196,8 +258,8 @@ function Profile() {
                             <input
                                 type="text"
                                 name="email"
-                                onChange={(e) => handleInput(e)}
-                                placeholder={listEmployees.email}
+                                // onChange={(e) => handleInput(e)}
+                                value={userInfo.email}
                             />
                         </div>
                         <div className="employee_input">
@@ -207,8 +269,8 @@ function Profile() {
                             <input
                                 type="text"
                                 name="address"
-                                onChange={(e) => handleInput(e)}
-                                placeholder={listEmployees.address}
+                                // onChange={(e) => handleInput(e)}
+                                value={userInfo.address}
                             />
                         </div>
                         <div className="employee_input">
@@ -218,8 +280,8 @@ function Profile() {
                             <input
                                 type="text"
                                 name="phone"
-                                onChange={(e) => handleInput(e)}
-                                placeholder={listEmployees.phone}
+                                // onChange={(e) => handleInput(e)}
+                                value={userInfo.phone}
                             />
                         </div>
                         <div className="employee-btn">
@@ -239,7 +301,7 @@ function Profile() {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </form>
             </div>
         </div >

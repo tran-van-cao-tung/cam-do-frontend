@@ -77,7 +77,7 @@ function ListEmployees() {
     return (
         <>
             <div className="box_employee">
-                <h1 className="employee_heading">Danh sách nhân viên</h1>
+                <h1 id="heading">Danh sách nhân viên</h1>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <div className="list_box-employee">

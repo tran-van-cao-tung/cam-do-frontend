@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import './popup.css';
 import bike from '../../../asset/img/bike.png';
-import save from '../../../asset/img/save1.png';
-import close from '../../../asset/img/close1.png';
+// import save from '../../../asset/img/save1.png';
+// import close from '../../../asset/img/close1.png';
 import API from '../../../API';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -10,34 +10,42 @@ import { AuthContext } from '../../../helpers/AuthContext';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import { Button } from '@mui/material';
+import { Uploader } from 'uploader';
+import { UploadDropzone } from 'react-uploader';
 
 const AddContract = ({ setShowAddContract, showAddContract }) => {
-    const { authState } = useContext(AuthContext);
-    const [nameImg, setNameImg] = useState('');
+    const { authState, currentBranchId, userInfo} = useContext(AuthContext);
     const [img, setImg] = useState('');
     const [refesh, setRefesh] = useState(false);
-    const imginput = useRef();
     const [contract, setContract] = useState([]);
     const [pawnableProduct, setPawnableProduct] = useState([]);
     const [packagelist, setPackage] = useState([]);
     const [packageItem, setPackageItem] = useState([]);
+
+    const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+    const uploaderOptions = {
+        multi: true,
+
+        // Comment out this line & use 'onUpdate' instead of
+        // 'onComplete' to have the dropzone close after upload.
+        showFinishButton: true,
+
+        styles: {
+            colors: {
+                primary: '#377dff',
+            },
+        },
+    };
     useEffect(() => {
         return () => {
             img && URL.revokeObjectURL(img.preview);
         };
     }, [img]);
-    const handleClickImg = () => {
-        imginput.current.click();
-    };
-    const [pricture, setPricture] = useState([]);
     const [user, setUser] = useState();
 
-    const handleImg = (e) => {
-        const file = e.target.files[0];
-        setNameImg(file.name);
-        file.preview = URL.createObjectURL(file);
-        setImg(file.preview);
-        setPricture({ assetImg: file.preview });
+    const handleImg = (inputImg) => {
+        console.log("img is:", inputImg);
+        setImg(inputImg);
     };
 
     //Submit dữ liệu contract
@@ -45,8 +53,8 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
         e.preventDefault();
         const data = {
             customerId: customer.customerId,
-            userId: authState.userId,
-            branchId: authState.branchId,
+            userId: userInfo.userId,
+            userBranchId: currentBranchId,
             totalProfit: 0,
             warehouseId: 1,
             pawnableProductId: contract.pawnableProductId,
@@ -55,7 +63,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             insuranceFee: contract.insuranceFee,
             storageFee: contract.storageFee,
             loan: contract.loan,
-            assetImg: pricture.assetImg,
+            assetImg: img,
             pawnableAttributeDTOs: contractAttributes,
             interestRecommend: contract.interestRecommend,
             description: 'string',
@@ -69,6 +77,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             console.log('thành công');
             window.location.reload(false);
         });
+        console.log(data);
     };
 
     //get dữ liệu pawnableProduct
@@ -100,12 +109,12 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             .then((res) => {
                 setUser(
                     res.data.filter((item, index) => {
-                        return item.userId === authState.userId;
+                        return item.userId === userInfo.userId;
                     })[0],
                 );
             })
             .catch((err) => console.log(err));
-    }, []);
+    }, [userInfo]);
 
     const hanldePackageItem = (e) => {
         setPackageItem(
@@ -124,27 +133,6 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
     const handleSum = (e) => {
         setContract({ ...contract, [e.target.name]: e.target.value });
     };
-
-    /*   const [value, setValue] = useState(0);
-    const [fee, setFee] = useState(0);
-    const [period, setPeriod] = useState();
-    const [interest, setInterest] = useState(0);
-    useEffect(() => {
-      console.log(contract[0])
-      if (contract[0].insuranceFee != 0 || contract[0].storageFee != 0 || packageItem[0] != null) {
-        console.log('sdasdasd')
-        setFee((contract[0].insuranceFee + contract[0].
-          storageFee));
-        setPeriod(packageItem[0].day / packageItem[0].paymentPeriod)
-        if (contract[0].interestRecommend != 0) {
-          setInterest(contract[0].interestRecommend * 0.01);
-        }
-        setInterest(packageItem[0].packageInterest * 0.01);
-        setValue(((contract[0].loan * interest) + (fee * period)))
-      }
-      console.log(fee);
-    }, [contract[0]])
-    console.log(value) */
 
     const [customer, setCustomer] = useState();
     //Get dữ liệu customer bằng cccd
@@ -209,29 +197,6 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                     <img src={user} alt="hk" />
                                     <h1 className="titile-user">Thông tin khách hàng</h1>
                                 </div>
-                                {/* <div className="heading-info-user btn-radio-user">
-                  <p>
-                    Khách hàng <span className="start-red">*</span>:{" "}
-                  </p>
-                  <FormControl>
-                    <RadioGroup
-                      row
-                      aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="row-radio-buttons-group"
-                    >
-                      <FormControlLabel
-                        value="1"
-                        control={<Radio />}
-                        label="Khách hàng mới"
-                      />
-                      <FormControlLabel
-                        value="0"
-                        control={<Radio />}
-                        label="Khách hàng cũ"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </div> */}
                             </div>
                             <div className="box__user">
                                 <Box sx={{ flexGrow: 1 }}>
@@ -418,7 +383,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                                         name="interestRecommend"
                                                         onChange={(e) => handleInput(e)}
                                                     />
-                                                    <p className="flend">{}</p>
+                                                    <p className="flend">{ }</p>
                                                 </div>
                                             </div>
                                         </Grid>
@@ -440,51 +405,65 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                         <Grid item xs={12} md={6}>
                                             <div className="user__info">
                                                 <div className="user__info-label">
-                                                    {/* <p>
-                            Số seri <span class="start-red">*</span>:
-                          </p> */}
                                                     {attributes
                                                         ? attributes.map((item, index) => {
-                                                              return (
-                                                                  <p key={index}>
-                                                                      {item.description}{' '}
-                                                                      <span class="start-red">*</span>:
-                                                                  </p>
-                                                              );
-                                                          })
+                                                            return (
+                                                                <p key={index}>
+                                                                    {item.description}{' '}
+                                                                    <span class="start-red">*</span>:
+                                                                </p>
+                                                            );
+                                                        })
                                                         : ''}
-                                                    <p>
-                                                        Hình hảnh <span class="start-red">*</span>:
-                                                    </p>
+
                                                 </div>
                                                 <div className="user__info-input">
-                                                    {/* <input type="text" name="name" placeholder="Nhập tên khách hàng" value={seri[0] ? seri[0].attributes.length : ""} /> */}
                                                     {attributes
                                                         ? attributes.map((item, index) => {
-                                                              return (
-                                                                  <input
-                                                                      type="text"
-                                                                      name={index}
-                                                                      onChange={(e) =>
-                                                                          hanleInputAttribute(
-                                                                              e,
-                                                                              item.pawnableProductId,
-                                                                              index,
-                                                                          )
-                                                                      }
-                                                                      placeholder={`Nhập ${item.description}`}
-                                                                  />
-                                                              );
-                                                          })
+                                                            return (
+                                                                <input
+                                                                    type="text"
+                                                                    name={index}
+                                                                    onChange={(e) =>
+                                                                        hanleInputAttribute(
+                                                                            e,
+                                                                            item.pawnableProductId,
+                                                                            index,
+                                                                        )
+                                                                    }
+                                                                    placeholder={`Nhập ${item.description}`}
+                                                                />
+                                                            );
+                                                        })
                                                         : ''}
-                                                    <div className="input__img" onClick={handleClickImg}>
-                                                        {nameImg === '' ? <p>Thả tệp</p> : <p>{nameImg}</p>}
-                                                        <input ref={imginput} onChange={handleImg} type="file" />
-                                                    </div>
                                                 </div>
                                             </div>
                                         </Grid>
-                                        <Grid item xs={12} md={6}></Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <div className="user__info-label">
+                                                <p>
+                                                    Hình ảnh <span class="start-red">*</span>:
+
+                                                </p>
+                                            </div>
+                                            <div>
+                                                {
+                                                    img ? (
+                                                        <a href={img} target="_blank" rel="noopener noreferrer">
+                                                            <img src={img} alt="" style={{ width: '400px', height: '300px' }} />
+                                                        </a>
+                                                    ) :
+                                                        <UploadDropzone
+                                                            uploader={uploader}
+                                                            options={uploaderOptions}
+                                                            onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
+                                                            onComplete={(files) => handleImg(files.map((x) => x.fileUrl).join('\n'))}
+                                                            width="600px"
+                                                            height="375px"
+                                                        />
+                                                }
+                                            </div>
+                                        </Grid>
                                     </Grid>
                                 </Box>
                             </div>
@@ -493,7 +472,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                     <img src={save} alt="" />
                                     Lưu lại
                                 </button> */}
-                                <Button onClick={hanldeSubmit} type="submit">
+                                <Button onClick={(e) => hanldeSubmit(e)}>
                                     <BtnSave />
                                 </Button>
                                 <BtnCloseAnimation
@@ -502,9 +481,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                 />
                             </div>
                         </div>
-                        <div>
-                            <img src={img} alt="" style={{ width: '100%' }} />
-                        </div>
+
                     </form>
                 </div>
             </div>

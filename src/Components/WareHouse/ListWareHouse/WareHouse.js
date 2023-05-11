@@ -46,7 +46,7 @@ const WareHouse = () => {
         <>
             <StyledEngineProvider injectFirst>
                 <div className="wareh-wrapper">
-                    <h1 className="wareHouse_heading">Danh sách kho</h1>
+                    <h1 id="heading">Danh sách kho</h1>
 
                     <div className="wareh-content">
                         <button
