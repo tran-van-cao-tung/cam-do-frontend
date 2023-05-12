@@ -19,7 +19,14 @@ const Addcommondity = () => {
     const [code, setCode] = useState('');
     const [name, setName] = useState('');
     const [status, setStatus] = useState(0);
-
+    const [attributeDTOs, setAttributeDTOs] = useState([
+        {
+            description: "",
+        },
+        {
+            description: "",
+        },
+    ]);
     const handleOnChangeName = (e) => {
         setName(e.target.value);
     };
@@ -31,15 +38,43 @@ const Addcommondity = () => {
         setStatus(e.target.value);
     };
 
+    const handleAddAttribute = () => {
+        setAttributeDTOs(previous => {
+            return [...previous, {
+                description: "",
+            },]
+        })
+    }
+
+    const handleChangeAttribute = (value, index) => {
+        setAttributeDTOs(previous => {
+            const newAttributes = [...previous];
+            newAttributes[index].description = value;
+            return newAttributes;
+        })
+    }
+
+    const handleRemoveAttributes = (index) =>{
+        console.log(index);
+        setAttributeDTOs(previous => {
+            const newAttributes = [...previous];
+            newAttributes.splice(index, 1);
+            console.log({previous, newAttributes});
+            return newAttributes;
+        })
+    }
+    
+
     const handleSumbitCommondy = (e) => {
+        const preparedAttributes= attributeDTOs.filter(item => !!item.description);
         API({
             method: 'post',
             url: '/pawnableProduct/createPawnable',
-
             data: {
                 typeOfProduct: name,
                 commodityCode: code,
-                status: status,
+                status: 1,
+                attributeDTOs: preparedAttributes,
             },
         })
             .then((res) => {
@@ -112,11 +147,13 @@ const Addcommondity = () => {
                             <h3>Cấu hình thuộc tính hàng hóa</h3>
                             <Divider />
                             <div className="add-action">
-                                <Button className="add-btn" variant="contained">
+                                <Button className="add-btn" variant="contained" onClick={handleAddAttribute}>
                                     Thêm thuộc tính
                                 </Button>
                             </div>
-                            <FormControl className="add-input-group">
+
+                            {attributeDTOs.map((item, index) =>
+                                <FormControl className="add-input-group" key={index}>
                                 <FormLabel className="label">
                                     Thuộc tính&nbsp;<label style={{ color: 'red' }}>*</label>:
                                 </FormLabel>
@@ -124,53 +161,14 @@ const Addcommondity = () => {
                                     placeholder="Màu sắc"
                                     inputProps={{ 'aria-label': 'search' }}
                                     className="add-input"
+                                    value={item.description}
+                                    onChange={(e) => handleChangeAttribute(e.target.value, index)}
                                 />
-                                <Button className="edit-btn" variant="contained">
+                                <Button className="edit-btn" variant="contained" onClick = {() => handleRemoveAttributes(index)}>
                                     -
                                 </Button>
                             </FormControl>
-
-                            <FormControl className="add-input-group">
-                                <FormLabel className="label">
-                                    Thuộc tính&nbsp;<label style={{ color: 'red' }}>*</label>:
-                                </FormLabel>
-                                <InputBase
-                                    placeholder="Biển kiểm soát"
-                                    inputProps={{ 'aria-label': 'search' }}
-                                    className="add-input"
-                                />
-                                <Button className="edit-btn" variant="contained">
-                                    -
-                                </Button>
-                            </FormControl>
-
-                            <FormControl className="add-input-group">
-                                <FormLabel className="label">
-                                    Thuộc tính&nbsp;<label style={{ color: 'red' }}>*</label>:
-                                </FormLabel>
-                                <InputBase
-                                    placeholder="Thuộc tính hàng hoá"
-                                    inputProps={{ 'aria-label': 'search' }}
-                                    className="add-input"
-                                />
-                                <Button className="edit-btn" variant="contained">
-                                    -
-                                </Button>
-                            </FormControl>
-
-                            <FormControl className="add-input-group">
-                                <FormLabel className="label">
-                                    Thuộc tính&nbsp;<label style={{ color: 'red' }}>*</label>:
-                                </FormLabel>
-                                <InputBase
-                                    placeholder="Thuộc tính hoàng hoá"
-                                    inputProps={{ 'aria-label': 'search' }}
-                                    className="add-input"
-                                />
-                                <Button className="edit-btn" variant="contained">
-                                    -
-                                </Button>
-                            </FormControl>
+                            )}
                         </div>
                     </div>
 

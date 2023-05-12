@@ -10,23 +10,6 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import API from '../../API';
 import moment from 'moment';
 const BtnDetails = ({ rowsContract, setContract }) => {
-    const [value, setValue] = React.useState();
-
-    //Ép kiểu dữ liệu date
-    const formatDate = (value) => {
-        return moment(value).format('DD/MM/YYYY');
-    };
-    const handleChange = (newValue) => {
-        setValue(formatDate(newValue.$d));
-    };
-    const [value1, setValue1] = React.useState();
-
-    const handleChange1 = (newValue) => {
-        setValue1(formatDate(newValue.$d));
-    };
-
-    console.log(rowsContract);
-    //get dữ liệu pawnableProduct
     const [pawnableProduct, setPawnableProduct] = useState([]);
     useEffect(() => {
         API({
@@ -40,6 +23,7 @@ const BtnDetails = ({ rowsContract, setContract }) => {
     const [status, setStatus] = useState();
     const [commodityCode, setCommodityCode] = useState();
     const [customerName, setCustomerName] = useState();
+    const [CCCD, setCCCD] = useState();
     const handleOptionStatus = (e) => {
         setStatus(e.target.value);
     };
@@ -49,52 +33,10 @@ const BtnDetails = ({ rowsContract, setContract }) => {
         console.log(commodityCode);
     };
 
-    const handleInputName = (e) => {
+    const handleSearchInput = (e) => {
         setCustomerName(e.target.value);
+        setCCCD(e.target.value);
     };
-
-    const handleSubmit = () => {
-        const data = {
-            customerName: customerName,
-            contractStartDate: value,
-            contractEndDate: value1,
-            commodityCode: commodityCode,
-            status: status,
-        };
-        console.log(data);
-        setContract(
-            rowsContract.filter((item) => {
-                if (data.customerName === '') return item;
-                if (item.customerName.toLowerCase().includes(data.customerName.toLowerCase())) return item;
-                else {
-                    if (data.contractStartDate !== '' && formatDate(item.contractStartDate) === data.contractStartDate) {
-                        return true;
-                    }
-                    if (data.contractEndDate !== '' && formatDate(item.contractEndDate) === data.contractEndDate) {
-                        return true;
-                    }
-                    if (data.commodityCode !== '' && item.commodityCode === data.commodityCode) {
-                        return true;
-                    }
-                    if (data.status !== '' && item.status === data.status) {
-                        return true;
-                    }
-                }
-                return false;
-            }),
-        );
-    };
-    /*   useEffect(() => {
-      setSearchedProduct(rowsContract.filter((item) => {
-        if (searchTerm.value === "") return item;
-        if (
-          item.fullName
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
-        )
-          return item;
-      }))
-    }, []) */
 
     return (
         <div className="btn-detail">
@@ -104,42 +46,15 @@ const BtnDetails = ({ rowsContract, setContract }) => {
                         <div className="search-hd">
                             <input
                                 type="text"
-                                placeholder="I'm looking for...."
+                                placeholder="Nhập tên KH, CMND"
                                 name="customerName"
                                 value={customerName}
-                                onChange={(e) => handleInputName(e)}
+                                onChange={(e) => handleSearchInput(e)}
                             />
                             <AiOutlineSearch className="icon-search" />
                         </div>
                     </Grid>
-                    <Grid item xs={2}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <Stack spacing={3}>
-                                <DesktopDatePicker
-                                    label="Từ ngày"
-                                    inputFormat="DD/MM/YYYY"
-                                    value={value}
-                                    onChange={handleChange}
-                                    renderInput={(params) => <TextField {...params} />}
-                                    className="since"
-                                />
-                            </Stack>
-                        </LocalizationProvider>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <Stack spacing={3}>
-                                <DesktopDatePicker
-                                    label="Đến ngày"
-                                    inputFormat="DD/MM/YYYY"
-                                    value={value1}
-                                    onChange={handleChange1}
-                                    renderInput={(params) => <TextField {...params} />}
-                                    className="since"
-                                />
-                            </Stack>
-                        </LocalizationProvider>
-                    </Grid>
+                    
                     <Grid item xs={2}>
                         <select className="ltsPawn" onChange={(e) => handleOptionLTS(e)}>
                             <option>--Loại TS--</option>
@@ -154,14 +69,8 @@ const BtnDetails = ({ rowsContract, setContract }) => {
                             <option value={1}>Đang cầm</option>
                             <option value={2}>Trễ hẹn</option>
                             <option value={3}>Thanh lý</option>
+                            <option value={4}>Đóng hợp đồng</option>
                         </select>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <div className="searchDd">
-                            <button className="btn__click-search" onClick={handleSubmit}>
-                                <AiOutlineSearch className="posi__none" />
-                            </button>
-                        </div>
                     </Grid>
                 </Grid>
             </Box>

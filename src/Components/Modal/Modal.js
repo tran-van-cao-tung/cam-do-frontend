@@ -39,7 +39,7 @@ const styleModal = {
     zIndex: '99',
 };
 
-const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
 const uploaderOptions = {
     multi: true,
 
@@ -82,7 +82,7 @@ NumericFormatCustom.propTypes = {
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
 };
-export default function BasicModal({ item, refresh }) {
+export default function BasicModal({ item, refresh, refreshDetail }) {
     const [open, setOpen] = React.useState(false);
     const [showMessage, setShowMessage] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -165,6 +165,7 @@ export default function BasicModal({ item, refresh }) {
                     icon: 'success',
                 }).then((result) => {});
                 refresh();
+                refreshDetail();
                 setOpen(false);
             }
         });

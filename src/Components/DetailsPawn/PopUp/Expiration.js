@@ -13,7 +13,7 @@ import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimatio
 function Expiration({ setShowExpiration, showContractId, showExpiration }) {
     const history = useNavigate();
 
-    const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 
@@ -41,7 +41,7 @@ function Expiration({ setShowExpiration, showContractId, showExpiration }) {
 
     const [linkImg, setLinkImg] = useState();
     const handleImg = (img) => {
-        setLinkImg(img[0].fileUrl);
+        setLinkImg(img);
     };
 
     console.log(linkImg);
@@ -51,6 +51,7 @@ function Expiration({ setShowExpiration, showContractId, showExpiration }) {
             method: 'post',
             url: `contract/createContractExpiration/${showContractId}?proofImg=${linkImg}`,
         }).then((res) => {
+            console.log("log dao han");
             console.log(res.data);
             window.location.reload(false);
         });
@@ -196,12 +197,12 @@ function Expiration({ setShowExpiration, showContractId, showExpiration }) {
                             options={uploaderOptions}
                             onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
                             onComplete={(files) => {
-                                handleImg(files);
-                                alert(files.map((x) => x.fileUrl).join('\n'));
+                                handleImg(files.map((x) => x.fileUrl).join('\n'));
                             }}
-                            width="350px"
-                            height="250px"
+                            width="600px"
+                            height="375px"
                         />
+                        
                     </div>
                 </div>
                 <div className="btn__group btn__group-liquidation">

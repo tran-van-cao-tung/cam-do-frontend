@@ -24,7 +24,7 @@ const Asset = ({ showContractId }) => {
     };
 
     //Upload img
-    const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 
@@ -65,7 +65,6 @@ const Asset = ({ showContractId }) => {
     }, [showContractId]);
     return (
         <div className="contents">
-            <h2> Lịch sử tài sản</h2>
             <TableContainer>
                 <Table
                     sx={{ minWidth: '700px', '&:last-child td, &:last-child ': { border: 0 } }}

@@ -34,7 +34,7 @@ const styleModal = {
     zIndex: '99',
 };
 
-const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
 const uploaderOptions = {
     multi: true,
 

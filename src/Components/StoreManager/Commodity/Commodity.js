@@ -43,7 +43,7 @@ function Commodity() {
 
     const filteredData = commodity.filter((item) => {
         if (statusFilter === 'all' && searchTerm === '') return true;
-        if (statusFilter !== 'all' && item.status !== (statusFilter === 'active' ? 0 : 1)) return false;
+        if (statusFilter !== 'all' && item.status !== (statusFilter === 'active' ? 1 : 0)) return false;
         if (searchTerm !== '' && !item.typeOfProduct.toLowerCase().includes(searchTerm.toLowerCase())) return false;
         return true;
     });
@@ -66,7 +66,7 @@ function Commodity() {
                 <Link to={`/commodity/edit/${val.pawnableProductId}`}>{val.commodityCode}</Link>
             </td>
             <td style={{ fontSize: '16px' }}>
-                {val.status === 0 ? (
+                {val.status === 1 ? (
                     <div className="MuiTableBody_working-status">Đang hoạt động</div>
                 ) : (
                     <div className="MuiTableBody_stop-status">Đã tạm dừng</div>

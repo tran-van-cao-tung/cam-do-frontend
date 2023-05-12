@@ -19,7 +19,7 @@ const Ransom = ({ showContractId, contract, showdetailContract, setshowdetailCon
         color: theme.palette.text.secondary,
     }));
 
-    const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 

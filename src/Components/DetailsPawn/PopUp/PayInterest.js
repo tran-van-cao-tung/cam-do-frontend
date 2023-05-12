@@ -45,7 +45,7 @@ const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(props,
     );
 });
 
-function PayInterest({ showContractId }) {
+function PayInterest({ showContractId, refreshDetail }) {
     //xử lý dữ liệu đóng tiền lãi
     const [isChecked, setIsChecked] = useState([]);
     const [check, setCheck] = useState();
@@ -138,7 +138,7 @@ function PayInterest({ showContractId }) {
 
     //Upload img
 
-    const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 
@@ -303,7 +303,7 @@ function PayInterest({ showContractId }) {
                                         </TableCell>
                                         {(checkStatus != 4) && (
                                             <TableCell>
-                                            <BasicModal item={item} refresh={refreshTable} />
+                                            <BasicModal item={item} refresh={refreshTable} refreshDetail={refreshDetail} />
                                         </TableCell>
                                         )}
                                         <TableCell>

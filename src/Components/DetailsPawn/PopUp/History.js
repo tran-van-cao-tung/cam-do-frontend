@@ -8,7 +8,7 @@ import callAPI from '../../../API';
 function History({ showContractId }) {
     //Ép kiểu dữ liệu date
     const formatDate = (value) => {
-        return moment(value).format('MM/DD/YYYY');
+        return moment(value).format('DD/MM/YYYY');
     };
 
     //Ép kiểu dữ liệu vnd
@@ -37,16 +37,16 @@ function History({ showContractId }) {
             valueFormatter: (params) => formatDate(params.value),
         },
 
-        { field: 'customerName', headerName: 'Giao dịch viên', width: 200 },
+        { field: 'userName', headerName: 'Giao dịch viên', width: 200 },
         {
             field: 'debt',
-            headerName: ' Số tiền ghi nợ',
+            headerName: ' Số tiền còn nợ',
             with: 180,
             valueFormatter: (params) => formatVND(params.value),
         },
         {
             field: 'paid',
-            headerName: 'Số tiền ghi có',
+            headerName: 'Số tiền đóng lãi',
             width: 180,
             valueFormatter: (params) => formatVND(params.value),
         },

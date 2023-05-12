@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import BtnDetails from './BtnDetails';
-
+import API from '../../API';
 import HeaderPawn from './HeaderPawn';
 import TablePawn from './TablePawn';
 import AddContract from './PopUp/AddContract';
@@ -8,6 +8,7 @@ import UpdateContract from './PopUp/UpdateContract';
 import Liquidation from './PopUp/Liquidation';
 import DetailContract from './PopUp/DetailContract';
 import Expiration from './PopUp/Expiration';
+import { AuthContext } from '../../helpers/AuthContext';
 // import './DetailPawn.css';
 const DetailsPawn = () => {
     const [showAddContract, setShowAddContract] = useState(false);
@@ -18,6 +19,23 @@ const DetailsPawn = () => {
     const [showContractId, setShowContractId] = useState();
 
     const [rowsContract, setContract] = useState([]);
+    const { authState, currentBranchId } = useContext(AuthContext);
+    
+    useEffect(() => {
+        if (currentBranchId) {
+            API({
+                method: 'get',
+                url: `contract/getAll/0/${currentBranchId}`,
+            }).then((res) => {
+                console.log(res.data);
+                setContract(res.data);
+            });
+        }
+    }, [currentBranchId, setContract]);
+
+    const filteredContracts = useMemo(()=>{
+
+    }, [])
 
     return (
         <div className="details-pawn">
