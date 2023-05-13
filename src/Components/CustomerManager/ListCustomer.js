@@ -85,9 +85,6 @@ function ListCustomer({ numPage }) {
                         <table className="responstable" style={{ width: '110%' }}>
                             <tr>
                                 <th>STT</th>
-                                <th>
-                                    <span>Cửa hàng</span>
-                                </th>
                                 <th>Họ và tên</th>
                                 <th>CMND/CCCD</th>
                                 <th>Số điện thoại</th>
@@ -96,10 +93,9 @@ function ListCustomer({ numPage }) {
                                 <th>Hạng TD</th>
                                 <th>Chức năng</th>
                             </tr>
-                            {currentCustomers.map((customer) => (
+                            {currentCustomers.map((customer, index) => (
                                 <tr key={customer.id}>
-                                    <td>{customer.numerical}</td>
-                                    <td>{customer.nameBranch}</td>
+                                    <td>{index + 1}</td>
                                     <td>{customer.fullName}</td>
                                     <td>{customer.cccd}</td>
                                     <td>{customer.phone}</td>

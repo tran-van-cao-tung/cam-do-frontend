@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import CreateIcon from '@mui/icons-material/Create';
 import SwipeableTextMobileStepper from './CarouselImg';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 
 const style = {
     position: 'absolute',
@@ -26,7 +26,7 @@ export default function BasicModal({ item }) {
     return (
         <div>
             <Button onClick={handleOpen}>
-                <CreateIcon />
+                <InsertPhotoIcon />
             </Button>
             <Modal
                 open={open}

@@ -5,6 +5,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import './chainstores.css';
 import ReactPaginate from 'react-paginate';
+import { formatMoney } from '../../../helpers/dateTimeUtils';
 
 const ChainStores = () => {
     // Axios
@@ -13,7 +14,7 @@ const ChainStores = () => {
     useEffect(() => {
         API({
             method: 'get',
-            url: '/branch/getChain',
+            url: '/branch/getAll/1',
         }).then((res) => {
             setchainstores(res.data);
         });
@@ -30,10 +31,6 @@ const ChainStores = () => {
 
     const handlePageClick = ({ selected: selectedPage }) => {
         setCurrentPage(selectedPage);
-    };
-
-    const formatMoney = (value) => {
-        return value.toLocaleString('vi-VN') + ' VNĐ';
     };
 
     return (
@@ -60,7 +57,7 @@ const ChainStores = () => {
                                     <td align="center" style={{ textAlign: 'center' /* ,paddingLeft:"50px" */ }}>
                                         {currentPageData.branchName}
                                     </td>
-                                    <td align="center">{formatMoney(currentPageData.currentFund)}</td>
+                                    <td align="center">{formatMoney(currentPageData.fund)}</td>
                                     <td align="center">{currentPageData.address}</td>
                                     <td align="center">{currentPageData.phoneNumber}</td>
                                     <td align="center">{currentPageData.liquidationContracts}</td>

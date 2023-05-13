@@ -19,7 +19,7 @@ const ListStore = () => {
     useEffect(() => {
         API({
             method: 'get',
-            url: '/branch/getChain',
+            url: '/branch/getAll/1',
         }).then((res) => {
             setList(res.data);
             // console.log('aaaaa', res.data);
@@ -33,7 +33,7 @@ const ListStore = () => {
     const filteredData = list
         .filter((item) => {
             if (statusFilter === 'all') return true;
-            return item.status === (statusFilter === 'active' ? 0 : 1);
+            return item.status === (statusFilter === 'active' ? 1 : 0);
         })
         .filter((item) => {
             if (searchTerm.value === '') return item;
@@ -159,18 +159,18 @@ const ListStore = () => {
                                             <td>{moment(item.createDate).format('DD/MM/YYYY')}</td>
                                             <td>
                                                 {item.status === 1 ? (
-                                                    <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                                                    <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
                                                 ) : (
-                                                    <div className="MuiTableBody_root-status activity">
-                                                        Đang hoạt động
+                                                    <div className="MuiTableBody_root-status">
+                                                        Đã tạm dừng
                                                     </div>
                                                 )}
                                             </td>
                                             <td>
                                                 <div className="MuiTableBody_root-itemLast">
-                                                    <Link to={`/detailsStore/${item.branchId}`}>
+                                                    {/* <Link to={`/detailsStore/${item.branchId}`}>
                                                         <img src={ext} alt="..." />
-                                                    </Link>
+                                                    </Link> */}
                                                     <Link to={`/editliststore/edit/${item.branchId}`}>
                                                         <img src={edit} alt="Edit" />
                                                     </Link>

@@ -16,43 +16,43 @@ function History({ showContractId }) {
         return Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     };
     const columns = [
-        {
-            field: 'STT',
-            headerName: 'STT',
-            width: 10,
-            textAlign: 'center',
-            valueGetter: (params) => {
-                for (let i = 0; i < rows.length; i++) {
-                    if (params.row.logContractId === rows[i].logContractId) {
-                        return i + 1;
-                    }
-                }
-            },
-            sortable: false,
-        },
+        // {
+        //     field: 'STT',
+        //     headerName: 'STT',
+        //     width: 10,
+        //     textAlign: 'center',
+        //     valueGetter: (params) => {
+        //         for (let i = 0; i < rows.length; i++) {
+        //             if (params.row.logContractId === rows[i].logContractId) {
+        //                 return i + 1;
+        //             }
+        //         }
+        //     },
+        //     sortable: false,
+        // },
         {
             field: 'logTime',
-            headerName: 'Ngày trả lãi',
-            with: 120,
+            headerName: 'Ngày thực hiện',
+            width: 120,
             valueFormatter: (params) => formatDate(params.value),
         },
 
-        { field: 'userName', headerName: 'Giao dịch viên', width: 200 },
-        {
-            field: 'debt',
-            headerName: ' Số tiền còn nợ',
-            with: 180,
-            valueFormatter: (params) => formatVND(params.value),
-        },
-        {
-            field: 'paid',
-            headerName: 'Số tiền đóng lãi',
-            width: 180,
-            valueFormatter: (params) => formatVND(params.value),
-        },
+        { field: 'userName', headerName: 'Giao dịch viên', width: 150 },
+        // {
+        //     field: 'debt',
+        //     headerName: ' Số tiền còn nợ',
+        //     with: 200,
+        //     valueFormatter: (params) => formatVND(params.value),
+        // },
+        // {
+        //     field: 'paid',
+        //     headerName: 'Số tiền đóng lãi',
+        //     width: 180,
+        //     valueFormatter: (params) => formatVND(params.value),
+        // },
         {
             field: 'eventType',
-            headerName: 'Nội dung',
+            headerName: 'Loại hoạt động',
             width: 150,
             valueGetter: (params) =>
                 `${params.row.eventType === 1
@@ -73,15 +73,15 @@ function History({ showContractId }) {
             width: 500,
             valueGetter: (params) =>
                 `${params.row.eventType === 1
-                    ? `Tạo hợp đồng: ${params.row.description ? params.row.description : ''}`
+                    ? `${params.row.description ? params.row.description : ''}`
                     : params.row.eventType === 2
-                        ? `Kỳ hạn: ${params.row.description ? params.row.description : ''}`
+                        ? `${params.row.description ? params.row.description : ''}`
                         : params.row.eventType === 3
-                            ? `Kỳ hạn: ${params.row.description ? params.row.description : ''}`
+                            ? `${params.row.description ? params.row.description : ''}`
                             : params.row.eventType === 4
-                                ? `Đóng hợp đồng: ${params.row.description ? params.row.description : ''}`
+                                ? `${params.row.description ? params.row.description : ''}`
                                 : params.row.eventType === 5
-                                    ? `Còn nợ lãi: ${params.row.description ? params.row.description : ''}`
+                                    ? `${params.row.description ? params.row.description : ''}`
                                     : ""
                 }`,
         },

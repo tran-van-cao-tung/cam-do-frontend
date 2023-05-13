@@ -137,7 +137,7 @@
     font-weight: 400;
     font-size: 25px;
     line-height: 32px;
-    color: #000000;
+    color: #f61010;
 }
 
 .box__input {
@@ -168,7 +168,7 @@
 
 .flcenter {
     display: flex;
-    align-items: center;
+    align-items: end;
 }
 
 .flend {

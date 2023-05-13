@@ -23,7 +23,7 @@ const WareHouse = () => {
     useEffect(() => {
         API({
             method: 'get',
-            url: '/warehouse/GetAll/0',
+            url: '/warehouse/GetAll/1',
         }).then((res) => {
             setListWarehouse(res.data);
             console.log('aaaaa', res.data);

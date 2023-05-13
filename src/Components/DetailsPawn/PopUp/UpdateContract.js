@@ -2,67 +2,39 @@ import React, { useEffect, useRef, useState } from 'react';
 import './popup.css';
 import user from '../../../asset/img/userpagedetai.png';
 import bike from '../../../asset/img/bike.png';
-import save from '../../../asset/img/save1.png';
-import close from '../../../asset/img/close1.png';
-
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import API from '../../../API.js';
-import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
-import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import { Button } from '@mui/material';
 const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
-    const [nameImg, setNameImg] = useState('');
-    const [img, setImg] = useState('');
-    const imginput = useRef();
     const [detailContract, setDetailContract] = useState([]);
     const [warehouse, setWarehouse] = useState([]);
     const [pawnableProduct, setPawnableProduct] = useState();
     const [attributeInfo, setAttributeInfo] = useState([]);
-    const [branch, setbranch] = useState();
-    const updateValue = ({ target }) => {
+    const [branch, setbranch] = useState(1);
+    const updateBranch = ({ target }) => {
         setbranch(target.value);
     };
 
-    function getPermission(e) {
-        updateValue(e);
-        console.log('log at get permission', e.target.value);
-        sessionStorage.setItem('selected branch', e.target.value);
-        // API({
-        //     method: 'post',
-        //     url: '/permission/showpermission',
-        //     data: {
-        //         userId: e.target.value,
-        //         nameUser: 'string',
-        //     },
-        // }).then((res) => {
-        //     setEmployeePermission(res.data);
-        //     for (let i = 0; i < 5; i++) {
-        //         localStorage.setItem('permis ' + i, res.data[i].status);
-        //         console.log('employee permis:', res.data[i].status);
-        //     }
-
-        // });
-    }
-    const saveContract = () => {
-
-        // API({
-        //   method: 'put',
-        //   url: '/contract/updateContract/' + localStorage.getItem("PawnDetailID"),
-        //   data: {
-        //     insuranceFee: detailContract.insuranceFee,
-        //     storageFee: detailContract.storageFee,
-        //     loan: detailContract.loan,
-        //     warehouseId: warehouse.warehouseId
-        //   },
-        // })
-        //   .then((res) => {
-        //     console.log('Success Full');
-        //     alert('Lưu Thành Công');
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   })
+    function saveContract() {
+        console.log('log at select brand', branch);
+        API({
+          method: 'put',
+          url: '/contract/updateContract/' + localStorage.getItem("PawnDetailID"),
+          data: {
+            contractAssetId: localStorage.getItem("PawnDetailID"),
+            warehouseId: branch,
+            contractAssetName: "string",
+            image: "string",
+          }
+        })
+          .then((res) => {
+            console.log('Success Full');
+            alert('Lưu Thành Công');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
     };
     const [attributes, setAttributes] = useState();
     function showAttribute(id) {
@@ -128,17 +100,17 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
         loadWarehouse();
     }, []);
 
-    useEffect(()=>{
-        if(detailContract){
+    useEffect(() => {
+        if (detailContract) {
             loadProduct();
         }
-    },[detailContract])
+    }, [detailContract])
 
-    useEffect(() =>{
-        if(pawnableProduct?.[0]?.pawnableProductId){
+    useEffect(() => {
+        if (pawnableProduct?.[0]?.pawnableProductId) {
             showAttribute(pawnableProduct[0].pawnableProductId);
         }
-    },[pawnableProduct])
+    }, [pawnableProduct])
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
@@ -232,7 +204,11 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                                                             ? formatMoney(detailContract.loan)
                                                             : '0 VNĐ'}
                                                     </div>
-                                                    <p>{detailContract.userName} </p>
+                                                    <div>
+                                                        <p className='flcenter'>
+                                                            {detailContract.userName}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </Grid>
@@ -241,20 +217,21 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                                                 <div className="user__info-label">
                                                     <p>Hình thức lãi:</p>
                                                     <p>Kỳ lãi:</p>
-                                                    {/* <p>Ngày vay:</p> */}
-                                                    <p>Lãi mặc định</p>
+                                                    <p>Lãi mặc định:</p>
                                                     <p>Số tiền lãi dự kiến :</p>
                                                     <p>Kho: </p>
+                                                    <p>Xác nhận kho: </p>
                                                 </div>
                                                 <div className="user__info-input">
                                                     <p>{detailContract.packageName}</p>
-                                                    <p className="flcenter">{detailContract.paymentPeriod}</p>
-                                                    <p className="flcenter">{detailContract.packageInterest}</p>
-                                                    <p className="flcenter">
+                                                    <p>{detailContract.paymentPeriod}</p>
+                                                    <p>{detailContract.packageInterest}</p>
+                                                    <p>
                                                         {detailContract.totalProfit
                                                             ? formatMoney(detailContract.totalProfit)
-                                                            : '0 VNĐ'}</p>
-                                                    <select value={branch} onChange={getPermission}>
+                                                            : '0 VNĐ'}
+                                                    </p>
+                                                    <select value={branch} onChange={updateBranch}>
                                                         {warehouse.map((item, index) => {
                                                             return (
                                                                 <option key={index} value={item.warehouseId}>
@@ -263,6 +240,12 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                                                             );
                                                         })}
                                                     </select>
+                                                    <p className='flcenter'>
+                                                        <Button size='small' color='success' variant='outlined' 
+                                                        onClick={saveContract}>
+                                                            Lưu
+                                                        </Button>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </Grid>
@@ -282,50 +265,45 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                             <div className="box__user">
                                 <Box sx={{ flexGrow: 1 }}>
                                     <Grid container spacing={2}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} md={6}>
-                                            <div className="user__info">
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={12} md={6}>
+                                                <div className="user__info">
+                                                    <div className="user__info-label">
+                                                        {attributes
+                                                            ? attributes.map((item, index) => {
+                                                                return (
+                                                                    <p key={index}>
+                                                                        {item.description}{':'}
+                                                                    </p>
+                                                                );
+                                                            })
+                                                            : ''}
+                                                    </div>
+                                                    <div className="user__info-input">
+                                                        {attributes
+                                                            ? attributeInfo.map((item, index) => {
+                                                                return <p>{item}</p>;
+                                                            })
+                                                            : ''}
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={12} md={6}>
                                                 <div className="user__info-label">
-                                                    {attributes
-                                                        ? attributes.map((item, index) => {
-                                                            return (
-                                                                <p key={index}>
-                                                                    {item.description}{' '}
-                                                                </p>
-                                                            );
-                                                        })
-                                                        : ''}
-
+                                                    <p>
+                                                        Hình ảnh:
+                                                    </p>
                                                 </div>
-                                                <div className="user__info-input">
-                                                {attributes
-                                                        ? attributeInfo.map((item, index) => {
-                                                            return <p>{item}</p>;
-                                                        })
-                                                        : ''}
+                                                <div>
+                                                    <a href={detailContract.assetImg} target="_blank" rel="noopener noreferrer">
+                                                        <img src={detailContract.assetImg} alt="" style={{ width: '400px', height: '300px' }} />
+                                                    </a>
                                                 </div>
-                                            </div>
+                                            </Grid>
                                         </Grid>
-                                        <Grid item xs={12} md={6}>
-                                            <div className="user__info-label">
-                                                <p>
-                                                    Hình ảnh: 
-
-                                                </p>
-                                            </div>
-                                            <div>
-                                                        <a href={detailContract.assetImg} target="_blank" rel="noopener noreferrer">
-                                                            <img src={detailContract.assetImg} alt="" style={{ width: '400px', height: '300px' }} />
-                                                        </a>
-                                            </div>
-                                        </Grid>
-                                    </Grid>
                                     </Grid>
                                 </Box>
                             </div>
-                        </div>
-                        <div>
-                            <img src={img} alt="" style={{ width: '100%' }} />
                         </div>
                     </div>
                 </div>

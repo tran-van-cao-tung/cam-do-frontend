@@ -159,7 +159,7 @@ const TablePawn = ({
         {
             nameHeader: 'Chức năng',
             dataRow: (i) => {
-                return <div className="MuiTableBody_root-itemLast">
+                return <div className="">
                     <Tooltip title="Đóng tiền lãi">
                         <img
                             onClick={(e) => {
@@ -175,30 +175,39 @@ const TablePawn = ({
                         <img onClick={(e) => handleShow(i.contractId)} src={wallet} alt="Edit" />
                     </Tooltip>
 
-                    <Tooltip title="Đáo hạn">
-                        <img
-                            onClick={(e) => {
+                    {i.status === 4 ? (
+                        ''
+                    ) : (
+                        <Tooltip title="Đáo hạn">
+                            <img
+                                onClick={(e) => {
+                                    hanleShowExpiration(i.contractId);
+                                }}
+                                src={subwallet}
+                                alt="Đáo hạn"
+                            />
+                        </Tooltip>
+                    )}
+
+                    {i.status === 4 ? (
+                        ''
+                    ) : (
+                        <Tooltip title="Thanh lý">
+                            <img onClick={(e) => {
                                 handleShowLiquidation(i.contractId)
                             }}
-                            src={subwallet}
-                            alt="Đáo hạn"
-                        />
-                    </Tooltip>
+                                src={thanhly}
+                                alt="TL"
+                            />
+                        </Tooltip>
+                    )}
 
-                    <Tooltip title="Thanh lý">
-                        <img onClick={(e) => {
-                            hanleShowExpiration(i.contractId);
-                        }}
-                            src={thanhly}
-                            alt="TL"
-                        />
-                    </Tooltip>
                 </div>
             },
         }
     ];
 
-    
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>

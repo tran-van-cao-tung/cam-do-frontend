@@ -22,6 +22,7 @@ import { NumericFormat } from 'react-number-format';
 import SwipeableTextMobileStepper from './CarouselImg';
 import ModalImg from './ModalImg';
 import { useCallback } from 'react';
+import { StyledTableCell, StyledTableRow } from '../../../helpers/CustomizeTable';
 
 const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -231,8 +232,6 @@ function PayInterest({ showContractId, refreshDetail }) {
         setInterestDiary({ ...interestDiary, [e.target.name]: e.target.value });
     };
     return (
-        <div className="contents">
-            <h2> Lịch sử đóng tiền lãi</h2>
             <TableContainer>
                 <Table
                     sx={{ minWidth: '700px', '&:last-child td, &:last-child ': { border: 0 } }}
@@ -253,21 +252,19 @@ function PayInterest({ showContractId, refreshDetail }) {
                             }}
                             style={{ borderRadius: '5px' }}
                         >
-                            <TableCell>STT</TableCell>
-                            <TableCell> Từ ngày - Đến ngày</TableCell>
-                            <TableCell>Tiền lãi</TableCell>
-                            <TableCell>Tiền khác</TableCell>
-                            <TableCell>Tổng tiền</TableCell>
-                            <TableCell>Tiền khách trả</TableCell>
+                            <StyledTableCell> Từ ngày - Đến ngày</StyledTableCell>
+                            <StyledTableCell>Tiền lãi</StyledTableCell>
+                            <StyledTableCell>Tiền khác</StyledTableCell>
+                            <StyledTableCell>Tổng tiền</StyledTableCell>
+                            <StyledTableCell>Tiền khách trả</StyledTableCell>
+                            <StyledTableCell>Hình ảnh</StyledTableCell>
                             {(checkStatus != 4) && (
-                            <TableCell>Ghi Chú</TableCell>
+                            <StyledTableCell>Đóng tiền lãi</StyledTableCell>
                             )}
-                            <TableCell>Hình ảnh</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody
                         style={{ border: '1px solid rgba(0, 0, 0, 0.1)' }}
-                        sx={{ '&:last-child td, &:last-child th': { background: 'rgba(80, 157, 168, 0.2)' } }}
                     >
                         {interestDiary.map((item, index) => {
                             /* if (item.paidMoney != 0) {
@@ -285,31 +282,30 @@ function PayInterest({ showContractId, refreshDetail }) {
                             console.log(item.interestDiaryId);
                             return (
                                 <>
-                                    <TableRow
+                                    <StyledTableRow
                                         key={index}
                                         style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}
                                         sx={{ '& td, & th': { textAlign: 'center' } }}
                                     >
-                                        <TableCell>{index + 1}</TableCell>
-                                        <TableCell>
+                                        <StyledTableCell>
                                             {moment(item.dueDate).format('DD/MM/YYYY')} -{' '}
                                             {moment(item.nextDueDate).format('DD/MM/YYYY')}
-                                        </TableCell>
-                                        <TableCell>{formatMoney(item.payment)}</TableCell>
-                                        <TableCell>{formatMoney(item.penalty)}</TableCell>
-                                        <TableCell>{formatMoney(item.totalPay)}</TableCell>
-                                        <TableCell style={{ textAlign: 'center' }}>
+                                        </StyledTableCell>
+                                        <StyledTableCell>{formatMoney(item.payment)}</StyledTableCell>
+                                        <StyledTableCell>{formatMoney(item.penalty)}</StyledTableCell>
+                                        <StyledTableCell>{formatMoney(item.totalPay)}</StyledTableCell>
+                                        <StyledTableCell style={{ textAlign: 'center' }}>
                                             <span>{formatMoney(item.paidMoney)}</span>
-                                        </TableCell>
-                                        {(checkStatus != 4) && (
-                                            <TableCell>
-                                            <BasicModal item={item} refresh={refreshTable} refreshDetail={refreshDetail} />
-                                        </TableCell>
-                                        )}
-                                        <TableCell>
+                                        </StyledTableCell>
+                                        <StyledTableCell>
                                             <ModalImg item={item} />
-                                        </TableCell>
-                                    </TableRow>
+                                        </StyledTableCell>
+                                        {(checkStatus != 4) && (
+                                            <StyledTableCell>
+                                            <BasicModal item={item} refresh={refreshTable} refreshDetail={refreshDetail} />
+                                        </StyledTableCell>
+                                        )}
+                                    </StyledTableRow>
                                     {showNote[`${item.interestDiaryId}`] === item.interestDiaryId ? (
                                         <>
                                             <TableRow
@@ -345,7 +341,6 @@ function PayInterest({ showContractId, refreshDetail }) {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
     );
 }
 

@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import CreateIcon from '@mui/icons-material/Create';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { Uploader } from 'uploader';
@@ -21,6 +20,7 @@ import PropTypes from 'prop-types';
 import { unstable_HistoryRouter, useNavigate } from 'react-router-dom';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import zIndex from '@mui/material/styles/zIndex';
+import PaymentsIcon from '@mui/icons-material/Payments';
 
 const style = {
     position: 'absolute',
@@ -173,7 +173,7 @@ export default function BasicModal({ item, refresh, refreshDetail }) {
     return (
         <div>
             <Button onClick={handleOpen}>
-                <CreateIcon />
+                <PaymentsIcon />
             </Button>
             <Modal
                 sx={styleModal}
