@@ -132,7 +132,7 @@ const Ransom = ({ showContractId, contract, showdetailContract, setshowdetailCon
                     </Grid>
                     <Grid item xs={3} sx={{ textAlign: 'left' }}>
                         <Item sx={{ textAlign: 'center', fontSize: '25px', color: '#107287' }}>
-                            {ransomDetail.paidMoney ? formatMoney(ransomDetail.paidMoney) : '0 VNĐ'}
+                            {ransomDetail.penalty ? formatMoney(ransomDetail.penalty) : '0 VNĐ'}
                         </Item>
                     </Grid>
                 </Grid>
