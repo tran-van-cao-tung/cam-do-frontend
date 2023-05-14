@@ -25,7 +25,7 @@ function ListEmployees() {
     const history = useNavigate();
 
     const [statusFilter, setStatusFilter] = useState('all');
-
+    const {currentBranchId } = useContext(AuthContext);
     const [listEmployees, setListEmployee] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const searchedProduct = listEmployees
@@ -39,26 +39,17 @@ function ListEmployees() {
         });
     // Axios
     useEffect(() => {
-        API({
-            method: 'get',
-            url: '/user/getAll/0',
-        }).then((res) => {
-            setListEmployee(res.data);
-            console.log('aaaaa', res.data);
-        });
-    }, []);
+        if(currentBranchId){
+            API({
+                method: 'get',
+                url: '/user/getAll/1/'+ currentBranchId,
+            }).then((res) => {
+                setListEmployee(res.data);
+                console.log('aaaaa', res.data);
+            });
+        }
+    }, [currentBranchId, setListEmployee]);
 
-    const [branch, setBranch] = useState([]);
-    useEffect(() => {
-        API({
-            method: 'get',
-            url: `branch/getChain`,
-        }).then((res) => {
-            setBranch(res.data);
-        });
-    }, []);
-
-    console.log(branch);
 
     console.log(searchedProduct);
     // ==================================
