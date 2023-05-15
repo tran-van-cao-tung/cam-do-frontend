@@ -12,6 +12,7 @@ import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import { Button } from '@mui/material';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
+import { formatMoney } from '../../../helpers/dateTimeUtils';
 
 const AddContract = ({ setShowAddContract, showAddContract }) => {
     const { authState, currentBranchId, userInfo} = useContext(AuthContext);
@@ -21,7 +22,11 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
     const [pawnableProduct, setPawnableProduct] = useState([]);
     const [packagelist, setPackage] = useState([]);
     const [packageItem, setPackageItem] = useState([]);
-
+    const [warehouse, setWarehouse] = useState([]);
+    const [selectedWarehouse, setSelectedWarehouse] = useState([]);
+    const [totalProfit, setTotalProfit] = useState(0);
+    const [cycle, setCycle] = useState(0);
+    const [selectedInterest, setSelectedInterest] = useState(0);
     const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
@@ -48,6 +53,23 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
         setImg(inputImg);
     };
 
+    async function loadWarehouse() {
+        API({
+            method: 'get',
+            url: '/warehouse/GetAll/0',
+        }).then((res) => {
+            setWarehouse(res.data);
+            // console.log('aaaaa', res.data);
+        });
+    }
+
+    useEffect(() => {
+        loadWarehouse();
+    }, []);
+
+    const updateWarehouse = ({ target }) => {
+        setSelectedWarehouse(target.value);
+    };
     //Submit dữ liệu contract
     const hanldeSubmit = (e) => {
         e.preventDefault();
@@ -97,8 +119,11 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             url: 'package/getAll/0',
         }).then((res) => {
             setPackage(res.data);
+            setTotalProfit(contract.loan)
         });
     }, []);
+
+  
 
     //get dữ liệu Lấy userId
     useEffect(() => {
@@ -116,12 +141,35 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             .catch((err) => console.log(err));
     }, [userInfo]);
 
-    const hanldePackageItem = (e) => {
+    function getInterest(pckID){
+        API({
+            method: 'get',
+            url: '/package/getPackageById/' + pckID,
+        })
+            .then((res) => {
+                setSelectedInterest(res.data.packageInterest);
+                setCycle(res.data.day / res.data.paymentPeriod);
+                handleTotalProfit(res.data.packageInterest, res.data.day / res.data.paymentPeriod);
+            })
+            .catch((err) => console.log("err at getInterest log 145"));
+    }
+
+    const handleTotalProfit =(_interest, _cycle) =>{
+        console.log("Calculated profit");
+        var _fee = parseInt(contract.insuranceFee) + parseInt(contract.storageFee);
+        console.log(_fee);
+        console.log(_interest);
+        console.log(_cycle)
+        setTotalProfit((contract.loan * (_interest/100)) + (_fee * _cycle));
+    }
+
+    const handlePackageItem = (e) => {
         setPackageItem(
             packagelist.filter((item) => {
                 return item.packageId == e.target.value;
             }),
         );
+        getInterest(e.target.value);
         setRefesh(!refesh);
     };
 
@@ -341,7 +389,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                                         <span>VNĐ</span>
                                                     </div>
                                                     <span style={{ width: '100%', height: '10px' }}>
-                                                        {user ? user.fullName : ''}
+                                                        {userInfo ? userInfo.fullName : ''}
                                                     </span>
                                                 </div>
                                             </div>
@@ -357,11 +405,12 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                                     <p>Lãi mặc định:</p>
                                                     <p>Lãi đề xuất: </p>
                                                     <p>Số tiền lãi dự kiến :</p>
+                                                    <p>Kho: </p>
                                                 </div>
                                                 <div className="user__info-input">
                                                     {/* Lấy dữ liệu từ Package */}
-                                                    <select onChange={(e) => hanldePackageItem(e)}>
-                                                        <option>---Gói Cầm---</option>
+                                                    <select onChange={(e) => handlePackageItem(e)}>
+                                                        <option selected value={""}>---Gói Cầm---</option>
                                                         {packagelist.map((item, index) => {
                                                             return (
                                                                 <option key={index} value={item.packageId}>
@@ -371,11 +420,11 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                                         })}
                                                     </select>
 
-                                                    <p className="flcenter">
+                                                    <p >
                                                         {packageItem[0] ? packageItem[0].day : ''} Ngày
                                                     </p>
                                                     {/* <input type="date" /> */}
-                                                    <p className="flcenter">
+                                                    <p >
                                                         {packageItem[0] ? packageItem[0].packageInterest : ''}%
                                                     </p>
                                                     <input
@@ -383,7 +432,16 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                                         name="interestRecommend"
                                                         onChange={(e) => handleInput(e)}
                                                     />
-                                                    <p className="flend">{ }</p>
+                                                    <p>{totalProfit ? formatMoney(totalProfit) : '0 VND'}</p>
+                                                    <select value={warehouse} onChange={updateWarehouse}>
+                                                        {warehouse.map((item, index) => {
+                                                            return (
+                                                                <option key={index} value={item.warehouseId}>
+                                                                    {item.warehouseName}
+                                                                </option>
+                                                            );
+                                                        })}
+                                                    </select>
                                                 </div>
                                             </div>
                                         </Grid>

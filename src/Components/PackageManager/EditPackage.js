@@ -43,6 +43,8 @@ function EditPackage() {
             ransomPenalty: listPackage.ransomPenalty,
             interestDiaryPenalty: listPackage.interestDiaryPenalty,
             liquitationDay: listPackage.liquitationDay,
+            interestDiaryPenalty: listPackage.interestDiaryPenalty,
+            ransomPenalty: listPackage.ransomPenalty,
         };
         callAPI({
             method: 'put',

@@ -107,7 +107,6 @@ const Asset = ({ showContractId }) => {
                             <TableCell>Giao dịch viên</TableCell>
                             <TableCell>Hình ảnh</TableCell>
                             <TableCell>Ghi chú</TableCell>
-                            <TableCell>Chuyển kho</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody
@@ -140,17 +139,7 @@ const Asset = ({ showContractId }) => {
                                     <TableCell>
                                         <AssetNote item={item} />
                                     </TableCell>
-                                    <TableCell>
-                                        <select value={branch} onChange={updateBranch}>
-                                            {warehouse.map((item, index) => {
-                                                return (
-                                                    <option key={index} value={item.warehouseId}>
-                                                        {item.warehouseName}
-                                                    </option>
-                                                );
-                                            })}
-                                        </select>
-                                    </TableCell>
+                                    
                                 </TableRow>
                             );
                         })}

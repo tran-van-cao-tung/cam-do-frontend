@@ -100,6 +100,18 @@ const Package = () => {
             },
         },
         {
+            nameHeader: 'Phạt trễ lãi',
+            dataRow: (element) => {
+                return element.interestDiaryPenalty;
+            },
+        },
+        {
+            nameHeader: 'Phạt chuộc sớm',
+            dataRow: (element) => {
+                return element.ransomPenalty;
+            },
+        },
+        {
             nameHeader: 'Chức năng',
             dataRow: (element) => {
                 return (

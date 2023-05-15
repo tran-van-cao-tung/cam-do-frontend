@@ -23,6 +23,8 @@ function AddPackage() {
         liquitationDay: '',
         interestDiaryPenalty: '',
         ransomPenalty: '',
+        interestDiaryPenalty: '',
+        ransomPenalty: '',
     };
 
     const onSubmit = (data) => {
