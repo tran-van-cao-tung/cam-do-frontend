@@ -18,7 +18,7 @@ import CustomizedTables from '../../helpers/CustomizeTable';
 
 const DEFAULT = {
     pageNumber: 1,
-    pageSize: 2,
+    pageSize: 6,
     totalPage: 1,
 };
 

@@ -53,6 +53,7 @@ function ChartLine({ value, setYear }) {
         )
             .then((response) => response.json())
             .then((json) => {
+                // eslint-disable-next-line array-callback-return
                 json.map((item, index) => {
                     arrRevenue.push(item.revenue);
                     arrProfit.push(item.profit);

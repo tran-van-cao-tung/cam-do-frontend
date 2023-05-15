@@ -4,9 +4,9 @@ import wallet from '../../asset/img/wallet.png';
 import API from '../../API.js';
 import subwallet from '../../asset/img/subwallet.png';
 import thanhly from '../../asset/img/thanhly.png';
-import moment from 'moment';
+
 import { AuthContext } from '../../helpers/AuthContext';
-import ReactPaginate from 'react-paginate';
+
 import { formatDate, formatMoney } from '../../helpers/dateTimeUtils';
 import Tooltip from '@mui/material/Tooltip';
 import CustomizedTables from '../../helpers/CustomizeTable';
@@ -19,7 +19,6 @@ const DEFAULT = {
     totalPage: 1,
 };
 
-
 const TablePawn = ({
     setShowUpdateContract,
     setShowliquidation,
@@ -29,12 +28,13 @@ const TablePawn = ({
     setContract,
     rowsContract,
 }) => {
-    const { authState, currentBranchId } = useContext(AuthContext);
+    const { currentBranchId } = useContext(AuthContext);
     const handleShow = (id) => {
         setShowUpdateContract(true);
         localStorage.setItem('PawnDetailID', id);
         console.log('Update', id);
     };
+
     const handleShowLiquidation = (id) => {
         setShowliquidation(true);
         localStorage.setItem('PawnDetailID', id);
@@ -53,6 +53,7 @@ const TablePawn = ({
         setShowContractId(id);
     };
 
+    const [logContract, setLogContract] = useState([]);
     useEffect(() => {
         if (currentBranchId) {
             API({
@@ -60,7 +61,7 @@ const TablePawn = ({
                 url: `contract/getAll/0/${currentBranchId}`,
             }).then((res) => {
                 console.log(res.data);
-                setContract(res.data);
+                setLogContract(res.data);
             });
         }
     }, [currentBranchId, setContract]);
@@ -73,17 +74,17 @@ const TablePawn = ({
     };
     // Memorize
     const totalPage = useMemo(() => {
-        const result = Math.ceil(rowsContract.length / pageSize);
+        const result = Math.ceil(logContract.length / pageSize);
         return result;
-    }, [rowsContract?.length, pageSize]);
+    }, [logContract?.length, pageSize]);
 
     const renderedData = useMemo(() => {
-        if (!isAvailableArray(rowsContract)) return [];
+        if (!isAvailableArray(logContract)) return [];
 
         const start = (page - 1) * pageSize;
         const end = page * pageSize;
-        return rowsContract.slice(start, end);
-    }, [rowsContract, page, pageSize]);
+        return logContract.slice(start, end);
+    }, [logContract, page, pageSize]);
 
     const dataTable = [
         {
@@ -153,60 +154,61 @@ const TablePawn = ({
                     <div className="statusDaDong">Đã Đóng</div>
                 ) : (
                     ''
-                )
+                );
             },
         },
         {
             nameHeader: 'Chức năng',
             dataRow: (i) => {
-                return <div className="">
-                    <Tooltip title="Đóng tiền lãi">
-                        <img
-                            onClick={(e) => {
-                                handleShowDetailContract(i.contractId);
-                            }}
-                            src={cash}
-                            alt="..."
-                            style={{}}
-                        />
-                    </Tooltip>
-
-                    <Tooltip title="Chi tiết">
-                        <img onClick={(e) => handleShow(i.contractId)} src={wallet} alt="Edit" />
-                    </Tooltip>
-
-                    {i.status === 4 ? (
-                        ''
-                    ) : (
-                        <Tooltip title="Đáo hạn">
+                return (
+                    <div className="">
+                        <Tooltip title="Đóng tiền lãi">
                             <img
                                 onClick={(e) => {
-                                    hanleShowExpiration(i.contractId);
+                                    handleShowDetailContract(i.contractId);
                                 }}
-                                src={subwallet}
-                                alt="Đáo hạn"
+                                src={cash}
+                                alt="..."
+                                style={{}}
                             />
                         </Tooltip>
-                    )}
 
-                    {i.status === 4 ? (
-                        ''
-                    ) : (
-                        <Tooltip title="Thanh lý">
-                            <img onClick={(e) => {
-                                handleShowLiquidation(i.contractId)
-                            }}
-                                src={thanhly}
-                                alt="TL"
-                            />
+                        <Tooltip title="Chi tiết">
+                            <img onClick={(e) => handleShow(i.contractId)} src={wallet} alt="Edit" />
                         </Tooltip>
-                    )}
 
-                </div>
+                        {i.status === 4 ? (
+                            ''
+                        ) : (
+                            <Tooltip title="Đáo hạn">
+                                <img
+                                    onClick={(e) => {
+                                        hanleShowExpiration(i.contractId);
+                                    }}
+                                    src={subwallet}
+                                    alt="Đáo hạn"
+                                />
+                            </Tooltip>
+                        )}
+
+                        {i.status === 4 ? (
+                            ''
+                        ) : (
+                            <Tooltip title="Thanh lý">
+                                <img
+                                    onClick={(e) => {
+                                        handleShowLiquidation(i.contractId);
+                                    }}
+                                    src={thanhly}
+                                    alt="TL"
+                                />
+                            </Tooltip>
+                        )}
+                    </div>
+                );
             },
-        }
+        },
     ];
-
 
     return (
         <Grid container spacing={2}>

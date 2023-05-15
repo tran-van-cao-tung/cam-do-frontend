@@ -1,47 +1,95 @@
-import { StyledEngineProvider } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Pagination, Stack, StyledEngineProvider } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import editIcon from './../../../asset/img/edit.png';
-import ReactPaginate from 'react-paginate';
+
 import './WareHouse.css';
 import API from '../../../API';
+import CustomizedTables from '../../../helpers/CustomizeTable';
+import { isAvailableArray } from '../../../helpers/utils';
+
+const DEFAULT = {
+    pageNumber: 1,
+    pageSize: 6,
+    totalPage: 1,
+};
+
 const WareHouse = () => {
-    const history = useNavigate();
-    const [cityFilter, setCityFilter] = useState('HoChiMinh');
-    const [statusFilter, setStatusFilter] = useState('available');
+    const navigate = useNavigate();
 
-    const handleCityFilter = (e) => {
-        setCityFilter(e.target.value);
-    };
-
-    const handleStatusFilter = (e) => {
-        setStatusFilter(e.target.value);
-    };
-
+    const [logContract, setLogContract] = useState([]);
+    const [page, setPage] = useState(DEFAULT.pageNumber);
+    const [pageSize] = useState(DEFAULT.pageSize);
     // Axios
-    const [listWarehouse, setListWarehouse] = useState([]);
+
     useEffect(() => {
         API({
             method: 'get',
             url: '/warehouse/GetAll/1',
         }).then((res) => {
-            setListWarehouse(res.data);
+            setLogContract(res.data);
             console.log('aaaaa', res.data);
         });
     }, []);
-    // ==================================
-    // |            Phân Trang        |
-    // ==================================
-    const [currentPage, setCurrentPage] = useState(0);
-    const [warehousesPerPage] = useState(10);
-    const offset = currentPage * warehousesPerPage;
-    const currentWarehouses = listWarehouse.slice(offset, offset + warehousesPerPage);
-    const pageCount = Math.ceil(listWarehouse.length / warehousesPerPage);
 
-    const handlePageClick = ({ selected: selectedPage }) => {
-        setCurrentPage(selectedPage);
+    const totalPage = useMemo(() => {
+        const result = Math.ceil(logContract.length / pageSize);
+        return result;
+    }, [logContract?.length, pageSize]);
+
+    const renderedData = useMemo(() => {
+        if (!isAvailableArray(logContract)) return [];
+
+        const start = (page - 1) * pageSize;
+        const end = page * pageSize;
+        return logContract.slice(start, end);
+    }, [logContract, page, pageSize]);
+    const handlePagination = (e, value) => {
+        setPage(value);
     };
 
+    const dataTable = [
+        {
+            nameHeader: 'STT',
+            dataRow: (element) => {
+                return element.warehouseId;
+            },
+        },
+        {
+            nameHeader: 'Tên kho',
+            dataRow: (element) => {
+                return <Link to={`/viewproduct/${element.warehouseId}`}>{element.warehouseName}</Link>;
+            },
+        },
+        {
+            nameHeader: 'Địa chỉ',
+            dataRow: (element) => {
+                return element.warehouseAddress;
+            },
+        },
+        {
+            nameHeader: 'Tình trạng',
+            dataRow: (element) => {
+                return element.status === 0 ? (
+                    <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
+                ) : (
+                    <div className="MuiTableBody_root-status">Đã tạm dừng</div>
+                );
+            },
+        },
+        {
+            nameHeader: 'Chức năng',
+            dataRow: (element) => {
+                return (
+                    <div className="MuiTableBody_root-itemLast">
+                        <Link to={`/editwarehouse/edit/${element.warehouseId}`}>
+                            <img src={editIcon} alt="Edit" />
+                        </Link>
+                    </div>
+                );
+            },
+        },
+    ];
     return (
         <>
             <StyledEngineProvider injectFirst>
@@ -52,7 +100,7 @@ const WareHouse = () => {
                         <button
                             className="wareHouse_button"
                             onClick={() => {
-                                history('/warehouse/add');
+                                navigate('/warehouse/add');
                             }}
                         >
                             Thêm mới
@@ -60,65 +108,25 @@ const WareHouse = () => {
                         {/* ================================ */}
                         {/* =            Table Show        = */}
                         {/* ================================ */}
-                        <div className="tableContainer">
-                            <div className="tableWareHouse">
-                                <table className="responstable" style={{ borderRadius: '10px' }}>
-                                    <tr>
-                                        <th>STT</th>
-                                        <th data-th="Driver details">
-                                            <span>Tên kho</span>
-                                        </th>
-                                        <th>Địa chỉ</th>
-                                        <th>Tình trạng</th>
-                                        <th>Chức năng</th>
-                                    </tr>
-                                    {currentWarehouses.map((i) => (
-                                        <tr key={i.warehouseId}>
-                                            <td>{i.warehouseId}</td>
-                                            <td>
-                                                <Link to={`/viewproduct/${i.warehouseId}`}>{i.warehouseName}</Link>
-                                            </td>
-                                            <td>{i.warehouseAddress}</td>
-                                            <td>
-                                                {i.status === 0 ? (
-                                                    <div className="MuiTableBody_root-status activity">
-                                                        Đang hoạt động
-                                                    </div>
-                                                ) : (
-                                                    <div className="MuiTableBody_root-status">Đã tạm dừng</div>
-                                                )}
-                                            </td>
-                                            <td>
-                                                <div className="MuiTableBody_root-itemLast">
-                                                    <Link to={`/editwarehouse/edit/${i.warehouseId}`}>
-                                                        <img src={editIcon} alt="Edit" />
-                                                    </Link>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </table>
-                            </div>
-                        </div>
+
+                        <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                        <Box marginTop="14px">
+                            <Stack spacing={2}>
+                                <Pagination
+                                    style={{ margin: '0 auto' }}
+                                    count={totalPage}
+                                    page={page}
+                                    onChange={handlePagination}
+                                    color="primary"
+                                />
+                            </Stack>
+                        </Box>
                     </div>
                 </div>
             </StyledEngineProvider>
             {/* ================================ */}
             {/* =            Phân Trang        = */}
             {/* ================================ */}
-            <ReactPaginate
-                className="paginate-warehouse"
-                previousLabel={'Trang trước'}
-                nextLabel={'Trang sau'}
-                breakLabel={'...'}
-                breakClassName={'break-me'}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                pageCount={pageCount}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-            />
         </>
     );
 };

@@ -19,12 +19,10 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-
 import { Box, Collapse, Drawer } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
@@ -48,30 +46,28 @@ const sidebarMenu = [
         key: 'storeManager',
         icon: <StoreMallDirectoryIcon />,
         label: 'Quản Lý Cửa Hàng',
-
+        to: '/liststore',
         permission: PERMISSIONS['Quản Lý Cửa Hàng'],
-        children: [
-            {
-                key: 'storeManager_stores',
-                icon: <FormatListBulletedIcon />,
-                label: 'Danh Sách Cửa Hàng',
-                to: '/chainstores',
-            },
-            {
-                key: 'storeManager_assetCategory',
-                icon: <SettingsIcon />,
-                label: 'Cấu Hình Loại Tài Sản',
-                to: '/liststore',
-            },
-        ],
     },
     {
         key: 'assetManager',
         icon: <MonetizationOnIcon />,
         label: 'Quản Lý Tài Sản',
-        to: '/commodity',
-        // to: '/warehouse',
         permission: PERMISSIONS['Quản Lý Kho'],
+        children: [
+            {
+                key: 'storeManager_stores',
+                icon: <FormatListBulletedIcon />,
+                label: 'Danh Sách Kho',
+                to: '/warehouse',
+            },
+            {
+                key: 'storeManager_assetCategory',
+                icon: <SettingsIcon />,
+                label: 'Cấu Hình Loại Tài Sản',
+                to: '/commodity',
+            },
+        ],
     },
     {
         key: 'emloyeeManager',
