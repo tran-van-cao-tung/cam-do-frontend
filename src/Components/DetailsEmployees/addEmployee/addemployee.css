@@ -18,7 +18,7 @@
     line-height: 32px;
     color: #000000;
     width: 18%;
-    display: flex;
+    display: block;
     justify-content: right;
 }
 

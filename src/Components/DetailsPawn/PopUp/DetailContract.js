@@ -16,23 +16,21 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
     const [detailPawn, setDetailPawn] = useState([]);
 
     useEffect(() => {
-        const id = localStorage.getItem('PawnDetailID');
-        if (id) {
+        if (showContractId) {
             callAPI({
                 method: 'get',
-                url: `contract/getContractDetail/${id}`,
+                url: `contract/getContractDetail/${showContractId}`,
             }).then((res) => {
                 setDetailPawn(res.data);
             });
         }
-    }, []);
+    }, [showContractId]);
 
     const refreshDetail = useCallback(() => {
-        const id = localStorage.getItem('PawnDetailID');
-        if (id) {
+        if (showContractId) {
             callAPI({
                 method: 'get',
-                url: `contract/getContractDetail/${id}`,
+                url: `contract/getContractDetail/${showContractId}`,
             }).then((res) => {
                 setDetailPawn(res.data);
             });
@@ -43,6 +41,7 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
         console.log("call back detail");
         refreshDetail();
     }, [showContractId]);
+    
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };

@@ -108,6 +108,7 @@ const sidebarMenu = [
         icon: <AssessmentIcon />,
         label: 'Báo Cáo',
         to: '/report-years',
+        permission: PERMISSIONS['Báo cáo'],
     },
 ];
 

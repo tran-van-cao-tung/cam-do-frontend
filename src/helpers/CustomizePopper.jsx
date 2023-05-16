@@ -44,7 +44,7 @@ const CustomizePopper = ({ anchorEl, onClose, children }) => {
     return (
         <Escape onEscape={onClose}>
             <ClickAwayListener onClickAway={onClose}>
-                <Popper className={classes.Popper} open={Boolean(anchorEl)} anchorEl={anchorEl}>
+                <Popper className={classes.Popper} open={Boolean(anchorEl)} anchorEl={anchorEl} placement='bottom-end'>
                     <>{children}</>
                 </Popper>
             </ClickAwayListener>

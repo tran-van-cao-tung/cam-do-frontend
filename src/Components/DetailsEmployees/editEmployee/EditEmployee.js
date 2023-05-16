@@ -192,41 +192,6 @@ function EditEmployee() {
                         </div>
                         <div className="employee_input">
                             <span>
-                                Mật khẩu<span>*</span>:
-                            </span>
-                            <div className="password-input">
-                                <input
-                                    type={showPassword1 ? 'text' : 'password'}
-                                    id="password"
-                                    name="password"
-                                    onChange={(e) => {
-                                        setPassword(e.target.value);
-                                    }}
-                                />
-                                <button type="button" onClick={toggleShowPassword1}>
-                                    {showPassword1 ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                                </button>
-                            </div>
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Nhập lại mật khẩu<span>*</span>:
-                            </span>
-                            <div className="password-input">
-                                <input
-                                    type={showPassword2 ? 'text' : 'password'}
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    onChange={handlePasswordChange}
-                                    value={confirmPassword}
-                                />
-                                <button type="button" onClick={toggleShowPassword2}>
-                                    {showPassword2 ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                                </button>
-                            </div>
-                        </div>
-                        <div className="employee_input">
-                            <span>
                                 Email<span>*</span>:
                             </span>
                             <input

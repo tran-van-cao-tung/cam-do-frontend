@@ -8,6 +8,8 @@ import BanSomeOne from './BanSomeOne';
 import { Button } from '@mui/material';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import Swal from 'sweetalert2';
+
 const UpdateInfor = () => {
     const [showBanReason, setShowBanReason] = useState(false);
     const handleShow = () => {
@@ -53,12 +55,35 @@ const UpdateInfor = () => {
     //                 setFaceImg(res.data[i].faceImg);
     //                 setFrontImg(res.data[i].identityCardFronting);
     //                 setFaceImg(res.data[i].identityCardBacking);
-    
+
     //             }
     //         }
     //     });
     // }, []);
-    
+
+    const handleInput = (e) => {
+        setCustomerInfo({ ...customerInfo, [e.target.name]: e.target.value });
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const data = {
+            fullName: customerInfo.fullName,
+            cccd: customerInfo.cccd,
+            address: customerInfo.address,
+            phone: customerInfo.phone,
+        };
+        API({
+            method: 'put',
+            url: `package/updatePackage`,
+            data: data,
+        }).then((res) => {
+            Swal.fire({
+                text: `Chỉnh sửa thành công!`,
+                icon: 'success',
+            }).then((result) => { });
+        });
+    };
     return (
         <div className="headerCustomer">
             <h1 className="headerCustomerName">Cập Nhật Khách Hàng</h1>
@@ -70,19 +95,26 @@ const UpdateInfor = () => {
                                 <p>
                                     Tên khách hàng <span class="starRed">*</span>:
                                 </p>
-                                <input type="text" placeholder="Nhập tên khách hàng..." value={customerInfo.fullName} />
+                                <input type="text" placeholder="Nhập tên khách hàng..." name="fullName"
+                                    value={customerInfo.fullName} onChange={(e) => handleInput(e)} />
                                 <p>
                                     Số CCCD / Hộ chiếu:<span class="starRed">*</span>:
                                 </p>
-                                <input type="text" placeholder="Nhập CMND/Hộ chiếu..." value={customerInfo.cccd} />
+                                <input type="text" placeholder="Nhập CMND/Hộ chiếu..." name="cccd" value={customerInfo.cccd}
+                                    onChange={(e) => handleInput(e)}
+                                />
                                 <p>
                                     Số điện thoại <span class="starRed">*</span>:
                                 </p>
-                                <input type="text" placeholder="Nhập số điện thoại..." value={customerInfo.phone} />
+                                <input type="text" placeholder="Nhập số điện thoại..." name="phone" value={customerInfo.phone}
+                                    onChange={(e) => handleInput(e)}
+                                />
                                 <p>
                                     Địa chỉ <span class="starRed">*</span>:
                                 </p>
-                                <input type="text" placeholder="Nhập địa chỉ..." value={customerInfo.address} />
+                                <input type="text" placeholder="Nhập địa chỉ..." name="address" value={customerInfo.address}
+                                    onChange={(e) => handleInput(e)}
+                                />
                             </div>
                             <div className="userInfoInput">
                                 <div className="chungtuContainer">
@@ -90,10 +122,7 @@ const UpdateInfor = () => {
                                         Hình ảnh CCCD <span class="starRed">*</span>:
                                     </p>
                                     <div className="chungtu">
-                                        {/* <button onClick={onHandleNewFile}>Thêm mới</button> */}
-                                        {/* <a href={faceImg} target="_blank" rel="noopener noreferrer">
-                                            <img src={faceImg} width={100} height={65} />
-                                        </a> */}
+
                                     </div>
                                 </div>
                                 <div className="imgCCCD">
@@ -109,10 +138,16 @@ const UpdateInfor = () => {
                                 <div className="creditContainer">
                                     <p>Điểm tín dụng:</p>
                                     <div className="creditPointUser">
-                                        <span>300</span>
-                                        {/* <Link to="/customer-manager/updateinfo/detail-credit">
+                                        <input type="text" placeholder="" name="point"
+                                            value={customerInfo.point}
+                                            onChange={(e) => handleInput(e)}
+                                        />
+                                        <Link to="/customer-manager/updateinfo/detail-credit">
                                             <button>Chi tiết</button>
-                                        </Link> */}
+                                        </Link>
+                                        <button>
+                                            A
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="statusContainer">
@@ -139,16 +174,16 @@ const UpdateInfor = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="comfirmBtn">
-                            <Button type="submit">
-                                <BtnSave />
-                            </Button>
-                            <Button>
-                                <Link to="/customer-manager">
-                                    <BtnCloseAnimation />
-                                </Link>
-                            </Button>
-                        </div>
+                    </div>
+                    <div className="comfirmBtn">
+                        <Button type="submit">
+                            <BtnSave />
+                        </Button>
+                        <Button>
+                            <Link to="/customer-manager">
+                                <BtnCloseAnimation />
+                            </Link>
+                        </Button>
                     </div>
                 </div>
             </div>
