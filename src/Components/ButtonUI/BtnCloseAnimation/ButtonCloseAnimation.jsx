@@ -3,31 +3,15 @@ import React, { useEffect, useState } from 'react';
 import './BtnCloseAnimation.scss';
 import { Button } from '@mui/material';
 
-function BtnCloseAnimation({
-    setShowAddContract,
-    setShowUpdateContract,
-    showUpdateContract,
-    showAddContract,
-    showliquidation,
-    setShowliquidation,
-    showdetailContract,
-    setshowdetailContract,
-    showExpiration,
-    setShowExpiration,
-}) {
+function ButtonCloseAnimation({ onCancel, onConfirm }) {
     const [showConfirm, setShowConfirm] = useState(false);
-    const onHandlePopup = () => {
-        if (showUpdateContract === true) {
-            setShowUpdateContract(false);
-        } else if (showAddContract === true) {
-            setShowAddContract(false);
-        } else if (showliquidation === true) {
-            setShowliquidation(false);
-        } else if (showdetailContract === true) {
-            setshowdetailContract(false);
-        } else if (showExpiration === true) {
-            setShowExpiration(false);
-        }
+    const handleCancel = () => {
+        setShowConfirm(false);
+        onCancel();
+    };
+    const handleConfirm = () => {
+        setShowConfirm(false);
+        onConfirm();
     };
     return (
         <div className="">
@@ -47,10 +31,10 @@ function BtnCloseAnimation({
                     <div className="btn-confirm" onClick={(e) => e.stopPropagation()}>
                         <p>Bạn có muốn thoát không?</p>
                         <div className="btnTrueFalse">
-                            <button className="yes" onClick={onHandlePopup}>
+                            <button className="yes" onClick={handleConfirm}>
                                 Có
                             </button>
-                            <button className="no" onClick={() => setShowConfirm(false)}>
+                            <button className="no" onClick={handleCancel}>
                                 Không
                             </button>
                         </div>
@@ -60,4 +44,4 @@ function BtnCloseAnimation({
         </div>
     );
 }
-export default BtnCloseAnimation;
+export default ButtonCloseAnimation;

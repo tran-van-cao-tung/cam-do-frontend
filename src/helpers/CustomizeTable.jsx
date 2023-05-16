@@ -32,7 +32,7 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function CustomizedTables({ renderedData, dataTable }) {
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700, border: 'none' }} aria-label="customized table">
+            <Table sx={{ border: 'none' }}>
                 <TableHead>
                     <TableRow>
                         {dataTable.map((item, index) => (

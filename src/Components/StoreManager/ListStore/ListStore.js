@@ -102,14 +102,9 @@ const ListStore = () => {
             nameHeader: 'Chức năng',
             dataRow: (element) => {
                 return (
-                    <div className="MuiTableBody_root-elementLast">
-                        <Link to={`/detailsStore/${element.branchId}`}>
-                            <img src={ext} alt="..." />
-                        </Link>
-                        <Link to={`/editliststore/edit/${element.branchId}`}>
-                            <img src={edit} alt="Edit" />
-                        </Link>
-                    </div>
+                    <Link to={`/editliststore/edit/${element.branchId}`}>
+                        <img src={edit} alt="Edit" />
+                    </Link>
                 );
             },
         },
