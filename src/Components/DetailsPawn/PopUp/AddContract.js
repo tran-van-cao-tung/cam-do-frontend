@@ -7,14 +7,17 @@ import API from '../../../API';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { AuthContext } from '../../../helpers/AuthContext';
-import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
-import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import userImg from '../../../asset/img/user.png';
+
 import { Button } from '@mui/material';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
+import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
+import { Save } from '@mui/icons-material';
+import ButtonCloseAnimation from '../../ButtonUI/BtnCloseAnimation/ButtonCloseAnimation';
 
 const AddContract = ({ setShowAddContract, showAddContract }) => {
-    const { authState, currentBranchId, userInfo} = useContext(AuthContext);
+    const { authState, currentBranchId, userInfo } = useContext(AuthContext);
     const [img, setImg] = useState('');
     const [refesh, setRefesh] = useState(false);
     const [contract, setContract] = useState([]);
@@ -44,7 +47,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
     const [user, setUser] = useState();
 
     const handleImg = (inputImg) => {
-        console.log("img is:", inputImg);
+        console.log('img is:', inputImg);
         setImg(inputImg);
     };
 
@@ -174,318 +177,317 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
         setContractAttributes(newArray);
         console.log(contractAttributes);
     };
+    const renderContent = () => (
+        <div className="contents">
+            <form onSubmit={hanldeSubmit}>
+                {/* Thông tin khách hàng */}
+                <div className="mgb21">
+                    <div className="heading-info-user heading-user">
+                        <div className="heading-info-user">
+                            <img src={userImg} alt="hk" />
+                            <h1 className="titile-user">Thông tin khách hàng</h1>
+                        </div>
+                    </div>
+                    <div className="box__user">
+                        <Box sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} md={6}>
+                                    <div className="user__info">
+                                        <div className="user__info-label">
+                                            <p>
+                                                Tên khách hàng <span class="start-red">*</span>:
+                                            </p>
+                                            <p>Số CMND/Hộ chiếu:</p>
+                                        </div>
+                                        <div className="user__info-input">
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập tên khách hàng"
+                                                name="customerName"
+                                                onChange={(e) => handleInput(e)}
+                                                value={customer ? customer.fullName : contract.customerName}
+                                            />
+                                            <input
+                                                type="text"
+                                                name="cccd"
+                                                placeholder="Nhập CMND/Hộ chiếu"
+                                                onMouseOut={(e) => handleCustomer(e)}
+                                            />
+                                        </div>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <div className="user__info">
+                                        <div className="user__info-label">
+                                            <p>
+                                                Số điện thoại <span class="start-red">*</span>:
+                                            </p>
+                                            <p>
+                                                Địa chỉ <span class="start-red">*</span>:
+                                            </p>
+                                        </div>
+                                        <div className="user__info-input">
+                                            <input
+                                                type="text"
+                                                name="phone"
+                                                placeholder="Nhập số điện thoại"
+                                                value={customer ? customer.phone : ''}
+                                            />
+                                            <input
+                                                type="text"
+                                                name="address"
+                                                placeholder="Nhập địa chỉ khách hàng"
+                                                value={customer ? customer.address : ''}
+                                            />
+                                        </div>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </div>
+                </div>
+                {/* thông tin cầm đồ */}
+                <div className="mgb21">
+                    <div className="heading-info-user heading-user">
+                        <div className="heading-info-user">
+                            <img src={user} alt="hk" />
+                            <h1 className="titile-user">Thông tin cầm đồ</h1>
+                        </div>
+                    </div>
+                    <div className="box__user">
+                        <Box sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} md={6}>
+                                    <div className="user__info">
+                                        <div className="user__info-label">
+                                            <p>
+                                                Loại tài sản<span class="start-red">*</span>:
+                                            </p>
+                                            <p>
+                                                Tên tài sản <span class="start-red">*</span>:
+                                            </p>
+                                            <p>
+                                                Phí bảo hiểm<span class="start-red">*</span>:
+                                            </p>
+                                            <p>
+                                                Phí lưu kho<span class="start-red">*</span>:
+                                            </p>
+                                            <p>
+                                                Tổng số tiền vay<span class="start-red">*</span>:
+                                            </p>
+                                            <p>
+                                                NV thu tiền<span class="start-red">*</span>:
+                                            </p>
+                                        </div>
+                                        <div className="user__info-input">
+                                            {/* Lấy dữ liệu từ PawnableProduct */}
+                                            <select onChange={(e) => handleSeri(e)}>
+                                                <option>---Loại tài sản---</option>
+                                                {pawnableProduct.map((item, index) => {
+                                                    return (
+                                                        <option value={item.pawnableProductId} key={index}>
+                                                            {item.typeOfProduct}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+                                            <input
+                                                type="text"
+                                                name="contractAssetName"
+                                                placeholder="Nhập tên tài sản"
+                                                onChange={(e) => handleInput(e)}
+                                            />
+                                            <div className="box__input">
+                                                <input
+                                                    type="number"
+                                                    name="insuranceFee"
+                                                    onChange={(e) => {
+                                                        handleSum(e);
+                                                    }}
+                                                    placeholder="0"
+                                                />
+                                                <span>VNĐ</span>
+                                            </div>
+                                            <div className="box__input">
+                                                <input
+                                                    type="number"
+                                                    name="storageFee"
+                                                    onChange={(e) => {
+                                                        handleSum(e);
+                                                    }}
+                                                    placeholder="0"
+                                                />
+                                                <span>VNĐ</span>
+                                            </div>
+                                            <div className="box__input">
+                                                <input
+                                                    type="number"
+                                                    name="loan"
+                                                    onChange={(e) => {
+                                                        handleSum(e);
+                                                    }}
+                                                    placeholder="0"
+                                                />
+                                                <span>VNĐ</span>
+                                            </div>
+                                            <span style={{ width: '100%', height: '5px' }}>
+                                                {userInfo ? userInfo.fullName : ''}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <div className="user__info">
+                                        <div className="user__info-label">
+                                            <p>
+                                                Chọn gói cầm <span class="start-red">*</span>:
+                                            </p>
+                                            <p>Kỳ lãi:</p>
+                                            {/*
+                                            <p>Ngày vay:</p> */}
+                                            <p>Lãi mặc định:</p>
+                                            <p>Lãi đề xuất: </p>
+                                            <p>Số tiền lãi dự kiến :</p>
+                                        </div>
+                                        <div className="user__info-input">
+                                            {/* Lấy dữ liệu từ Package */}
+                                            <select onChange={(e) => hanldePackageItem(e)}>
+                                                <option>---Gói Cầm---</option>
+                                                {packagelist.map((item, index) => {
+                                                    return (
+                                                        <option key={index} value={item.packageId}>
+                                                            {item.packageName}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+
+                                            <p className="flcenter">{packageItem[0] ? packageItem[0].day : ''} Ngày</p>
+                                            {/* <input type="date" /> */}
+                                            <p className="flcenter">
+                                                {packageItem[0] ? packageItem[0].packageInterest : ''}%
+                                            </p>
+                                            <input
+                                                type="number"
+                                                name="interestRecommend"
+                                                onChange={(e) => handleInput(e)}
+                                            />
+                                            <p className="flend"> abcs</p>
+                                        </div>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </div>
+                </div>
+                {/* Thông tin tài sản */}
+                <div className="mgb21">
+                    <div className="heading-info-user heading-user">
+                        <div className="heading-info-user">
+                            <img src={bike} alt="hk" />
+                            <h1 className="titile-user">Thông tin tài sản</h1>
+                        </div>
+                    </div>
+                    <div className="box__user">
+                        <Box sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} md={6}>
+                                    <div className="user__info">
+                                        <div className="user__info-label">
+                                            {attributes
+                                                ? attributes.map((item, index) => {
+                                                      return (
+                                                          <p key={index}>
+                                                              {item.description} <span class="start-red">*</span>:
+                                                          </p>
+                                                      );
+                                                  })
+                                                : ''}
+                                        </div>
+                                        <div className="user__info-input">
+                                            {attributes
+                                                ? attributes.map((item, index) => {
+                                                      return (
+                                                          <input
+                                                              type="text"
+                                                              name={index}
+                                                              onChange={(e) =>
+                                                                  hanleInputAttribute(e, item.pawnableProductId, index)
+                                                              }
+                                                              placeholder={`Nhập ${item.description}`}
+                                                          />
+                                                      );
+                                                  })
+                                                : ''}
+                                        </div>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <div className="user__info-label">
+                                        <p>
+                                            Hình ảnh <span class="start-red">*</span>:
+                                        </p>
+                                    </div>
+                                    <div>
+                                        {img ? (
+                                            <a href={img} target="_blank" rel="noopener noreferrer">
+                                                <img src={img} alt="" style={{ width: '400px', height: '300px' }} />
+                                            </a>
+                                        ) : (
+                                            <UploadDropzone
+                                                uploader={uploader}
+                                                options={uploaderOptions}
+                                                onUpdate={(files) =>
+                                                    console.log(files.map((x) => x.fileUrl).join('\n'))
+                                                }
+                                                onComplete={(files) =>
+                                                    handleImg(files.map((x) => x.fileUrl).join('\n'))
+                                                }
+                                                width="600px"
+                                                height="375px"
+                                            />
+                                        )}
+                                    </div>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </div>
+                </div>
+            </form>
+        </div>
+    );
+
+    const handleCloseDialog = () => {
+        setShowAddContract(false);
+    };
 
     return (
-        <div className="add-contract" onClick={() => setShowAddContract(false)}>
-            <div className="content-contract" onClick={(e) => e.stopPropagation()}>
-                {/* Tiêu đề */}
-                <div className="heading-contract">
-                    <h1>Thêm mới hợp đồng</h1>
-                    {/*  <div className="sub-heading">
-            <p>
-              Mã hợp đồng <span className="start-red">*</span>: CĐ-0007
-            </p>
-            <p>Điểm tín dụng: 0</p>
-          </div> */}
-                </div>
-                <div className="contents">
-                    <form onSubmit={hanldeSubmit}>
-                        {/* Thông tin khách hàng */}
-                        <div className="mgb21">
-                            <div className="heading-info-user heading-user">
-                                <div className="heading-info-user">
-                                    <img src={user} alt="hk" />
-                                    <h1 className="titile-user">Thông tin khách hàng</h1>
-                                </div>
-                            </div>
-                            <div className="box__user">
-                                <Box sx={{ flexGrow: 1 }}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} md={6}>
-                                            <div className="user__info">
-                                                <div className="user__info-label">
-                                                    <p>
-                                                        Tên khách hàng <span class="start-red">*</span>:
-                                                    </p>
-                                                    <p>Số CMND/Hộ chiếu:</p>
-                                                </div>
-                                                <div className="user__info-input">
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Nhập tên khách hàng"
-                                                        name="customerName"
-                                                        onChange={(e) => handleInput(e)}
-                                                        value={customer ? customer.fullName : contract.customerName}
-                                                    />
-                                                    <input
-                                                        type="text"
-                                                        name="cccd"
-                                                        placeholder="Nhập CMND/Hộ chiếu"
-                                                        onMouseOut={(e) => handleCustomer(e)}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </Grid>
-                                        <Grid item xs={12} md={6}>
-                                            <div className="user__info">
-                                                <div className="user__info-label">
-                                                    <p>
-                                                        Số điện thoại <span class="start-red">*</span>:
-                                                    </p>
-                                                    <p>
-                                                        Địa chỉ <span class="start-red">*</span>:
-                                                    </p>
-                                                </div>
-                                                <div className="user__info-input">
-                                                    <input
-                                                        type="text"
-                                                        name="phone"
-                                                        placeholder="Nhập số điện thoại"
-                                                        value={customer ? customer.phone : ''}
-                                                    />
-                                                    <input
-                                                        type="text"
-                                                        name="address"
-                                                        placeholder="Nhập địa chỉ khách hàng"
-                                                        value={customer ? customer.address : ''}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </Grid>
-                                    </Grid>
-                                </Box>
-                            </div>
-                        </div>
-                        {/* thông tin cầm đồ */}
-                        <div className="mgb21">
-                            <div className="heading-info-user heading-user">
-                                <div className="heading-info-user">
-                                    <img src={user} alt="hk" />
-                                    <h1 className="titile-user">Thông tin cầm đồ</h1>
-                                </div>
-                            </div>
-                            <div className="box__user">
-                                <Box sx={{ flexGrow: 1 }}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} md={6}>
-                                            <div className="user__info">
-                                                <div className="user__info-label">
-                                                    <p>
-                                                        Loại tài sản<span class="start-red">*</span>:
-                                                    </p>
-                                                    <p>
-                                                        Tên tài sản <span class="start-red">*</span>:
-                                                    </p>
-                                                    <p>
-                                                        Phí bảo hiểm<span class="start-red">*</span>:
-                                                    </p>
-                                                    <p>
-                                                        Phí lưu kho<span class="start-red">*</span>:
-                                                    </p>
-                                                    <p>
-                                                        Tổng số tiền vay<span class="start-red">*</span>:
-                                                    </p>
-                                                    <p>
-                                                        NV thu tiền<span class="start-red">*</span>:
-                                                    </p>
-                                                </div>
-                                                <div className="user__info-input">
-                                                    {/* Lấy dữ liệu từ PawnableProduct */}
-                                                    <select onChange={(e) => handleSeri(e)}>
-                                                        <option>---Loại tài sản---</option>
-                                                        {pawnableProduct.map((item, index) => {
-                                                            return (
-                                                                <option value={item.pawnableProductId} key={index}>
-                                                                    {item.typeOfProduct}
-                                                                </option>
-                                                            );
-                                                        })}
-                                                    </select>
-                                                    <input
-                                                        type="text"
-                                                        name="contractAssetName"
-                                                        placeholder="Nhập tên tài sản"
-                                                        onChange={(e) => handleInput(e)}
-                                                    />
-                                                    <div className="box__input">
-                                                        <input
-                                                            type="number"
-                                                            name="insuranceFee"
-                                                            onChange={(e) => {
-                                                                handleSum(e);
-                                                            }}
-                                                            placeholder="0"
-                                                        />
-                                                        <span>VNĐ</span>
-                                                    </div>
-                                                    <div className="box__input">
-                                                        <input
-                                                            type="number"
-                                                            name="storageFee"
-                                                            onChange={(e) => {
-                                                                handleSum(e);
-                                                            }}
-                                                            placeholder="0"
-                                                        />
-                                                        <span>VNĐ</span>
-                                                    </div>
-                                                    <div className="box__input">
-                                                        <input
-                                                            type="number"
-                                                            name="loan"
-                                                            onChange={(e) => {
-                                                                handleSum(e);
-                                                            }}
-                                                            placeholder="0"
-                                                        />
-                                                        <span>VNĐ</span>
-                                                    </div>
-                                                    <span style={{ width: '100%', height: '10px' }}>
-                                                        {user ? user.fullName : ''}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </Grid>
-                                        <Grid item xs={12} md={6}>
-                                            <div className="user__info">
-                                                <div className="user__info-label">
-                                                    <p>
-                                                        Chọn gói cầm <span class="start-red">*</span>:
-                                                    </p>
-                                                    <p>Kỳ lãi:</p>
-                                                    {/* <p>Ngày vay:</p> */}
-                                                    <p>Lãi mặc định:</p>
-                                                    <p>Lãi đề xuất: </p>
-                                                    <p>Số tiền lãi dự kiến :</p>
-                                                </div>
-                                                <div className="user__info-input">
-                                                    {/* Lấy dữ liệu từ Package */}
-                                                    <select onChange={(e) => hanldePackageItem(e)}>
-                                                        <option>---Gói Cầm---</option>
-                                                        {packagelist.map((item, index) => {
-                                                            return (
-                                                                <option key={index} value={item.packageId}>
-                                                                    {item.packageName}
-                                                                </option>
-                                                            );
-                                                        })}
-                                                    </select>
-
-                                                    <p className="flcenter">
-                                                        {packageItem[0] ? packageItem[0].day : ''} Ngày
-                                                    </p>
-                                                    {/* <input type="date" /> */}
-                                                    <p className="flcenter">
-                                                        {packageItem[0] ? packageItem[0].packageInterest : ''}%
-                                                    </p>
-                                                    <input
-                                                        type="number"
-                                                        name="interestRecommend"
-                                                        onChange={(e) => handleInput(e)}
-                                                    />
-                                                    <p className="flend">{ }</p>
-                                                </div>
-                                            </div>
-                                        </Grid>
-                                    </Grid>
-                                </Box>
-                            </div>
-                        </div>
-                        {/* Thông tin tài sản */}
-                        <div className="mgb21">
-                            <div className="heading-info-user heading-user">
-                                <div className="heading-info-user">
-                                    <img src={bike} alt="hk" />
-                                    <h1 className="titile-user">Thông tin tài sản</h1>
-                                </div>
-                            </div>
-                            <div className="box__user">
-                                <Box sx={{ flexGrow: 1 }}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} md={6}>
-                                            <div className="user__info">
-                                                <div className="user__info-label">
-                                                    {attributes
-                                                        ? attributes.map((item, index) => {
-                                                            return (
-                                                                <p key={index}>
-                                                                    {item.description}{' '}
-                                                                    <span class="start-red">*</span>:
-                                                                </p>
-                                                            );
-                                                        })
-                                                        : ''}
-
-                                                </div>
-                                                <div className="user__info-input">
-                                                    {attributes
-                                                        ? attributes.map((item, index) => {
-                                                            return (
-                                                                <input
-                                                                    type="text"
-                                                                    name={index}
-                                                                    onChange={(e) =>
-                                                                        hanleInputAttribute(
-                                                                            e,
-                                                                            item.pawnableProductId,
-                                                                            index,
-                                                                        )
-                                                                    }
-                                                                    placeholder={`Nhập ${item.description}`}
-                                                                />
-                                                            );
-                                                        })
-                                                        : ''}
-                                                </div>
-                                            </div>
-                                        </Grid>
-                                        <Grid item xs={12} md={6}>
-                                            <div className="user__info-label">
-                                                <p>
-                                                    Hình ảnh <span class="start-red">*</span>:
-
-                                                </p>
-                                            </div>
-                                            <div>
-                                                {
-                                                    img ? (
-                                                        <a href={img} target="_blank" rel="noopener noreferrer">
-                                                            <img src={img} alt="" style={{ width: '400px', height: '300px' }} />
-                                                        </a>
-                                                    ) :
-                                                        <UploadDropzone
-                                                            uploader={uploader}
-                                                            options={uploaderOptions}
-                                                            onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
-                                                            onComplete={(files) => handleImg(files.map((x) => x.fileUrl).join('\n'))}
-                                                            width="600px"
-                                                            height="375px"
-                                                        />
-                                                }
-                                            </div>
-                                        </Grid>
-                                    </Grid>
-                                </Box>
-                            </div>
-                            <div className="btn__group">
-                                {/* <button className="btn btn__save" type="submit">
-                                    <img src={save} alt="" />
-                                    Lưu lại
-                                </button> */}
-                                <Button onClick={(e) => hanldeSubmit(e)}>
-                                    <BtnSave />
-                                </Button>
-                                <BtnCloseAnimation
-                                    showAddContract={showAddContract}
-                                    setShowAddContract={setShowAddContract}
-                                />
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
+        <>
+            <CustomizeDiaglog
+                open={showAddContract}
+                onClose={handleCloseDialog}
+                title="Thêm mới hợp đồng"
+                content={renderContent()}
+                action={
+                    <div className="btn__group">
+                        <ButtonCloseAnimation onConfirm={handleCloseDialog} />
+                        <Button
+                            onClick={(e) => hanldeSubmit(e)}
+                            variant="contained"
+                            color="success"
+                            sx={{
+                                fontSize: '16px',
+                                padding: '15px 30px',
+                            }}
+                            startIcon={<Save />}
+                        >
+                            Lưu Lại
+                        </Button>
+                    </div>
+                }
+                maxWidth={DIALOG_SIZE.xl}
+            />
+        </>
     );
 };
 
