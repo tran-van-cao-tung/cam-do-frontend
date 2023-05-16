@@ -1,53 +1,3 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'; import './popup.css'; import bike from
-'../../../asset/img/bike.png'; // import save from '../../../asset/img/save1.png'; // import close from
-'../../../asset/img/close1.png'; import
-API from '../../../API'; import Box from '@mui/material/Box'; import Grid from '@mui/material/Grid'; import {
-AuthContext } from '../../../helpers/AuthContext'; import BtnCloseAnimation from
-'../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation'; import
-BtnSave from '../../ButtonUI/BtnSave/BtnSave'; import { Button } from '@mui/material'; import { Uploader } from
-'uploader'; import { UploadDropzone } from 'react-uploader'; const AddContract = ({ setShowAddContract, showAddContract
-}) => { const { authState,
-currentBranchId, userInfo} = useContext(AuthContext); const [img, setImg] = useState(''); const [refesh, setRefesh] =
-useState(false); const [contract, setContract] = useState([]); const [pawnableProduct, setPawnableProduct] =
-useState([]); const [packagelist,
-setPackage] = useState([]); const [packageItem, setPackageItem] = useState([]); const uploader = Uploader({ apiKey:
-'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key. const uploaderOptions = { multi: true, // Comment out
-this line & use 'onUpdate'
-instead of // 'onComplete' to have the dropzone close after upload. showFinishButton: true, styles: { colors: { primary:
-'#377dff', }, }, }; useEffect(() => { return () => { img && URL.revokeObjectURL(img.preview); }; }, [img]); const [user,
-setUser]
-= useState(); const handleImg = (inputImg) => { console.log("img is:", inputImg); setImg(inputImg); }; //Submit dữ liệu
-contract const hanldeSubmit = (e) => { e.preventDefault(); const data = { customerId: customer.customerId, userId:
-userInfo.userId,
-branchId: currentBranchId, totalProfit: 0, warehouseId: 1, pawnableProductId: contract.pawnableProductId, packageId:
-packageItem[0].packageId, contractAssetName: contract.contractAssetName, insuranceFee: contract.insuranceFee,
-storageFee: contract.storageFee,
-loan: contract.loan, assetImg: img, pawnableAttributeDTOs: contractAttributes, interestRecommend:
-contract.interestRecommend, description: 'string', }; API({ method: 'post', url: '/contract/createContract', data: data,
-}).then((res) => { alert('Tạo hợp
-đồng thành công'); console.log('thành công'); window.location.reload(false); }); console.log(data); }; //get dữ liệu
-pawnableProduct useEffect(() => { API({ method: 'get', url: 'pawnableProduct/getAll/0', }).then((res) => {
-setPawnableProduct(res.data);
-}); }, []); //get dữu liệu package useEffect(() => { API({ method: 'get', url: 'package/getAll/0', }).then((res) => {
-setPackage(res.data); }); }, []); //get dữ liệu Lấy userId useEffect(() => { API({ method: 'get', url: 'user/getAll/0',
-}) .then((res)
-=> { setUser( res.data.filter((item, index) => { return item.userId === userInfo.userId; })[0], ); }) .catch((err) =>
-console.log(err)); }, [userInfo]); const hanldePackageItem = (e) => { setPackageItem( packagelist.filter((item) => {
-return item.packageId
-== e.target.value; }), ); setRefesh(!refesh); }; const handleInput = (e) => { e.persist(); setContract({ ...contract,
-[e.target.name]: e.target.value }); }; const handleSum = (e) => { setContract({ ...contract, [e.target.name]:
-e.target.value }); }; const
-[customer, setCustomer] = useState(); //Get dữ liệu customer bằng cccd const handleCustomer = (e) => { let value =
-e.target.value; API({ method: 'get', url: `customer/getByCCCD/${value}`, }) .then((res) => { setCustomer(res.data); })
-.catch((err) => console.log(err));
-}; const [attributes, setAttributes] = useState(); //get dữ liệu seri bằng dựa vào loại tài sản const handleSeri = (e)
-=> { API({ method: 'get', url: `pawnableProduct/getPawnAbleProductById/${e.target.value}`, }) .then((res) => {
-setAttributes(res.data.attributes);
-setContract({ ...contract, pawnableProductId: e.target.value }); }) .catch((err) => console.log(err)); }; const
-[contractAttributes, setContractAttributes] = useState([]); const hanleInputAttribute = (e, id, index) => { const
-newArray = [...contractAttributes];
-if (e.target.name == index) { newArray[index] = { pawnableProductId: id, description: e.target.value, }; }
-setContractAttributes(newArray); console.log(contractAttributes); }; return (
 <div className="add-contract" onClick={()=> setShowAddContract(false)}>
     <div className="content-contract" onClick={(e)=> e.stopPropagation()}> {/* Tiêu đề */}
         <div className="heading-contract">
@@ -175,7 +125,7 @@ setContractAttributes(newArray); console.log(contractAttributes); }; return (
                                                 <span>VNĐ</span>
                                             </div>
                                             <span style={{ width: '100%' , height: '10px' }}>
-                                                {user ? user.fullName : ''}
+                                                {userInfo ? userInfo.fullName : ''}
                                             </span>
                                         </div>
                                     </div>
@@ -192,11 +142,12 @@ setContractAttributes(newArray); console.log(contractAttributes); }; return (
                                             <p>Lãi mặc định:</p>
                                             <p>Lãi đề xuất: </p>
                                             <p>Số tiền lãi dự kiến :</p>
+                                            <p>Kho: </p>
                                         </div>
                                         <div className="user__info-input">
                                             {/* Lấy dữ liệu từ Package */}
-                                            <select onChange={(e)=> hanldePackageItem(e)}>
-                                                <option>---Gói Cầm---</option>
+                                            <select onChange={(e)=> handlePackageItem(e)}>
+                                                <option selected value={""}>---Gói Cầm---</option>
                                                 {packagelist.map((item, index) => {
                                                 return (
                                                 <option key={index} value={item.packageId}>
@@ -206,16 +157,25 @@ setContractAttributes(newArray); console.log(contractAttributes); }; return (
                                                 })}
                                             </select>
 
-                                            <p className="flcenter">
+                                            <p>
                                                 {packageItem[0] ? packageItem[0].day : ''} Ngày
                                             </p>
                                             {/* <input type="date" /> */}
-                                            <p className="flcenter">
+                                            <p>
                                                 {packageItem[0] ? packageItem[0].packageInterest : ''}%
                                             </p>
                                             <input type="number" name="interestRecommend" onChange={(e)=>
                                             handleInput(e)} />
-                                            <p className="flend">{ }</p>
+                                            <p>{totalProfit ? formatMoney(totalProfit) : '0 VND'}</p>
+                                            <select value={warehouse} onChange={updateWarehouse}>
+                                                {warehouse.map((item, index) => {
+                                                return (
+                                                <option key={index} value={item.warehouseId}>
+                                                    {item.warehouseName}
+                                                </option>
+                                                );
+                                                })}
+                                            </select>
                                         </div>
                                     </div>
                                 </Grid>
