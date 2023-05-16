@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import CreateIcon from '@mui/icons-material/Create';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { Uploader } from 'uploader';
@@ -21,6 +20,7 @@ import PropTypes from 'prop-types';
 import { unstable_HistoryRouter, useNavigate } from 'react-router-dom';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import zIndex from '@mui/material/styles/zIndex';
+import PaymentsIcon from '@mui/icons-material/Payments';
 
 const style = {
     position: 'absolute',
@@ -39,7 +39,7 @@ const styleModal = {
     zIndex: '99',
 };
 
-const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
 const uploaderOptions = {
     multi: true,
 
@@ -82,7 +82,7 @@ NumericFormatCustom.propTypes = {
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
 };
-export default function BasicModal({ item, refresh }) {
+export default function BasicModal({ item, refresh, refreshDetail }) {
     const [open, setOpen] = React.useState(false);
     const [showMessage, setShowMessage] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -110,15 +110,6 @@ export default function BasicModal({ item, refresh }) {
         console.log('value:', setPaidMoney);
     };
 
-    // useEffect(() => {
-    //     const slug = item.interestDiaryId;
-    //     callAPI({
-    //         method: 'get',
-    //         url: `interestDiary/getInterestDiariesByContractId/${slug}}`,
-    //     }).then((res) => {
-    //         setInterestDiary(res.data);
-    //     });
-    // }, [item.interestDiaryId]);
     const [listImg, setListImg] = useState([]);
     const handleImg = (img) => {
         const newArray = [...listImg];
@@ -137,7 +128,6 @@ export default function BasicModal({ item, refresh }) {
         console.log('alo', interestDiary);
     };
     const history = useNavigate();
-    const MySwal = withReactContent(Swal);
     const handleSubmit = (event) => {
         event.preventDefault();
         const interestDiaryId = item.interestDiaryId;
@@ -163,11 +153,6 @@ export default function BasicModal({ item, refresh }) {
             data: data,
         }).then((res) => {
             console.log(res.data);
-            /* MySwal.fire({
-                title: <p>Hello World</p>,
-              }).then(() => {
-                return MySwal.fire(<p>Shorthand works too</p>)
-              }) */
             if (res.data == false) {
                 Swal.fire({
                     text: 'Tiền khách trả lớn hơn tổng tiền',
@@ -180,6 +165,7 @@ export default function BasicModal({ item, refresh }) {
                     icon: 'success',
                 }).then((result) => {});
                 refresh();
+                refreshDetail();
                 setOpen(false);
             }
         });
@@ -187,7 +173,7 @@ export default function BasicModal({ item, refresh }) {
     return (
         <div>
             <Button onClick={handleOpen}>
-                <CreateIcon />
+                <PaymentsIcon />
             </Button>
             <Modal
                 sx={styleModal}

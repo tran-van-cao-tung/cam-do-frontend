@@ -1,9 +1,15 @@
 import axios from 'axios';
 
-const callAPI = axios.create({
+async function addToken(config) {
+    const token = `Bearer ${localStorage.getItem('accessToken')}`;
+    config.headers.Authorization = token;
+    return config;
+}
+
+const axiosClient = axios.create({
     baseURL: 'https://tranvancaotung2-001-site1.etempurl.com/api/v1',
-    headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
 });
-export default callAPI;
+
+axiosClient.interceptors.request.use(addToken);
+
+export default axiosClient;

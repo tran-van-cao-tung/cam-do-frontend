@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
     Chart as ChartJS,
     Title,
@@ -9,37 +9,26 @@ import {
     LinearScale,
     PointElement,
     Filler,
-    ScriptableContext,
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
 
 import DetailsReport from '../DetailsReport/DetailsReport';
+import { AuthContext } from '../../../helpers/AuthContext';
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, Filler);
 
 function ChartLine({ value, setYear }) {
+    const { authState } = useContext(AuthContext);
     const currentYear = new Date().getFullYear();
-    const [authState, setAuthState] = useState({
-        userName: '',
-        userId: '',
-        branchId: 1,
-        status: false,
-    });
-    const [dateYearReport, setDateYearReport] = useState([]);
+
+    const [dateYearReport] = useState([]);
     const [data, setData] = useState({
         labels: [],
         datasets: [
             {
                 label: '',
                 data: [],
-                // backgroundColor: () => {},
-                //     const ctx = canvas.getContext('2d');
-                //     let gradient = ctx.createLinearGradient(0, 0, 0, 150);
-                //     gradient.addColorStop(0, 'rgba(0, 124, 194, 0.1)');
-                //     gradient.addColorStop(0.5, 'rgba(0, 124, 194, 0.3)');
-                //     gradient.addColorStop(1, 'rgba(0, 124, 194, 0.7)');
-                // },
                 borderColor: '',
                 tension: 0.6,
                 fill: true,
@@ -64,12 +53,12 @@ function ChartLine({ value, setYear }) {
         )
             .then((response) => response.json())
             .then((json) => {
-                console.log('json', json);
+                // eslint-disable-next-line array-callback-return
                 json.map((item, index) => {
                     arrRevenue.push(item.revenue);
                     arrProfit.push(item.profit);
                     arrLoan.push(item.loan);
-                    // date.push(item.toDate);
+
                     const month = new Date(item.toDate).toLocaleString('default', { month: 'long' });
                     const year = new Date(item.toDate).getFullYear(); // extract month from date string
                     dateMonth.push(month);
@@ -166,16 +155,12 @@ function ChartLine({ value, setYear }) {
                 }
             });
         // console.log('arr', arr);
-    }, [value]);
+    }, [authState.branchId, currentYear, setYear, value]);
     console.log('year', dateYearReport);
     const options = {
         plugins: {
             legend: {
-                // textAlign: 'left',
                 display: true,
-                // labels: {
-                //     color: 'rgb(255, 99, 132)',
-                // },
             },
         },
         scales: {
@@ -187,13 +172,6 @@ function ChartLine({ value, setYear }) {
                 ticks: {
                     stepSize: 200000000,
                     callback: (value) =>
-                        //     if (value == 0) {
-                        //         value = 0;
-                        //     } else if (value > 1000000000) {
-                        //        value / 10000000 + 'Tỷ'
-                        //     } else {
-                        //     value / 1000000 + 'Tr';
-                        //     }
                         value === 0 ? 0 : value > 1000000000 ? value / 1000000000 + 'Tỷ' : value / 1000000 + 'Tr',
                 },
                 grid: {},

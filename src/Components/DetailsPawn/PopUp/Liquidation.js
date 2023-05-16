@@ -9,13 +9,15 @@ import callAPI from '../../../API';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import { Button } from '@mui/material';
+import { formatDate } from '../../../helpers/dateTimeUtils';
 
 const Liquidation = ({ showliquidation, setShowliquidation }) => {
+    var now = new Date().getTime();
     const [contractDetail, setContractDetail] = useState([]);
     useEffect(() => {
         callAPI({
             method: 'get',
-            url: `/contract/getContractDetail/` + localStorage.getItem('PawnDetailID'),
+            url: `/contract/getContractInfoByContractId/` + localStorage.getItem('PawnDetailID'),
         }).then((res) => {
             setContractDetail(res.data);
             console.log(res.data);
@@ -64,10 +66,13 @@ const Liquidation = ({ showliquidation, setShowliquidation }) => {
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th colSpan="2">Vay từ ngày</th>
+                                    <th colSpan="2">Ngày bắt đầu</th>
                                     <th colSpan="1" style={{ textAlign: 'right' }}>
                                         {moment(contractDetail.contractStartDate).format('DD/MM/YYYY')}
                                     </th>
+                                </tr>
+                                <tr>
+                                <th colSpan="2">Ngày kết thúc</th>
                                     <th colSpan="1" style={{ textAlign: 'right' }}>
                                         {moment(contractDetail.contractEndDate).format('DD/MM/YYYY')}
                                     </th>
@@ -94,7 +99,7 @@ const Liquidation = ({ showliquidation, setShowliquidation }) => {
                                         <span className="start-red">
                                             {contractDetail.interestDebt
                                                 ? formatMoney(contractDetail.interestDebt)
-                                                : ''}
+                                                : '0 VNĐ'}
                                         </span>
                                     </th>
                                 </tr>
@@ -146,7 +151,7 @@ const Liquidation = ({ showliquidation, setShowliquidation }) => {
                             </p>
                             <p>
                                 <b>
-                                    Tên tài sản <span className="start-red">*</span>:
+                                    Tên tài sản :
                                 </b>
                             </p>
 
@@ -159,14 +164,14 @@ const Liquidation = ({ showliquidation, setShowliquidation }) => {
                             <b>Ngày thanh lý:</b>
                         </div>
                         <div className="w30">
-                            <p>Xe máy</p>
-                            <p>Xe AB</p>
+                            <p>{contractDetail.typeOfProduct}</p>
+                            <p>{contractDetail.assetName}</p>
                             <div className="box__input">
                                 <input type="number" placeholder="0" />
                                 <span>VNĐ</span>
                             </div>
 
-                            <p className="line__height">01/01/2022</p>
+                            <p className="line__height">{formatDate(now)}</p>
                         </div>
                     </div>
                 </div>

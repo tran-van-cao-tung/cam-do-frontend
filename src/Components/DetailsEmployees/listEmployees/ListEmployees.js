@@ -1,31 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { styled } from '@mui/material/styles';
-import {
-    FormControl,
-    FormControlLabel,
-    Grid,
-    Radio,
-    RadioGroup,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-} from '@mui/material';
-import Paper from '@mui/material/Paper';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+
+import { Box, FormControl, FormControlLabel, Grid, Pagination, Radio, RadioGroup, Stack } from '@mui/material';
+
 import edit from './../../../asset/img/edit.png';
 import './employee.css';
 import { Link, useNavigate } from 'react-router-dom';
-import moment from 'moment';
+
 import API from '../../../API';
-import ReactPaginate from 'react-paginate';
+
 import { AuthContext } from '../../../helpers/AuthContext';
+import { isAvailableArray } from '../../../helpers/utils';
+import CustomizedTables from '../../../helpers/CustomizeTable';
+import { formatDate } from '../../../helpers/dateTimeUtils';
+
+const DEFAULT = {
+    pageNumber: 1,
+    pageSize: 6,
+    totalPage: 1,
+};
 
 function ListEmployees() {
-    const history = useNavigate();
+    const navigate = useNavigate();
+
+    const [logContract, setLogContract] = useState([]);
+    const [page, setPage] = useState(DEFAULT.pageNumber);
+    const [pageSize] = useState(DEFAULT.pageSize);
 
     const [statusFilter, setStatusFilter] = useState('all');
-
+    const { currentBranchId } = useContext(AuthContext);
     const [listEmployees, setListEmployee] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const searchedProduct = listEmployees
@@ -39,41 +41,91 @@ function ListEmployees() {
         });
     // Axios
     useEffect(() => {
-        API({
-            method: 'get',
-            url: '/user/getAll/0',
-        }).then((res) => {
-            setListEmployee(res.data);
-            console.log('aaaaa', res.data);
-        });
-    }, []);
-
-    const [branch, setBranch] = useState([]);
-    useEffect(() => {
-        API({
-            method: 'get',
-            url: `branch/getChain`,
-        }).then((res) => {
-            setBranch(res.data);
-        });
-    }, []);
-
-    console.log(branch);
+        if (currentBranchId) {
+            API({
+                method: 'get',
+                url: '/user/getAll/1/' + currentBranchId,
+            }).then((res) => {
+                setLogContract(res.data);
+            });
+        }
+    }, [currentBranchId, setListEmployee]);
 
     console.log(searchedProduct);
     // ==================================
     // |            Phân Trang        |
     // ==================================
-    const [currentPage, setCurrentPage] = useState(0);
-    const [productsPerPage, setProductsPerPage] = useState(5); // số lượng cửa hàng hiển thị trên mỗi trang
-    const totalPages = Math.ceil(listEmployees.length / productsPerPage); // tính toán số lượng trang
-    const indexOfLastProduct = (currentPage + 1) * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = listEmployees.slice(indexOfFirstProduct, indexOfLastProduct);
 
-    const handlePageClick = ({ selected: selectedPage }) => {
-        setCurrentPage(selectedPage);
+    const totalPage = useMemo(() => {
+        const result = Math.ceil(logContract.length / pageSize);
+        return result;
+    }, [logContract?.length, pageSize]);
+
+    const renderedData = useMemo(() => {
+        if (!isAvailableArray(logContract)) return [];
+
+        const start = (page - 1) * pageSize;
+        const end = page * pageSize;
+        return logContract.slice(start, end);
+    }, [logContract, page, pageSize]);
+    const handlePagination = (e, value) => {
+        setPage(value);
     };
+    const dataTable = [
+        {
+            nameHeader: 'Họ và tên',
+            dataRow: (element) => {
+                return element.fullName;
+            },
+        },
+        {
+            nameHeader: 'Tài khoản',
+            dataRow: (element) => {
+                return element.userName;
+            },
+        },
+        {
+            nameHeader: 'Số điện thoại',
+            dataRow: (element) => {
+                return element.phone;
+            },
+        },
+        {
+            nameHeader: 'Nơi làm việc',
+            dataRow: (element) => {
+                return element.address;
+            },
+        },
+        {
+            nameHeader: 'Ngày tạo',
+            dataRow: (element) => {
+                return formatDate(element.createTime);
+            },
+        },
+        {
+            nameHeader: 'Tình trạng',
+            dataRow: (element) => {
+                return element.status === 2 ? (
+                    <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                ) : (
+                    <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
+                );
+            },
+        },
+        {
+            nameHeader: 'Chức năng',
+            dataRow: (element) => {
+                return (
+                    <div className="MuiTableBody_root-itemLast">
+                        <Link to={`/editemployee/${element.userId}`}>
+                            <img src={edit} alt="Edit" />
+                        </Link>
+                    </div>
+                );
+            },
+        },
+    ];
+
     return (
         <>
             <div className="box_employee">
@@ -84,7 +136,7 @@ function ListEmployees() {
                             <button
                                 className="employee_button"
                                 onClick={() => {
-                                    history('/addemployee');
+                                    navigate('/addemployee');
                                 }}
                             >
                                 Thêm mới
@@ -136,77 +188,23 @@ function ListEmployees() {
                             {/* ================================ */}
                             {/* =            Table Show        = */}
                             {/* ================================ */}
-                            <div className="tableContainer">
-                                <div
-                                    className="tableEmployee _table-Listemoloyess"
-                                    style={{ overflowX: 'scroll', minWidth: '500px', borderRadius: '10px' }}
-                                >
-                                    <table className="responstable" style={{ width: '110%' }}>
-                                        <tr>
-                                            <th>STT</th>
-                                            <th data-th="Driver details">
-                                                <span>Cửa hàng</span>
-                                            </th>
-                                            <th style={{ width: '15%' }}>Họ và tên</th>
-                                            <th>Tài khoản</th>
-                                            <th>Số điện thoại</th>
-                                            <th style={{ width: '23%' }}>Nơi làm việc</th>
-                                            <th>Ngày tạo</th>
-                                            <th>Tình trạng</th>
-                                            <th>Chức năng</th>
-                                        </tr>
-                                        {currentProducts.map((i, index) => {
-                                            return (
-                                                <tr key={index + 1}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{i.branchId}</td>
-                                                    <td style={{ padding: '0px', margin: '9px 0' }}>{i.fullName}</td>
-                                                    <td>{i.userName}</td>
-                                                    <td>{i.phone}</td>
-                                                    <td>{i.address}</td>
-                                                    <td>{moment(i.createTime).format('MM/DD/YYYY')}</td>
-                                                    <td>
-                                                        {i.status === 2 ? (
-                                                            <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                                                        ) : (
-                                                            <div className="MuiTableBody_root-status activity">
-                                                                Đang hoạt động
-                                                            </div>
-                                                        )}
-                                                    </td>
-                                                    <td>
-                                                        <div className="MuiTableBody_root-itemLast">
-                                                            <Link to={`/editemployee/${i.userId}`}>
-                                                                <img src={edit} alt="Edit" />
-                                                            </Link>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </table>
-                                    {/* ================================ */}
-                                    {/* =            Phân Trang        = */}
-                                    {/* ================================ */}
-                                </div>
-                            </div>
+
+                            <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                            <Box marginTop="14px">
+                                <Stack spacing={2}>
+                                    <Pagination
+                                        style={{ margin: '0 auto' }}
+                                        count={totalPage}
+                                        page={page}
+                                        onChange={handlePagination}
+                                        color="primary"
+                                    />
+                                </Stack>
+                            </Box>
                         </div>
                     </Grid>
                 </Grid>
             </div>
-            <ReactPaginate
-                className="paginate-listemployees"
-                previousLabel={'Trang Trước'}
-                nextLabel={'Trang Sau'}
-                breakLabel={'...'}
-                breakClassName={'break-me'}
-                pageCount={totalPages}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-            />
         </>
     );
 }

@@ -168,7 +168,7 @@
 
 .flcenter {
     display: flex;
-    align-items: center;
+    align-items: end;
 }
 
 .flend {

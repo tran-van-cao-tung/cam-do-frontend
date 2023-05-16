@@ -1,40 +1,89 @@
-import Paper from '@mui/material/Paper';
-import TableContainer from '@mui/material/TableContainer';
 import API from '../../../API';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import './chainstores.css';
-import ReactPaginate from 'react-paginate';
 
+import { formatMoney } from '../../../helpers/dateTimeUtils';
+import { isAvailableArray } from '../../../helpers/utils';
+import CustomizedTables from '../../../helpers/CustomizeTable';
+import { Box, Pagination, Stack } from '@mui/material';
+import { useMemo } from 'react';
+
+const DEFAULT = {
+    pageNumber: 1,
+    pageSize: 6,
+    totalPage: 1,
+};
 const ChainStores = () => {
     // Axios
-    const [chainstores, setchainstores] = useState([]);
+
     // Axios
     useEffect(() => {
         API({
             method: 'get',
-            url: '/branch/getChain',
+            url: '/branch/getAll/0',
         }).then((res) => {
-            setchainstores(res.data);
+            setLogContract(res.data);
         });
     }, []);
     // ==================================
     // |            Phân Trang        |
     // ==================================
-    const [currentPage, setCurrentPage] = useState('');
-    const storesPerPage = 9; // số lượng cửa hàng hiển thị trên mỗi trang
-    const totalPages = Math.ceil(chainstores.length / storesPerPage); // tính toán số lượng trang
-    const startIndex = currentPage * storesPerPage;
-    const endIndex = startIndex + storesPerPage;
-    const currentPageData = chainstores.slice(startIndex, endIndex);
+    const [logContract, setLogContract] = useState([]);
+    const [page, setPage] = useState(DEFAULT.pageNumber);
+    const [pageSize] = useState(DEFAULT.pageSize);
 
-    const handlePageClick = ({ selected: selectedPage }) => {
-        setCurrentPage(selectedPage);
+    // Memorize
+    const totalPage = useMemo(() => {
+        const result = Math.ceil(logContract.length / pageSize);
+        return result;
+    }, [logContract?.length, pageSize]);
+
+    const renderedData = useMemo(() => {
+        if (!isAvailableArray(logContract)) return [];
+
+        const start = (page - 1) * pageSize;
+        const end = page * pageSize;
+        return logContract.slice(start, end);
+    }, [logContract, page, pageSize]);
+
+    const handlePagination = (e, value) => {
+        setPage(value);
     };
 
-    const formatMoney = (value) => {
-        return value.toLocaleString('vi-VN') + ' VNĐ';
-    };
+    const dataTable = [
+        {
+            nameHeader: 'Tên cửa hàng',
+            dataRow: (element) => {
+                return element.branchName;
+            },
+        },
+        {
+            nameHeader: 'Vốn hiện tại',
+            dataRow: (element) => {
+                return formatMoney(element.currentFund);
+            },
+        },
+        {
+            nameHeader: 'Địa chỉ',
+            dataRow: (element) => {
+                return element.address;
+            },
+        },
+        {
+            nameHeader: 'Số Điện Thoại',
+            dataRow: (element) => {
+                return element.phoneNumber;
+            },
+        },
+
+        {
+            nameHeader: 'Hợp đồng thanh lý',
+            dataRow: (element) => {
+                return element.liquidationContracts;
+            },
+        },
+    ];
 
     return (
         <>
@@ -45,48 +94,20 @@ const ChainStores = () => {
                 {/* ================================ */}
                 {/* =            Table Show        = */}
                 {/* ================================ */}
-                <div className="tableContainer">
-                    <div className="tableChain" style={{ borderRadius: '10px' }}>
-                        <table className="responstable">
-                            <tr>
-                                <th style={{ maxWidth: '100px' }}>Tên cửa hàng</th>
-                                <th data-th="Driver details">Vốn hiện tại</th>
-                                <th style={{ minWidth: '200px' }}>Địa chỉ</th>
-                                <th>Số điện thoại</th>
-                                <th /* style={{maxWidth:"100px"}} */>Hợp đồng thanh lý</th>
-                            </tr>
-                            {currentPageData.map((currentPageData, index) => (
-                                <tr key={index}>
-                                    <td align="center" style={{ textAlign: 'center' /* ,paddingLeft:"50px" */ }}>
-                                        {currentPageData.branchName}
-                                    </td>
-                                    <td align="center">{formatMoney(currentPageData.currentFund)}</td>
-                                    <td align="center">{currentPageData.address}</td>
-                                    <td align="center">{currentPageData.phoneNumber}</td>
-                                    <td align="center">{currentPageData.liquidationContracts}</td>
-                                </tr>
-                            ))}
-                        </table>
-                    </div>
-                </div>
-                {/* ================================ */}
-                {/* =            Phân Trang        = */}
-                {/* ================================ */}
-                {/* </TableContainer> */}
+
+                <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                <Box marginTop="14px">
+                    <Stack spacing={2}>
+                        <Pagination
+                            style={{ margin: '0 auto' }}
+                            count={totalPage}
+                            page={page}
+                            onChange={handlePagination}
+                            color="primary"
+                        />
+                    </Stack>
+                </Box>
             </div>
-            <ReactPaginate
-                className="paginate-chainStore"
-                previousLabel={'Trang trước'}
-                nextLabel={'Trang sau'}
-                breakLabel={'...'}
-                breakClassName={'break-me'}
-                pageCount={totalPages}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-            />
         </>
     );
 };

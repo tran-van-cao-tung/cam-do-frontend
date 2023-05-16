@@ -22,7 +22,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
     const [packagelist, setPackage] = useState([]);
     const [packageItem, setPackageItem] = useState([]);
 
-    const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 
@@ -54,7 +54,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
         const data = {
             customerId: customer.customerId,
             userId: userInfo.userId,
-            userBranchId: currentBranchId,
+            branchId: currentBranchId,
             totalProfit: 0,
             warehouseId: 1,
             pawnableProductId: contract.pawnableProductId,

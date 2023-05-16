@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
-
+import React, { useEffect, useState, useCallback } from 'react';
 import moment from 'moment';
 import './popup.css';
-import CreateIcon from '@mui/icons-material/Create';
 import callAPI from '../../../API';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { UploadDropzone } from 'react-uploader';
 import { Uploader } from 'uploader';
-import BasicModal from '../../Modal/Modal';
-import ModalAsset from './AssetImport';
+import AssetImg from './AssetImgModal';
 import AssetImport from './AssetImport';
 import AssetExport from './AssetExport';
-import TextareaAutosize from '@mui/base/TextareaAutosize';
 import AssetNote from './AssetNote';
 
 const Asset = ({ showContractId }) => {
     const [logAsset, setlogAsset] = useState([]);
     const [isChecked, setIsChecked] = useState([]);
+    const [warehouse, setWarehouse] = useState([]);
+    const [branch, setbranch] = useState(1);
+    const updateBranch = ({ target }) => {
+        setbranch(target.value);
+    };
     //Ép kiểu dữ liệu date
     const formatDate = (value) => {
         return moment(value).format('MM/DD/YYYY');
@@ -29,7 +29,7 @@ const Asset = ({ showContractId }) => {
     };
 
     //Upload img
-    const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 
@@ -51,13 +51,35 @@ const Asset = ({ showContractId }) => {
             url: `logAsset/getLogAssetsByContractId/${id}`,
         }).then((res) => {
             setlogAsset(res.data);
-            console.log('logAsset:', res.data);
         });
     }, [showContractId]);
-    console.log('logAsset:', logAsset);
+
+    const refreshImg = useCallback(() => {
+        const id = showContractId;
+        console.log('contract id asset', id);
+        callAPI({
+            method: 'get',
+            url: `logAsset/getLogAssetsByContractId/${id}`,
+        }).then((res) => {
+            setlogAsset(res.data);
+        });
+    }, [showContractId]);
+
+    async function loadWarehouse() {
+        callAPI({
+            method: 'get',
+            url: '/warehouse/GetAll/0',
+        }).then((res) => {
+            setWarehouse(res.data);
+            // console.log('aaaaa', res.data);
+        });
+    }
+    useEffect(() => {
+        refreshImg();
+        loadWarehouse();
+    }, [showContractId]);
     return (
         <div className="contents">
-            <h2> Lịch sử tài sản</h2>
             <TableContainer>
                 <Table
                     sx={{ minWidth: '700px', '&:last-child td, &:last-child ': { border: 0 } }}
@@ -85,6 +107,7 @@ const Asset = ({ showContractId }) => {
                             <TableCell>Giao dịch viên</TableCell>
                             <TableCell>Hình ảnh</TableCell>
                             <TableCell>Ghi chú</TableCell>
+                            <TableCell>Chuyển kho</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody
@@ -112,10 +135,21 @@ const Asset = ({ showContractId }) => {
                                     </TableCell>
                                     <TableCell>{item.userName}</TableCell>
                                     <TableCell>
-                                        <ModalAsset />
+                                        <AssetImg item={item} refresh={refreshImg} />
                                     </TableCell>
                                     <TableCell>
                                         <AssetNote item={item} />
+                                    </TableCell>
+                                    <TableCell>
+                                        <select value={branch} onChange={updateBranch}>
+                                            {warehouse.map((item, index) => {
+                                                return (
+                                                    <option key={index} value={item.warehouseId}>
+                                                        {item.warehouseName}
+                                                    </option>
+                                                );
+                                            })}
+                                        </select>
                                     </TableCell>
                                 </TableRow>
                             );

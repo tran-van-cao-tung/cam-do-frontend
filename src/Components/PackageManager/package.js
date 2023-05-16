@@ -1,13 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import ReactPaginate from 'react-paginate';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 import API from '../../API';
 import edit from './../../asset/img/edit.png';
 import './package.css';
 
+import { isAvailableArray } from '../../helpers/utils';
+import CustomizedTables from '../../helpers/CustomizeTable';
+import { Box, Pagination, Stack } from '@mui/material';
+
+const DEFAULT = {
+    pageNumber: 1,
+    pageSize: 8,
+    totalPage: 1,
+};
+
 const Package = () => {
     //
-    const history = useNavigate();
+    const navigate = useNavigate();
+
+    const [page, setPage] = useState(DEFAULT.pageNumber);
+    const [pageSize] = useState(DEFAULT.pageSize);
     const [packageList, setPackageList] = useState([]);
     // Axios
     useEffect(() => {
@@ -20,6 +33,88 @@ const Package = () => {
             })
             .catch((err) => console.log('Err at API package'));
     }, []);
+
+    const totalPage = useMemo(() => {
+        const result = Math.ceil(packageList.length / pageSize);
+        return result;
+    }, [packageList?.length, pageSize]);
+
+    const renderedData = useMemo(() => {
+        if (!isAvailableArray(packageList)) return [];
+
+        const start = (page - 1) * pageSize;
+        const end = page * pageSize;
+        return packageList.slice(start, end);
+    }, [packageList, page, pageSize]);
+    const handlePagination = (e, value) => {
+        setPage(value);
+    };
+
+    const dataTable = [
+        {
+            nameHeader: 'Tên gói vay',
+            dataRow: (element) => {
+                return element.packageName;
+            },
+        },
+        {
+            nameHeader: 'Lãi suất (%)',
+            dataRow: (element) => {
+                return element.packageInterest;
+            },
+        },
+        {
+            nameHeader: 'Số ngày',
+            dataRow: (element) => {
+                return element.day;
+            },
+        },
+        {
+            nameHeader: 'Kỳ lãi',
+            dataRow: (element) => {
+                return element.paymentPeriod;
+            },
+        },
+        {
+            nameHeader: 'Số ngày trễ hạn',
+            dataRow: (element) => {
+                return element.limitation;
+            },
+        },
+        {
+            nameHeader: 'Phạt đợt 1',
+            dataRow: (element) => {
+                return element.punishDay1;
+            },
+        },
+        {
+            nameHeader: 'Phạt đợt 2',
+            dataRow: (element) => {
+                return element.punishDay2;
+            },
+        },
+        {
+            nameHeader: 'Thanh lý vào ngày',
+            dataRow: (element) => {
+                return element.liquitationDay;
+            },
+        },
+        {
+            nameHeader: 'Chức năng',
+            dataRow: (element) => {
+                return (
+                    <div
+                        className="MuiTableBody_root-itemLast"
+                        onClick={() => {
+                            navigate(`/editPackage/${element.packageId}`);
+                        }}
+                    >
+                        <img src={edit} alt="Edit" />
+                    </div>
+                );
+            },
+        },
+    ];
     // ==================================
     // |  Filter Value Radio and Search |
     // ==================================
@@ -37,16 +132,7 @@ const Package = () => {
     // ==================================
     // |            Phân Trang        |
     // ==================================
-    const [currentPage, setCurrentPage] = useState('');
-    const storesPerPage = 6; // số lượng cửa hàng hiển thị trên mỗi trang
-    const totalPages = Math.ceil(filteredData.length / storesPerPage); // tính toán số lượng trang
-    const startIndex = currentPage * storesPerPage;
-    const endIndex = startIndex + storesPerPage;
-    const currentPageData = filteredData.slice(startIndex, endIndex);
 
-    const handlePageClick = ({ selected: selectedPage }) => {
-        setCurrentPage(selectedPage);
-    };
     return (
         <>
             <h1 className="listPackagebody-h1">Điều chỉnh gói vay</h1>
@@ -54,7 +140,7 @@ const Package = () => {
                 <button
                     className="employee_button"
                     onClick={() => {
-                        history('/addPackage');
+                        navigate('/addPackage');
                     }}
                 >
                     Thêm mới
@@ -62,72 +148,18 @@ const Package = () => {
                 {/* ================================ */}
                 {/* =            Table Show        = */}
                 {/* ================================ */}
-                <div className="tablePackage">
-                    <table className="responstable">
-                        <tr className="headerTable">
-                            <th>STT</th>
-                            <th>Tên gói vay</th>
-                            <th data-th="Driver details">
-                                <span>Lãi suất (%)</span>
-                            </th>
-                            <th>Số ngày</th>
-                            <th>Kỳ lãi</th>
-                            <th>Số ngày trễ hạn</th>
-                            <th>Phạt đợt 1</th>
-                            <th>Phạt đợt 2</th>
-                            <th>Thanh lý vào ngày</th>
-                            <th>Chức năng</th>
-                        </tr>
-                        {currentPageData.map((item, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{item.packageName}</td>
-                                <td>{item.packageInterest}</td>
-                                <td>{item.day}</td>
-                                {/* <td>{Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(item.fund)}</td> */}
-                                <td>{item.paymentPeriod}</td>
-                                {/* <td>{moment(item.createDate).format('DD/MM/YYYY')}</td> */}
-                                <td>{item.limitation}</td>
-                                {/* <td>
-                                    {item.status === 1 ? (
-                                        <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                                    ) : (
-                                        <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
-                                    )}
-                                </td> */}
-                                <td>{item.punishDay1}</td>
-                                <td>{item.punishDay2}</td>
-                                <td>{item.liquitationDay}</td>
-                                <td>
-                                    <div
-                                        className="MuiTableBody_root-itemLast"
-                                        onClick={() => {
-                                            history(`/editPackage/${item.packageId}`);
-                                        }}
-                                    >
-                                        <img src={edit} alt="Edit" />
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </table>
-                </div>
-                {/* ================================ */}
-                {/* =            Phân Trang        = */}
-                {/* ================================ */}
-                <ReactPaginate
-                    className="paginate-listPackage"
-                    previousLabel={'Trang trước'}
-                    nextLabel={'Trang sau'}
-                    breakLabel={'...'}
-                    breakClassName={'break-me'}
-                    pageCount={totalPages}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={handlePageClick}
-                    containerClassName={'pagination'}
-                    activeClassName={'active'}
-                />
+                <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                <Box marginTop="14px">
+                    <Stack spacing={2}>
+                        <Pagination
+                            style={{ margin: '0 auto' }}
+                            count={totalPage}
+                            page={page}
+                            onChange={handlePagination}
+                            color="primary"
+                        />
+                    </Stack>
+                </Box>
             </div>
         </>
     );

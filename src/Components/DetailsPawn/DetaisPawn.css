@@ -420,7 +420,7 @@ div[title='Đã Đóng'] {
 .MuiTableBody_root-itemLast {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    /* justify-content: space-around; */
 }
 
 

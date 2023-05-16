@@ -8,30 +8,11 @@ import BasicTabs from './Tab';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import HomeIcon from '@mui/icons-material/Home';
 import callAPI from '../../../API';
+import { useCallback } from 'react';
 
 const DetailContract = ({ setshowdetailContract, showContractId, showdetailContract }) => {
 
     const [contractDetail, setContractDetail] = useState([]);
-
-    // useEffect(() => {
-    //     console.log(showContractId);
-    //     if (showContractId) {
-    //         callAPI({
-    //             method: 'get',
-    //             url: `contract/getAll/0/${showContractId}`,
-    //         }).then((res) => {
-    //             console.log("-------------------------------------------");
-    //             console.log(res.data);
-    //             console.log("-------------------------------------------");
-    //             setContractDetail(
-    //                 res.data.filter((item, index) => {
-    //                     return item.contractId === showContractId;
-    //                 })[0],
-    //             );
-    //         });
-    //     }
-    // }, [showContractId]);
-
     const [detailPawn, setDetailPawn] = useState([]);
 
     useEffect(() => {
@@ -46,6 +27,22 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
         }
     }, []);
 
+    const refreshDetail = useCallback(() => {
+        const id = localStorage.getItem('PawnDetailID');
+        if (id) {
+            callAPI({
+                method: 'get',
+                url: `contract/getContractDetail/${id}`,
+            }).then((res) => {
+                setDetailPawn(res.data);
+            });
+        }
+    }, [showContractId]);
+
+    useEffect(() => {
+        console.log("call back detail");
+        refreshDetail();
+    }, [showContractId]);
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
@@ -75,10 +72,6 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
                                             </span>{' '}
                                             {detailPawn.phone}
                                         </span>
-                                        {/* <span> - </span>
-                    <span style={{ fontSize: "14px" }}>
-                      <span ><HomeIcon fontSize="small" className="detailContract_icon-phone" />
-                      </span> {detailPawn.branchId}</span> */}
                                     </th>
                                 </tr>
                                 <tr>
@@ -88,10 +81,13 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th colSpan="2">Vay từ ngày</th>
+                                    <th colSpan="2">Ngày bắt đầu</th>
                                     <th colSpan="1" style={{ textAlign: 'right' }}>
                                         {moment(detailPawn.contractStartDate).format('DD/MM/YYYY')}
                                     </th>
+                                </tr>
+                                <tr>
+                                <th colSpan="2">Ngày kết thúc</th>
                                     <th colSpan="1" style={{ textAlign: 'right' }}>
                                         {moment(detailPawn.contractEndDate).format('DD/MM/YYYY')}
                                     </th>
@@ -114,7 +110,7 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
                                     <th>Nợ lãi cũ:</th>
                                     <th style={{ textAlign: 'right' }}>
                                         <span className="start-red">
-                                            {detailPawn.interestDebt ? formatMoney(detailPawn.interestDebt) : ''}
+                                            {detailPawn.interestDebt ? formatMoney(detailPawn.interestDebt) : '0 VNĐ'}
                                         </span>
                                     </th>
                                 </tr>
@@ -163,6 +159,7 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
                                 setshowdetailContract={setshowdetailContract}
                                 contract={detailPawn}
                                 showContractId={showContractId}
+                                refreshDetail = {refreshDetail}
                             />
                         </div>
                     </div>

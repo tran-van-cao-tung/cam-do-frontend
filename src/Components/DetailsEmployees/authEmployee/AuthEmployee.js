@@ -18,7 +18,7 @@ function AuthEmployee() {
     const [employeeList, setEmployeeList] = useState([]);
     const [employeePermission, setEmployeePermission] = useState([]);
     const [value, setValue] = useState();
-
+    const {currentBranchId } = useContext(AuthContext);
     const { permissions } = useContext(AuthContext);
 
     const updateValue = ({ target }) => {
@@ -26,14 +26,16 @@ function AuthEmployee() {
     };
     // Axios
     useEffect(() => {
-        API({
-            method: 'get',
-            url: '/user/getAll/0',
-        }).then((res) => {
-            setEmployeeList(res.data);
-            // console.log('aaaaa', res.data);
-        });
-    }, []);
+        if(currentBranchId){
+            API({
+                method: 'get',
+                url: '/user/getAll/1/'+ currentBranchId,
+            }).then((res) => {
+                setEmployeeList(res.data);
+                console.log('aaaaa', res.data);
+            });
+        }
+    }, [currentBranchId, setEmployeeList]);
 
     function getPermission(e) {
         updateValue(e);
@@ -137,8 +139,6 @@ function AuthEmployee() {
             data: permissionArr,
         }).then((res) => {
             alert('Chỉnh quyền Thành công!');
-            window.location.reload(false);
-            // console.log('aaaaa', res.data);
         });
     }
 

@@ -2,35 +2,38 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Commodity.css';
 import './Table.scss';
 import callAPI from '../../../API';
-
-import CustomizedTables from '../../../helpers/CustomizeTable';
-import { Box, Pagination, Stack } from '@mui/material';
-import { isAvailableArray } from '../../../helpers/utils';
-
-const DEFAULT = {
-    pageNumber: 1,
-    pageSize: 6,
-    totalPage: 1,
-};
+import ReactPaginate from 'react-paginate';
 
 function Commodity() {
-    const [logContract, setLogContract] = useState([]);
-    const [page, setPage] = useState(DEFAULT.pageNumber);
-    const [pageSize] = useState(DEFAULT.pageSize);
+    const [commodity, setCommodity] = useState([]);
     useEffect(() => {
         callAPI({
             method: 'get',
             url: `/pawnableProduct/getAll/1`,
         }).then((res) => {
             console.log(res.data);
-            setLogContract(res.data);
+            setCommodity(res.data);
         });
     }, []);
+    // =========================================
+    // |                Search                 |
+    // =========================================
+    // const [searchTerm, setSearchTerm] = useState("");
+    // const commoditySearch = commodity.filter((item) => {
+    //     if (searchTerm.value === "") return item;
+    //     if (
+    //         item.typeOfProduct
+    //             .toLowerCase()
+    //             .includes(searchTerm.toLowerCase())
+    //     )
+    //         return item;
+    // })
+    // =================================
 
     // ==================================
     // |  Filter Value Radio and Search |
@@ -38,69 +41,45 @@ function Commodity() {
     const [statusFilter, setStatusFilter] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
 
-    const filteredData = logContract.filter((item) => {
+    const filteredData = commodity.filter((item) => {
         if (statusFilter === 'all' && searchTerm === '') return true;
-        if (statusFilter !== 'all' && item.status !== (statusFilter === 'active' ? 1 : 0)) return false;
+        if (statusFilter !== 'all' && item.status !== (statusFilter === 'active' ? 0 : 1)) return false;
         if (searchTerm !== '' && !item.typeOfProduct.toLowerCase().includes(searchTerm.toLowerCase())) return false;
         return true;
     });
-    // // ==================================
-    // // |            Phân trang          |
-    // // ==================================
+    // ==================================
+    // |            Phân trang          |
+    // ==================================
+    const [pageNumber, setPageNumber] = useState(0);
 
-    // Memorize
-    const totalPage = useMemo(() => {
-        const result = Math.ceil(logContract.length / pageSize);
-        return result;
-    }, [logContract?.length, pageSize]);
-
-    const renderedData = useMemo(() => {
-        if (!isAvailableArray(logContract)) return [];
-
-        const start = (page - 1) * pageSize;
-        const end = page * pageSize;
-        return logContract.slice(start, end);
-    }, [logContract, page, pageSize]);
-    const handlePagination = (e, value) => {
-        setPage(value);
-    };
-
-    const dataTable = [
-        {
-            nameHeader: 'STT',
-            dataRow: (element) => {
-                return element.pawnableProductId;
-            },
-        },
-        {
-            nameHeader: 'Lĩnh vực',
-            dataRow: (element) => {
-                return <p>Cầm Đồ</p>;
-            },
-        },
-        {
-            nameHeader: 'Tên hàng hoá',
-            dataRow: (element) => {
-                return <Link to={`/commodity/edit/${element.pawnableProductId}`}>{element.typeOfProduct}</Link>;
-            },
-        },
-        {
-            nameHeader: 'Mã',
-            dataRow: (element) => {
-                return <Link to={`/commodity/edit/${element.pawnableProductId}`}>{element.commodityCode}</Link>;
-            },
-        },
-        {
-            nameHeader: 'Tình trạng',
-            dataRow: (element) => {
-                return element.status === 0 ? (
+    const usersPerPage = 6; // số lượng cửa hàng hiển thị trên mỗi trang
+    const pagesVisited = pageNumber * usersPerPage;
+    // được sử dụng để hiển thị danh sách sản phẩm trên trang hiện tại
+    const displayUsers = filteredData.slice(pagesVisited, pagesVisited + usersPerPage).map((val) => (
+        <tr>
+            <td>{val.pawnableProductId}</td>
+            <td>Cầm đồ</td>
+            <td>
+                <Link to={`/commodity/edit/${val.pawnableProductId}`}>{val.typeOfProduct}</Link>
+            </td>
+            <td>
+                <Link to={`/commodity/edit/${val.pawnableProductId}`}>{val.commodityCode}</Link>
+            </td>
+            <td style={{ fontSize: '16px' }}>
+                {val.status === 0 ? (
                     <div className="MuiTableBody_working-status">Đang hoạt động</div>
                 ) : (
                     <div className="MuiTableBody_stop-status">Đã tạm dừng</div>
-                );
-            },
-        },
-    ];
+                )}
+            </td>
+        </tr>
+    ));
+
+    const pageCount = Math.ceil(filteredData.length / usersPerPage); // tính toán số lượng trang
+
+    const changePage = ({ selected }) => {
+        setPageNumber(selected);
+    };
     return (
         <>
             <h1 id="heading">Danh sách hàng hóa</h1>
@@ -120,7 +99,7 @@ function Commodity() {
                                     className="radioItem"
                                     aria-label="status"
                                     name="status"
-                                    elementue={statusFilter}
+                                    value={statusFilter}
                                     onChange={(e) => setStatusFilter(e.target.value)}
                                 >
                                     <FormControlLabel
@@ -146,6 +125,11 @@ function Commodity() {
                         </span>
                         {/* Search */}
                         <div className="searchinput">
+                            {/* <input
+                                type="text"
+                                class="searchTerm"
+                                placeholder="Tìm kiếm..."
+                            ></input> */}
                             <input
                                 type="text"
                                 placeholder="Tìm kiếm cửa hàng..."
@@ -153,24 +137,47 @@ function Commodity() {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
+                        {/* Button Search */}
+                        {/* <span className="buttonsearch">
+                    <button>Tìm Kiếm</button>
+                </span> */}
                     </div>
                 </div>
                 {/* ================================ */}
                 {/* =            Table Show        = */}
                 {/* ================================ */}
-                <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
-                <Box marginTop="14px">
-                    <Stack spacing={2}>
-                        <Pagination
-                            style={{ margin: '0 auto' }}
-                            count={totalPage}
-                            page={page}
-                            onChange={handlePagination}
-                            color="primary"
-                        />
-                    </Stack>
-                </Box>
+                <div className="tableContainer">
+                    <div className="tableCommodity" style={{ borderRadius: '10px' }}>
+                        <table class="responstable">
+                            <tr>
+                                <th>STT</th>
+                                <th data-th="Driver details">
+                                    <span>Lĩnh vực</span>
+                                </th>
+                                <th>Tên hàng hoá</th>
+                                <th>Mã</th>
+                                <th>Tình trạng</th>
+                            </tr>
+                            {displayUsers}
+                        </table>
+                        {/* ================================ */}
+                        {/* =            Phân trang        = */}
+                        {/* ================================ */}
+                    </div>
+                </div>
             </div>
+            <ReactPaginate
+                className="paginate-commodity"
+                previousLabel={'Previous'}
+                nextLabel={'Next'}
+                pageCount={pageCount}
+                onPageChange={changePage}
+                containerClassName={'paginationBttns'}
+                previousLinkClassName={'previousBttn'}
+                nextLinkClassName={'nextBttn'}
+                disabledClassName={'paginationDisabled'}
+                activeClassName={'paginationActive'}
+            />
         </>
     );
 }

@@ -2,69 +2,118 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import ReactPaginate from 'react-paginate';
+
+import React, { useEffect, useMemo, useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import API from '../../../API';
 import edit from './../../../asset/img/edit.png';
 import ext from './../../../asset/img/ext.png';
 import './liststore.css';
-import { CircularProgress } from '@mui/material';
+import { Box, Pagination, Stack } from '@mui/material';
+import CustomizedTables from '../../../helpers/CustomizeTable';
+import { isAvailableArray } from '../../../helpers/utils';
+
+import { formatDate, formatMoney } from '../../../helpers/dateTimeUtils';
+
+const DEFAULT = {
+    pageNumber: 1,
+    pageSize: 6,
+    totalPage: 1,
+};
 
 const ListStore = () => {
     //
-    const [list, setList] = useState([]);
+
+    const [logContract, setLogContract] = useState([]);
+    const [page, setPage] = useState(DEFAULT.pageNumber);
+    const [pageSize] = useState(DEFAULT.pageSize);
+
+    // Memorize
+    const totalPage = useMemo(() => {
+        const result = Math.ceil(logContract.length / pageSize);
+        return result;
+    }, [logContract?.length, pageSize]);
+
+    const renderedData = useMemo(() => {
+        if (!isAvailableArray(logContract)) return [];
+
+        const start = (page - 1) * pageSize;
+        const end = page * pageSize;
+        return logContract.slice(start, end);
+    }, [logContract, page, pageSize]);
     // Axios
     useEffect(() => {
         API({
             method: 'get',
-            url: '/branch/getChain',
+            url: '/branch/getAll/1',
         }).then((res) => {
-            setList(res.data);
-            // console.log('aaaaa', res.data);
+            setLogContract(res.data);
         });
     }, []);
-    // ==================================
-    // |  Filter Value Radio and Search |
-    // ==================================
+    const handlePagination = (e, value) => {
+        setPage(value);
+    };
+
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
-    const filteredData = list
-        .filter((item) => {
-            if (statusFilter === 'all') return true;
-            return item.status === (statusFilter === 'active' ? 0 : 1);
-        })
-        .filter((item) => {
-            if (searchTerm.value === '') return item;
-            if (item.branchName.toLowerCase().includes(searchTerm.toLowerCase())) return item;
-        });
-    // ==================================
-    // |            Phân Trang        |
-    // ==================================
-    const [currentPage, setCurrentPage] = useState('');
-    const storesPerPage = 5; // số lượng cửa hàng hiển thị trên mỗi trang
-    const totalPages = Math.ceil(filteredData.length / storesPerPage); // tính toán số lượng trang
-    const startIndex = currentPage * storesPerPage;
-    const endIndex = startIndex + storesPerPage;
-    const currentPageData = filteredData.slice(startIndex, endIndex);
-    const [loading, setLoading] = useState(false);
-
-    const handlePageClick = async ({ selected: selectedPage }) => {
-        setLoading(true); // bắt đầu loading
-        setCurrentPage(selectedPage);
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // giả lập thời gian loading
-        setLoading(false); // kết thúc loading
-    };
-
-    // const handlePageClick = ({ selected: selectedPage }) => {
-    //     setCurrentPage(selectedPage);
-    // };
-
-    const formatMoney = (value) => {
-        return value.toLocaleString('vi-VN') + ' VNĐ';
-    };
-
+    const dataTable = [
+        {
+            nameHeader: 'Cửa hàng',
+            dataRow: (element) => {
+                return element.branchName;
+            },
+        },
+        {
+            nameHeader: 'Địa chỉ',
+            dataRow: (element) => {
+                return element.address;
+            },
+        },
+        {
+            nameHeader: 'Số điện thoại',
+            dataRow: (element) => {
+                return element.phoneNumber;
+            },
+        },
+        {
+            nameHeader: 'Vốn đầu tư',
+            dataRow: (element) => {
+                return formatMoney(element.fund);
+            },
+        },
+        {
+            nameHeader: 'Ngày tạo',
+            dataRow: (element) => {
+                return formatDate(element.createDate);
+            },
+        },
+        {
+            nameHeader: 'Tình trạng',
+            dataRow: (element) => {
+                return element.status === 1 ? (
+                    <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                ) : (
+                    <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
+                );
+            },
+        },
+        {
+            nameHeader: 'Chức năng',
+            dataRow: (element) => {
+                return (
+                    <div className="MuiTableBody_root-elementLast">
+                        <Link to={`/detailsStore/${element.branchId}`}>
+                            <img src={ext} alt="..." />
+                        </Link>
+                        <Link to={`/editliststore/edit/${element.branchId}`}>
+                            <img src={edit} alt="Edit" />
+                        </Link>
+                    </div>
+                );
+            },
+        },
+    ];
     return (
         <>
             <div className="listStoreContainer">
@@ -124,82 +173,21 @@ const ListStore = () => {
                     {/* ================================ */}
                     {/* =            Table Show        = */}
                     {/* ================================ */}
-                    <div className="tableContainer">
-                        <div className="tableStore">
-                            <table className="responstable">
-                                <tr>
-                                    <th>STT</th>
-                                    <th data-th="Driver details">
-                                        <span>Cửa hàng</span>
-                                    </th>
-                                    <th>Địa chỉ</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Vốn đầu tư</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Tình trạng</th>
-                                    <th>Chức năng</th>
-                                </tr>
 
-                                {loading ? (
-                                    <div>
-                                        <CircularProgress />
-                                    </div>
-                                ) : (
-                                    currentPageData.map((item, index) => (
-                                        <tr key={index.branchId}>
-                                            <td>{index + 1}</td>
-                                            <td>{item.branchName}</td>
-                                            <td>{item.address}</td>
-                                            <td>{item.phoneNumber}</td>
-                                            <td>
-                                                {Intl.NumberFormat({ style: 'currency', currency: 'VND' }).format(
-                                                    item.fund,
-                                                )}
-                                            </td>
-                                            <td>{moment(item.createDate).format('DD/MM/YYYY')}</td>
-                                            <td>
-                                                {item.status === 1 ? (
-                                                    <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                                                ) : (
-                                                    <div className="MuiTableBody_root-status activity">
-                                                        Đang hoạt động
-                                                    </div>
-                                                )}
-                                            </td>
-                                            <td>
-                                                <div className="MuiTableBody_root-itemLast">
-                                                    <Link to={`/detailsStore/${item.branchId}`}>
-                                                        <img src={ext} alt="..." />
-                                                    </Link>
-                                                    <Link to={`/editliststore/edit/${item.branchId}`}>
-                                                        <img src={edit} alt="Edit" />
-                                                    </Link>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </table>
-                        </div>
-                    </div>
-                    {/* ================================ */}
-                    {/* =            Phân Trang        = */}
-                    {/* ================================ */}
+                    <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                    <Box marginTop="14px">
+                        <Stack spacing={2}>
+                            <Pagination
+                                style={{ margin: '0 auto' }}
+                                count={totalPage}
+                                page={page}
+                                onChange={handlePagination}
+                                color="primary"
+                            />
+                        </Stack>
+                    </Box>
                 </div>
             </div>
-            <ReactPaginate
-                className="paginate-listStore"
-                previousLabel={'Trang trước'}
-                nextLabel={'Trang sau'}
-                breakLabel={'...'}
-                breakClassName={'break-me'}
-                pageCount={totalPages}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-            />
         </>
     );
 };

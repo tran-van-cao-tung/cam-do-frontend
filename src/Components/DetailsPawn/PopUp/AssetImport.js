@@ -14,7 +14,6 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { NumericFormat } from 'react-number-format';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { TextField } from '@mui/material';
 import callAPI from '../../../API';
 
 const style = {
@@ -34,7 +33,7 @@ const styleModal = {
     zIndex: '99',
 };
 
-const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
 const uploaderOptions = {
     multi: true,
 
@@ -91,20 +90,10 @@ export default function AssetImport({ item }) {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
 
-    // useEffect(() => {
-    //     const slug = item.interestDiaryId;
-    //     callAPI({
-    //         method: 'get',
-    //         url: `interestDiary/getInterestDiariesByContractId/${slug}}`,
-    //     }).then((res) => {
-    //         setInterestDiary(res.data);
-    //     });
-    // }, [item.interestDiaryId]);
     const [img, setImg] = useState([]);
 
-    const handleImg = (files) => {
+    function handleImg(files) {
         // setImg(files.map((x) => x.fileUrl).join('\n'));
-
         setImg(files);
         console.log('img: ', img);
         setShowMessage(true);
@@ -124,34 +113,33 @@ export default function AssetImport({ item }) {
             Swal.fire({
                 text: 'Bạn chưa nhập hết thông tin',
                 icon: 'warning',
-            }).then((result) => {});
+            }).then((result) => { });
             return;
         }
 
         const data = {
             logAssetId: logassetId,
             importImg: img,
+            exportImg: item.exportImg,
+            userName: item.userName,
+            wareHouseName: item.wareHouseName,
         };
-        console.log('data:', data);
-        callAPI({
-            method: 'put',
-            url: `logAsset/updateLogAsset/${logassetId}`,
-            data: data,
-        }).then((res) => {
-            console.log('abc', res.data);
-            /* MySwal.fire({
-                title: <p>Hello World</p>,
-              }).then(() => {
-                return MySwal.fire(<p>Shorthand works too</p>)
-              }) */
-            if (res.data == true) {
-                Swal.fire({
-                    text: 'Thêm thành công!',
-                    icon: 'success',
-                }).then((result) => {});
-                history('/detaipawn');
-            }
-        });
+        if (logassetId) {
+            callAPI({
+                method: 'put',
+                url: `logAsset/updateLogAsset/${logassetId}`,
+                data: data,
+            }).then((res) => {
+                console.log('abc', res.data);
+                if (res.data == true) {
+                    Swal.fire({
+                        text: 'Thêm thành công!',
+                        icon: 'success',
+                    }).then((result) => { });
+                    history('/detaipawn');
+                }
+            });
+        }
     };
 
     return (
@@ -169,7 +157,7 @@ export default function AssetImport({ item }) {
                 <Box sx={style}>
                     <form onSubmit={handleSubmit}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Upload hình ảnh chứng từ
+                            Upload biên nhập kho
                         </Typography>
                         <UploadDropzone
                             uploader={uploader}

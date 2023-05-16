@@ -34,7 +34,7 @@ const styleModal = {
     zIndex: '99',
 };
 
-const uploader = Uploader({ apiKey: 'public_W142hpZ5oMgnCoyobLDGdqTbp4NX' }); // Your real API key.
+const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
 const uploaderOptions = {
     multi: true,
 
@@ -86,20 +86,6 @@ export default function AssetExport({ item }) {
         setShowMessage(false);
     };
 
-    const [values, setValues] = React.useState({});
-    const formatMoney = (value) => {
-        return value.toLocaleString('vi-VN') + ' VNĐ';
-    };
-
-    // useEffect(() => {
-    //     const slug = item.interestDiaryId;
-    //     callAPI({
-    //         method: 'get',
-    //         url: `interestDiary/getInterestDiariesByContractId/${slug}}`,
-    //     }).then((res) => {
-    //         setInterestDiary(res.data);
-    //     });
-    // }, [item.interestDiaryId]);
     const [img, setImg] = useState([]);
     const handleImg = (files) => {
         // setImg(files.map((x) => x.fileUrl).join('\n'));
@@ -117,8 +103,6 @@ export default function AssetExport({ item }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         const logassetId = item.logAssetId;
-        console.log('userId:', logassetId);
-
         if (img.length == 0) {
             Swal.fire({
                 text: 'Bạn chưa nhập hết thông tin',
@@ -128,7 +112,11 @@ export default function AssetExport({ item }) {
         }
 
         const data = {
+            importImg: item.importImg,
             exportImg: img,
+            logAssetId: logassetId,
+            userName: item.userName,
+            wareHouseName: item.wareHouseName,
         };
         console.log('data:', data);
         callAPI({
@@ -137,11 +125,6 @@ export default function AssetExport({ item }) {
             data: data,
         }).then((res) => {
             console.log('abc', res.data);
-            /* MySwal.fire({
-                title: <p>Hello World</p>,
-              }).then(() => {
-                return MySwal.fire(<p>Shorthand works too</p>)
-              }) */
             if (res.data == true) {
                 Swal.fire({
                     text: 'Thêm thành công!',
@@ -167,7 +150,7 @@ export default function AssetExport({ item }) {
                 <Box sx={style}>
                     <form onSubmit={handleSubmit}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Upload hình ảnh chứng từ
+                            Upload biên xuất kho
                         </Typography>
                         <UploadDropzone
                             uploader={uploader}
