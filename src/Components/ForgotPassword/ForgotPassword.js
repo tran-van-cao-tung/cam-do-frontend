@@ -3,7 +3,7 @@ import './Unlogin.scss';
 import { Link } from 'react-router-dom';
 import callAPI from '../../API';
 
-function Unlogin() {
+function ForgotPassword() {
     const [email, setEmail] = useState('');
 
     const hanldeSubmit = (e) => {
@@ -43,4 +43,4 @@ function Unlogin() {
     );
 }
 
-export default Unlogin;
+export default ForgotPassword;

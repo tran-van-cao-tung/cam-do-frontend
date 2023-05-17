@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import './popup.css';
 import user from '../../../asset/img/userpagedetai.png';
 import bike from '../../../asset/img/bike.png';
@@ -6,25 +6,30 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import API from '../../../API.js';
 import { Button } from '@mui/material';
+import { AuthContext } from '../../../helpers/AuthContext';
 const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
     const [detailContract, setDetailContract] = useState([]);
     const [warehouse, setWarehouse] = useState([]);
     const [pawnableProduct, setPawnableProduct] = useState();
     const [attributeInfo, setAttributeInfo] = useState([]);
     const [branch, setbranch] = useState(1);
+    const { userInfo } = useContext(AuthContext);
     const updateBranch = ({ target }) => {
         setbranch(target.value);
     };
 
     function saveContract() {
         console.log('log at select brand', branch);
+        console.log(userInfo.userId);
+        console.log(detailContract.contractAssetId);
         API({
           method: 'put',
-          url: '/contract/updateContract/' + localStorage.getItem("PawnDetailID"),
+          url: '/contractAsset/updateContractAsset/' + userInfo.userId,
           data: {
-            contractAssetId: localStorage.getItem("PawnDetailID"),
+            contractAssetId: detailContract.contractAssetId,
             warehouseId: branch,
-            contractAssetName: "string",
+            contractAssetName: "abcksas",
+            description: "string",
             image: "string",
           }
         })
@@ -38,6 +43,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
     };
     const [attributes, setAttributes] = useState();
     function showAttribute(id) {
+        console.log("Pawnable id: ",id);
         API({
             method: 'get',
             url: `pawnableProduct/getPawnAbleProductById/` + id,

@@ -16,7 +16,7 @@ function AuthEmployee() {
     const [employeeList, setEmployeeList] = useState([]);
     const [employeePermission, setEmployeePermission] = useState([]);
     const [value, setValue] = useState();
-    const {currentBranchId } = useContext(AuthContext);
+    const { currentBranchId } = useContext(AuthContext);
     const { permissions } = useContext(AuthContext);
 
     const updateValue = ({ target }) => {
@@ -24,10 +24,10 @@ function AuthEmployee() {
     };
     // Axios
     useEffect(() => {
-        if(currentBranchId){
+        if (currentBranchId) {
             API({
                 method: 'get',
-                url: '/user/getAll/1/'+ currentBranchId,
+                url: '/user/getAll/0/' + currentBranchId,
             }).then((res) => {
                 setEmployeeList(res.data);
                 console.log('aaaaa', res.data);
@@ -45,7 +45,7 @@ function AuthEmployee() {
             url: '/permission/showpermission/' + e.target.value,
         }).then((res) => {
             setEmployeePermission(res.data);
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 6; i++) {
                 localStorage.setItem('permis ' + i, res.data[i].status);
                 console.log('employee permis:', res.data[i].status);
             }
@@ -191,6 +191,10 @@ function AuthEmployee() {
     const [checkedPlus5, setCheckPlus5] = useState(false);
     const [parentCheckbox5, setParentCheckbox5] = useState(false);
 
+    //Báo cáo
+    const [textPlus6, setTextPlus6] = useState('+');
+    const [parentCheckbox6, setParentCheckbox6] = useState(false);
+
     //Check Cầm Đồ
     const handleCheckbox1 = (event) => {
         setParentCheckbox(event.target.checked);
@@ -202,6 +206,7 @@ function AuthEmployee() {
             })),
         );
     };
+
 
     const handleChildCheckboxChange = (event) => {
         const { id, checked } = event.target;
@@ -385,6 +390,12 @@ function AuthEmployee() {
         setCheckPlus5(!checkedPlus5);
     };
 
+    //Check Báo cáo
+    const handleCheckbox6 = (event) => {
+        setParentCheckbox6(event.target.checked);
+        localStorage.setItem('permis 5', event.target.checked);
+    };
+
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,
@@ -435,9 +446,10 @@ function AuthEmployee() {
                         <span>Phân quyền:</span>
                         <div style={{ display: 'block' }}>
                             <div className="auth_check-item">
-                                <div className="auth_check-plus" onClick={(e) => handleCheckPlus(e)}>
+                                {/* "+"" button for Cam do  */}
+                                {/* <div className="auth_check-plus" onClick={(e) => handleCheckPlus(e)}>
                                     {textPlus}
-                                </div>
+                                </div> */}
                                 <div className="checkbox-container">
                                     <FormControlLabel
                                         control={
@@ -460,11 +472,12 @@ function AuthEmployee() {
                                 </div>
                             </div>
 
-                            <div className="auth_check-item">
-                                <div className="auth_check-plus" onClick={(e) => handleCheckPlus2(e)}>
+                            {/* <div className="auth_check-item"> */}
+                            {/* "+"" button for Cua hang  */}
+                            {/* <div className="auth_check-plus" onClick={(e) => handleCheckPlus2(e)}>
                                     {textPlus2}
-                                </div>
-                                <div className="checkbox-container">
+                                </div> */}
+                            {/* <div className="checkbox-container">
                                     <FormControlLabel
                                         control={
                                             <Checkbox
@@ -484,12 +497,13 @@ function AuthEmployee() {
                                     <span>Quản lý cửa hàng</span>
                                     {children2}
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="auth_check-item">
-                                <div className="auth_check-plus" onClick={(e) => handleCheckPlus3(e)}>
+                                {/* "+"" button for Tai san  */}
+                                {/* <div className="auth_check-plus" onClick={(e) => handleCheckPlus3(e)}>
                                     {textPlus3}
-                                </div>
+                                </div> */}
                                 <div className="checkbox-container">
                                     <FormControlLabel
                                         control={
@@ -507,16 +521,31 @@ function AuthEmployee() {
                                         }}
                                     />
                                     <img src={file} alt="file" className="img_file" />
-                                    <span>Quản lý kho</span>
+                                    <span>Quản lý tài sản</span>
                                     {children3}
+                                </div>
+                            </div>
+
+                            {/* Báo cáo */}
+                            <div className="auth_check-item">
+                                <div className="checkbox-container">
+                                    <FormControlLabel
+                                        control={<Checkbox checked={parentCheckbox6} onChange={handleCheckbox6} />}
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: 44, padding: '0 0 15px 0' },
+                                        }}
+                                    />
+                                    <img src={file} alt="file" className="img_file" />
+                                    <span>Báo cáo</span>
                                 </div>
                             </div>
                         </div>
                         <div className={{ style: 'block' }}>
                             <div className="auth_check-item">
-                                <div className="auth_check-plus" onClick={(e) => handleCheckPlus4(e)}>
+                                {/* "+"" button for nhân viên  */}
+                                {/* <div className="auth_check-plus" onClick={(e) => handleCheckPlus4(e)}>
                                     {textPlus4}
-                                </div>
+                                </div> */}
                                 <div className="checkbox-container">
                                     <FormControlLabel
                                         control={<Checkbox checked={parentCheckbox4} onChange={handleCheckbox4} />}
@@ -528,10 +557,12 @@ function AuthEmployee() {
                                     <span>Quản lý nhân viên</span>
                                 </div>
                             </div>
+
                             <div className="auth_check-item">
-                                <div className="auth_check-plus" onClick={(e) => handleCheckPlus5(e)}>
+                                {/* "+"" button for Khách Hàng  */}
+                                {/* <div className="auth_check-plus" onClick={(e) => handleCheckPlus5(e)}>
                                     {textPlus5}
-                                </div>
+                                </div> */}
                                 <div className="checkbox-container">
                                     <FormControlLabel
                                         control={<Checkbox checked={parentCheckbox5} onChange={handleCheckbox5} />}

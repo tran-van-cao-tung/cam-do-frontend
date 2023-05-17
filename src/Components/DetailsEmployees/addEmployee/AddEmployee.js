@@ -48,7 +48,7 @@ function AddEmployee() {
     };
 
     const initialValues = {
-        roleId: 1,
+        roleId: 2,
         fullName: '',
         branchId: 0,
         userName: '',
