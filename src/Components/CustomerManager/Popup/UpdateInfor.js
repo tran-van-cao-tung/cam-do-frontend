@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './UpdateInfor.css';
 import saveBtn from '../../../asset/img/save1.png';
 import returnBtn from '../../../asset/img/returnBTN.png';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import API from '../../../API';
 import BanSomeOne from './BanSomeOne';
 import { Button } from '@mui/material';
@@ -11,6 +11,7 @@ import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimatio
 import Swal from 'sweetalert2';
 
 const UpdateInfor = () => {
+    const {id} = useParams();
     const [showBanReason, setShowBanReason] = useState(false);
     const handleShow = () => {
         setShowBanReason(!showBanReason);
@@ -18,48 +19,19 @@ const UpdateInfor = () => {
     const onHandleNewFile = () => {
         return <input type="file" />;
     };
-    const [cusID, setCusID] = useState('');
-    const [faceImg, setFaceImg] = useState('');
     const [frontImg, setFrontImg] = useState('');
     const [backImg, setBackImg] = useState('');
     const [customerInfo, setCustomerInfo] = useState([]);
     useEffect(() => {
         API({
             method: 'GET',
-            url: '/customer/getByCCCD/' + sessionStorage.getItem('num'),
+            url: '/customer/getById/' + id,
         }).then((response) => {
-            sessionStorage.clear();
             setCustomerInfo(response.data);
+            setFrontImg(response.data.kyc.identityCardFronting);
+            setBackImg(response.data.kyc.identityCardBacking);
         });
-    }, []);
-
-    useEffect(() => {
-        API({
-            method: 'GET',
-            url: '/customer/getByCCCD/' + sessionStorage.getItem('num'),
-        }).then((response) => {
-            // setKyc(response.data.kycId);
-            setCustomerInfo(response.data);
-            console.log('this is kyc' + response.data.kycId);
-        });
-    }, []);
-    // useEffect(() => {
-    //     API({
-    //         method: 'GET',
-    //         url: '/kyc/getAll',
-    //     }).then((res) => {
-    //         console.log(res.data);
-    //         console.log(kyc);
-    //         for (let i = 0; i < res.data.length; i++) {
-    //             if (res.data[i].kycId === kyc) {
-    //                 setFaceImg(res.data[i].faceImg);
-    //                 setFrontImg(res.data[i].identityCardFronting);
-    //                 setFaceImg(res.data[i].identityCardBacking);
-
-    //             }
-    //         }
-    //     });
-    // }, []);
+    }, [id]);
 
     const handleInput = (e) => {
         setCustomerInfo({ ...customerInfo, [e.target.name]: e.target.value });

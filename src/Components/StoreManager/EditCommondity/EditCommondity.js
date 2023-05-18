@@ -32,8 +32,9 @@ const EditCommondity = () => {
     const handleSubmitEdit = () => {
         API({
             method: 'put',
-            url: `/pawnableProduct/updatePawnableProduct/${params.id}`,
+            url: `/pawnableProduct/updatePawnableProduct`,
             data: {
+                pawnableProductId: params.id,
                 commodityCode: item.commodityCode,
                 typeOfProduct: item.typeOfProduct,
                 status: item.status,
@@ -87,7 +88,7 @@ const EditCommondity = () => {
                                     onChange={handleOnChangeName}
                                 />
                             </FormControl>
-                            <FormControl className="add-status-group">
+                            <FormControl className="add-status-group" disabled>
                                 <FormLabel className="label">
                                     Tình trạng&nbsp;<label style={{ color: 'red' }}>*</label>:
                                 </FormLabel>

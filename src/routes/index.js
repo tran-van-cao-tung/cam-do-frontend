@@ -149,7 +149,7 @@ const privateRoutes = [
         component: BanSomeOne,
     },
     {
-        path: '/customer-manager/updateinfo',
+        path: '/customer-manager/updateinfo/:id',
         component: UpdateInfor,
     },
     {

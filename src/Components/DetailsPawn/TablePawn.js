@@ -191,9 +191,6 @@ const TablePawn = ({
                             </Tooltip>
                         )}
 
-                        {i.status === 4 ? (
-                            ''
-                        ) : (
                             <Tooltip title="Thanh lý">
                                 <img
                                     onClick={(e) => {
@@ -203,7 +200,6 @@ const TablePawn = ({
                                     alt="TL"
                                 />
                             </Tooltip>
-                        )}
                     </Box>
                 );
             },

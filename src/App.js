@@ -41,7 +41,8 @@ function App() {
                 .then((res) => {
                     setAuthState(res.data);
                     setUserInfo(res.data?.user);
-                    setPermissions(res.data?.user.userPermission);
+                    const _permissions = res.data?.user.userPermission;
+                    setPermissions(isAvailableArray(_permissions)? _permissions:[]);
                     setCurrentBranchId(() => {
                         if (isAvailableArray(res.data?.branchIds)) {
                             return res.data.branchIds[0];

@@ -16,7 +16,7 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal({ item, refresh}) {
+export default function BasicModal({ item, refresh }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
         refresh();
@@ -38,12 +38,12 @@ export default function BasicModal({ item, refresh}) {
                 <Box sx={style}>
                     <Grid container spacing={2}>
                         <Grid item xs={6}>
-                            Hình Xuất kho
+                            Hình nhập kho
                             <img src={item.importImg} alt="" style={{ width: '400px', height: '300px' }} />
                         </Grid>
                         <Grid item xs={6}>
-                            Hình nhập kho
-                        <img src={item.exportImg} alt="" style={{ width: '400px', height: '300px' }} />
+                            Hình Xuất kho
+                            <img src={item.exportImg} alt="" style={{ width: '400px', height: '300px' }} />
                         </Grid>
                     </Grid>
                 </Box>

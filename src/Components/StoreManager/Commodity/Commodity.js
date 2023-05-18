@@ -93,7 +93,7 @@ function Commodity() {
         {
             nameHeader: 'Tình trạng',
             dataRow: (element) => {
-                return element.status === 0 ? (
+                return element.status === 1 ? (
                     <div className="MuiTableBody_working-status">Đang hoạt động</div>
                 ) : (
                     <div className="MuiTableBody_stop-status">Đã tạm dừng</div>
@@ -103,12 +103,12 @@ function Commodity() {
     ];
     return (
         <>
-            <h1 id="heading">Danh sách hàng hóa</h1>
+            <h1 id="heading">Loại tài sản</h1>
             <div className="listCommodity">
                 <div className="listCommoditybody">
                     {/* Button  Add */}
                     <Link to="/commodity/add">
-                        <button className="addlistCommodity">Thêm mới hàng hóa</button>
+                        <button className="addlistCommodity">Thêm mới loại tài sản</button>
                     </Link>
                     {/* Status */}
                     <div className="status">

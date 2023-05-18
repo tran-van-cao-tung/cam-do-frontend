@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import ReplyIcon from '@mui/icons-material/Reply';
@@ -15,30 +15,33 @@ import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import { Button } from '@mui/material';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 
+const validationSchema = Yup.object().shape({
+    fullName: Yup.string()
+        .required('Tên nhân viên không được để trống')
+        .max(100, 'Tên nhân viên không được vượt quá 100 ký tự'),
+    userName: Yup.string()
+        .required('Tài khoản không được để trống')
+        .max(30, 'Tài khoản không được vượt quá 30 ký tự'),
+    password: Yup.string()
+        .required('Mật khẩu không được để trống')
+        .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{10,}$/, 'Mật khẩu cần ít nhất 10 ký tự, bao gồm chữ và số'),
+    address: Yup.string().max(200, 'Địa chỉ không được vượt quá 200 ký tự'),
+    phone: Yup.string().matches(/^\+?\d{10,12}$/, 'Nhập đúng định dạng số điện thoại, 10 số'),
+    email: Yup.string()
+        .email('Nhập đúng định dạng email, ví dụ: example@gmail.com')
+        .required('Email không được để trống'),
+});
+
 function EditEmployee() {
     const history = useNavigate();
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [listEmployees, setListEmployees] = useState([]);
-    const [password, setPassword] = useState('');
-    const [branch, setBranch] = useState([]);
-
-    const validationSchema = Yup.object().shape({
-        fullName: Yup.string()
-            .required('Tên nhân viên không được để trống')
-            .max(100, 'Tên nhân viên không được vượt quá 100 ký tự'),
-        userName: Yup.string()
-            .required('Tài khoản không được để trống')
-            .max(30, 'Tài khoản không được vượt quá 30 ký tự'),
-        password: Yup.string()
-            .required('Mật khẩu không được để trống')
-            .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{10,}$/, 'Mật khẩu cần ít nhất 10 ký tự, bao gồm chữ và số'),
-        address: Yup.string().max(200, 'Địa chỉ không được vượt quá 200 ký tự'),
-        phone: Yup.string().matches(/^\+?\d{10,12}$/, 'Nhập đúng định dạng số điện thoại, 10 số'),
-        email: Yup.string()
-            .email('Nhập đúng định dạng email, ví dụ: example@gmail.com')
-            .required('Email không được để trống'),
+    const [employee, setEmployee] = useState({
+        fullName: '',
+        branchId: null,
+        email: '',
+        address: '',
+        phone: '',
     });
-
     const id = useParams();
 
     const onSubmit = (event) => {
@@ -47,27 +50,19 @@ function EditEmployee() {
         const data = {
             userId: userId,
             roleId: 1,
-            branchId: listEmployees.branchId,
-            userName: listEmployees.userName,
-            password: password,
-            email: listEmployees.email,
-            fullName: listEmployees.fullName,
-            address: listEmployees.address,
-            phone: listEmployees.phone,
-            status: parseInt(listEmployees.status),
+            branchId: employee.branchId,
+            userName: employee.userName,
+            email: employee.email,
+            fullName: employee.fullName,
+            address: employee.address,
+            phone: employee.phone,
+            status: parseInt(employee.status),
         };
         validationSchema
             .validate(data, { abortEarly: false })
             .then(() => {
-                if (password !== confirmPassword) {
-                    Swal.fire({
-                        text: `Mật khẩu không trùng khớp!`,
-                        icon: 'warning',
-                    }).then((result) => {});
-                    return;
-                }
-                data.status = parseInt(listEmployees.status);
-                data.branchId = parseInt(listEmployees.branchId);
+                data.status = parseInt(employee.status);
+                data.branchId = parseInt(employee.branchId);
                 API({
                     method: 'put',
                     url: `user/updateUser`,
@@ -76,7 +71,7 @@ function EditEmployee() {
                     Swal.fire({
                         text: `Chỉnh sửa thành công!`,
                         icon: 'success',
-                    }).then((result) => {});
+                    }).then((result) => { });
                 });
             })
             .catch((error) => {
@@ -84,7 +79,7 @@ function EditEmployee() {
                 Swal.fire({
                     text: `${errorMessages}`,
                     icon: 'warning',
-                }).then((result) => {});
+                }).then((result) => { });
             });
     };
 
@@ -95,54 +90,37 @@ function EditEmployee() {
             method: 'get',
             url: `user/getUserById/${slug}`,
         }).then((res) => {
-            setListEmployees(res.data);
-            /* setInitialValues(res.data) */
-            console.log(res.data);
+            setEmployee({
+                ...res.data,
+                fullName: res.data.fullName,
+                email: res.data.email,
+                address: res.data.address,
+                phone: res.data.phone,
+                branchId: res.data.userBranches[0].branchId,
+            });
+
         });
     }, [id.id]);
 
-    //đổ dữ liệu branch
+    const handleInput = (e) => {
+        setEmployee({ ...employee, [e.target.name]: e.target.value });
+    };
+
+    const [branches, setBranches] = useState([]);
+
     useEffect(() => {
         API({
             method: 'get',
-            url: `branch/getChain`,
+            url: `/branch/getAll/0`,
         }).then((res) => {
-            setBranch(res.data);
+            setBranches(res.data);
         });
     }, []);
 
-    const [showPassword1, setShowPassword1] = useState(false);
-    const [showPassword2, setShowPassword2] = useState(false);
+    const branchOptions = useMemo(() => {
+        return branches;
+    }, [branches]);
 
-    const toggleShowPassword1 = () => {
-        setShowPassword1((prev) => !prev);
-    };
-    const toggleShowPassword2 = () => {
-        setShowPassword2((prev) => !prev);
-    };
-    const handlePasswordChange = (event) => {
-        setConfirmPassword(event.target.value);
-    };
-
-    /* const initialValue = {
-        roleId: listEmployees.roleId,
-        fullName: listEmployees.fullName,
-        branchId: listEmployees?.branchId || '',
-        userName: listEmployees?.userName || '',
-        email: listEmployees?.email || '',
-        address: listEmployees?.address || '',
-        status: listEmployees?.status || '',
-        phone: listEmployees?.phone || '',
-        password: '',
-    }; */
-
-    /*     const handleInput = (e) => {
-            e.persist();
-            setListEmployees({ ...listEmployees, [e.target.name]: e.target.value });
-        }; */
-    const handleInput = (e) => {
-        setListEmployees({ ...listEmployees, [e.target.name]: e.target.value });
-    };
     return (
         <div className="box_employee">
             <h1 className="employee_heading-add">Cập nhật nhân viên</h1>
@@ -157,7 +135,7 @@ function EditEmployee() {
                                 type="text"
                                 name="fullName"
                                 onChange={(e) => handleInput(e)}
-                                value={listEmployees.fullName}
+                                value={employee.fullName}
                             />
                         </div>
                         <div className="employee_input">
@@ -169,13 +147,13 @@ function EditEmployee() {
                                 onChange={(e) => {
                                     handleInput(e);
                                 }}
-                                value={listEmployees.branchId}
+                                value={employee.branchId}
                                 style={{
                                     width: '576px',
                                 }}
                             >
                                 <option>--Tên cửa hàng--</option>
-                                {branch.map((item, index) => {
+                                {branchOptions.map((item, index) => {
                                     return (
                                         <option key={index} value={item.branchId}>
                                             {item.branchName}
@@ -184,11 +162,16 @@ function EditEmployee() {
                                 })}
                             </select>
                         </div>
-                        <div className="employee_username">
+                        <div className="employee_input">
                             <span>
-                                Tên đăng nhập <span>*</span>:
+                                Tên đăng nhập<span>*</span>:
                             </span>
-                            <span>{listEmployees.userName}</span>
+                            <input
+                                type="text"
+                                name="username"
+                                disabled
+                                value={employee.userName}
+                            />
                         </div>
                         <div className="employee_input">
                             <span>
@@ -198,7 +181,7 @@ function EditEmployee() {
                                 type="text"
                                 name="email"
                                 onChange={(e) => handleInput(e)}
-                                value={listEmployees.email}
+                                value={employee.email}
                             />
                         </div>
                         <div className="employee_input">
@@ -209,7 +192,7 @@ function EditEmployee() {
                                 type="text"
                                 name="address"
                                 onChange={(e) => handleInput(e)}
-                                value={listEmployees.address}
+                                value={employee.address}
                             />
                         </div>
                         <div className="employee_input">
@@ -220,7 +203,7 @@ function EditEmployee() {
                                 type="text"
                                 name="phone"
                                 onChange={(e) => handleInput(e)}
-                                value={listEmployees.phone}
+                                value={employee.phone}
                             />
                         </div>
                         <div className="employee_search employee_style-search">
@@ -233,7 +216,7 @@ function EditEmployee() {
                                     name="status"
                                     value="1"
                                     onChange={handleInput}
-                                    checked={listEmployees.status == 1 ? true : false}
+                                    checked={employee.status == 1 ? true : false}
                                 />
                                 {/* <input type="radio" name='status' onChange={(e) => handleInput(e)} value={1} /> */}
                                 <label className="check2">Đang làm việc</label>
@@ -242,7 +225,7 @@ function EditEmployee() {
                                     name="status"
                                     value="2"
                                     onChange={handleInput}
-                                    checked={listEmployees.status == 2 ? true : false}
+                                    checked={employee.status == 2 ? true : false}
                                 />
                                 {/* <input type="radio" name='status' onChange={(e) => handleInput(e)} value="2" /> */}
                                 <label className="check3">Tạm khóa</label>
