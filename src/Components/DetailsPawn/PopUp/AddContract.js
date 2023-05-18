@@ -16,6 +16,7 @@ import { UploadDropzone } from 'react-uploader';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
 import { Save } from '@mui/icons-material';
 import ButtonCloseAnimation from '../../ButtonUI/BtnCloseAnimation/ButtonCloseAnimation';
+import { formatMoney } from '../../../helpers/dateTimeUtils';
 
 const AddContract = ({ setShowAddContract, showAddContract }) => {
     const { authState, currentBranchId, userInfo } = useContext(AuthContext);
