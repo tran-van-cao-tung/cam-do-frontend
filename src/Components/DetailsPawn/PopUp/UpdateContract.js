@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import user from '../../../asset/img/userpagedetai.png';
 import bike from '../../../asset/img/bike.png';
@@ -10,26 +10,30 @@ import { formatMoney } from '../../../helpers/dateTimeUtils';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
 import ButtonCloseAnimation from '../../ButtonUI/BtnCloseAnimation/ButtonCloseAnimation';
 import { Save } from '@mui/icons-material';
-
+import { AuthContext } from '../../../helpers/AuthContext';
 const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
     const [detailContract, setDetailContract] = useState([]);
     const [warehouse, setWarehouse] = useState([]);
     const [pawnableProduct, setPawnableProduct] = useState();
     const [attributeInfo, setAttributeInfo] = useState([]);
     const [branch, setbranch] = useState(1);
+    const { userInfo } = useContext(AuthContext);
     const updateBranch = ({ target }) => {
         setbranch(target.value);
     };
 
     function saveContract() {
         console.log('log at select brand', branch);
+        console.log(userInfo.userId);
+        console.log(detailContract.contractAssetId);
         API({
             method: 'put',
-            url: '/contract/updateContract/' + localStorage.getItem('PawnDetailID'),
+            url: '/contractAsset/updateContractAsset/' + userInfo.userId,
             data: {
-                contractAssetId: localStorage.getItem('PawnDetailID'),
+                contractAssetId: detailContract.contractAssetId,
                 warehouseId: branch,
-                contractAssetName: 'string',
+                contractAssetName: 'abcksas',
+                description: 'string',
                 image: 'string',
             },
         })
@@ -43,6 +47,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
     }
     const [attributes, setAttributes] = useState();
     function showAttribute(id) {
+        console.log('Pawnable id: ', id);
         API({
             method: 'get',
             url: `pawnableProduct/getPawnAbleProductById/` + id,

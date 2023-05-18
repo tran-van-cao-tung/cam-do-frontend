@@ -16,7 +16,7 @@ import { formatDate } from '../../../helpers/dateTimeUtils';
 const DEFAULT = {
     pageNumber: 1,
     pageSize: 6,
-    totalPage: 1,
+    totalPage: 4,
 };
 
 function ListEmployees() {
@@ -44,7 +44,7 @@ function ListEmployees() {
         if (currentBranchId) {
             API({
                 method: 'get',
-                url: '/user/getAll/1/' + currentBranchId,
+                url: '/user/getAll/0/' + currentBranchId,
             }).then((res) => {
                 setLogContract(res.data);
             });

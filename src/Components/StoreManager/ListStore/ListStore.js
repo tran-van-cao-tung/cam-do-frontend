@@ -46,7 +46,7 @@ const ListStore = () => {
     useEffect(() => {
         API({
             method: 'get',
-            url: '/branch/getAll/1',
+            url: '/branch/getAll/0',
         }).then((res) => {
             setLogContract(res.data);
         });
@@ -92,9 +92,9 @@ const ListStore = () => {
             nameHeader: 'Tình trạng',
             dataRow: (element) => {
                 return element.status === 1 ? (
-                    <div className="MuiTableBody_root-status">Đã tạm đừng</div>
-                ) : (
                     <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
+                ) : (
+                    <div className="MuiTableBody_root-status">Đã tạm dừng</div>
                 );
             },
         },

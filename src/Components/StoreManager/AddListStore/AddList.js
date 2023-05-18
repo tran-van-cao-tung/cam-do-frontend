@@ -21,7 +21,7 @@ const AddList = () => {
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [fund, setFund] = useState();
-    const [status, setStatus] = useState();
+    const [status, setStatus] = useState(1);
 
     const [notification, setNotification] = useState(null);
     const [success, setSuccess] = useState(false);

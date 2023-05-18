@@ -9,6 +9,7 @@ import Liquidation from './PopUp/Liquidation';
 import DetailContract from './PopUp/DetailContract';
 import Expiration from './PopUp/Expiration';
 import { AuthContext } from '../../helpers/AuthContext';
+import { useSearchParams } from 'react-router-dom';
 // import './DetailPawn.css';
 const DetailsPawn = () => {
     const [showAddContract, setShowAddContract] = useState(false);
@@ -20,7 +21,7 @@ const DetailsPawn = () => {
 
     const [rowsContract, setContract] = useState([]);
     const { authState, currentBranchId } = useContext(AuthContext);
-    
+    const [searchParams] = useSearchParams();
     useEffect(() => {
         if (currentBranchId) {
             API({
@@ -33,6 +34,13 @@ const DetailsPawn = () => {
         }
     }, [currentBranchId, setContract]);
 
+    useEffect(() =>{
+        const contractId = searchParams.get('contractId');
+        if(contractId != null){
+            setshowdetailContract(true);
+            setShowContractId(contractId);
+        }
+    }, [])
     const filteredContracts = useMemo(()=>{
 
     }, [])

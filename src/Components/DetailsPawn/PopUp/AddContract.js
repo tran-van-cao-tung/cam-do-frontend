@@ -419,7 +419,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                                 name="interestRecommend"
                                                 onChange={(e) => handleInput(e)}
                                             />
-                                            <p className="flend"> abcs</p>
+                                            <p className="flend">{totalProfit ? formatMoney(totalProfit) : '0 VND'}</p>
                                         </div>
                                     </div>
                                 </Grid>

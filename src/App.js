@@ -3,7 +3,7 @@ import Login from './Components/Login/Login';
 import { Route, Routes } from 'react-router-dom';
 import { privateRoutes } from './routes';
 import LayoutDefault from './Components/LayoutDefault/LayoutDefault';
-import Unlogin from './Components/UnLogin/Unlogin';
+import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
 import { AuthContext } from './helpers/AuthContext';
 import { useCallback, useEffect, useState } from 'react';
 import API from './API';
@@ -99,7 +99,7 @@ function App() {
                 <Routes>
                     <Route path="/auth" element={<NoAuth />}>
                         <Route path="/auth/login" element={<Login />} />
-                        <Route path="/auth/unlogin" element={<Unlogin />} />
+                        <Route path="/auth/forgot" element={<ForgotPassword />} />
                     </Route>
                     <Route path="/" element={<Auth />}>
                         {privateRoutes.map((route, index) => {

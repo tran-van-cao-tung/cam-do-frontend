@@ -16,20 +16,23 @@ import { Button } from '@mui/material';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 
 function AddEmployee() {
-    const history = useNavigate();
     const [confirmPassword, setConfirmPassword] = useState('');
     /*  const [password, setPassword] = useState(''); */
     const [branch, setBranch] = useState([]);
+    const [branchList, setBranchList] = useState([]);
 
     //đổ dữ liệu branch
     useEffect(() => {
-        API({
-            method: 'get',
-            url: `branch/getChain`,
-        }).then((res) => {
-            setBranch(res.data);
-        });
-    }, []);
+        if(branch != null){
+            API({
+                method: 'get',
+                url: `branch/getAll/0`,
+            }).then((res) => {
+                setBranch(res.data)
+            });
+        }
+        
+    }, [branch]);
 
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
@@ -45,7 +48,7 @@ function AddEmployee() {
     };
 
     const initialValues = {
-        roleId: 1,
+        roleId: 2,
         fullName: '',
         branchId: 0,
         userName: '',
@@ -82,6 +85,8 @@ function AddEmployee() {
             return;
         }
         data.status = parseInt(data.status);
+        data.branchId = parseInt(data.branchId);
+        data.roleId = parseInt(data.roleId);
         API({
             method: 'post',
             url: `user/createUser`,
@@ -106,7 +111,7 @@ function AddEmployee() {
         <div className="box_employee">
             <h1 className="employee_heading-add">Thêm mới nhân viên</h1>
             <div className="wareh-content">
-                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                <Formik initialValues={initialValues} /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
                     <Form>
                         <div className="employeeAdd">
                             <div className="employee_input">
@@ -201,22 +206,25 @@ function AddEmployee() {
                                 {/*  <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employeeInput.phone} /> */}
                             </div>
                             <ErrorMessage name="phone" className="alert alert-danger" component="div" />
-                            <div className="employee_search employee_style-search">
-                                <div className="employee_search-check employee_style-check">
-                                    <span className="employee_search-heading">
-                                        Tình trạng<span>*</span>:
-                                    </span>
-                                    <Field type="radio" name="status" value="1" checked />
-                                    {/* <input type="radio" name='status' onChange={(e) => handleInput(e)} value={1} /> */}
-                                    <label className="check2">Đang làm việc</label>
-                                    <Field type="radio" name="status" value="2" />
-                                    {/* <input type="radio" name='status' onChange={(e) => handleInput(e)} value="2" /> */}
-                                    <label className="check3">Tạm khóa</label>
-                                </div>
+                            <div className="employee_input">
+                                <span>
+                                   Chức vụ <span>*</span>:
+                                </span>
+                                <Field
+                                    as="select"
+                                    id="roleId"
+                                    name="roleId"
+                                    style={{
+                                        width: '576px',
+                                    }} /* onChange={(e) => handleInput(e)} value={employeeInput.branchId} */
+                                >
+                                    <option value={2} selected>--Quản lý--</option>
+                                    <option value={3}>--Nhân viên--</option>
+                                </Field>
                             </div>
                             <div className="employee-btn">
                                 <div className="employee_btn-group">
-                                    <Button onClick={onSubmit} s type="submit">
+                                    <Button type="submit">
                                         <BtnSave />
                                     </Button>
                                     <Button>

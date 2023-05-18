@@ -131,7 +131,9 @@ const Home = () => {
                     ? 'Đã đóng lãi'
                     : element.eventType === 4
                     ? 'Đóng hợp đồng'
-                    : '';
+                    : element.eventType === 5
+                    ? 'Tiền lãi còn nợ'
+                    :   ''
             },
         },
         {

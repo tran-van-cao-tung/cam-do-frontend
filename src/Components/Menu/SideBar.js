@@ -30,12 +30,6 @@ const drawerWidth = 280;
 
 const sidebarMenu = [
     {
-        key: 'overview',
-        icon: <DashboardIcon />,
-        label: 'Tổng Quan',
-        to: '/',
-    },
-    {
         key: 'pawns',
         icon: <ReceiptIcon />,
         label: 'Cầm Đồ',
@@ -53,7 +47,7 @@ const sidebarMenu = [
         key: 'assetManager',
         icon: <MonetizationOnIcon />,
         label: 'Quản Lý Tài Sản',
-        permission: PERMISSIONS['Quản Lý Kho'],
+        permission: PERMISSIONS['Quản Lý Tài Sản'],
         children: [
             {
                 key: 'storeManager_stores',
@@ -108,6 +102,7 @@ const sidebarMenu = [
         icon: <AssessmentIcon />,
         label: 'Báo Cáo',
         to: '/report-years',
+        permission: PERMISSIONS['Báo cáo'],
     },
 ];
 
@@ -145,6 +140,8 @@ const SideBar = ({ open }) => {
         if (lowercaseText(authState?.user?.userName) === 'admin') {
             return true;
         }
+
+
 
         const permission = permissions.find((item) => item.perId === id);
         return permission?.status === true;
@@ -184,6 +181,33 @@ const SideBar = ({ open }) => {
             </DrawerHeader>
             <Divider />
             <List>
+                <ListItem
+                    key={1}
+                    disablePadding
+                    sx={{ display: 'block' }}
+                    onClick={() => {
+                            navigate('/');
+                    }}
+                >
+                    <ListItemButton
+                        sx={{
+                            minHeight: 48,
+                            justifyContent: 1 ? 'initial' : 'center',
+                            px: 2.5,
+                        }}
+                    >
+                        <ListItemIcon
+                            sx={{
+                                minWidth: 0,
+                                mr: 1 ? 3 : 'auto',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <DashboardIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={"Tổng quan"} sx={{ opacity: 1 ? 1 : 0 }} />
+                    </ListItemButton>
+                </ListItem>
                 {sidebarMenu.map((item, index) =>
                     !hasPermission(item.permission) ? null : (
                         <Fragment key={item.key}>

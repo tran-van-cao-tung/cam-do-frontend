@@ -64,7 +64,7 @@ const Login = () => {
                         }}
                     />
                     <div className="content-login_text">
-                        <Link to="/unlogin">Quên mật khẩu ?</Link>
+                        <Link to="/auth/forgot">Quên mật khẩu ?</Link>
                     </div>
                     <button className="btn_login" type="submit">
                         Đăng Nhập
