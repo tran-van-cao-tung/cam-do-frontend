@@ -4,11 +4,6 @@
 }
 
 .add-contract {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
     background-color: rgba(82, 77, 77, 0.31);
     z-index: 2;
     cursor: pointer;
@@ -18,7 +13,6 @@
     background-color: #ffffff;
     height: 100%;
     border-radius: 7px;
-    width: 80%;
     margin: 0 10%;
     animation: dropTop 0.4s linear;
     overflow-y: auto;
@@ -137,7 +131,6 @@
     font-weight: 400;
     font-size: 25px;
     line-height: 32px;
-    color: #f61010;
 }
 
 .box__input {

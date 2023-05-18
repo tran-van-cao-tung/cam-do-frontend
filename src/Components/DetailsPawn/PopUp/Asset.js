@@ -19,14 +19,8 @@ const Asset = ({ showContractId }) => {
         setbranch(target.value);
     };
     //Ép kiểu dữ liệu date
-    const formatDate = (value) => {
-        return moment(value).format('MM/DD/YYYY');
-    };
 
     //Ép kiểu dữ liệu vnd
-    const formatVND = (value) => {
-        return Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
-    };
 
     //Upload img
     const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
@@ -139,7 +133,6 @@ const Asset = ({ showContractId }) => {
                                     <TableCell>
                                         <AssetNote item={item} />
                                     </TableCell>
-                                    
                                 </TableRow>
                             );
                         })}

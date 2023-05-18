@@ -12,7 +12,7 @@ import userImg from '../../../asset/img/user.png';
 import { Button } from '@mui/material';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
-import { formatMoney } from '../../../helpers/dateTimeUtils';
+
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
 import { Save } from '@mui/icons-material';
 import ButtonCloseAnimation from '../../ButtonUI/BtnCloseAnimation/ButtonCloseAnimation';
@@ -397,6 +397,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                         </div>
                                         <div className="user__info-input">
                                             {/* Lấy dữ liệu từ Package */}
+
                                             <select onChange={(e) => handlePackageItem(e)}>
                                                 <option>---Gói Cầm---</option>
                                                 {packagelist.map((item, index) => {
