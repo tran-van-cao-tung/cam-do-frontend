@@ -46,7 +46,7 @@ function ChartLine({ value, setYear }) {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         };
         fetch(
-            `https://tranvancaotung1-001-site1.htempurl.com/api/v1/ledger/getbyBranchId/1/${
+            `https://tranvancaotung2-001-site1.etempurl.com/api/v1/ledger/getbyBranchId/1/${
                 value == null ? currentYear : value
             }`,
             { headers },
