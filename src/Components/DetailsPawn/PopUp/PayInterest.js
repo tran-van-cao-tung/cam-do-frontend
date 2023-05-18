@@ -11,7 +11,6 @@ import {
     imageListItemBarClasses,
 } from '@mui/material';
 
-
 import { Uploader } from 'uploader';
 import moment from 'moment';
 import { UploadDropzone } from 'react-uploader';
@@ -232,42 +231,38 @@ function PayInterest({ showContractId, refreshDetail }) {
         setInterestDiary({ ...interestDiary, [e.target.name]: e.target.value });
     };
     return (
-            <TableContainer>
-                <Table
-                    sx={{ minWidth: '700px', '&:last-child td, &:last-child ': { border: 0 } }}
-                    aria-label="simple table"
+        <TableContainer>
+            <Table
+                sx={{ minWidth: '700px', '&:last-child td, &:last-child ': { border: 0 } }}
+                aria-label="simple table"
+            >
+                <TableHead
+                    sx={{ '&:last-child td, &:last-child th': { borderRadius: '10px' } }}
+                    style={{ borderRadius: '10px' }}
                 >
-                    <TableHead
-                        sx={{ '&:last-child td, &:last-child th': { borderRadius: '10px' } }}
-                        style={{ borderRadius: '10px' }}
+                    <TableRow
+                        sx={{
+                            '&:last-child td, &:last-child th': {
+                                border: '1px solid rgba(0, 0, 0, 0.1)',
+                                background: 'orange',
+                                textAlign: 'center',
+                                color: '#black',
+                            },
+                        }}
+                        style={{ borderRadius: '5px' }}
                     >
-                        <TableRow
-                            sx={{
-                                '&:last-child td, &:last-child th': {
-                                    border: '1px solid rgba(0, 0, 0, 0.1)',
-                                    background: 'orange',
-                                    textAlign: 'center',
-                                    color: '#black',
-                                },
-                            }}
-                            style={{ borderRadius: '5px' }}
-                        >
-                            <StyledTableCell> Từ ngày - Đến ngày</StyledTableCell>
-                            <StyledTableCell>Tiền lãi</StyledTableCell>
-                            <StyledTableCell>Tiền khác</StyledTableCell>
-                            <StyledTableCell>Tổng tiền</StyledTableCell>
-                            <StyledTableCell>Tiền khách trả</StyledTableCell>
-                            <StyledTableCell>Hình ảnh</StyledTableCell>
-                            {(checkStatus != 4) && (
-                            <StyledTableCell>Đóng tiền lãi</StyledTableCell>
-                            )}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody
-                        style={{ border: '1px solid rgba(0, 0, 0, 0.1)' }}
-                    >
-                        {interestDiary.map((item, index) => {
-                            /* if (item.paidMoney != 0) {
+                        <StyledTableCell> Từ ngày - Đến ngày</StyledTableCell>
+                        <StyledTableCell>Tiền lãi</StyledTableCell>
+                        <StyledTableCell>Tiền khác</StyledTableCell>
+                        <StyledTableCell>Tổng tiền</StyledTableCell>
+                        <StyledTableCell>Tiền khách trả</StyledTableCell>
+                        <StyledTableCell>Hình ảnh</StyledTableCell>
+                        {checkStatus != 4 && <StyledTableCell>Đóng tiền lãi</StyledTableCell>}
+                    </TableRow>
+                </TableHead>
+                <TableBody style={{ border: '1px solid rgba(0, 0, 0, 0.1)' }}>
+                    {interestDiary.map((item, index) => {
+                        /* if (item.paidMoney != 0) {
                                     
                                 }
                                 if (show[item.interestDiaryId] === item.interestDiaryId) {
@@ -279,68 +274,72 @@ function PayInterest({ showContractId, refreshDetail }) {
                                         setShow({ ...show, [item.interestDiaryId]: item.interestDiaryId });
                                     }
                                 } */
-                            console.log(item.interestDiaryId);
-                            return (
-                                <>
-                                    <StyledTableRow
-                                        key={index}
-                                        style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}
-                                        sx={{ '& td, & th': { textAlign: 'center' } }}
-                                    >
+                        console.log(item.interestDiaryId);
+                        return (
+                            <>
+                                <StyledTableRow
+                                    key={index}
+                                    style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}
+                                    sx={{ '& td, & th': { textAlign: 'center' } }}
+                                >
+                                    <StyledTableCell>
+                                        {moment(item.dueDate).format('DD/MM/YYYY')} -{' '}
+                                        {moment(item.nextDueDate).format('DD/MM/YYYY')}
+                                    </StyledTableCell>
+                                    <StyledTableCell>{formatMoney(item.payment)}</StyledTableCell>
+                                    <StyledTableCell>{formatMoney(item.penalty)}</StyledTableCell>
+                                    <StyledTableCell>{formatMoney(item.totalPay)}</StyledTableCell>
+                                    <StyledTableCell style={{ textAlign: 'center' }}>
+                                        <span>{formatMoney(item.paidMoney)}</span>
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        <ModalImg item={item} />
+                                    </StyledTableCell>
+                                    {checkStatus != 4 && (
                                         <StyledTableCell>
-                                            {moment(item.dueDate).format('DD/MM/YYYY')} -{' '}
-                                            {moment(item.nextDueDate).format('DD/MM/YYYY')}
+                                            <BasicModal
+                                                item={item}
+                                                refresh={refreshTable}
+                                                refreshDetail={refreshDetail}
+                                            />
                                         </StyledTableCell>
-                                        <StyledTableCell>{formatMoney(item.payment)}</StyledTableCell>
-                                        <StyledTableCell>{formatMoney(item.penalty)}</StyledTableCell>
-                                        <StyledTableCell>{formatMoney(item.totalPay)}</StyledTableCell>
-                                        <StyledTableCell style={{ textAlign: 'center' }}>
-                                            <span>{formatMoney(item.paidMoney)}</span>
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <ModalImg item={item} />
-                                        </StyledTableCell>
-                                        {(checkStatus != 4) && (
-                                            <StyledTableCell>
-                                            <BasicModal item={item} refresh={refreshTable} refreshDetail={refreshDetail} />
-                                        </StyledTableCell>
-                                        )}
-                                    </StyledTableRow>
-                                    {showNote[`${item.interestDiaryId}`] === item.interestDiaryId ? (
-                                        <>
-                                            <TableRow
-                                                style={{ height: '200px' }}
-                                                sx={{
-                                                    '&:last-child td, &:last-child th': {
-                                                        border: '1px solid rgba(0, 0, 0, 0.1)',
-                                                    },
-                                                }}
-                                            >
-                                                <h3 style={{ padding: '10px' }}>Upload hình đóng lãi</h3>
-                                                <UploadDropzone
-                                                    uploader={uploader}
-                                                    options={uploaderOptions}
-                                                    onUpdate={(files) =>
-                                                        console.log(files.map((x) => x.fileUrl).join('\n'))
-                                                    }
-                                                    onComplete={(files) => {
-                                                        handleImg(files, item.interestDiaryId);
-                                                        alert(files.map((x) => x.fileUrl).join('\n'));
-                                                    }}
-                                                    width="600px"
-                                                    height="375px"
-                                                />
-                                            </TableRow>
-                                        </>
-                                    ) : (
-                                        ''
                                     )}
-                                </>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                                </StyledTableRow>
+                                {showNote[`${item.interestDiaryId}`] === item.interestDiaryId ? (
+                                    <>
+                                        <TableRow
+                                            style={{ height: '200px' }}
+                                            sx={{
+                                                '&:last-child td, &:last-child th': {
+                                                    border: '1px solid rgba(0, 0, 0, 0.1)',
+                                                },
+                                            }}
+                                        >
+                                            <h3 style={{ padding: '10px' }}>Upload hình đóng lãi</h3>
+                                            <UploadDropzone
+                                                uploader={uploader}
+                                                options={uploaderOptions}
+                                                onUpdate={(files) =>
+                                                    console.log(files.map((x) => x.fileUrl).join('\n'))
+                                                }
+                                                onComplete={(files) => {
+                                                    handleImg(files, item.interestDiaryId);
+                                                    alert(files.map((x) => x.fileUrl).join('\n'));
+                                                }}
+                                                width="600px"
+                                                height="375px"
+                                            />
+                                        </TableRow>
+                                    </>
+                                ) : (
+                                    ''
+                                )}
+                            </>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 }
 

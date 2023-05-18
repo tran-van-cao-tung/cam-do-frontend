@@ -31,7 +31,7 @@ const style = {
 };
 
 const styleModal = {
-    zIndex: '99',
+    zIndex: '10001',
 };
 
 const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.

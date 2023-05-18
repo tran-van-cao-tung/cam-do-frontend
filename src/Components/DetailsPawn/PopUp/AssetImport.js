@@ -30,7 +30,7 @@ const style = {
 };
 
 const styleModal = {
-    zIndex: '99',
+    zIndex: '10001',
 };
 
 const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
@@ -97,7 +97,7 @@ export default function AssetImport({ item }) {
         setImg(files);
         console.log('img: ', img);
         setShowMessage(true);
-    };
+    }
     var messageImg = '';
     if (showMessage) {
         messageImg = 'Thêm ảnh thành công!';
@@ -113,7 +113,7 @@ export default function AssetImport({ item }) {
             Swal.fire({
                 text: 'Bạn chưa nhập hết thông tin',
                 icon: 'warning',
-            }).then((result) => { });
+            }).then((result) => {});
             return;
         }
 
@@ -135,7 +135,7 @@ export default function AssetImport({ item }) {
                     Swal.fire({
                         text: 'Thêm thành công!',
                         icon: 'success',
-                    }).then((result) => { });
+                    }).then((result) => {});
                     history('/detaipawn');
                 }
             });
