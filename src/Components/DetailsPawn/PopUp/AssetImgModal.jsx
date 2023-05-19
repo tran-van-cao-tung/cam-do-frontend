@@ -21,7 +21,7 @@ export default function BasicModal({ item, refresh }) {
     const handleOpen = () => {
         refresh();
         setOpen(true);
-    }
+    };
     const handleClose = () => setOpen(false);
 
     return (
@@ -38,12 +38,12 @@ export default function BasicModal({ item, refresh }) {
                 <Box sx={style}>
                     <Grid container spacing={2}>
                         <Grid item xs={6}>
-                            Hình nhập kho
-                            <img src={item.importImg} alt="" style={{ width: '400px', height: '300px' }} />
+                            <p style={{ textAlign: 'center', marginBottom: '10px', fontWeight: 700 }}>Hình nhập kho</p>
+                            <img src={item.importImg} alt="" style={{ width: '350px', height: '300px' }} />
                         </Grid>
                         <Grid item xs={6}>
-                            Hình Xuất kho
-                            <img src={item.exportImg} alt="" style={{ width: '400px', height: '300px' }} />
+                            <p style={{ textAlign: 'center', marginBottom: '10px', fontWeight: 700 }}>Hình Xuất kho</p>
+                            <img src={item.exportImg} alt="" style={{ width: '350px', height: '300px' }} />
                         </Grid>
                     </Grid>
                 </Box>

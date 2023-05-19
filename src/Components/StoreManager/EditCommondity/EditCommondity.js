@@ -8,7 +8,7 @@ import FormLabel from '@mui/material/FormLabel';
 import InputBase from '@mui/material/InputBase';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import API from '../../../API';
 
 import { Divider } from '@mui/material';
@@ -118,9 +118,11 @@ const EditCommondity = () => {
                             Lưu lại
                         </Button>
 
-                        <Button className="back-btn" variant="contained" href="/commodity">
-                            Quay lại
-                        </Button>
+                        <Link to="/commodity">
+                            <Button className="back-btn" variant="contained">
+                                Quay lại
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

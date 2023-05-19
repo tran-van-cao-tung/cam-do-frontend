@@ -11,6 +11,7 @@ import API from '../../../API';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import { AuthContext } from '../../../helpers/AuthContext';
+import PageHeader from '../../../helpers/PageHeader';
 function AuthEmployee() {
     const history = useNavigate();
     const [employeeList, setEmployeeList] = useState([]);
@@ -206,7 +207,6 @@ function AuthEmployee() {
             })),
         );
     };
-
 
     const handleChildCheckboxChange = (event) => {
         const { id, checked } = event.target;
@@ -406,8 +406,7 @@ function AuthEmployee() {
 
     return (
         <div className="box_employee">
-            <h1 id="heading">Phân quyền nhân viên</h1>
-
+            <PageHeader title="Phân quyền nhân viên" />
             <div className="authContainer">
                 <div className="auth_input">
                     <div className="auth_input-group">

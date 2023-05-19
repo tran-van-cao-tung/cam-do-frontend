@@ -4,16 +4,15 @@ import './AddList.scss';
 
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
+
 import FormLabel from '@mui/material/FormLabel';
 import InputBase from '@mui/material/InputBase';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import API from '../../../API';
 import { Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import { toast } from 'react-toastify';
 
 const AddList = () => {
     // const [id, setId] = useState();
@@ -23,31 +22,37 @@ const AddList = () => {
     const [fund, setFund] = useState();
     const [status, setStatus] = useState(1);
 
-    const [notification, setNotification] = useState(null);
-    const [success, setSuccess] = useState(false);
+    const [fundError, setFundError] = useState('');
+    const handleOnChangeFund = (e) => {
+        const value = JSON.parse(e.target.value);
 
+        if (value > 1000000000000) {
+            setFundError('Số tiền không được vượt quá 10 tỷ');
+        } else {
+            setFundError('');
+            setFund(value);
+        }
+        // console.log(fund);
+    };
     const handleSubmit = (e) => {
         // check điều kiện ở input
-        if (name.length > 100 || phone.length < 11 || phone.length > 12 || address.length > 200 || fundError) {
-            setNotification('Bạn đang có điều kiện không đúng!');
-            setTimeout(() => {
-                setNotification(null);
-            }, 5000);
+        if (
+            name.length > 100 ||
+            phone.length < 11 ||
+            phone.length > 12 ||
+            address.length > 200 ||
+            fund > 1000000000000
+        ) {
+            toast.error('Bạn đang có điều kiện không đúng!');
+            setTimeout(() => {}, 5000);
             return;
         }
         // check điều kiện không được rỗng ở input
-        if (name === '' || phone === '' || address === '' || fund === '') {
-            setNotification('Bạn không được để trống!');
-            setTimeout(() => {
-                setNotification(null);
-            }, 5000);
-            return;
+        else if (name === '' || phone === '' || address === '' || fund === '') {
+            toast.error('Bạn không được để trống!');
         }
         //
         e.preventDefault();
-        setSuccess(true);
-        // e.preventDefault();
-
         API({
             method: 'post',
             url: '/branch/CreateBranch',
@@ -63,10 +68,7 @@ const AddList = () => {
         })
             .then((res) => {
                 // console.log('Success Full');
-                setSuccess(true);
-                setTimeout(() => {
-                    setSuccess(false);
-                }, 5000);
+                toast.success('Lưu thành công!');
             })
             .catch((err) => console.log(err));
     };
@@ -92,18 +94,7 @@ const AddList = () => {
         setAddress(e.target.value);
         // console.log(address);
     };
-    const [fundError, setFundError] = useState('');
-    const handleOnChangeFund = (e) => {
-        const value = JSON.parse(e.target.value);
-        console.log(typeof value);
-        if (value > 1000000000000) {
-            setFundError('Số tiền không được vượt quá 10 tỷ');
-        } else {
-            setFundError('');
-            setFund(value);
-        }
-        // console.log(fund);
-    };
+
     const handleOnChangeStatus = (e) => {
         setStatus(e.target.value);
         // console.log(status);
@@ -115,21 +106,7 @@ const AddList = () => {
                 <h1>Thêm mới cửa hàng</h1>
                 <div className="wareh-content">
                     {/* Add a erro message */}
-                    {notification && (
-                        <div class="alert alert-danger" role="alert">
-                            <i class="material-icons">
-                                <span>{notification}</span>
-                            </i>
-                        </div>
-                    )}
-                    {/* Add a success message */}
-                    {success && (
-                        <div class="alert alert-success" role="alert">
-                            <i class="material-icons">
-                                <span> Lưu thành công!</span>
-                            </i>
-                        </div>
-                    )}
+
                     <div className="add-section">
                         <FormControl className="add-input-group">
                             <FormLabel className="label">

@@ -1,34 +1,63 @@
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../../../src/API.js';
 import edit from './../../asset/img/edit.png';
-import ReactPaginate from 'react-paginate';
+
+import { isAvailableArray } from '../../helpers/utils.js';
+import CustomizedTables from '../../helpers/CustomizeTable.jsx';
+import { Box, Pagination, Stack } from '@mui/material';
+
+const DEFAULT = {
+    pageNumber: 1,
+    pageSize: 6,
+    totalPage: 1,
+};
 
 function ListCustomer({ numPage }) {
-    const [customers, setCustomers] = useState([]);
     const [searchAPIData, setSearchAPIData] = useState([]);
     const [onFilter, setOnFilter] = useState();
+
+    const [logContract, setLogContract] = useState([]);
+    const [page, setPage] = useState(DEFAULT.pageNumber);
+    const [pageSize] = useState(DEFAULT.pageSize);
+
+    // Memorize
+    const totalPage = useMemo(() => {
+        const result = Math.ceil(logContract.length / pageSize);
+        return result;
+    }, [logContract?.length, pageSize]);
+
+    const renderedData = useMemo(() => {
+        if (!isAvailableArray(logContract)) return [];
+
+        const start = (page - 1) * pageSize;
+        const end = page * pageSize;
+        return logContract.slice(start, end);
+    }, [logContract, page, pageSize]);
 
     useEffect(() => {
         API({
             method: 'GET',
             url: '/customer/getAllBlackList/1',
         }).then((response) => {
-            setCustomers(response.data);
+            setLogContract(response.data);
             setSearchAPIData(response.data);
             console.log(response.data);
         });
     }, []);
 
+    const handlePagination = (e, value) => {
+        setPage(value);
+    };
+
     const onFilterChange = (e) => {
         if (e.target.value == '') {
-            setCustomers(searchAPIData);
+            setSearchAPIData(searchAPIData);
         } else {
             const filterResult = searchAPIData.filter((item) =>
                 item.fullName.toLowerCase().includes(e.target.value.toLowerCase()),
             );
-            setCustomers(filterResult);
+            setSearchAPIData(filterResult);
         }
         setOnFilter(e.target.value);
     };
@@ -39,13 +68,54 @@ function ListCustomer({ numPage }) {
     // ==================================
     // |            Phân Trang        |
     // ==================================
-    const [currentPage, setCurrentPage] = useState(0);
-    const [customersPerPage, setCustomersPerPage] = useState(4); // số lượng cửa hàng hiển thị trên mỗi trang
-    const pageCount = Math.ceil(customers.length / customersPerPage); // tính toán số lượng trang
-    const startIndex = currentPage * customersPerPage;
-    const endIndex = startIndex + customersPerPage;
-    const currentCustomers = customers.slice(startIndex, endIndex);
-
+    const dataTable = [
+        {
+            nameHeader: 'Họ và tên',
+            dataRow: (element) => {
+                return element.fullName;
+            },
+        },
+        {
+            nameHeader: 'CMND/CCCD',
+            dataRow: (element) => {
+                return element.cccd;
+            },
+        },
+        {
+            nameHeader: 'Số điện thoại',
+            dataRow: (element) => {
+                return element.phone;
+            },
+        },
+        {
+            nameHeader: 'Địa chỉ',
+            dataRow: (element) => {
+                return element.address;
+            },
+        },
+        {
+            nameHeader: 'Lý do',
+            dataRow: (element) => {
+                return element.reason;
+            },
+        },
+        {
+            nameHeader: 'Hạng TD',
+            dataRow: (element) => {
+                return <span className="rank_F">F</span>;
+            },
+        },
+        {
+            nameHeader: 'Chức năng',
+            dataRow: (element) => {
+                return (
+                    <Link to={`/customer-manager/updateinfo/`}>
+                        <img src={edit} alt="Edit" onClick={setccnd(element.cccd)} />
+                    </Link>
+                );
+            },
+        },
+    ];
     return (
         <>
             <div className="ListCustomerr">
@@ -64,76 +134,25 @@ function ListCustomer({ numPage }) {
                                 value={onFilter}
                                 onChange={(e) => onFilterChange(e)}
                             ></input>
-                            {/* <input
-                                type="text"
-                                placeholder="Tìm kiếm cửa hàng..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            /> */}
                         </div>
                     </div>
                 </div>
                 {/* ================================ */}
                 {/* =            Table Show        = */}
                 {/* ================================ */}
-                <div className="tableContainer">
-                    <div
-                        className="tableBadCustomer"
-                        style={{ overflowX: 'scroll', minWidth: '500px', borderRadius: '10px' }}
-                    >
-                        <table className="responstable" style={{ width: '110%' }}>
-                            <tr>
-                                <th>STT</th>
-                                <th>
-                                    <span>Cửa hàng</span>
-                                </th>
-                                <th>Họ và tên</th>
-                                <th>CMND/CCCD</th>
-                                <th>Số điện thoại</th>
-                                <th style={{ width: '23%' }}>Địa chỉ</th>
-                                <th>Lý do</th>
-                                <th>Hạng TD</th>
-                                <th>Chức năng</th>
-                            </tr>
-                            {currentCustomers.map((customer) => (
-                                <tr key={customer.id}>
-                                    <td>{customer.numerical}</td>
-                                    <td>{customer.nameBranch}</td>
-                                    <td>{customer.fullName}</td>
-                                    <td>{customer.cccd}</td>
-                                    <td>{customer.phone}</td>
-                                    <td>{customer.address}</td>
-                                    <td>{customer.reason}</td>
-                                    <td>
-                                        <span className="rank_F">F</span>
-                                    </td>
-                                    <td>
-                                        <Link to={`/customer-manager/updateinfo/`}>
-                                            <img src={edit} alt="Edit" onClick={setccnd(customer.cccd)} />
-                                        </Link>
-                                    </td>
-                                </tr>
-                            ))}
-                        </table>
-                    </div>
-                </div>
-                {/* ================================ */}
-                {/* =            Phân Trang        = */}
-                {/* ================================ */}
+                <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                <Box marginTop="14px">
+                    <Stack spacing={2}>
+                        <Pagination
+                            style={{ margin: '0 auto' }}
+                            count={totalPage}
+                            page={page}
+                            onChange={handlePagination}
+                            color="primary"
+                        />
+                    </Stack>
+                </Box>
             </div>
-            <ReactPaginate
-                className="paginate-listcustomer"
-                previousLabel={'Trang trước'}
-                nextLabel={'Trang sau'}
-                breakLabel={'...'}
-                breakClassName={'break-me'}
-                pageCount={pageCount}
-                onPageChange={(data) => {
-                    setCurrentPage(data.selected);
-                }}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-            />
         </>
     );
 }

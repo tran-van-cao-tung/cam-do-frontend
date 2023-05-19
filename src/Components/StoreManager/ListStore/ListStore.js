@@ -15,6 +15,7 @@ import CustomizedTables from '../../../helpers/CustomizeTable';
 import { isAvailableArray } from '../../../helpers/utils';
 
 import { formatDate, formatMoney } from '../../../helpers/dateTimeUtils';
+import PageHeader from '../../../helpers/PageHeader';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -112,7 +113,8 @@ const ListStore = () => {
     return (
         <>
             <div className="listStoreContainer">
-                <h1 id="heading">Danh sách cửa hàng</h1>
+                <PageHeader title="Danh sách cửa hàng" />
+
                 <div className="ListStore1">
                     <div className="liststorebody">
                         {/* Button  Add */}

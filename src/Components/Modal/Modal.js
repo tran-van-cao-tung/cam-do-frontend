@@ -21,6 +21,7 @@ import { unstable_HistoryRouter, useNavigate } from 'react-router-dom';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import zIndex from '@mui/material/styles/zIndex';
 import PaymentsIcon from '@mui/icons-material/Payments';
+import { toast } from 'react-toastify';
 
 const style = {
     position: 'absolute',
@@ -36,7 +37,7 @@ const style = {
 };
 
 const styleModal = {
-    zIndex: '10001',
+    zIndex: '2001',
 };
 
 const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
@@ -93,9 +94,6 @@ export default function BasicModal({ item, refresh, refreshDetail }) {
     const [interestDiary, setInterestDiary] = useState({ paidMoney: '0', proofImg: [] });
 
     const [values, setValues] = React.useState({});
-    const formatMoney = (value) => {
-        return value.toLocaleString('vi-VN') + ' VNĐ';
-    };
 
     const id = item.interestDiaryId;
     console.log('interestDiaryId:', id);
@@ -134,10 +132,7 @@ export default function BasicModal({ item, refresh, refreshDetail }) {
         console.log('userId:', interestDiaryId);
 
         if (interestDiary.paidMoney == 0 || listImg.length == 0) {
-            Swal.fire({
-                text: 'Bạn chưa nhập hết thông tin',
-                icon: 'warning',
-            }).then((result) => {});
+            toast.error('Bạn chưa nhập hết thông tin');
             return;
         }
 
@@ -154,16 +149,10 @@ export default function BasicModal({ item, refresh, refreshDetail }) {
         }).then((res) => {
             console.log(res.data);
             if (res.data == false) {
-                Swal.fire({
-                    text: 'Tiền khách trả lớn hơn tổng tiền',
-                    icon: 'warning',
-                }).then((result) => {});
+                toast.warning('Tiền khách trả lớn hơn tổng tiền');
             }
             if (res.data == true) {
-                Swal.fire({
-                    text: 'Thêm thành công!',
-                    icon: 'success',
-                }).then((result) => {});
+                toast.success('Thêm thành công!');
                 refresh();
                 refreshDetail();
                 setOpen(false);

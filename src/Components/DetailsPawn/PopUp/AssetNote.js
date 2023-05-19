@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router';
 import { TextField } from '@mui/material';
 import callAPI from '../../../API';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
+import { toast } from 'react-toastify';
 
 const style = {
     position: 'absolute',
@@ -32,7 +33,7 @@ const style = {
 };
 
 const styleModal = {
-    zIndex: '10001',
+    zIndex: '2001',
 };
 
 const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
@@ -121,10 +122,7 @@ export default function AssetNote({ item }) {
         console.log('userId:', logassetId);
 
         if (img.length == 0) {
-            Swal.fire({
-                text: 'Bạn chưa nhập hết thông tin',
-                icon: 'warning',
-            }).then((result) => {});
+            toast.error('Bạn chưa nhập hết thông tin');
             return;
         }
 
@@ -144,10 +142,7 @@ export default function AssetNote({ item }) {
                 return MySwal.fire(<p>Shorthand works too</p>)
               }) */
             if (res.data == true) {
-                Swal.fire({
-                    text: 'Thêm thành công!',
-                    icon: 'success',
-                }).then((result) => {});
+                toast.success('Thêm thành công!');
                 history('/detaipawn');
             }
         });

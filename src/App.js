@@ -11,6 +11,9 @@ import Auth from './Components/Login/Auth';
 import NoAuth from './Components/Login/NoAuth';
 import { isAvailableArray } from './helpers/utils';
 
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+
 const initializeAuthState = {
     userName: '',
     userId: '',
@@ -42,7 +45,7 @@ function App() {
                     setAuthState(res.data);
                     setUserInfo(res.data?.user);
                     const _permissions = res.data?.user.userPermission;
-                    setPermissions(isAvailableArray(_permissions)? _permissions:[]);
+                    setPermissions(isAvailableArray(_permissions) ? _permissions : []);
                     setCurrentBranchId(() => {
                         if (isAvailableArray(res.data?.branchIds)) {
                             return res.data.branchIds[0];
@@ -96,6 +99,7 @@ function App() {
 
     return (
         <div className="App">
+            <ToastContainer limit={5} position="top-right" autoClose={2000} />
             <AuthContext.Provider value={values}>
                 <Routes>
                     <Route path="/auth" element={<NoAuth />}>

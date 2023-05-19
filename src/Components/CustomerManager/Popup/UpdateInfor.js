@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './UpdateInfor.css';
-import saveBtn from '../../../asset/img/save1.png';
-import returnBtn from '../../../asset/img/returnBTN.png';
+
 import { Link, useParams } from 'react-router-dom';
 import API from '../../../API';
 import BanSomeOne from './BanSomeOne';
 import { Button } from '@mui/material';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
 const UpdateInfor = () => {
-    const {id} = useParams();
+    const { id } = useParams();
     const [showBanReason, setShowBanReason] = useState(false);
     const handleShow = () => {
         setShowBanReason(!showBanReason);
@@ -50,10 +51,7 @@ const UpdateInfor = () => {
             url: `package/updatePackage`,
             data: data,
         }).then((res) => {
-            Swal.fire({
-                text: `Chỉnh sửa thành công!`,
-                icon: 'success',
-            }).then((result) => { });
+            toast.success('Chỉnh sửa thành công!');
         });
     };
     return (
@@ -67,24 +65,41 @@ const UpdateInfor = () => {
                                 <p>
                                     Tên khách hàng <span class="starRed">*</span>:
                                 </p>
-                                <input type="text" placeholder="Nhập tên khách hàng..." name="fullName"
-                                    value={customerInfo.fullName} onChange={(e) => handleInput(e)} />
+                                <input
+                                    type="text"
+                                    placeholder="Nhập tên khách hàng..."
+                                    name="fullName"
+                                    value={customerInfo.fullName}
+                                    onChange={(e) => handleInput(e)}
+                                />
                                 <p>
                                     Số CCCD / Hộ chiếu:<span class="starRed">*</span>:
                                 </p>
-                                <input type="text" placeholder="Nhập CMND/Hộ chiếu..." name="cccd" value={customerInfo.cccd}
+                                <input
+                                    type="text"
+                                    placeholder="Nhập CMND/Hộ chiếu..."
+                                    name="cccd"
+                                    value={customerInfo.cccd}
                                     onChange={(e) => handleInput(e)}
                                 />
                                 <p>
                                     Số điện thoại <span class="starRed">*</span>:
                                 </p>
-                                <input type="text" placeholder="Nhập số điện thoại..." name="phone" value={customerInfo.phone}
+                                <input
+                                    type="text"
+                                    placeholder="Nhập số điện thoại..."
+                                    name="phone"
+                                    value={customerInfo.phone}
                                     onChange={(e) => handleInput(e)}
                                 />
                                 <p>
                                     Địa chỉ <span class="starRed">*</span>:
                                 </p>
-                                <input type="text" placeholder="Nhập địa chỉ..." name="address" value={customerInfo.address}
+                                <input
+                                    type="text"
+                                    placeholder="Nhập địa chỉ..."
+                                    name="address"
+                                    value={customerInfo.address}
                                     onChange={(e) => handleInput(e)}
                                 />
                             </div>
@@ -93,33 +108,26 @@ const UpdateInfor = () => {
                                     <p className="chungtuTitle">
                                         Hình ảnh CCCD <span class="starRed">*</span>:
                                     </p>
-                                    <div className="chungtu">
-
-                                    </div>
+                                    <div className="chungtu"></div>
                                 </div>
                                 <div className="imgCCCD">
-                                    <img
-                                        src={frontImg}
-                                        alt=""
-                                    />
-                                    <img
-                                        src={backImg}
-                                        alt=""
-                                    />
+                                    <img src={frontImg} alt="" />
+                                    <img src={backImg} alt="" />
                                 </div>
                                 <div className="creditContainer">
                                     <p>Điểm tín dụng:</p>
                                     <div className="creditPointUser">
-                                        <input type="text" placeholder="" name="point"
+                                        <input
+                                            type="text"
+                                            placeholder=""
+                                            name="point"
                                             value={customerInfo.point}
                                             onChange={(e) => handleInput(e)}
                                         />
                                         <Link to="/customer-manager/updateinfo/detail-credit">
                                             <button>Chi tiết</button>
                                         </Link>
-                                        <button>
-                                            A
-                                        </button>
+                                        <button>A</button>
                                     </div>
                                 </div>
                                 <div className="statusContainer">

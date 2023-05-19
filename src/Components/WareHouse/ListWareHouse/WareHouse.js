@@ -7,6 +7,7 @@ import './WareHouse.css';
 import API from '../../../API';
 import CustomizedTables from '../../../helpers/CustomizeTable';
 import { isAvailableArray } from '../../../helpers/utils';
+import PageHeader from '../../../helpers/PageHeader';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -94,8 +95,7 @@ const WareHouse = () => {
         <>
             <StyledEngineProvider injectFirst>
                 <div className="wareh-wrapper">
-                    <h1 id="heading">Danh sách kho</h1>
-
+                    <PageHeader title="Danh sách kho" />
                     <div className="wareh-content">
                         <button
                             className="wareHouse_button"

@@ -1,9 +1,10 @@
 import React from 'react';
 import './DetaisPawn.css';
+import PageHeader from '../../helpers/PageHeader';
 const HeaderPawn = ({ setShowAddContract }) => {
     return (
         <div className="header">
-            <h1 id="heading">Hợp đồng cầm đồ</h1>
+            <PageHeader title="Hợp đồng cầm đồ" />
             <div className="btnPawn">
                 <button onClick={() => setShowAddContract(true)} className="btn-click addnew">
                     Thêm mới

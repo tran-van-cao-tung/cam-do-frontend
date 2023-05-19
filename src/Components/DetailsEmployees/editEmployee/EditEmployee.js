@@ -14,14 +14,13 @@ import Swal from 'sweetalert2';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import { Button } from '@mui/material';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import { toast } from 'react-toastify';
 
 const validationSchema = Yup.object().shape({
     fullName: Yup.string()
         .required('Tên nhân viên không được để trống')
         .max(100, 'Tên nhân viên không được vượt quá 100 ký tự'),
-    userName: Yup.string()
-        .required('Tài khoản không được để trống')
-        .max(30, 'Tài khoản không được vượt quá 30 ký tự'),
+    userName: Yup.string().required('Tài khoản không được để trống').max(30, 'Tài khoản không được vượt quá 30 ký tự'),
     password: Yup.string()
         .required('Mật khẩu không được để trống')
         .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{10,}$/, 'Mật khẩu cần ít nhất 10 ký tự, bao gồm chữ và số'),
@@ -68,18 +67,12 @@ function EditEmployee() {
                     url: `user/updateUser`,
                     data: data,
                 }).then((res) => {
-                    Swal.fire({
-                        text: `Chỉnh sửa thành công!`,
-                        icon: 'success',
-                    }).then((result) => { });
+                    toast.success('Chỉnh sửa thành công!');
                 });
             })
             .catch((error) => {
                 const errorMessages = error.inner.map((e) => e.message).join('. ');
-                Swal.fire({
-                    text: `${errorMessages}`,
-                    icon: 'warning',
-                }).then((result) => { });
+                toast.warning(`${errorMessages}`);
             });
     };
 
@@ -98,7 +91,6 @@ function EditEmployee() {
                 phone: res.data.phone,
                 branchId: res.data.userBranches[0].branchId,
             });
-
         });
     }, [id.id]);
 
@@ -166,23 +158,13 @@ function EditEmployee() {
                             <span>
                                 Tên đăng nhập<span>*</span>:
                             </span>
-                            <input
-                                type="text"
-                                name="username"
-                                disabled
-                                value={employee.userName}
-                            />
+                            <input type="text" name="username" disabled value={employee.userName} />
                         </div>
                         <div className="employee_input">
                             <span>
                                 Email<span>*</span>:
                             </span>
-                            <input
-                                type="text"
-                                name="email"
-                                onChange={(e) => handleInput(e)}
-                                value={employee.email}
-                            />
+                            <input type="text" name="email" onChange={(e) => handleInput(e)} value={employee.email} />
                         </div>
                         <div className="employee_input">
                             <span>
@@ -199,12 +181,7 @@ function EditEmployee() {
                             <span>
                                 Số điện thoại <span>*</span>:
                             </span>
-                            <input
-                                type="text"
-                                name="phone"
-                                onChange={(e) => handleInput(e)}
-                                value={employee.phone}
-                            />
+                            <input type="text" name="phone" onChange={(e) => handleInput(e)} value={employee.phone} />
                         </div>
                         <div className="employee_search employee_style-search">
                             <div className="employee_search-check employee_style-check">

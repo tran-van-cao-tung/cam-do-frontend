@@ -8,6 +8,7 @@ import './package.css';
 import { isAvailableArray } from '../../helpers/utils';
 import CustomizedTables from '../../helpers/CustomizeTable';
 import { Box, Pagination, Stack } from '@mui/material';
+import PageHeader from '../../helpers/PageHeader';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -147,7 +148,8 @@ const Package = () => {
 
     return (
         <>
-            <h1 className="listPackagebody-h1">Điều chỉnh gói vay</h1>
+            <PageHeader title="Điều chỉnh gói vay" />
+
             <div className="listPackage">
                 <button
                     className="employee_button"

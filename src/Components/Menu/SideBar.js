@@ -1,8 +1,8 @@
-import React, { Fragment, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '../../helpers/AuthContext';
-import { isAvailableArray, lowercaseText } from '../../helpers/utils';
+import { isArray, isAvailableArray, lowercaseText } from '../../helpers/utils';
 import { PERMISSIONS } from '../../setting/permission';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 //mui
@@ -140,15 +140,37 @@ const SideBar = ({ open }) => {
         if (lowercaseText(authState?.user?.userName) === 'admin') {
             return true;
         }
-
-
-
         const permission = permissions.find((item) => item.perId === id);
         return permission?.status === true;
     };
 
     const renderExpandIcon = (item) => (collapsMap[item.key] ? <ExpandLess /> : <ExpandMore />);
 
+    const location = useLocation();
+
+    const isActive = (menuItem) => {
+        return menuItem.to === location.pathname;
+    };
+
+    const handleOpenMenu = (key) => {
+        setCollapsMap((prev) => ({
+            ...prev,
+            [key]: true,
+        }));
+    };
+
+    useEffect(() => {
+        sidebarMenu.forEach((item) => {
+            if (isArray(item.children)) {
+                item.children.forEach((child) => {
+                    if (isActive(child)) {
+                        handleOpenMenu(item.key);
+                    }
+                });
+            }
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location.pathname]);
     return (
         <Drawer
             variant="persistent"
@@ -184,9 +206,12 @@ const SideBar = ({ open }) => {
                 <ListItem
                     key={1}
                     disablePadding
-                    sx={{ display: 'block' }}
+                    sx={{
+                        display: 'block',
+                        backgroundColor: isActive({ to: '/' }) ? '#FFBC40' : 'initial',
+                    }}
                     onClick={() => {
-                            navigate('/');
+                        navigate('/');
                     }}
                 >
                     <ListItemButton
@@ -205,7 +230,7 @@ const SideBar = ({ open }) => {
                         >
                             <DashboardIcon />
                         </ListItemIcon>
-                        <ListItemText primary={"Tổng quan"} sx={{ opacity: 1 ? 1 : 0 }} />
+                        <ListItemText primary={'Tổng quan'} sx={{ opacity: 1 ? 1 : 0 }} />
                     </ListItemButton>
                 </ListItem>
                 {sidebarMenu.map((item, index) =>
@@ -214,12 +239,16 @@ const SideBar = ({ open }) => {
                             <ListItem
                                 key={item.key}
                                 disablePadding
-                                sx={{ display: 'block' }}
+                                sx={{
+                                    display: 'block',
+                                    backgroundColor: isActive(item) ? '#FFBC40' : 'initial',
+                                }}
                                 onClick={() => {
                                     if (item.to) {
                                         navigate(item.to);
                                         return;
                                     }
+
                                     handleToggerMenu(item.key);
                                 }}
                             >
@@ -256,7 +285,10 @@ const SideBar = ({ open }) => {
                                             <ListItem
                                                 key={item.key}
                                                 disablePadding
-                                                sx={{ display: 'block' }}
+                                                sx={{
+                                                    display: 'block',
+                                                    backgroundColor: isActive(item) ? '#FFBC40' : 'initial',
+                                                }}
                                                 onClick={() => navigate(item.to)}
                                             >
                                                 <ListItemButton

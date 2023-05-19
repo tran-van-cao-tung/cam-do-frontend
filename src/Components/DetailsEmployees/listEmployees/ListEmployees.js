@@ -12,6 +12,7 @@ import { AuthContext } from '../../../helpers/AuthContext';
 import { isAvailableArray } from '../../../helpers/utils';
 import CustomizedTables from '../../../helpers/CustomizeTable';
 import { formatDate } from '../../../helpers/dateTimeUtils';
+import PageHeader from '../../../helpers/PageHeader';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -129,7 +130,7 @@ function ListEmployees() {
     return (
         <>
             <div className="box_employee">
-                <h1 id="heading">Danh sách nhân viên</h1>
+                <PageHeader title="Danh sách nhân viên" />
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <div className="list_box-employee">

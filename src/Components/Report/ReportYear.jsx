@@ -3,6 +3,7 @@ import ErrorBoundary from '../../ErrorBoundary';
 import './ReportComponent.css';
 import BtnForReportYear from './BtnForReportYear';
 import ChartLine from './LineChart/ChartLine';
+import PageHeader from '../../helpers/PageHeader';
 
 const ReportYear = () => {
     const [value, setValue] = useState();
@@ -13,7 +14,8 @@ const ReportYear = () => {
     return (
         <div className="report">
             <div className="headerReport">
-                <h1 id="heading">Báo Cáo</h1>
+                <PageHeader title="Báo Cáo" />
+
                 <BtnForReportYear setValue={setValue} year={year} />
             </div>
             <div className="parperCustomer">

@@ -11,6 +11,7 @@ import callAPI from '../../../API';
 import CustomizedTables from '../../../helpers/CustomizeTable';
 import { Box, Pagination, Stack } from '@mui/material';
 import { isAvailableArray } from '../../../helpers/utils';
+import PageHeader from '../../../helpers/PageHeader';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -103,7 +104,7 @@ function Commodity() {
     ];
     return (
         <>
-            <h1 id="heading">Loại tài sản</h1>
+            <PageHeader title="Loại Tài Sản" />
             <div className="listCommodity">
                 <div className="listCommoditybody">
                     {/* Button  Add */}

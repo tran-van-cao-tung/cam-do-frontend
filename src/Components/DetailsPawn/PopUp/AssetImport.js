@@ -15,6 +15,7 @@ import { NumericFormat } from 'react-number-format';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import callAPI from '../../../API';
+import { toast } from 'react-toastify';
 
 const style = {
     position: 'absolute',
@@ -30,7 +31,7 @@ const style = {
 };
 
 const styleModal = {
-    zIndex: '10001',
+    zIndex: '2001',
 };
 
 const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
@@ -103,17 +104,14 @@ export default function AssetImport({ item }) {
         messageImg = 'Thêm ảnh thành công!';
     }
     const history = useNavigate();
-    const MySwal = withReactContent(Swal);
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const logassetId = item.logAssetId;
         console.log('userId:', logassetId);
 
         if (img.length == 0) {
-            Swal.fire({
-                text: 'Bạn chưa nhập hết thông tin',
-                icon: 'warning',
-            }).then((result) => {});
+            toast.error('Bạn chưa nhập hết thông tin');
             return;
         }
 

@@ -4,6 +4,7 @@ import './login.scss';
 import API from '../../API';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../helpers/AuthContext';
+import { toast } from 'react-toastify';
 
 const Login = () => {
     const [userName, setUserName] = useState();
@@ -29,13 +30,11 @@ const Login = () => {
                     localStorage.setItem('accessToken', res.data.token.accessToken);
                 }
                 navigate('/');
+                toast.success('Đăng nhập thành công!!');
             })
             .catch((error) => {
                 if (error.response.status) {
-                    Swal.fire({
-                        text: `Sai tài khoản hoặc mật khẩu!`,
-                        icon: 'warning',
-                    }).then((result) => {});
+                    toast.error('Sai tài khoản hoặc mật khẩu!');
                 }
             });
     };

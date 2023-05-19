@@ -161,7 +161,7 @@ const TablePawn = ({
             nameHeader: 'Chức năng',
             dataRow: (i) => {
                 return (
-                    <Box display="flex" justifyContent="space-around ">
+                    <Box display="flex" justifyContent="start ">
                         <Tooltip title="Đóng tiền lãi">
                             <img
                                 onClick={(e) => {
