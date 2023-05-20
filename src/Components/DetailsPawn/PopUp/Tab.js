@@ -9,7 +9,7 @@ import History from './History';
 import Certificate from './Certificate';
 import PayInterest from './PayInterest';
 import Asset from './Asset';
-
+import Liquidation from './Liquidation';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
     return (
@@ -58,11 +58,13 @@ export default function BasicTabs({ contract, showContractId, showdetailContract
                     onChange={handleChange}
                     aria-label="basic tabs example"
                 >
-                    <Tab sx={{ width: '20%' }} label="Đóng tiền lãi" {...a11yProps(0)} />
-                    <Tab sx={{ width: '20%' }} label="Chứng từ" {...a11yProps(1)} />
-                    <Tab sx={{ width: '20%' }} label="Chuộc đồ" {...a11yProps(2)} />
-                    <Tab sx={{ width: '20%' }} label="Tài sản" {...a11yProps(3)} />
-                    <Tab sx={{ width: '20%' }} label="Lịch sử" {...a11yProps(4)} />
+                    <Tab sx={{ width: '16%' }} label="Đóng tiền lãi" {...a11yProps(0)} />
+                    <Tab sx={{ width: '16%' }} label="Chứng từ" {...a11yProps(1)} />
+                    <Tab sx={{ width: '16%' }} label="Chuộc đồ" {...a11yProps(2)} />
+                    <Tab sx={{ width: '16%' }} label="Tài sản" {...a11yProps(3)} />
+                    <Tab sx={{ width: '16%' }} label="Lịch sử" {...a11yProps(4)} />
+                    <Tab sx={{ width: '16%' }} label="Thanh lý" {...a11yProps(5)} />
+
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -84,6 +86,9 @@ export default function BasicTabs({ contract, showContractId, showdetailContract
             </TabPanel>
             <TabPanel value={value} index={4}>
                 <History showContractId={showContractId} />
+            </TabPanel>
+            <TabPanel value={value} index={5}>
+                <Liquidation showContractId={showContractId} />
             </TabPanel>
         </Box>
     );

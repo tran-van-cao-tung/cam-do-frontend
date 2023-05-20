@@ -269,6 +269,9 @@
 .text__right {
     text-align: right;
 }
+.text__left{
+    text-align: left;
+}
 
 .w30>.box__input>input {
     background: rgba(255, 255, 255, 0.6);

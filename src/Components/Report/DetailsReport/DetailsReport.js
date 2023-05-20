@@ -10,7 +10,8 @@ import { AuthContext } from '../../../helpers/AuthContext';
 function DetailsReport({ value }) {
     const currentYear = new Date().getFullYear();
     const { authState, currentBranchId } = useContext(AuthContext);
-
+    const [detail, setDetail] = useState([]);
+    const [yearDetail, setYearDetail] = useState([]);
     // setValue(currentYear);
     const param = useParams();
     // Them dark mod
@@ -22,8 +23,6 @@ function DetailsReport({ value }) {
         color: theme.palette.text.secondary,
     }));
     console.log('value in report', value);
-    // Axios
-    const [detail, setDetail] = useState([]);
     // Axios
     useEffect(() => {
         if(currentBranchId){
@@ -39,6 +38,19 @@ function DetailsReport({ value }) {
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
+
+    useEffect(() => {
+        if(value){
+            API({
+                method: 'get',
+                url: `/branch/getDetailYearById/${currentBranchId}/${value}`,
+            }).then((res) => {
+                setYearDetail(res.data);
+            });  
+        }
+    }, [value, currentBranchId]);
+
+    
 
     return (
         <div className="conten">
@@ -59,12 +71,12 @@ function DetailsReport({ value }) {
                                 <p>Hợp đồng đóng</p>
                             </div>
                             <div className="number">
-                                <p>{detail.profit ? formatMoney(detail.profit) : '0 VNĐ'}</p>
-                                <p>{detail.loan ? formatMoney(detail.loan) : '0 VNĐ'}</p>
-                                <p>{detail.currentFund ? formatMoney(detail.currentFund) : '0 VNĐ'}</p>
-                                <p>{detail ? detail.totalContracts : '0'}</p>
-                                <p>{detail ? detail.openContract : '0'}</p>
-                                <p>{detail ? detail.closeContract : '0'}</p>
+                                <p>{yearDetail.profit ? formatMoney(yearDetail.profit) : '0 VNĐ'}</p>
+                                <p>{yearDetail.loan ? formatMoney(yearDetail.loan) : '0 VNĐ'}</p>
+                                <p>{yearDetail.currentFund ? formatMoney(detail.currentFund) : '0 VNĐ'}</p>
+                                <p>{yearDetail ? yearDetail.totalContracts : '0'}</p>
+                                <p>{yearDetail ? yearDetail.openContract : '0'}</p>
+                                <p>{yearDetail ? yearDetail.closeContract : '0'}</p>
                             </div>
                         </Item>
                     </Grid>

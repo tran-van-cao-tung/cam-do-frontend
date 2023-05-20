@@ -13,17 +13,17 @@ import { Save } from '@mui/icons-material';
 import { AuthContext } from '../../../helpers/AuthContext';
 const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
     const [detailContract, setDetailContract] = useState([]);
-    const [warehouse, setWarehouse] = useState([]);
+    const [warehouses, setWarehouses] = useState([]);
     const [pawnableProduct, setPawnableProduct] = useState();
     const [attributeInfo, setAttributeInfo] = useState([]);
-    const [branch, setbranch] = useState(1);
+    const [warehouse, setWarehouse] = useState({});
+    
     const { userInfo } = useContext(AuthContext);
-    const updateBranch = ({ target }) => {
-        setbranch(target.value);
+    const updateWarehouse = ({ target }) => {
+        setWarehouse(target.value);
     };
 
     function saveContract() {
-        console.log('log at select brand', branch);
         console.log(userInfo.userId);
         console.log(detailContract.contractAssetId);
         API({
@@ -31,7 +31,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
             url: '/contractAsset/updateContractAsset/' + userInfo.userId,
             data: {
                 contractAssetId: detailContract.contractAssetId,
-                warehouseId: branch,
+                warehouseId: warehouse,
                 contractAssetName: 'abcksas',
                 description: 'string',
                 image: 'string',
@@ -71,6 +71,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                 console.log(res.data);
                 console.log('====================');
                 setDetailContract(res.data);
+                setWarehouse(res.data.warehouseId)
                 setAttributeInfo(res.data.attributeInfos);
                 // console.log('attr info', res.data.attributeInfos[]);
             });
@@ -82,7 +83,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
             method: 'get',
             url: '/warehouse/GetAll/0',
         }).then((res) => {
-            setWarehouse(res.data);
+            setWarehouses(res.data);
             // console.log('aaaaa', res.data);
         });
     }
@@ -111,7 +112,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
         if (detailContract) {
             loadProduct();
         }
-    }, [detailContract, loadProduct]);
+    }, [detailContract]);
 
     useEffect(() => {
         if (pawnableProduct?.[0]?.pawnableProductId) {
@@ -224,8 +225,8 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                                                     ? formatMoney(detailContract.totalProfit)
                                                     : '0 VNĐ'}
                                             </p>
-                                            <select value={branch} onChange={updateBranch}>
-                                                {warehouse.map((item, index) => {
+                                            <select value={warehouse} onChange={updateWarehouse}>
+                                                {warehouses.map((item, index) => {
                                                     return (
                                                         <option key={index} value={item.warehouseId}>
                                                             {item.warehouseName}

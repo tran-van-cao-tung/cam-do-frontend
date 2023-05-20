@@ -1,127 +1,116 @@
 import React, { useEffect, useState } from 'react';
 import './popup.css';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-
-import moment from 'moment';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import callAPI from '../../../API';
-import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
-import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { formatDate, formatMoney } from '../../../helpers/dateTimeUtils';
-import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
-import ButtonCloseAnimation from '../../ButtonUI/BtnCloseAnimation/ButtonCloseAnimation';
 import { Save } from '@mui/icons-material';
+import { NumericFormat } from 'react-number-format';
+import PropTypes from 'prop-types';
 
-const Liquidation = ({ showliquidation, setShowliquidation }) => {
+import { Uploader } from 'uploader';
+import { UploadDropzone } from 'react-uploader';
+import { AuthContext } from '../../../helpers/AuthContext';
+import { useContext } from 'react';
+import { toast } from 'react-toastify';
+
+const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(props, ref) {
+    const { onChange, ...other } = props;
+
+    return (
+        <NumericFormat
+            {...other}
+            getInputRef={ref}
+            onValueChange={(values) => {
+                onChange({
+                    target: {
+                        name: props.name,
+                        value: values.value,
+                    },
+                });
+            }}
+            thousandSeparator
+            isAllowed={(values) => {
+                const { floatValue } = values;
+                return floatValue >= 0;
+            }}
+            valueIsNumericString
+            suffix=" VNĐ"
+        />
+    );
+});
+
+NumericFormatCustom.propTypes = {
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+};
+const Liquidation = ({ showContractId }) => {
     var now = new Date().getTime();
+    const { userInfo } = useContext(AuthContext);
     const [contractDetail, setContractDetail] = useState([]);
+    const [liquidMoney, setLiquidMoney] = useState(0);
+    const [liquidInfo, setLiquidInfo] = useState([]);
     useEffect(() => {
         callAPI({
             method: 'get',
-            url: `/contract/getContractInfoByContractId/` + localStorage.getItem('PawnDetailID'),
+            url: `/contract/getContractInfoByContractId/` + showContractId,
         }).then((res) => {
             setContractDetail(res.data);
             console.log(res.data);
         });
     }, []);
 
-    const renderContent = () => (
-        <>
-            <div className="contents">
-                <div className="box__liquidation">
-                    <div className="full_detailContract">
-                        <table className="table__detailContract">
-                            <tr>
-                                <th colSpan="2">Khách hàng</th>
-                                <th colSpan="2" style={{ textAlign: 'right' }}>
-                                    <span className="start-red">{contractDetail.customerName} </span>
-                                    <span> - </span>
-                                    <span>
-                                        <span>
-                                            <LocalPhoneIcon fontSize="small" className="detailContract_icon-phone" />
-                                        </span>{' '}
-                                        {contractDetail.phone}
-                                    </span>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th colSpan="2">Tiền cầm</th>
-                                <th colSpan="2" className="start-red" style={{ textAlign: 'right' }}>
-                                    {contractDetail.loan ? formatMoney(contractDetail.loan) : '0 VNĐ'}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th colSpan="2">Ngày bắt đầu</th>
-                                <th colSpan="1" style={{ textAlign: 'right' }}>
-                                    {moment(contractDetail.contractStartDate).format('DD/MM/YYYY')}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th colSpan="2">Ngày kết thúc</th>
-                                <th colSpan="1" style={{ textAlign: 'right' }}>
-                                    {moment(contractDetail.contractEndDate).format('DD/MM/YYYY')}
-                                </th>
-                            </tr>
-                        </table>
-                        <table className="table__detailContract">
-                            <tr>
-                                <th>Lãi suất</th>
-                                <th style={{ textAlign: 'right' }}>
-                                    <span>{contractDetail.packageInterest}%</span>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>Tiền lãi đã đóng</th>
-                                <th className="start-red" style={{ textAlign: 'right' }}>
-                                    {contractDetail.interestPaid ? formatMoney(contractDetail.interestPaid) : '0 VNĐ'}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>Nợ lãi cũ:</th>
-                                <th style={{ textAlign: 'right' }}>
-                                    <span className="start-red">
-                                        {contractDetail.interestDebt
-                                            ? formatMoney(contractDetail.interestDebt)
-                                            : '0 VNĐ'}
-                                    </span>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>Trạng thái:</th>
-                                {contractDetail.status === 1 ? (
-                                    <th style={{ textAlign: 'right' }}>
-                                        <span className="detailContract_status" style={{ color: 'rgb(0, 166, 0)' }}>
-                                            Đang Cầm
-                                        </span>
-                                    </th>
-                                ) : contractDetail.status === 2 ? (
-                                    <th style={{ textAlign: 'right' }}>
-                                        <span className="detailContract_status" style={{ color: 'rgb(83, 83, 255)' }}>
-                                            Trễ Hẹn
-                                        </span>
-                                    </th>
-                                ) : contractDetail.status === 3 ? (
-                                    <th style={{ textAlign: 'right' }}>
-                                        <span className="detailContract_status" style={{ color: 'rgb(255, 255, 106)' }}>
-                                            Thanh Lý
-                                        </span>
-                                    </th>
-                                ) : contractDetail.status === 4 ? (
-                                    <th style={{ textAlign: 'right' }}>
-                                        <span className="detailContract_status" style={{ color: 'red' }}>
-                                            Đã Đóng
-                                        </span>
-                                    </th>
-                                ) : (
-                                    ''
-                                )}
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    useEffect(() =>{
+        if(contractDetail.status === 4){
+            callAPI({
+                method: 'get',
+                url: `/liquidation/detail/` + showContractId,
+            }).then((res) => {
+                setLiquidInfo(res.data);
+                console.log(res.data);
+            }); 
+        }
+    })
+    const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
+    const uploaderOptions = {
+        multi: true,
+
+        showFinishButton: true,
+
+        styles: {
+            colors: {
+                primary: '#377dff',
+            },
+        },
+    };
+    const [linkImg, setLinkImg] = useState();
+    const handleImg = (img) => {
+        setLinkImg(img);
+    };
+
+    const handInputMoney = (e) => {
+        setLiquidMoney(e.target.value);
+    };
+
+    const handleLiquid = () => {
+        if (linkImg) {
+            console.log(showContractId);
+            console.log(userInfo.userId);
+            console.log(liquidMoney);
+            console.log(linkImg);
+            callAPI({
+                method: 'post',
+                url: `/liquidation/save/${showContractId}/${userInfo.userId}
+                ?liquidationMoney=${liquidMoney}
+                &proofImg=${linkImg}`,
+            }).then((res) => {
+                toast.success('Thanh lý thành công!');
+                window.location.reload(false);
+            }).catch((err) => toast.error("Thanh lý không thành công"));
+        }
+    }
+
+    return (
+        <div>
             <div className="info__asset">
                 <div className="asset">
                     <div className="w30 text__right">
@@ -140,51 +129,84 @@ const Liquidation = ({ showliquidation, setShowliquidation }) => {
 
                         <b>Ngày thanh lý:</b>
                     </div>
-                    <div className="w30">
-                        <p>{contractDetail.typeOfProduct}</p>
-                        <p>{contractDetail.assetName}</p>
-                        <div className="box__input">
-                            <input type="number" placeholder="0" />
-                            <span>VNĐ</span>
+                    {contractDetail.status === 4 ? (
+                        //Đã đóng
+                        <div className="w30 text__left">
+                            <p>{liquidInfo.typeOfProduct}</p>
+                            <p>{liquidInfo.assetName}</p>
+                            <div className="box__input">
+                                <p>{liquidInfo.liquidationMoney}</p>
+                            </div>
+                            <p className="line__height">{formatDate(liquidInfo.liquidationDate)}</p>
                         </div>
+                    ) : (
+                        <div className="w30 text__left">
+                            <p>{contractDetail.typeOfProduct}</p>
+                            <p>{contractDetail.assetName}</p>
+                            <div className="box__input">
+                                <TextField
+                                    onChange={(e) => handInputMoney(e)}
+                                    name="liquidMoney"
+                                    id="formatted-numberformat-input"
+                                    placeholder="Tiền thanh lý"
+                                    InputProps={{
+                                        inputComponent: NumericFormatCustom,
+                                    }}
+                                    variant="standard"
+                                />
+                            </div>
 
-                        <p className="line__height">{formatDate(now)}</p>
-                    </div>
+                            <p className="line__height">{formatDate(now)}</p>
+                        </div>
+                    )}
+                </div>
+                <div className="asset">
+                    {contractDetail.status === 4 ? (
+                        ''
+                    ) : (
+                        <div>
+                            <p>
+                                Hình ảnh <span style={{ color: 'red' }}>*</span>:
+                            </p>
+                            <UploadDropzone
+                                uploader={uploader}
+                                options={uploaderOptions}
+                                onUpdate={(files) => console.log("Up hình OK")}
+                                onComplete={(files) => {
+                                    handleImg(files.map((x) => x.fileUrl).join('\n'));
+                                }}
+                                width="600px"
+                                height="375px"
+                            />
+                        </div>
+                    )}
+                    <img src={linkImg} width="600px" height="375px" alt='' />
                 </div>
             </div>
-        </>
-    );
+            {contractDetail.status === 4 ? (
+                ''
+            ) : (
+                <div className="btn__group">
+                    <Button
+                        onClick={(e) => handleLiquid(e)}
+                        variant="contained"
+                        color="success"
+                        sx={{
+                            fontSize: '16px',
+                            padding: '15px 30px',
+                        }}
+                        startIcon={<Save />}
+                    >
+                        Thanh lý
+                    </Button>
+                </div>
+            )}
 
-    const handleCloseDialog = () => {
-        setShowliquidation(false);
-    };
-    return (
-        <>
-            <CustomizeDiaglog
-                open={showliquidation}
-                onClose={handleCloseDialog}
-                title="Thanh lý đồ"
-                content={renderContent()}
-                action={
-                    <div className="btn__group">
-                        <ButtonCloseAnimation onConfirm={handleCloseDialog} />
-                        <Button
-                            // onClick={(e) => saveContract(e)}
-                            variant="contained"
-                            color="success"
-                            sx={{
-                                fontSize: '16px',
-                                padding: '15px 30px',
-                            }}
-                            startIcon={<Save />}
-                        >
-                            Lưu Lại
-                        </Button>
-                    </div>
-                }
-                maxWidth={DIALOG_SIZE.xl}
-            />
-        </>
+        </div>
+
+
+
+
     );
 };
 

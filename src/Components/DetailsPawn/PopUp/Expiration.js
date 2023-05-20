@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
@@ -8,15 +6,16 @@ import API from '../../../API';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
-import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
 import ButtonCloseAnimation from '../../ButtonUI/BtnCloseAnimation/ButtonCloseAnimation';
 import { formatMoney } from '../../../helpers/dateTimeUtils';
 import { Save } from '@mui/icons-material';
+import { AuthContext } from '../../../helpers/AuthContext';
+import { toast } from 'react-toastify';
+
 function Expiration({ setShowExpiration, showContractId, showExpiration }) {
     const history = useNavigate();
-
+    const { userInfo } = useContext(AuthContext);
     const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
@@ -37,19 +36,16 @@ function Expiration({ setShowExpiration, showContractId, showExpiration }) {
         setLinkImg(img);
     };
 
-    console.log(linkImg);
-    console.log(showContractId);
     const handleSubmit = () => {
         API({
             method: 'post',
-            url: `contract/createContractExpiration/${showContractId}?proofImg=${linkImg}`,
+            url: `/contract/createContractExpiration/${localStorage.getItem('PawnDetailID')}/${userInfo.userId}/?proofImg=${linkImg}`,
         }).then((res) => {
-            console.log('log dao han');
+            toast.success('Đáo hạn thành công!');
             console.log(res.data);
             window.location.reload(false);
-        });
+        }).catch((err) => toast.error("Đáo hạn không thành công"));;
     };
-    console.log('Dao han');
     const [contractDetail, setContractDetail] = useState([]);
     useEffect(() => {
         API({
@@ -169,6 +165,7 @@ function Expiration({ setShowExpiration, showContractId, showExpiration }) {
                         width="600px"
                         height="375px"
                     />
+                    <img src={linkImg} width="600px" height="375px" alt=''/>
                 </div>
             </div>
         </>

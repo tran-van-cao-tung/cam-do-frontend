@@ -25,10 +25,8 @@ const TablePawn = ({
     setshowdetailContract,
     setShowContractId,
     setShowExpiration,
-    setContract,
-    rowsContract,
+    filteredContracts,
 }) => {
-    const { currentBranchId } = useContext(AuthContext);
     const handleShow = (id) => {
         setShowUpdateContract(true);
         localStorage.setItem('PawnDetailID', id);
@@ -53,18 +51,7 @@ const TablePawn = ({
         setShowContractId(id);
     };
 
-    const [logContract, setLogContract] = useState([]);
-    useEffect(() => {
-        if (currentBranchId) {
-            API({
-                method: 'get',
-                url: `contract/getAll/0/${currentBranchId}`,
-            }).then((res) => {
-                console.log(res.data);
-                setLogContract(res.data);
-            });
-        }
-    }, [currentBranchId, setContract]);
+    
 
     /////////////////////////////////////////////////
     const [page, setPage] = useState(DEFAULT.pageNumber);
@@ -72,19 +59,24 @@ const TablePawn = ({
     const handlePagination = (e, value) => {
         setPage(value);
     };
+
+    useEffect(() =>{
+        setPage(DEFAULT.pageNumber);
+    }, [filteredContracts])
+
     // Memorize
     const totalPage = useMemo(() => {
-        const result = Math.ceil(logContract.length / pageSize);
+        const result = Math.ceil(filteredContracts.length / pageSize);
         return result;
-    }, [logContract?.length, pageSize]);
+    }, [filteredContracts?.length, pageSize]);
 
     const renderedData = useMemo(() => {
-        if (!isAvailableArray(logContract)) return [];
+        if (!isAvailableArray(filteredContracts)) return [];
 
         const start = (page - 1) * pageSize;
         const end = page * pageSize;
-        return logContract.slice(start, end);
-    }, [logContract, page, pageSize]);
+        return filteredContracts.slice(start, end);
+    }, [filteredContracts, page, pageSize]);
 
     const dataTable = [
         {
@@ -191,7 +183,7 @@ const TablePawn = ({
                             </Tooltip>
                         )}
 
-                            <Tooltip title="Thanh lý">
+                            {/* <Tooltip title="Thanh lý">
                                 <img
                                     onClick={(e) => {
                                         handleShowLiquidation(i.contractId);
@@ -199,7 +191,7 @@ const TablePawn = ({
                                     src={thanhly}
                                     alt="TL"
                                 />
-                            </Tooltip>
+                            </Tooltip> */}
                     </Box>
                 );
             },

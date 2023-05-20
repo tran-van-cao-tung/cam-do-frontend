@@ -9,33 +9,27 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AiOutlineSearch } from 'react-icons/ai';
 import API from '../../API';
 import moment from 'moment';
-const BtnDetails = ({ rowsContract, setContract }) => {
-    const [pawnableProduct, setPawnableProduct] = useState([]);
-    useEffect(() => {
-        API({
-            method: 'get',
-            url: '/pawnableProduct/getAll/0',
-        }).then((res) => {
-            setPawnableProduct(res.data);
-        });
-    }, []);
 
-    const [status, setStatus] = useState();
-    const [commodityCode, setCommodityCode] = useState();
-    const [customerName, setCustomerName] = useState();
-    const [CCCD, setCCCD] = useState();
+function getInteger(value){
+    return value && Number.parseInt(value);
+}
+
+const BtnDetails = ({filters, setFilters}) => {
     const handleOptionStatus = (e) => {
-        setStatus(e.target.value);
-    };
-
-    const handleOptionLTS = (e) => {
-        setCommodityCode(e.target.value);
-        console.log(commodityCode);
+        console.log(e.target.value);
+        setFilters((previous) =>{
+            return {
+                ...previous, status: getInteger(e.target.value)
+            }
+        })
     };
 
     const handleSearchInput = (e) => {
-        setCustomerName(e.target.value);
-        setCCCD(e.target.value);
+        setFilters((previous) =>{
+            return {
+                ...previous, searchText: e.target.value
+            }
+        })
     };
 
     return (
@@ -48,24 +42,16 @@ const BtnDetails = ({ rowsContract, setContract }) => {
                                 type="text"
                                 placeholder="Nhập tên KH, CMND"
                                 name="customerName"
-                                value={customerName}
+                                value={filters.searchText}
                                 onChange={(e) => handleSearchInput(e)}
                             />
                             <AiOutlineSearch className="icon-search" />
                         </div>
                     </Grid>
-                    
                     <Grid item xs={2}>
-                        <select className="ltsPawn" onChange={(e) => handleOptionLTS(e)}>
-                            <option>--Loại TS--</option>
-                            {pawnableProduct.map((item, index) => {
-                                return <option value={item.commodityCode}>{item.typeOfProduct}</option>;
-                            })}
-                        </select>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <select className="ltsPawn" onChange={(e) => handleOptionStatus(e)}>
-                            <option>--Tình Trạng--</option>
+                        <select className="ltsPawn" onChange={(e) => handleOptionStatus(e)} 
+                        value={filters.status}>
+                            <option value={-1}>--Tất cả--</option>
                             <option value={1}>Đang cầm</option>
                             <option value={2}>Trễ hẹn</option>
                             <option value={3}>Thanh lý</option>
