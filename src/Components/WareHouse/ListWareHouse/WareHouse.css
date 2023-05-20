@@ -17,13 +17,6 @@
     margin-bottom: 16px;
 }
 
-.wareh-content {
-    display: block;
-    flex: 1;
-    background-color: white;
-    border-radius: 5px;
-}
-
 .actions-section .add-btn {
     border-radius: 5px;
     background-color: #4fcce6;

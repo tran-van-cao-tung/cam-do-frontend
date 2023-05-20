@@ -1,22 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Francois+One&family=Frank+Ruhl+Libre&display=swap');
-.details-pawn {
-    background-color: #ffffff;
-    position: relative;
-}
-
 .tableComponent {
     margin-top: 20px !important;
 }
 
 .btn-detail {
     width: 100%;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 60px;
 }
 
 .header h1 {
@@ -33,11 +22,9 @@
 
 .btn-click {
     border: none;
-    margin-left: 7px;
     font-family: 'Frank Ruhl Libre';
     font-style: normal;
-    font-weight: 400;
-    font-size: 35px;
+    font-size: 24px;
     border-radius: 10px;
     color: black;
 }
@@ -62,16 +49,10 @@
     cursor: pointer;
 }
 
-.addnew {
-    background-color: orange;
-    padding: 5px 10px;
-    color: white;
-}
-
 .export {
     background-color: white;
     border: 1px solid green;
-    padding: 5px 10px;
+    padding: 5px 16px;
     color: green;
 }
 

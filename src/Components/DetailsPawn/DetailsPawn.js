@@ -11,7 +11,7 @@ import Expiration from './PopUp/Expiration';
 import { AuthContext } from '../../helpers/AuthContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { isAvailableArray } from '../../helpers/utils';
-// import './DetailPawn.css';
+import { Grid } from '@mui/material'; // import './DetailPawn.css';
 const DetailsPawn = () => {
     const [showAddContract, setShowAddContract] = useState(false);
     const [showUpdateContract, setShowUpdateContract] = useState(false);
@@ -46,14 +46,14 @@ const DetailsPawn = () => {
             setShowContractId(contractId);
             navigate('/detaipawn');
         }
-    }, [])
+    }, []);
     const filteredContracts = useMemo(() => {
         if (!isAvailableArray(contracts)) {
             return [];
         }
         return contracts
             .filter((contract) => {
-                if(!filters.searchText){
+                if (!filters.searchText) {
                     return true;
                 }
                 if (contract.customerName?.includes(filters.searchText)) {
@@ -63,33 +63,36 @@ const DetailsPawn = () => {
                     return true;
                 }
                 return false;
-            }).filter((contract) => {
+            })
+            .filter((contract) => {
                 if (filters.status == -1) {
                     return true;
                 }
                 // console.log(contract.status === filters.status);
                 return contract.status === filters.status;
-            })
-    }, [filters, contracts])
+            });
+    }, [filters, contracts]);
 
     return (
-        <div className="details-pawn">
-            <div>
-                <HeaderPawn setShowAddContract={setShowAddContract} />
-            </div>
-            <div className="btnDetailPawn">
-                <BtnDetails filters={filters} setFilters={setFilters} />
-            </div>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <HeaderPawn />
+            </Grid>
+            <Grid item xs={12}>
+                <BtnDetails filters={filters} setFilters={setFilters} setShowAddContract={setShowAddContract} />
+            </Grid>
 
-            <TablePawn
-                className="tableComponent"
-                setShowUpdateContract={setShowUpdateContract}
-                setShowliquidation={setShowliquidation}
-                setshowdetailContract={setshowdetailContract}
-                setShowContractId={setShowContractId}
-                setShowExpiration={setShowExpiration}
-                filteredContracts={filteredContracts}
-            />
+            <Grid item xs={12}>
+                <TablePawn
+                    className="tableComponent"
+                    setShowUpdateContract={setShowUpdateContract}
+                    setShowliquidation={setShowliquidation}
+                    setshowdetailContract={setshowdetailContract}
+                    setShowContractId={setShowContractId}
+                    setShowExpiration={setShowExpiration}
+                    filteredContracts={filteredContracts}
+                />
+            </Grid>
             {showAddContract && (
                 <AddContract showAddContract={showAddContract} setShowAddContract={setShowAddContract} />
             )}
@@ -113,7 +116,7 @@ const DetailsPawn = () => {
                     showContractId={showContractId}
                 />
             )}
-        </div>
+        </Grid>
     );
 };
 
