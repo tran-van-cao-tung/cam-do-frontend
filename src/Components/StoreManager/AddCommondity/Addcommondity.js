@@ -14,6 +14,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import PageHeader from '../../../helpers/PageHeader';
 
 const Addcommondity = () => {
     const [code, setCode] = useState('');
@@ -21,10 +22,10 @@ const Addcommondity = () => {
     const [status, setStatus] = useState(0);
     const [attributeDTOs, setAttributeDTOs] = useState([
         {
-            description: "",
+            description: '',
         },
         {
-            description: "",
+            description: '',
         },
     ]);
     const handleOnChangeName = (e) => {
@@ -39,34 +40,36 @@ const Addcommondity = () => {
     };
 
     const handleAddAttribute = () => {
-        setAttributeDTOs(previous => {
-            return [...previous, {
-                description: "",
-            },]
-        })
-    }
+        setAttributeDTOs((previous) => {
+            return [
+                ...previous,
+                {
+                    description: '',
+                },
+            ];
+        });
+    };
 
     const handleChangeAttribute = (value, index) => {
-        setAttributeDTOs(previous => {
+        setAttributeDTOs((previous) => {
             const newAttributes = [...previous];
             newAttributes[index].description = value;
             return newAttributes;
-        })
-    }
+        });
+    };
 
-    const handleRemoveAttributes = (index) =>{
+    const handleRemoveAttributes = (index) => {
         console.log(index);
-        setAttributeDTOs(previous => {
+        setAttributeDTOs((previous) => {
             const newAttributes = [...previous];
             newAttributes.splice(index, 1);
-            console.log({previous, newAttributes});
+            console.log({ previous, newAttributes });
             return newAttributes;
-        })
-    }
-    
+        });
+    };
 
     const handleSumbitCommondy = (e) => {
-        const preparedAttributes= attributeDTOs.filter(item => !!item.description);
+        const preparedAttributes = attributeDTOs.filter((item) => !!item.description);
         API({
             method: 'post',
             url: '/pawnableProduct/createPawnable',
@@ -87,7 +90,8 @@ const Addcommondity = () => {
     return (
         <>
             <div className="Addcommondity">
-                <h1>Thêm mới cấu hình hàng hoá</h1>
+                <PageHeader title="Thêm mới cấu hình hàng hoá" />
+
                 <div className="wareh-content">
                     <div className="add-content">
                         {/* Left */}
@@ -152,23 +156,27 @@ const Addcommondity = () => {
                                 </Button>
                             </div>
 
-                            {attributeDTOs.map((item, index) =>
+                            {attributeDTOs.map((item, index) => (
                                 <FormControl className="add-input-group" key={index}>
-                                <FormLabel className="label">
-                                    Thuộc tính&nbsp;<label style={{ color: 'red' }}>*</label>:
-                                </FormLabel>
-                                <InputBase
-                                    placeholder="Màu sắc"
-                                    inputProps={{ 'aria-label': 'search' }}
-                                    className="add-input"
-                                    value={item.description}
-                                    onChange={(e) => handleChangeAttribute(e.target.value, index)}
-                                />
-                                <Button className="edit-btn" variant="contained" onClick = {() => handleRemoveAttributes(index)}>
-                                    -
-                                </Button>
-                            </FormControl>
-                            )}
+                                    <FormLabel className="label">
+                                        Thuộc tính&nbsp;<label style={{ color: 'red' }}>*</label>:
+                                    </FormLabel>
+                                    <InputBase
+                                        placeholder="Màu sắc"
+                                        inputProps={{ 'aria-label': 'search' }}
+                                        className="add-input"
+                                        value={item.description}
+                                        onChange={(e) => handleChangeAttribute(e.target.value, index)}
+                                    />
+                                    <Button
+                                        className="edit-btn"
+                                        variant="contained"
+                                        onClick={() => handleRemoveAttributes(index)}
+                                    >
+                                        -
+                                    </Button>
+                                </FormControl>
+                            ))}
                         </div>
                     </div>
 

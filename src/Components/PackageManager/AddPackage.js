@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import BtnCloseAnimation from '../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import { Button } from '@mui/material';
 import BtnSave from '../ButtonUI/BtnSave/BtnSave';
+import PageHeader from '../../helpers/PageHeader';
 
 function AddPackage() {
     const history = useNavigate();
@@ -41,7 +42,8 @@ function AddPackage() {
     };
     return (
         <div className="box_employee">
-            <h1 className="employee_heading-add">Thêm gói vay mới</h1>
+            <PageHeader title="Thêm gói vay mới" />
+
             <div className="wareh-content">
                 <Formik initialValues={initialValues} /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
                     <Form>

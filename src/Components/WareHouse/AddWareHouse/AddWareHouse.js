@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import PageHeader from '../../../helpers/PageHeader';
 
 const WareHouse = () => {
     const [statusFilter, setStatusFilter] = useState('available');
@@ -55,7 +56,7 @@ const WareHouse = () => {
     return (
         <StyledEngineProvider injectFirst>
             <div className="wareh-wrapper">
-                <h4 className="wareh-title">Thêm mới kho</h4>
+                <PageHeader title="Thêm mới kho" />
 
                 <div className="wareh-content">
                     <div className="add-wareh-section">

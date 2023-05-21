@@ -9,9 +9,10 @@ import './Table.scss';
 import callAPI from '../../../API';
 
 import CustomizedTables from '../../../helpers/CustomizeTable';
-import { Box, Pagination, Stack } from '@mui/material';
+import { Box, Grid, Pagination, Stack } from '@mui/material';
 import { isAvailableArray } from '../../../helpers/utils';
 import PageHeader from '../../../helpers/PageHeader';
+import CustomizeButton from '../../../helpers/CustomizeButton';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -103,76 +104,90 @@ function Commodity() {
         },
     ];
     return (
-        <>
-            <PageHeader title="Loại Tài Sản" />
-            <div className="listCommodity">
-                <div className="listCommoditybody">
-                    {/* Button  Add */}
-                    <Link to="/commodity/add">
-                        <button className="addlistCommodity">Thêm mới loại tài sản</button>
-                    </Link>
-                    {/* Status */}
-                    <div className="status">
-                        <span>Tình Trạng</span>
-                        {/* From status  */}
-                        <span className="fromstatus">
-                            <FormControl className="form-iteam">
-                                <RadioGroup
-                                    className="radioItem"
-                                    aria-label="status"
-                                    name="status"
-                                    elementue={statusFilter}
-                                    onChange={(e) => setStatusFilter(e.target.value)}
-                                >
-                                    <FormControlLabel
-                                        value="all"
-                                        control={<Radio />}
-                                        label="Tất cả"
-                                        className="radio-all"
-                                    />
-                                    <FormControlLabel
-                                        value="active"
-                                        control={<Radio />}
-                                        label="Đang hoạt động"
-                                        className="radio-active"
-                                    />
-                                    <FormControlLabel
-                                        value="stop"
-                                        control={<Radio />}
-                                        label="Đã tạm dừng"
-                                        className="radio-stop"
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                        </span>
-                        {/* Search */}
-                        <div className="searchinput">
-                            <input
-                                type="text"
-                                placeholder="Tìm kiếm cửa hàng..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
+        <Box>
+            <Grid container spacing={2} xs={12}>
+                <Grid item xs={12}>
+                    <PageHeader title="Loại Tài Sản" />
+                </Grid>
+                <Grid item xs={12}>
+                    <div className="listCommoditybody">
+                        {/* Button  Add */}
+                        <Link to="/commodity/add">
+                            <CustomizeButton title="Thêm mới" />
+                        </Link>
+                        {/* Status */}
+                        <div className="status">
+                            <span>Tình Trạng</span>
+                            {/* From status  */}
+                            <span className="fromstatus">
+                                <FormControl className="form-iteam">
+                                    <RadioGroup
+                                        className="radioItem"
+                                        aria-label="status"
+                                        name="status"
+                                        elementue={statusFilter}
+                                        onChange={(e) => setStatusFilter(e.target.value)}
+                                    >
+                                        <FormControlLabel
+                                            value="all"
+                                            control={<Radio />}
+                                            label="Tất cả"
+                                            className="radio-all"
+                                        />
+                                        <FormControlLabel
+                                            value="active"
+                                            control={<Radio />}
+                                            label="Đang hoạt động"
+                                            className="radio-active"
+                                        />
+                                        <FormControlLabel
+                                            value="stop"
+                                            control={<Radio />}
+                                            label="Đã tạm dừng"
+                                            className="radio-stop"
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
+                            </span>
+                            {/* Search */}
+                            <div className="searchinput">
+                                <input
+                                    type="text"
+                                    placeholder="Tìm kiếm cửa hàng..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
-                {/* ================================ */}
-                {/* =            Table Show        = */}
-                {/* ================================ */}
-                <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
-                <Box marginTop="14px">
-                    <Stack spacing={2}>
-                        <Pagination
-                            style={{ margin: '0 auto' }}
-                            count={totalPage}
-                            page={page}
-                            onChange={handlePagination}
-                            color="primary"
-                        />
-                    </Stack>
-                </Box>
-            </div>
-        </>
+                    {/* ================================ */}
+                    {/* =            Table Show        = */}
+                    {/* ================================ */}
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Box
+                        padding="20px"
+                        boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
+                        borderRadius="8px"
+                        bgcolor="#fff"
+                    >
+                        <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                        <Box marginTop="14px">
+                            <Stack spacing={2}>
+                                <Pagination
+                                    style={{ margin: '0 auto' }}
+                                    count={totalPage}
+                                    page={page}
+                                    onChange={handlePagination}
+                                    color="primary"
+                                />
+                            </Stack>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
+        </Box>
     );
 }
 

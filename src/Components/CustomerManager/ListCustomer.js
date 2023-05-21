@@ -6,8 +6,10 @@ import edit from './../../asset/img/edit.png';
 import './CustomerManager.css';
 import { isAvailableArray } from '../../helpers/utils.js';
 import CustomizedTables from '../../helpers/CustomizeTable.jsx';
-import { Box, Pagination, Stack } from '@mui/material';
+import { Box, Grid, Pagination, Stack } from '@mui/material';
 import { formatDate } from '../../helpers/dateTimeUtils';
+import CustomizeButton from '../../helpers/CustomizeButton.jsx';
+import PageHeader from '../../helpers/PageHeader.jsx';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -107,10 +109,7 @@ function ListCustomer({ numPage }) {
             dataRow: (element) => {
                 return (
                     <Link to={`/customer-manager/updateinfo/${element.customerId}`}>
-                        <img
-                            src={edit}
-                            alt="Edit"
-                        />
+                        <img src={edit} alt="Edit" />
                     </Link>
                 );
             },
@@ -119,14 +118,19 @@ function ListCustomer({ numPage }) {
 
     return (
         <>
-            <div className="ListCustomerr">
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <PageHeader title="Quản Lý Khách Hàng" />
+                </Grid>
+
                 {/* ===================================== */}
                 {/* |             Add and Search        | */}
                 {/* ===================================== */}
-                <div className="ListCustomer">
+                <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
                     <Link to="/customer-manager/add-new-customer">
-                        <button className="addlistCustomer">Thêm mới khách hàng</button>
+                        <CustomizeButton title="Thêm mới" />
                     </Link>
+
                     {/* Status */}
                     <div className="statusCustomer">
                         {/* Search */}
@@ -140,24 +144,33 @@ function ListCustomer({ numPage }) {
                             ></input>
                         </div>
                     </div>
-                </div>
+                </Grid>
                 {/* ================================ */}
                 {/* =            Table Show        = */}
                 {/* ================================ */}
 
-                <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
-                <Box marginTop="14px">
-                    <Stack spacing={2}>
-                        <Pagination
-                            style={{ margin: '0 auto' }}
-                            count={totalPage}
-                            page={page}
-                            onChange={handlePagination}
-                            color="primary"
-                        />
-                    </Stack>
-                </Box>
-            </div>
+                <Grid item xs={12}>
+                    <Box
+                        padding="20px"
+                        boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
+                        borderRadius="8px"
+                        bgcolor="#fff"
+                    >
+                        <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                        <Box marginTop="14px">
+                            <Stack spacing={2}>
+                                <Pagination
+                                    style={{ margin: '0 auto' }}
+                                    count={totalPage}
+                                    page={page}
+                                    onChange={handlePagination}
+                                    color="primary"
+                                />
+                            </Stack>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
         </>
     );
 }

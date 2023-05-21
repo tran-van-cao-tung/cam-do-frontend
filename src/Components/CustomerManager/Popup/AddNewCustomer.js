@@ -13,6 +13,7 @@ import API from '../../../API';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import { Button } from '@mui/material';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import PageHeader from '../../../helpers/PageHeader';
 
 const AddNewCustomer = () => {
     const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
@@ -71,7 +72,6 @@ const AddNewCustomer = () => {
     const [frontImg, setFrontImg] = useState('');
     const [backImg, setBackImg] = useState('');
 
-
     const handleName = (e) => {
         setName(e.target.value);
     };
@@ -87,7 +87,8 @@ const AddNewCustomer = () => {
 
     return (
         <div className="headerCustomer">
-            <h1 className="headerCustomerName">Thêm Mới Khách Hàng</h1>
+            <PageHeader title="Thêm Mới Khách Hàng" />
+
             <div>
                 <div className="parperCustomer">
                     <div className="infoCustomer">
@@ -139,14 +140,18 @@ const AddNewCustomer = () => {
                                         <UploadButton
                                             uploader={uploader}
                                             options={{ multi: true }}
-                                            onComplete={(files) => uploadFrontImg(files.map((x) => x.fileUrl).join('\n'))}
+                                            onComplete={(files) =>
+                                                uploadFrontImg(files.map((x) => x.fileUrl).join('\n'))
+                                            }
                                         >
                                             {({ onClick }) => <button onClick={onClick}>Upload Mặt Trước...</button>}
                                         </UploadButton>
                                         <UploadButton
                                             uploader={uploader}
                                             options={{ multi: true }}
-                                            onComplete={(files) => uploadBackImg(files.map((x) => x.fileUrl).join('\n'))}
+                                            onComplete={(files) =>
+                                                uploadBackImg(files.map((x) => x.fileUrl).join('\n'))
+                                            }
                                         >
                                             {({ onClick }) => <button onClick={onClick}>Upload Mặt Sau...</button>}
                                         </UploadButton>

@@ -14,6 +14,7 @@ import { Link, useParams } from 'react-router-dom';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import Swal from 'sweetalert2';
+import PageHeader from '../../../helpers/PageHeader';
 
 const EditWarehouse = () => {
     const params = useParams();
@@ -32,38 +33,35 @@ const EditWarehouse = () => {
         callAPI();
     }, []);
 
-
-
     const handleSubmitEdit = () => {
         const data = {
             warehouseId: parseInt(params.id),
             warehouseName: item.warehouseName,
             warehouseAddress: item.warehouseAddress,
             status: item.status,
-            contractAssets: []
-        }
+            contractAssets: [],
+        };
         API({
             method: 'put',
             url: `/warehouse/updateWareHouse/`,
             data: data,
-        })
-            .then((res) => {
-                Swal.fire({
-                    text: `Cập nhật thành công`,
-                    icon: 'success',
-                }).then((result) => { });
-            })
+        }).then((res) => {
+            Swal.fire({
+                text: `Cập nhật thành công`,
+                icon: 'success',
+            }).then((result) => {});
+        });
     };
 
     const handleOnChangeName = (e) => {
         setItem({ ...item, [e.target.name]: e.target.value });
     };
 
-
     return (
         <>
             <div className="Addliststore">
-                <h1>Cập Nhật kho</h1>
+                <PageHeader title="Cập Nhật kho" />
+
                 <div className="wareh-content">
                     <div className="add-section">
                         <FormControl className="add-input-group">
@@ -98,7 +96,12 @@ const EditWarehouse = () => {
                             <FormLabel className="label">
                                 Tình trạng&nbsp;<label style={{ color: 'red' }}>*</label>:
                             </FormLabel>
-                            <RadioGroup row name="status" value={item.status ? item.status : 0} onChange={handleOnChangeName} >
+                            <RadioGroup
+                                row
+                                name="status"
+                                value={item.status ? item.status : 0}
+                                onChange={handleOnChangeName}
+                            >
                                 <FormControlLabel
                                     value="0"
                                     control={<Radio />}

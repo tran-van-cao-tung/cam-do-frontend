@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import { toast } from 'react-toastify';
+import PageHeader from '../../../helpers/PageHeader';
 
 const AddList = () => {
     // const [id, setId] = useState();
@@ -103,7 +104,8 @@ const AddList = () => {
     return (
         <>
             <div className="Addliststore">
-                <h1>Thêm mới cửa hàng</h1>
+                <PageHeader title="Thêm mới cửa hàng" />
+
                 <div className="wareh-content">
                     {/* Add a erro message */}
 

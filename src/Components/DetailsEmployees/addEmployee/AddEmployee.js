@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import { Button } from '@mui/material';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
+import PageHeader from '../../../helpers/PageHeader';
 
 function AddEmployee() {
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -23,15 +24,14 @@ function AddEmployee() {
 
     //đổ dữ liệu branch
     useEffect(() => {
-        if(branch != null){
+        if (branch != null) {
             API({
                 method: 'get',
                 url: `branch/getAll/0`,
             }).then((res) => {
-                setBranch(res.data)
+                setBranch(res.data);
             });
         }
-        
     }, [branch]);
 
     const [showPassword1, setShowPassword1] = useState(false);
@@ -109,7 +109,8 @@ function AddEmployee() {
 
     return (
         <div className="box_employee">
-            <h1 className="employee_heading-add">Thêm mới nhân viên</h1>
+            <PageHeader title="Thêm mới nhân viên" />
+
             <div className="wareh-content">
                 <Formik initialValues={initialValues} /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
                     <Form>
@@ -208,7 +209,7 @@ function AddEmployee() {
                             <ErrorMessage name="phone" className="alert alert-danger" component="div" />
                             <div className="employee_input">
                                 <span>
-                                   Chức vụ <span>*</span>:
+                                    Chức vụ <span>*</span>:
                                 </span>
                                 <Field
                                     as="select"
@@ -218,7 +219,9 @@ function AddEmployee() {
                                         width: '576px',
                                     }} /* onChange={(e) => handleInput(e)} value={employeeInput.branchId} */
                                 >
-                                    <option value={2} selected>--Quản lý--</option>
+                                    <option value={2} selected>
+                                        --Quản lý--
+                                    </option>
                                     <option value={3}>--Nhân viên--</option>
                                 </Field>
                             </div>

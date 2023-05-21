@@ -15,6 +15,7 @@ import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import { Button } from '@mui/material';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import { toast } from 'react-toastify';
+import PageHeader from '../../../helpers/PageHeader';
 
 const validationSchema = Yup.object().shape({
     fullName: Yup.string()
@@ -115,7 +116,8 @@ function EditEmployee() {
 
     return (
         <div className="box_employee">
-            <h1 className="employee_heading-add">Cập nhật nhân viên</h1>
+            <PageHeader title="Cập nhật nhân viên" />
+
             <div className="wareh-content">
                 <form /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
                     <div className="employeeAdd">

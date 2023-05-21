@@ -10,6 +10,7 @@ import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimatio
 
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import PageHeader from '../../../helpers/PageHeader';
 
 const UpdateInfor = () => {
     const { id } = useParams();
@@ -56,7 +57,8 @@ const UpdateInfor = () => {
     };
     return (
         <div className="headerCustomer">
-            <h1 className="headerCustomerName">Cập Nhật Khách Hàng</h1>
+            <PageHeader title="Cập Nhật Khách Hàng" />
+
             <div>
                 <div className="parperCustomer">
                     <div className="infoCustomer">

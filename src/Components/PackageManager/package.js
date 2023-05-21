@@ -7,8 +7,9 @@ import './package.css';
 
 import { isAvailableArray } from '../../helpers/utils';
 import CustomizedTables from '../../helpers/CustomizeTable';
-import { Box, Pagination, Stack } from '@mui/material';
+import { Box, Grid, Pagination, Stack } from '@mui/material';
 import PageHeader from '../../helpers/PageHeader';
+import CustomizeButton from '../../helpers/CustomizeButton';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -145,37 +146,45 @@ const Package = () => {
     // ==================================
     // |            Phân Trang        |
     // ==================================
-
+    const handleNavigate = () => {
+        navigate('/addPackage');
+    };
     return (
-        <>
-            <PageHeader title="Điều chỉnh gói vay" />
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <PageHeader title="Điều chỉnh gói vay" />
+            </Grid>
 
-            <div className="listPackage">
-                <button
-                    className="employee_button"
-                    onClick={() => {
-                        navigate('/addPackage');
-                    }}
+            <Grid item xs={12}>
+                <CustomizeButton title="Thêm mới" handleClick={handleNavigate} />
+            </Grid>
+
+            {/* ================================ */}
+            {/* =            Table Show        = */}
+            {/* ================================ */}
+            <Grid item xs={12}>
+                <Box
+                    padding="20px"
+                    boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
+                    borderRadius="8px"
+                    bgcolor="#fff"
+                    fontSize="14px"
                 >
-                    Thêm mới
-                </button>
-                {/* ================================ */}
-                {/* =            Table Show        = */}
-                {/* ================================ */}
-                <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
-                <Box marginTop="14px">
-                    <Stack spacing={2}>
-                        <Pagination
-                            style={{ margin: '0 auto' }}
-                            count={totalPage}
-                            page={page}
-                            onChange={handlePagination}
-                            color="primary"
-                        />
-                    </Stack>
+                    <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                    <Box marginTop="14px">
+                        <Stack spacing={2}>
+                            <Pagination
+                                style={{ margin: '0 auto' }}
+                                count={totalPage}
+                                page={page}
+                                onChange={handlePagination}
+                                color="primary"
+                            />
+                        </Stack>
+                    </Box>
                 </Box>
-            </div>
-        </>
+            </Grid>
+        </Grid>
     );
 };
 

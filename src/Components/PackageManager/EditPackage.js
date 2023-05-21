@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Button } from '@mui/material';
 import BtnSave from '../ButtonUI/BtnSave/BtnSave';
 import BtnCloseAnimation from '../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import PageHeader from '../../helpers/PageHeader';
 
 function EditPackage() {
     const [listPackage, setListPackage] = useState([]);
@@ -60,7 +61,8 @@ function EditPackage() {
 
     return (
         <div className="box_employee">
-            <h1 className="employee_heading-add">Cập nhật gói vay</h1>
+            <PageHeader title="Cập nhật gói vay" />
+
             <div className="wareh-content">
                 <form /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
                     <div className="employeeAdd">

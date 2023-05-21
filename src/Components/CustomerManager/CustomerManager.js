@@ -1,12 +1,13 @@
-import React from "react";
-import HeaderCustomer from "./HeaderCustomer";
+import React from 'react';
+
+import ListCustomer from './ListCustomer';
 
 const CustomerManager = () => {
-  return (
-    <div>
-      <HeaderCustomer />
-    </div>
-  );
+    return (
+        <div>
+            <ListCustomer />
+        </div>
+    );
 };
 
 export default CustomerManager;

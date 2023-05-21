@@ -14,6 +14,7 @@ import { Link, useParams } from 'react-router-dom';
 import API from '../../../API';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+import PageHeader from '../../../helpers/PageHeader';
 
 const EditListStore = () => {
     const id = useParams();
@@ -61,7 +62,8 @@ const EditListStore = () => {
     return (
         <>
             <div className="Addliststore">
-                <h1>Cập nhật cửa hàng</h1>
+                <PageHeader title="Cập nhật cửa hàng" />
+
                 <div className="wareh-content">
                     <div className="add-section">
                         <FormControl className="add-input-group">

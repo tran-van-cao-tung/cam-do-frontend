@@ -97,37 +97,38 @@ const WareHouse = () => {
     };
     return (
         <>
-            <StyledEngineProvider injectFirst>
-                <Grid container spacing={2} xs={12}>
-                    <Grid item xs={12}>
-                        <PageHeader title="Danh sách kho" />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <CustomizeButton title="Thêm mới" handleClick={hanldeAddWareHouse} />
-
-                        <Box
-                            padding="20px"
-                            boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
-                            borderRadius="8px"
-                            bgcolor="#fff"
-                            fontSize="14px"
-                        >
-                            <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
-                            <Box marginTop="14px">
-                                <Stack spacing={2}>
-                                    <Pagination
-                                        style={{ margin: '0 auto' }}
-                                        count={totalPage}
-                                        page={page}
-                                        onChange={handlePagination}
-                                        color="primary"
-                                    />
-                                </Stack>
-                            </Box>
-                        </Box>
-                    </Grid>
+            <Grid container spacing={2} xs={12}>
+                <Grid item xs={12}>
+                    <PageHeader title="Danh sách kho" />
                 </Grid>
-            </StyledEngineProvider>
+                <Grid item xs={12}>
+                    <CustomizeButton title="Thêm mới" handleClick={hanldeAddWareHouse} />
+                </Grid>
+                <Grid item xs={12}>
+                    <Box
+                        padding="20px"
+                        boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
+                        borderRadius="8px"
+                        bgcolor="#fff"
+                        fontSize="14px"
+                    >
+                        <Grid item xs={12}>
+                            <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                        </Grid>
+                        <Box marginTop="14px">
+                            <Stack spacing={2}>
+                                <Pagination
+                                    style={{ margin: '0 auto' }}
+                                    count={totalPage}
+                                    page={page}
+                                    onChange={handlePagination}
+                                    color="primary"
+                                />
+                            </Stack>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
         </>
     );
 };

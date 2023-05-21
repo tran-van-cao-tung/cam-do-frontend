@@ -13,6 +13,7 @@ import { isAvailableArray } from '../../../helpers/utils';
 import CustomizedTables from '../../../helpers/CustomizeTable';
 import { formatDate } from '../../../helpers/dateTimeUtils';
 import PageHeader from '../../../helpers/PageHeader';
+import CustomizeButton from '../../../helpers/CustomizeButton';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -127,85 +128,90 @@ function ListEmployees() {
         },
     ];
 
+    const handleNavigate = () => {
+        navigate('/addemployee');
+    };
     return (
         <>
-            <div className="box_employee">
-                <PageHeader title="Danh sách nhân viên" />
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <div className="list_box-employee">
-                            <button
-                                className="employee_button"
-                                onClick={() => {
-                                    navigate('/addemployee');
-                                }}
-                            >
-                                Thêm mới
-                            </button>
-                            <div className="statusStore">
-                                <span>Tình Trạng</span>
-                                {/* From status  */}
-                                <span className="fromstatusStore">
-                                    <FormControl className="formIteam">
-                                        <RadioGroup
-                                            className="radioItem"
-                                            aria-label="filter"
-                                            name="filter"
-                                            value={statusFilter}
-                                            onChange={(event) => setStatusFilter(event.target.value)}
-                                        >
-                                            <FormControlLabel
-                                                value="all"
-                                                control={<Radio />}
-                                                label="Tất cả"
-                                                className="radio-all"
-                                            />
-                                            <FormControlLabel
-                                                value="active"
-                                                control={<Radio />}
-                                                label="Đang hoạt động"
-                                                className="radio-active"
-                                            />
-                                            <FormControlLabel
-                                                value="stop"
-                                                control={<Radio />}
-                                                label="Đã tạm dừng"
-                                                className="radio-stop"
-                                            />
-                                        </RadioGroup>
-                                    </FormControl>
-                                </span>
-                                {/* Search */}
-                                <div className="searchinput">
-                                    {/* <input type="text" class="searchTerm" placeholder="Tìm kiếm..."></input> */}
-                                    <input
-                                        type="text"
-                                        placeholder="Tìm kiếm cửa hàng..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                            {/* ================================ */}
-                            {/* =            Table Show        = */}
-                            {/* ================================ */}
-
-                            <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
-                            <Box marginTop="14px">
-                                <Stack spacing={2}>
-                                    <Pagination
-                                        style={{ margin: '0 auto' }}
-                                        count={totalPage}
-                                        page={page}
-                                        onChange={handlePagination}
-                                        color="primary"
-                                    />
-                                </Stack>
-                            </Box>
-                        </div>
-                    </Grid>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <PageHeader title="Danh sách nhân viên" />
                 </Grid>
-            </div>
+                <Grid item xs={12}>
+                    <CustomizeButton title="Thêm mới" handleClick={handleNavigate} />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <div className="statusStore">
+                        <span>Tình Trạng</span>
+                        {/* From status  */}
+                        <span className="fromstatusStore">
+                            <FormControl className="formIteam">
+                                <RadioGroup
+                                    className="radioItem"
+                                    aria-label="filter"
+                                    name="filter"
+                                    value={statusFilter}
+                                    onChange={(event) => setStatusFilter(event.target.value)}
+                                >
+                                    <FormControlLabel
+                                        value="all"
+                                        control={<Radio />}
+                                        label="Tất cả"
+                                        className="radio-all"
+                                    />
+                                    <FormControlLabel
+                                        value="active"
+                                        control={<Radio />}
+                                        label="Đang hoạt động"
+                                        className="radio-active"
+                                    />
+                                    <FormControlLabel
+                                        value="stop"
+                                        control={<Radio />}
+                                        label="Đã tạm dừng"
+                                        className="radio-stop"
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                        </span>
+                        {/* Search */}
+                        <div className="searchinput">
+                            {/* <input type="text" class="searchTerm" placeholder="Tìm kiếm..."></input> */}
+                            <input
+                                type="text"
+                                placeholder="Tìm kiếm cửa hàng..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </Grid>
+                {/* ================================ */}
+                {/* =            Table Show        = */}
+                {/* ================================ */}
+                <Grid item xs={12}>
+                    <Box
+                        padding="20px"
+                        boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
+                        borderRadius="8px"
+                        bgcolor="#fff"
+                    >
+                        <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                        <Box marginTop="14px">
+                            <Stack spacing={2}>
+                                <Pagination
+                                    style={{ margin: '0 auto' }}
+                                    count={totalPage}
+                                    page={page}
+                                    onChange={handlePagination}
+                                    color="primary"
+                                />
+                            </Stack>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
         </>
     );
 }
