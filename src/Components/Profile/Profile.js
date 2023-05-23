@@ -41,9 +41,6 @@ function Profile() {
         fullName: Yup.string()
             .required('Tên nhân viên không được để trống')
             .max(100, 'Tên nhân viên không được vượt quá 100 ký tự'),
-        userName: Yup.string()
-            .required('Tài khoản không được để trống')
-            .max(30, 'Tài khoản không được vượt quá 30 ký tự'),
         address: Yup.string().max(200, 'Địa chỉ không được vượt quá 200 ký tự'),
         phone: Yup.string().matches(/^\+?\d{10,12}$/, 'Nhập đúng định dạng số điện thoại, 10 số'),
         email: Yup.string()
@@ -69,16 +66,13 @@ function Profile() {
     const onSubmit = (e) => {
         e.preventDefault();
         const data = {
-            roleId: 1,
             userId: userInfo.userId,
             fullName: profile.fullName,
-            branchId: 1,
-            userName: profile.userName,
+            branchId: profile.branchId,
             email: profile.email,
             address: profile.address,
             status: profile.status,
             phone: profile.phone,
-            password: profile.password,
         }
         console.log(data)
         validationSchema.validate(data, { abortEarly: false })
@@ -161,6 +155,7 @@ function Profile() {
                                 size='small'
                                 onChange={(e) => handleOnchange('userName', e.target.value)}
                                 value={profile.userName}
+                                disabled
                             />}
                         />
 

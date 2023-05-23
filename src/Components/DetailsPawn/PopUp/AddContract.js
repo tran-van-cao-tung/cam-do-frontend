@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import './popup.css';
 import bike from '../../../asset/img/bike.png';
-// import save from '../../../asset/img/save1.png';
-// import close from '../../../asset/img/close1.png';
 import API from '../../../API';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -17,6 +15,7 @@ import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog
 import { Save } from '@mui/icons-material';
 import ButtonCloseAnimation from '../../ButtonUI/BtnCloseAnimation/ButtonCloseAnimation';
 import { formatMoney } from '../../../helpers/dateTimeUtils';
+import { toast } from 'react-toastify';
 
 const AddContract = ({ setShowAddContract, showAddContract }) => {
     const { authState, currentBranchId, userInfo } = useContext(AuthContext);
@@ -26,11 +25,17 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
     const [pawnableProduct, setPawnableProduct] = useState([]);
     const [packagelist, setPackage] = useState([]);
     const [packageItem, setPackageItem] = useState([]);
-    const [warehouse, setWarehouse] = useState([]);
-    const [selectedWarehouse, setSelectedWarehouse] = useState([]);
+    const [warehouse, setWarehouse] = useState();
+    const [warehouses, setWarehouses] = useState([]);
+
     const [totalProfit, setTotalProfit] = useState(0);
     const [cycle, setCycle] = useState(0);
     const [selectedInterest, setSelectedInterest] = useState(0);
+    const availableWarehouses = warehouses.filter((item) => {
+        if((item.status) === 0) {
+            return item
+        }
+    })
     const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
@@ -62,8 +67,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             method: 'get',
             url: '/warehouse/GetAll/0',
         }).then((res) => {
-            setWarehouse(res.data);
-            // console.log('aaaaa', res.data);
+            setWarehouses(res.data);
         });
     }
 
@@ -72,17 +76,16 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
     }, []);
 
     const updateWarehouse = ({ target }) => {
-        setSelectedWarehouse(target.value);
+        setWarehouse(target.value);
     };
     //Submit dữ liệu contract
-    const hanldeSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         const data = {
             customerId: customer.customerId,
             userId: userInfo.userId,
             branchId: currentBranchId,
             totalProfit: 0,
-            warehouseId: 1,
+            warehouseId: warehouse,
             pawnableProductId: contract.pawnableProductId,
             packageId: packageItem[0].packageId,
             contractAssetName: contract.contractAssetName,
@@ -99,11 +102,11 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             url: '/contract/createContract',
             data: data,
         }).then((res) => {
-            alert('Tạo hợp đồng thành công');
-            console.log('thành công');
+            toast.success('Tạo hợp đồng thành công');
             window.location.reload(false);
+        }).catch((err) => {
+            toast.error("Tạo hơp đồng thất bại");
         });
-        console.log(data);
     };
 
     //get dữ liệu pawnableProduct
@@ -184,6 +187,12 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
         setContract({ ...contract, [e.target.name]: e.target.value });
     };
 
+    const handleRecommended = (e) => {
+        var _fee = parseInt(contract.insuranceFee) + parseInt(contract.storageFee);
+        setContract({ ...contract, [e.target.name]: e.target.value });
+        setTotalProfit(contract.loan * (e.target.value / 100) + _fee * cycle);
+    };
+
     const [customer, setCustomer] = useState();
     //Get dữ liệu customer bằng cccd
     const handleCustomer = (e) => {
@@ -226,7 +235,6 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
     };
     const renderContent = () => (
         <div className="contents">
-            <form onSubmit={hanldeSubmit}>
                 {/* Thông tin khách hàng */}
                 <div className="mgb21">
                     <div className="heading-info-user heading-user">
@@ -394,11 +402,11 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                             <p>Ngày vay:</p> */}
                                             <p>Lãi mặc định:</p>
                                             <p>Lãi đề xuất: </p>
+                                            <p>Kho:</p>
                                             <p>Số tiền lãi dự kiến :</p>
                                         </div>
                                         <div className="user__info-input">
                                             {/* Lấy dữ liệu từ Package */}
-
                                             <select onChange={(e) => handlePackageItem(e)}>
                                                 <option>---Gói Cầm---</option>
                                                 {packagelist.map((item, index) => {
@@ -418,8 +426,17 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                             <input
                                                 type="number"
                                                 name="interestRecommend"
-                                                onChange={(e) => handleInput(e)}
+                                                onChange={(e) => handleRecommended(e)}
                                             />
+                                            <select value={warehouse} onChange={updateWarehouse}>
+                                                {availableWarehouses.map((item, index) => {
+                                                    return (
+                                                        <option key={index} value={item.warehouseId}>
+                                                            {item.warehouseName}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
                                             <p className="flend">{totalProfit ? formatMoney(totalProfit) : '0 VND'}</p>
                                         </div>
                                     </div>
@@ -501,7 +518,6 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                         </Box>
                     </div>
                 </div>
-            </form>
         </div>
     );
 
@@ -520,9 +536,9 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                     <div className="btn__group">
                         <ButtonCloseAnimation onConfirm={handleCloseDialog} />
                         <Button
-                            onClick={(e) => hanldeSubmit(e)}
                             variant="contained"
                             color="success"
+                            onClick={handleSubmit}
                             sx={{
                                 fontSize: '16px',
                                 padding: '15px 30px',

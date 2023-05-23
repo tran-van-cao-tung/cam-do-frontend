@@ -11,35 +11,38 @@ import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog
 import ButtonCloseAnimation from '../../ButtonUI/BtnCloseAnimation/ButtonCloseAnimation';
 import { Save } from '@mui/icons-material';
 import { AuthContext } from '../../../helpers/AuthContext';
+import { toast } from 'react-toastify';
 const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
     const [detailContract, setDetailContract] = useState([]);
     const [warehouses, setWarehouses] = useState([]);
     const [pawnableProduct, setPawnableProduct] = useState();
     const [attributeInfo, setAttributeInfo] = useState([]);
     const [warehouse, setWarehouse] = useState({});
-    
+    const availableWarehouses = warehouses.filter((item) => {
+        if((item.status) === 0) {
+            return item
+        }
+    })
     const { userInfo } = useContext(AuthContext);
     const updateWarehouse = ({ target }) => {
         setWarehouse(target.value);
     };
 
     function saveContract() {
-        console.log(userInfo.userId);
-        console.log(detailContract.contractAssetId);
         API({
             method: 'put',
             url: '/contractAsset/updateContractAsset/' + userInfo.userId,
             data: {
                 contractAssetId: detailContract.contractAssetId,
                 warehouseId: warehouse,
-                contractAssetName: 'abcksas',
+                contractAssetName: 'string',
                 description: 'string',
                 image: 'string',
             },
         })
             .then((res) => {
                 console.log('Success Full');
-                alert('Lưu Thành Công');
+                toast.success('Chuyển kho thành công');
             })
             .catch((err) => {
                 console.log(err);
@@ -75,7 +78,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                 setAttributeInfo(res.data.attributeInfos);
                 // console.log('attr info', res.data.attributeInfos[]);
             });
-        } catch (error) {}
+        } catch (error) { }
     }
 
     async function loadWarehouse() {
@@ -200,9 +203,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                                             <div className="box__input">
                                                 {detailContract.loan ? formatMoney(detailContract.loan) : '0 VNĐ'}
                                             </div>
-                                            <div>
-                                                <p className="flcenter">{detailContract.userName}</p>
-                                            </div>
+                                            <p className="flend">{detailContract.userName}</p>
                                         </div>
                                     </div>
                                 </Grid>
@@ -212,21 +213,22 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                                             <p>Hình thức lãi:</p>
                                             <p>Kỳ lãi:</p>
                                             <p>Lãi mặc định:</p>
+                                            <p>Lãi đề xuất:</p>
                                             <p>Số tiền lãi dự kiến :</p>
                                             <p>Kho: </p>
-                                            <p>Xác nhận kho: </p>
                                         </div>
                                         <div className="user__info-input">
                                             <p>{detailContract.packageName}</p>
                                             <p>{detailContract.paymentPeriod}</p>
-                                            <p>{detailContract.packageInterest}</p>
+                                            <p>{detailContract.packageInterest}%</p>
+                                            <p>{detailContract.interestRecommend}%</p>
                                             <p>
                                                 {detailContract.totalProfit
                                                     ? formatMoney(detailContract.totalProfit)
                                                     : '0 VNĐ'}
                                             </p>
                                             <select value={warehouse} onChange={updateWarehouse}>
-                                                {warehouses.map((item, index) => {
+                                                {availableWarehouses.map((item, index) => {
                                                     return (
                                                         <option key={index} value={item.warehouseId}>
                                                             {item.warehouseName}
@@ -234,16 +236,6 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                                                     );
                                                 })}
                                             </select>
-                                            <p className="flcenter">
-                                                <Button
-                                                    size="small"
-                                                    color="success"
-                                                    variant="outlined"
-                                                    onClick={saveContract}
-                                                >
-                                                    Lưu
-                                                </Button>
-                                            </p>
                                         </div>
                                     </div>
                                 </Grid>
@@ -269,20 +261,20 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                                             <div className="user__info-label">
                                                 {attributes
                                                     ? attributes.map((item, index) => {
-                                                          return (
-                                                              <p key={index}>
-                                                                  {item.description}
-                                                                  {':'}
-                                                              </p>
-                                                          );
-                                                      })
+                                                        return (
+                                                            <p key={index}>
+                                                                {item.description}
+                                                                {':'}
+                                                            </p>
+                                                        );
+                                                    })
                                                     : ''}
                                             </div>
                                             <div className="user__info-input">
                                                 {attributes
                                                     ? attributeInfo.map((item, index) => {
-                                                          return <p>{item}</p>;
-                                                      })
+                                                        return <p>{item}</p>;
+                                                    })
                                                     : ''}
                                             </div>
                                         </div>

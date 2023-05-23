@@ -167,7 +167,7 @@
 
 .flend {
     display: flex;
-    align-items: center;
+    align-items: end;
 }
 
 .input__img {
@@ -290,7 +290,7 @@
 }
 
 .w30>.line__height {
-    line-height: 3.8;
+    line-height: 3.5;
 }
 
 .btn__group.btn__group-liquidation {

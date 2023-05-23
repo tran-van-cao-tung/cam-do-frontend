@@ -1,16 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import ReplyIcon from '@mui/icons-material/Reply';
 import './editemployee.css';
-import PasswordInput from '../PasswordInput';
 import * as Yup from 'yup';
 import API from '../../../API';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import Swal from 'sweetalert2';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import { Button } from '@mui/material';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
@@ -21,10 +14,6 @@ const validationSchema = Yup.object().shape({
     fullName: Yup.string()
         .required('Tên nhân viên không được để trống')
         .max(100, 'Tên nhân viên không được vượt quá 100 ký tự'),
-    userName: Yup.string().required('Tài khoản không được để trống').max(30, 'Tài khoản không được vượt quá 30 ký tự'),
-    password: Yup.string()
-        .required('Mật khẩu không được để trống')
-        .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{10,}$/, 'Mật khẩu cần ít nhất 10 ký tự, bao gồm chữ và số'),
     address: Yup.string().max(200, 'Địa chỉ không được vượt quá 200 ký tự'),
     phone: Yup.string().matches(/^\+?\d{10,12}$/, 'Nhập đúng định dạng số điện thoại, 10 số'),
     email: Yup.string()
@@ -34,7 +23,6 @@ const validationSchema = Yup.object().shape({
 
 function EditEmployee() {
     const history = useNavigate();
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [employee, setEmployee] = useState({
         fullName: '',
         branchId: null,
@@ -49,9 +37,7 @@ function EditEmployee() {
         const userId = id.id;
         const data = {
             userId: userId,
-            roleId: 1,
             branchId: employee.branchId,
-            userName: employee.userName,
             email: employee.email,
             fullName: employee.fullName,
             address: employee.address,

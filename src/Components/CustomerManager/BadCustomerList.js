@@ -109,7 +109,7 @@ function ListCustomer({ numPage }) {
             nameHeader: 'Chức năng',
             dataRow: (element) => {
                 return (
-                    <Link to={`/customer-manager/updateinfo/`}>
+                    <Link to={`/customer-manager/updateinfo/${element.customerId}`}>
                         <img src={edit} alt="Edit" onClick={setccnd(element.cccd)} />
                     </Link>
                 );

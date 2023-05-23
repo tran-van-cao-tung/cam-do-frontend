@@ -140,7 +140,7 @@ const SideBar = ({ open }) => {
         if (lowercaseText(authState?.user?.userName) === 'admin') {
             return true;
         }
-        const permission = permissions.find((item) => item.perId === id);
+        const permission = permissions.find((item) => item.permissionId === id);
         return permission?.status === true;
     };
 

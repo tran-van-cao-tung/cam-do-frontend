@@ -49,6 +49,7 @@ const Liquidation = ({ showContractId }) => {
     const [contractDetail, setContractDetail] = useState([]);
     const [liquidMoney, setLiquidMoney] = useState(0);
     const [liquidInfo, setLiquidInfo] = useState([]);
+    const [linkImg, setLinkImg] = useState('');
     useEffect(() => {
         callAPI({
             method: 'get',
@@ -66,10 +67,12 @@ const Liquidation = ({ showContractId }) => {
                 url: `/liquidation/detail/` + showContractId,
             }).then((res) => {
                 setLiquidInfo(res.data);
-                console.log(res.data);
+                setLinkImg(res.data.description);
             }); 
+        } else{
+            setLinkImg('');
         }
-    })
+    }, [contractDetail])
     const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
@@ -82,7 +85,6 @@ const Liquidation = ({ showContractId }) => {
             },
         },
     };
-    const [linkImg, setLinkImg] = useState();
     const handleImg = (img) => {
         setLinkImg(img);
     };
@@ -93,10 +95,6 @@ const Liquidation = ({ showContractId }) => {
 
     const handleLiquid = () => {
         if (linkImg) {
-            console.log(showContractId);
-            console.log(userInfo.userId);
-            console.log(liquidMoney);
-            console.log(linkImg);
             callAPI({
                 method: 'post',
                 url: `/liquidation/save/${showContractId}/${userInfo.userId}
@@ -135,7 +133,7 @@ const Liquidation = ({ showContractId }) => {
                             <p>{liquidInfo.typeOfProduct}</p>
                             <p>{liquidInfo.assetName}</p>
                             <div className="box__input">
-                                <p>{liquidInfo.liquidationMoney}</p>
+                                <p>{formatMoney(liquidInfo.liquidationMoney)}</p>
                             </div>
                             <p className="line__height">{formatDate(liquidInfo.liquidationDate)}</p>
                         </div>

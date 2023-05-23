@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Unlogin.scss';
 import { Link } from 'react-router-dom';
 import callAPI from '../../API';
+import { toast } from 'react-toastify';
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -13,6 +14,7 @@ function ForgotPassword() {
             url: `user/recoveryPassword/` + email,
         }).then((res) => {
             console.log(`user/recoveryPassword/` + email);
+            toast.success('Sửa password thành công!');
         });
     };
     return (
