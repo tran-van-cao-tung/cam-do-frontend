@@ -1,6 +1,20 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
-import { Box, FormControl, FormControlLabel, Grid, Pagination, Radio, RadioGroup, Stack } from '@mui/material';
+import {
+    Box,
+    FormControl,
+    FormControlLabel,
+    Grid,
+    InputAdornment,
+    InputLabel,
+    MenuItem,
+    Pagination,
+    Radio,
+    RadioGroup,
+    Select,
+    Stack,
+    TextField,
+} from '@mui/material';
 
 import edit from './../../../asset/img/edit.png';
 import './employee.css';
@@ -14,6 +28,7 @@ import CustomizedTables from '../../../helpers/CustomizeTable';
 import { formatDate } from '../../../helpers/dateTimeUtils';
 import PageHeader from '../../../helpers/PageHeader';
 import CustomizeButton from '../../../helpers/CustomizeButton';
+import { Search } from '@mui/icons-material';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -131,61 +146,62 @@ function ListEmployees() {
     const handleNavigate = () => {
         navigate('/addemployee');
     };
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
     return (
         <>
             <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <PageHeader title="Danh sách nhân viên" />
-                </Grid>
-                <Grid item xs={12}>
-                    <CustomizeButton title="Thêm mới" handleClick={handleNavigate} />
-                </Grid>
-
-                <Grid item xs={12}>
-                    <div className="statusStore">
-                        <span>Tình Trạng</span>
-                        {/* From status  */}
-                        <span className="fromstatusStore">
-                            <FormControl className="formIteam">
-                                <RadioGroup
-                                    className="radioItem"
-                                    aria-label="filter"
-                                    name="filter"
-                                    value={statusFilter}
-                                    onChange={(event) => setStatusFilter(event.target.value)}
-                                >
-                                    <FormControlLabel
-                                        value="all"
-                                        control={<Radio />}
-                                        label="Tất cả"
-                                        className="radio-all"
-                                    />
-                                    <FormControlLabel
-                                        value="active"
-                                        control={<Radio />}
-                                        label="Đang hoạt động"
-                                        className="radio-active"
-                                    />
-                                    <FormControlLabel
-                                        value="stop"
-                                        control={<Radio />}
-                                        label="Đã tạm dừng"
-                                        className="radio-stop"
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                        </span>
-                        {/* Search */}
-                        <div className="searchinput">
-                            {/* <input type="text" class="searchTerm" placeholder="Tìm kiếm..."></input> */}
-                            <input
-                                type="text"
-                                placeholder="Tìm kiếm cửa hàng..."
+                <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
+                    <PageHeader title="Danh Sách Nhân Viên" />
+                    <Grid display="flex" justifyContent="flex-end" alignItems="center">
+                        <Grid item>
+                            <TextField
+                                id="input-with-icon-adornment"
+                                label="Tìm kiếm cửa hàng..."
+                                type="search"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Search />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                size="small"
                             />
-                        </div>
-                    </div>
+                        </Grid>
+                        <Grid margin="0 10px" item>
+                            <FormControl sx={{ width: 200 }}>
+                                <InputLabel id="demo-controlled-open-select-label">Tình Trạng</InputLabel>
+                                <Select
+                                    labelId="demo-controlled-open-select-label"
+                                    id="demo-controlled-open-select"
+                                    open={open}
+                                    onClose={handleClose}
+                                    onOpen={handleOpen}
+                                    value={statusFilter}
+                                    label="Tình Trạng"
+                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                    size="small"
+                                >
+                                    <MenuItem value={-1}>Tất Cả</MenuItem>
+                                    <MenuItem value={1}>Đang Hoạt Động</MenuItem>
+                                    <MenuItem value={2}>Đã Tạm Dừng</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item>
+                            <CustomizeButton title="Thêm mới" handleClick={handleNavigate} />
+                        </Grid>
+                    </Grid>
                 </Grid>
                 {/* ================================ */}
                 {/* =            Table Show        = */}

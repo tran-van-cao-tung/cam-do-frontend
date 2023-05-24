@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
 
-import { styled } from '@mui/material/styles';
 import './UpdateInfor.css';
-import Paper from '@mui/material/Paper';
 
-import saveBtn from '../../../asset/img/save1.png';
-import returnBtn from '../../../asset/img/returnBTN.png';
-import { Link } from 'react-router-dom';
 import { Uploader } from 'uploader';
-import { UploadButton, UploadDropzone } from 'react-uploader';
+import { UploadDropzone } from 'react-uploader';
 import API from '../../../API';
-import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
-import { Button } from '@mui/material';
-import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
-import PageHeader from '../../../helpers/PageHeader';
 
-const AddNewCustomer = () => {
+import { Button, Grid, TextField } from '@mui/material';
+
+import { Save } from '@mui/icons-material';
+import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
+
+const AddNewCustomer = ({ setShowAddCustomer, showAddCustomer }) => {
     const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
@@ -85,94 +81,127 @@ const AddNewCustomer = () => {
         setAddress(e.target.value);
     };
 
-    return (
-        <div className="headerCustomer">
-            <PageHeader title="Thêm Mới Khách Hàng" />
+    const renderContent = () => (
+        <Grid container spacing={3}>
+            <Grid item xs={6}>
+                <Grid item xs={12}>
+                    <TextField
+                        value={name}
+                        onChange={(e) => handleName(e)}
+                        id="standard-basic"
+                        label={
+                            <p>
+                                Tên khách hàng <span style={{ color: 'red' }}>*</span>:
+                            </p>
+                        }
+                        fullWidth
+                        variant="standard"
+                    />
+                </Grid>
 
-            <div>
-                <div className="parperCustomer">
-                    <div className="infoCustomer">
-                        <form>
-                            <div className="userInfo">
-                                <div className="userInfoLabel">
-                                    <p>
-                                        Tên khách hàng <span class="starRed">*</span>:
-                                    </p>
-                                    <p>
-                                        Số CMND/Hộ chiếu:<span class="starRed">*</span>:
-                                    </p>
-                                    <p>
-                                        Số điện thoại <span class="starRed">*</span>:
-                                    </p>
-                                    <p>
-                                        Địa chỉ <span class="starRed">*</span>:
-                                    </p>
-                                    <p>
-                                        CMND/CCCD <span class="starRed">*</span>:
-                                    </p>
-                                </div>
-                                <div className="userInfoInput">
-                                    <input
-                                        type="text"
-                                        placeholder="Nhập tên khách hàng..."
-                                        value={name}
-                                        onChange={(e) => handleName(e)}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Nhập CMND/Hộ chiếu..."
-                                        value={cccd}
-                                        onChange={(e) => setCccd(e.target.value)}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Nhập số điện thoại..."
-                                        onChange={handlePhone}
-                                        value={phone}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Nhập địa chỉ..."
-                                        onChange={handleAddress}
-                                        value={address}
-                                    />
-                                    <div className="chungtu">
-                                        <UploadButton
-                                            uploader={uploader}
-                                            options={{ multi: true }}
-                                            onComplete={(files) =>
-                                                uploadFrontImg(files.map((x) => x.fileUrl).join('\n'))
-                                            }
-                                        >
-                                            {({ onClick }) => <button onClick={onClick}>Upload Mặt Trước...</button>}
-                                        </UploadButton>
-                                        <UploadButton
-                                            uploader={uploader}
-                                            options={{ multi: true }}
-                                            onComplete={(files) =>
-                                                uploadBackImg(files.map((x) => x.fileUrl).join('\n'))
-                                            }
-                                        >
-                                            {({ onClick }) => <button onClick={onClick}>Upload Mặt Sau...</button>}
-                                        </UploadButton>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <div className="comfirmBtn">
-                            <Button onClick={onAddNewCustomer}>
-                                <BtnSave />
-                            </Button>
-                            <Link to="/customer-manager">
-                                <Button>
-                                    <BtnCloseAnimation />
-                                </Button>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <Grid item xs={12} marginTop="5px">
+                    <TextField
+                        value={cccd}
+                        onChange={(e) => setCccd(e.target.value)}
+                        id="standard-basic"
+                        label={
+                            <p>
+                                Số CMND/Hộ chiếu:<span style={{ color: 'red' }}>*</span>:
+                            </p>
+                        }
+                        fullWidth
+                        variant="standard"
+                    />
+                </Grid>
+            </Grid>
+            <Grid item xs={6}>
+                <Grid item xs={12}>
+                    <TextField
+                        onChange={handlePhone}
+                        value={phone}
+                        id="standard-basic"
+                        label={
+                            <p>
+                                Số điện thoại <span style={{ color: 'red' }}>*</span>:
+                            </p>
+                        }
+                        fullWidth
+                        variant="standard"
+                    />
+                </Grid>
+
+                <Grid item xs={12} marginTop="5px">
+                    <TextField
+                        onChange={handleAddress}
+                        value={address}
+                        id="standard-basic"
+                        label={
+                            <p>
+                                Địa chỉ <span style={{ color: 'red' }}>*</span>:
+                            </p>
+                        }
+                        fullWidth
+                        variant="standard"
+                    />
+                </Grid>
+            </Grid>
+            <Grid item xs={12} marginTop="5px">
+                CMND/CCCD <span style={{ color: 'red' }}>*</span>:
+            </Grid>
+            <Grid item xs={12} display="flex" justifyContent="space-between">
+                <Grid item>
+                    <p style={{ textAlign: 'center', fontWeight: 700 }}>Mặt Trước</p>
+
+                    <UploadDropzone
+                        uploader={uploader}
+                        options={uploaderOptions}
+                        onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
+                        onComplete={(files) => uploadFrontImg(files.map((x) => x.fileUrl).join('\n'))}
+                        width="600px"
+                        height="300px"
+                    />
+                </Grid>
+                <Grid item>
+                    <p style={{ textAlign: 'center', fontWeight: 700 }}>Mặt Sau</p>
+
+                    <UploadDropzone
+                        uploader={uploader}
+                        options={uploaderOptions}
+                        onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
+                        onComplete={(files) => uploadBackImg(files.map((x) => x.fileUrl).join('\n'))}
+                        width="600px"
+                        height="300px"
+                    />
+                </Grid>
+            </Grid>
+        </Grid>
+    );
+    const handleCloseDialog = () => {
+        setShowAddCustomer(false);
+    };
+
+    return (
+        <CustomizeDiaglog
+            open={showAddCustomer}
+            onClose={handleCloseDialog}
+            title="Thêm Mới Khách Hàng"
+            content={renderContent()}
+            action={
+                <Button
+                    onClick={(e) => onAddNewCustomer(e)}
+                    variant="contained"
+                    color="success"
+                    sx={{
+                        fontSize: '16px',
+                        padding: '15px 30px',
+                    }}
+                    startIcon={<Save />}
+                >
+                    Lưu Lại
+                </Button>
+            }
+            maxWidth={DIALOG_SIZE.sm}
+        />
     );
 };
 

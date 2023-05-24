@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import cash from '../../asset/img/cash.png';
 import wallet from '../../asset/img/wallet.png';
-import API from '../../API.js';
-import subwallet from '../../asset/img/subwallet.png';
-import thanhly from '../../asset/img/thanhly.png';
 
-import { AuthContext } from '../../helpers/AuthContext';
+import subwallet from '../../asset/img/subwallet.png';
 
 import { formatDate, formatMoney } from '../../helpers/dateTimeUtils';
 import Tooltip from '@mui/material/Tooltip';
 import CustomizedTables from '../../helpers/CustomizeTable';
 import { isAvailableArray } from '../../helpers/utils';
 import { Grid, Box, Stack, Pagination } from '@mui/material';
+import BtnDetails from './BtnDetails';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -26,6 +24,10 @@ const TablePawn = ({
     setShowContractId,
     setShowExpiration,
     filteredContracts,
+    contracts,
+    filters,
+    setFilters,
+    setShowAddContract,
 }) => {
     const handleShow = (id) => {
         setShowUpdateContract(true);
@@ -51,8 +53,6 @@ const TablePawn = ({
         setShowContractId(id);
     };
 
-    
-
     /////////////////////////////////////////////////
     const [page, setPage] = useState(DEFAULT.pageNumber);
     const [pageSize] = useState(DEFAULT.pageSize);
@@ -60,9 +60,9 @@ const TablePawn = ({
         setPage(value);
     };
 
-    useEffect(() =>{
+    useEffect(() => {
         setPage(DEFAULT.pageNumber);
-    }, [filteredContracts])
+    }, [filteredContracts]);
 
     // Memorize
     const totalPage = useMemo(() => {
@@ -94,7 +94,7 @@ const TablePawn = ({
         {
             nameHeader: 'CCCD',
             dataRow: (element) => {
-                return element.cccd;
+                return element.cccd + ' ';
             },
         },
         {
@@ -148,6 +148,17 @@ const TablePawn = ({
                     ''
                 );
             },
+            dataRowExport: (element) => {
+                return element.status === 1
+                    ? 'Đang Cầm'
+                    : element.status === 2
+                    ? 'Trễ Hẹn'
+                    : element.status === 3
+                    ? 'Thanh Lý'
+                    : element.status === 4
+                    ? 'Đã Đóng'
+                    : '';
+            },
         },
         {
             nameHeader: 'Chức năng',
@@ -182,24 +193,54 @@ const TablePawn = ({
                                 />
                             </Tooltip>
                         )}
-
-                            {/* <Tooltip title="Thanh lý">
-                                <img
-                                    onClick={(e) => {
-                                        handleShowLiquidation(i.contractId);
-                                    }}
-                                    src={thanhly}
-                                    alt="TL"
-                                />
-                            </Tooltip> */}
                     </Box>
                 );
             },
+            dataUnExport: true,
         },
     ];
 
+    const prepareExportData = (list, config) => {
+        return list.map((item) => {
+            const resultItem = {};
+            config.forEach((col) => {
+                if (col.dataUnExport) {
+                    return;
+                }
+                const colName = col.nameHeader;
+                resultItem[colName] = (() => {
+                    if (col.dataRowExport) {
+                        return col.dataRowExport(item);
+                    }
+                    if (col.dataRow) {
+                        return col.dataRow(item);
+                    }
+                    return '';
+                })();
+            });
+            return resultItem;
+        });
+    };
+
+    const exportDataTable = () => {
+        const list = [...filteredContracts]; //coppy mảng
+        const config = dataTable;
+        const data = prepareExportData(list, config);
+        return data;
+    };
+
     return (
         <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <BtnDetails
+                    prepareExportData={prepareExportData}
+                    exportDataTable={exportDataTable}
+                    filters={filters}
+                    setFilters={setFilters}
+                    setShowAddContract={setShowAddContract}
+                    contracts={contracts}
+                />
+            </Grid>
             <Grid item xs={12}>
                 <Box
                     padding="20px"

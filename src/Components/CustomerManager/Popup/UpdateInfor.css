@@ -3,6 +3,11 @@ html {
     box-sizing: border-box;
 }
 
+.inputCustomer {
+    width: 80%;
+    padding: 10px;
+}
+
 .infoCustomer {
     position: relative;
     margin-top: 20px;

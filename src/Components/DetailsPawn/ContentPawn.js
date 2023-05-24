@@ -3,14 +3,13 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import API from '../../API.js';
 
 import callAPI from '../../API.js';
 import { AuthContext } from '../../helpers/AuthContext.js';
 
 const ContentPawn = () => {
     const [data, setData] = useState(null);
-    const {authState, currentBranchId} = useContext(AuthContext);
+    const { authState, currentBranchId } = useContext(AuthContext);
 
     //Lấy username của loginUser dựa vào localStorage
     /* const [branchId, setBranchId] = useState('')
@@ -29,7 +28,7 @@ const ContentPawn = () => {
 
     const [homePage, setHomePage] = useState();
     useEffect(() => {
-        if(currentBranchId){
+        if (currentBranchId) {
             callAPI({
                 method: 'get',
                 url: `contract/homepage/` + currentBranchId,

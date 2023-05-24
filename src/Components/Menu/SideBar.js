@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import pawns from '../../asset/img/pawns.png';
 import { AuthContext } from '../../helpers/AuthContext';
 import { isArray, isAvailableArray, lowercaseText } from '../../helpers/utils';
 import { PERMISSIONS } from '../../setting/permission';
@@ -186,20 +186,14 @@ const SideBar = ({ open }) => {
             }}
         >
             <DrawerHeader>
-                <Box
-                    component="div"
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    width="100%"
-                    padding="1rem 0"
-                >
-                    <Box className="logos" margin="0">
-                        <p className="logo">
-                            P<span style={{ color: 'orange' }}>awnS</span>
-                        </p>
-                    </Box>
+                <Box component="div" display="flex" justifyContent="center" alignItems="center" width="100%">
+                    {/* <Box className="logos" margin="0 auto"> */}
+                    <img src={pawns} alt="logo" width="50%" />
+                    {/* <p className="logo">
+                        P<span style={{ color: 'orange' }}>awnS</span>
+                    </p> */}
                 </Box>
+                {/* </Box> */}
             </DrawerHeader>
             <Divider />
             <List>

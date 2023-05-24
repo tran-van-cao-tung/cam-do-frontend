@@ -6,10 +6,12 @@ import edit from './../../asset/img/edit.png';
 import './CustomerManager.css';
 import { isAvailableArray } from '../../helpers/utils.js';
 import CustomizedTables from '../../helpers/CustomizeTable.jsx';
-import { Box, Grid, Pagination, Stack } from '@mui/material';
+import { Box, Grid, InputAdornment, Pagination, Stack, TextField } from '@mui/material';
 import { formatDate } from '../../helpers/dateTimeUtils';
 import CustomizeButton from '../../helpers/CustomizeButton.jsx';
 import PageHeader from '../../helpers/PageHeader.jsx';
+import AddNewCustomer from './Popup/AddNewCustomer.js';
+import { Search } from '@mui/icons-material';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -116,62 +118,70 @@ function ListCustomer({ numPage }) {
         },
     ];
 
+    const [showAddCustomer, setShowAddCustomer] = useState(false);
+
+    const handleShowAddCustomer = () => {
+        setShowAddCustomer(true);
+    };
     return (
-        <>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <PageHeader title="Quản Lý Khách Hàng" />
-                </Grid>
+        <Grid container spacing={2}>
+            <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
+                <PageHeader title="Quản Lý Khách Hàng" />
 
-                {/* ===================================== */}
-                {/* |             Add and Search        | */}
-                {/* ===================================== */}
-                <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
-                    <Link to="/customer-manager/add-new-customer">
-                        <CustomizeButton title="Thêm mới" />
-                    </Link>
-
-                    {/* Status */}
-                    <div className="statusCustomer">
-                        {/* Search */}
-                        <div className="searchinput">
-                            <input
-                                type="text"
-                                class="searchTerm"
-                                placeholder="Tìm kiếm..."
-                                value={onFilter}
-                                onChange={(e) => onFilterChange(e)}
-                            ></input>
-                        </div>
-                    </div>
-                </Grid>
-                {/* ================================ */}
-                {/* =            Table Show        = */}
-                {/* ================================ */}
-
-                <Grid item xs={12}>
-                    <Box
-                        padding="20px"
-                        boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
-                        borderRadius="8px"
-                        bgcolor="#fff"
-                    >
-                        <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
-                        <Box marginTop="14px">
-                            <Stack spacing={2}>
-                                <Pagination
-                                    style={{ margin: '0 auto' }}
-                                    count={totalPage}
-                                    page={page}
-                                    onChange={handlePagination}
-                                    color="primary"
-                                />
-                            </Stack>
-                        </Box>
-                    </Box>
+                <Grid item display="flex" justifyContent="flex-end" alignItems="center">
+                    {/* Search */}
+                    <Grid item marginRight="5px">
+                        <TextField
+                            id="input-with-icon-adornment"
+                            label="Tìm kiếm..."
+                            type="search"
+                            value={onFilter}
+                            onChange={(e) => onFilterChange(e)}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Search />
+                                    </InputAdornment>
+                                ),
+                            }}
+                            size="small"
+                        />
+                    </Grid>
+                    <Grid item>
+                        {' '}
+                        <CustomizeButton title="Thêm mới" handleClick={handleShowAddCustomer} />
+                    </Grid>
+                    {showAddCustomer && (
+                        <AddNewCustomer showAddCustomer={showAddCustomer} setShowAddCustomer={setShowAddCustomer} />
+                    )}
                 </Grid>
             </Grid>
-        </>
+            {/* ================================ */}
+            {/* =            Table Show        = */}
+            {/* ================================ */}
+
+            <Grid item xs={12}>
+                <Box
+                    padding="20px"
+                    boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
+                    borderRadius="8px"
+                    bgcolor="#fff"
+                >
+                    <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                    <Box marginTop="14px">
+                        <Stack spacing={2}>
+                            <Pagination
+                                style={{ margin: '0 auto' }}
+                                count={totalPage}
+                                page={page}
+                                onChange={handlePagination}
+                                color="primary"
+                            />
+                        </Stack>
+                    </Box>
+                </Box>
+            </Grid>
+        </Grid>
     );
 }
 

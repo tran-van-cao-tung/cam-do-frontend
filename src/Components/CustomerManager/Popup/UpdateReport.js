@@ -32,23 +32,23 @@ const UpdateReport = () => {
                         <div className="userInfo">
                             <div className="userInfoLabel">
                                 <p>
-                                    Tên khách hàng <span class="starRed">*</span>:
+                                    Tên khách hàng <span style={{ color: 'red' }}>*</span>:
                                 </p>
                                 <p>
-                                    Số CMND/Hộ chiếu:<span class="starRed">*</span>:
+                                    Số CMND/Hộ chiếu:<span style={{ color: 'red' }}>*</span>:
                                 </p>
                                 <p>
-                                    Số điện thoại <span class="starRed">*</span>:
+                                    Số điện thoại <span style={{ color: 'red' }}>*</span>:
                                 </p>
                                 <p>
-                                    Địa chỉ <span class="starRed">*</span>:
+                                    Địa chỉ <span style={{ color: 'red' }}>*</span>:
                                 </p>
                                 <p>
-                                    Chứng từ <span class="starRed">*</span>:
+                                    Chứng từ <span style={{ color: 'red' }}>*</span>:
                                 </p>
                                 <p>Điểm tín dụng:</p>
                                 <p>
-                                    Tình trạng <span class="starRed">*</span>:
+                                    Tình trạng <span style={{ color: 'red' }}>*</span>:
                                 </p>
                             </div>
                             <div className="userInfoInput">

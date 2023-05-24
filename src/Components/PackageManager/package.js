@@ -151,11 +151,8 @@ const Package = () => {
     };
     return (
         <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
                 <PageHeader title="Điều chỉnh gói vay" />
-            </Grid>
-
-            <Grid item xs={12}>
                 <CustomizeButton title="Thêm mới" handleClick={handleNavigate} />
             </Grid>
 

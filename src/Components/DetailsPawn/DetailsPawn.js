@@ -27,6 +27,7 @@ const DetailsPawn = () => {
         searchText: '',
         status: -1,
     });
+
     const navigate = useNavigate();
     useEffect(() => {
         if (currentBranchId) {
@@ -76,13 +77,6 @@ const DetailsPawn = () => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <HeaderPawn />
-            </Grid>
-            <Grid item xs={12}>
-                <BtnDetails filters={filters} setFilters={setFilters} setShowAddContract={setShowAddContract} />
-            </Grid>
-
-            <Grid item xs={12}>
                 <TablePawn
                     className="tableComponent"
                     setShowUpdateContract={setShowUpdateContract}
@@ -91,6 +85,10 @@ const DetailsPawn = () => {
                     setShowContractId={setShowContractId}
                     setShowExpiration={setShowExpiration}
                     filteredContracts={filteredContracts}
+                    contracts={contracts}
+                    filters={filters}
+                    setFilters={setFilters}
+                    setShowAddContract={setShowAddContract}
                 />
             </Grid>
             {showAddContract && (

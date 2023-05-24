@@ -98,10 +98,8 @@ const WareHouse = () => {
     return (
         <>
             <Grid container spacing={2} xs={12}>
-                <Grid item xs={12}>
+                <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
                     <PageHeader title="Danh sách kho" />
-                </Grid>
-                <Grid item xs={12}>
                     <CustomizeButton title="Thêm mới" handleClick={hanldeAddWareHouse} />
                 </Grid>
                 <Grid item xs={12}>

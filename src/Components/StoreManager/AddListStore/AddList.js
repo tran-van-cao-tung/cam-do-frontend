@@ -8,14 +8,16 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import InputBase from '@mui/material/InputBase';
 import API from '../../../API';
-import { Divider } from '@mui/material';
+import { Divider, Grid, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import { toast } from 'react-toastify';
 import PageHeader from '../../../helpers/PageHeader';
+import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
+import { Save } from '@mui/icons-material';
 
-const AddList = () => {
+const AddList = ({ showAddStore, setShowAddStore }) => {
     // const [id, setId] = useState();
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -78,8 +80,8 @@ const AddList = () => {
         setName(e.target.value);
         // console.log(name);
     };
-    const handleOnChangePhone = (event) => {
-        const inputPhone = event.target.value;
+    const handleOnChangePhone = (e) => {
+        const inputPhone = e.target.value;
         const formattedPhone = inputPhone
             .replace(/\D/g, '') // loại bỏ các ký tự không phải số
             .replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3'); // chèn dấu cách vào giữa các số
@@ -100,136 +102,111 @@ const AddList = () => {
         setStatus(e.target.value);
         // console.log(status);
     };
+    const renderContent = () => (
+        <Grid container spacing={3}>
+            <Grid item xs={6}>
+                <Grid item xs={12}>
+                    <TextField
+                        value={name}
+                        onChange={handleOnChangeName}
+                        id="standard-basic"
+                        label={
+                            <p>
+                                Tên cửa hàng <span style={{ color: 'red' }}>*</span>:
+                            </p>
+                        }
+                        fullWidth
+                        variant="standard"
+                    />
+                    {name.length > 100 && (
+                        <div style={{ color: 'red' }}> Tên cửa hàng không được vượt quá 100 kí tự </div>
+                    )}
+                </Grid>
 
+                <Grid item xs={12} marginTop="5px">
+                    <TextField
+                        value={phone}
+                        id="standard-basic"
+                        label={
+                            <p>
+                                Số điện thoại<span style={{ color: 'red' }}>*</span>:
+                            </p>
+                        }
+                        fullWidth
+                        type="text"
+                        variant="standard"
+                        onChange={handleOnChangePhone}
+                    />
+                    {phone.length < 11 ||
+                        (phone.length > 12 && (
+                            <div style={{ color: 'red' }}> Nhập đúng định dạng số điện thoại, 10 hoặc 11 số</div>
+                        ))}
+                </Grid>
+            </Grid>
+            <Grid item xs={6}>
+                <Grid item xs={12}>
+                    <TextField
+                        value={address}
+                        id="standard-basic"
+                        label={
+                            <p>
+                                Địa chỉ <span style={{ color: 'red' }}>*</span>:
+                            </p>
+                        }
+                        fullWidth
+                        variant="standard"
+                        onChange={handleOnChangeAddress}
+                    />
+                    {address.length > 200 && (
+                        <div style={{ color: 'red' }}> Tên cửa hàng không được vượt quá 200 kí tự </div>
+                    )}
+                </Grid>
+
+                <Grid item xs={12} marginTop="5px">
+                    <TextField
+                        value={fund}
+                        id="standard-basic"
+                        label={
+                            <p>
+                                Số vốn đầu tư<span style={{ color: 'red' }}>*</span>:
+                            </p>
+                        }
+                        fullWidth
+                        type="number"
+                        variant="standard"
+                        onChange={handleOnChangeFund}
+                    />
+                    {fundError && <div style={{ color: 'red' }}>{fundError}</div>}
+                </Grid>
+            </Grid>
+        </Grid>
+    );
+
+    const handleCloseDialog = () => {
+        setShowAddStore(false);
+    };
     return (
-        <>
-            <div className="Addliststore">
-                <PageHeader title="Thêm mới cửa hàng" />
-
-                <div className="wareh-content">
-                    {/* Add a erro message */}
-
-                    <div className="add-section">
-                        <FormControl className="add-input-group">
-                            <FormLabel className="label">
-                                Tên cửa hàng&nbsp;<label style={{ color: 'red' }}>*</label>:
-                            </FormLabel>
-                            <InputBase
-                                placeholder="Nhập tên cửa hàng"
-                                inputProps={{ 'aria-label': 'search', maxLength: 101 }}
-                                className="add-input"
-                                // value={name}
-                                onChange={handleOnChangeName}
-                            />
-                            {name.length > 100 && (
-                                <div style={{ color: 'red' }}> Tên cửa hàng không được vượt quá 100 kí tự </div>
-                            )}
-                        </FormControl>
-
-                        <FormControl className="add-input-group">
-                            <FormLabel className="label">
-                                Số điện thoại&nbsp;<label style={{ color: 'red' }}>*</label>:
-                            </FormLabel>
-                            <InputBase
-                                placeholder="Nhập số điện thoại …"
-                                // inputProps={{ 'aria-label': 'search', maxLength: 12 }}
-                                className="add-input"
-                                type="text"
-                                value={phone}
-                                onChange={handleOnChangePhone}
-                            />
-                            {phone.length < 11 ||
-                                (phone.length > 12 && (
-                                    <div style={{ color: 'red' }}>
-                                        {' '}
-                                        Nhập đúng định dạng số điện thoại, 10 hoặc 11 số
-                                    </div>
-                                ))}
-                        </FormControl>
-
-                        <FormControl className="add-input-group">
-                            <FormLabel className="label">
-                                Địa chỉ&nbsp;<label style={{ color: 'red' }}>*</label>:
-                            </FormLabel>
-                            <InputBase
-                                placeholder="Nhập địa chỉ"
-                                inputProps={{ 'aria-label': 'search', maxLength: 201 }}
-                                className="add-input"
-                                // value={address}
-                                onChange={handleOnChangeAddress}
-                            />
-                            {address.length > 200 && (
-                                <div style={{ color: 'red' }}> Tên cửa hàng không được vượt quá 200 kí tự </div>
-                            )}
-                        </FormControl>
-
-                        <FormControl className="add-input-group">
-                            <FormLabel className="label">
-                                Số vốn đầu tư&nbsp;<label style={{ color: 'red' }}>*</label>:
-                            </FormLabel>
-                            {/* <input
-                                placeholder="Nhập số vốn đầu tư"
-                                className="add-input"
-                                type="number"
-                                value={fund}
-                                onChange={handleOnChangeFund}
-                                // pattern="/^-?\d+\.?\d*$/"
-                                // onKeyPress={ target.value.length==4 ?  false : true }
-                                // if(this.value.length==4) return false;
-                            /> */}
-                            <InputBase
-                                placeholder="Nhập số vốn đầu tư"
-                                inputProps={{ 'aria-label': 'search', max: 10000000000, maxLength: 12 }}
-                                className="add-input"
-                                type="number"
-                                onKeyPress="if(this.value.length==12) return false;"
-                                // value={fund}
-                                onChange={handleOnChangeFund}
-                            />
-                            {fundError && <div style={{ color: 'red' }}>{fundError}</div>}
-                        </FormControl>
-
-                        {/* <FormControl className="add-status-group">
-                            <FormLabel className="label">
-                                Tình trạng&nbsp;<label style={{ color: 'red' }}>*</label>:
-                            </FormLabel>
-                            <RadioGroup row name="status" defaultValue={0}>
-                                <FormControlLabel
-                                    value="0"
-                                    control={<Radio />}
-                                    label="Đang hoạt động"
-                                    className="radio-available"
-                                    onChange={handleOnChangeStatus}
-                                />
-
-                                <FormControlLabel
-                                    value="1"
-                                    control={<Radio />}
-                                    label="Đã tạm dừng"
-                                    className="radio-closed"
-                                    onChange={handleOnChangeStatus}
-                                />
-                            </RadioGroup>
-                        </FormControl> */}
-                    </div>
-
-                    <Divider />
-
-                    <div className="add-actions">
-                        <Button onClick={handleSubmit}>
-                            <BtnSave />
-                        </Button>
-
-                        <Link to="/liststore">
-                            <Button>
-                                <BtnCloseAnimation />
-                            </Button>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </>
+        <CustomizeDiaglog
+            open={showAddStore}
+            onClose={handleCloseDialog}
+            title="Thêm Mới Cửa Hàng"
+            content={renderContent()}
+            action={
+                <Button
+                    onClick={(e) => handleSubmit(e)}
+                    variant="contained"
+                    color="success"
+                    sx={{
+                        fontSize: '16px',
+                        padding: '15px 30px',
+                    }}
+                    startIcon={<Save />}
+                >
+                    Lưu Lại
+                </Button>
+            }
+            maxWidth={DIALOG_SIZE.sm}
+        />
     );
 };
-
 export default AddList;

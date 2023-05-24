@@ -65,7 +65,7 @@ const UpdateInfor = () => {
                         <div className="userInfo">
                             <div className="userInfoLabel">
                                 <p>
-                                    Tên khách hàng <span class="starRed">*</span>:
+                                    Tên khách hàng <span style={{ color: 'red' }}>*</span>:
                                 </p>
                                 <input
                                     type="text"
@@ -75,7 +75,7 @@ const UpdateInfor = () => {
                                     onChange={(e) => handleInput(e)}
                                 />
                                 <p>
-                                    Số CCCD / Hộ chiếu:<span class="starRed">*</span>:
+                                    Số CCCD / Hộ chiếu:<span style={{ color: 'red' }}>*</span>:
                                 </p>
                                 <input
                                     type="text"
@@ -85,7 +85,7 @@ const UpdateInfor = () => {
                                     onChange={(e) => handleInput(e)}
                                 />
                                 <p>
-                                    Số điện thoại <span class="starRed">*</span>:
+                                    Số điện thoại <span style={{ color: 'red' }}>*</span>:
                                 </p>
                                 <input
                                     type="text"
@@ -95,7 +95,7 @@ const UpdateInfor = () => {
                                     onChange={(e) => handleInput(e)}
                                 />
                                 <p>
-                                    Địa chỉ <span class="starRed">*</span>:
+                                    Địa chỉ <span style={{ color: 'red' }}>*</span>:
                                 </p>
                                 <input
                                     type="text"
@@ -108,7 +108,7 @@ const UpdateInfor = () => {
                             <div className="userInfoInput">
                                 <div className="chungtuContainer">
                                     <p className="chungtuTitle">
-                                        Hình ảnh CCCD <span class="starRed">*</span>:
+                                        Hình ảnh CCCD <span style={{ color: 'red' }}>*</span>:
                                     </p>
                                     <div className="chungtu"></div>
                                 </div>
@@ -134,7 +134,7 @@ const UpdateInfor = () => {
                                 </div>
                                 <div className="statusContainer">
                                     <p>
-                                        Tình trạng <span class="starRed">*</span>:
+                                        Tình trạng <span style={{ color: 'red' }}>*</span>:
                                     </p>
                                     <div className="radioStatus">
                                         <div className="radioContent ">

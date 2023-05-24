@@ -93,16 +93,6 @@
     opacity: 0.6;
 }
 
-.icon-search {
-    position: absolute;
-    right: 0;
-    height: 100%;
-    font-size: 255%;
-    color: rgba(0, 0, 0, 0.6);
-    opacity: 0.6;
-    cursor: pointer;
-}
-
 .since div {
     font-family: 'Frank Ruhl Libre';
     font-style: normal;

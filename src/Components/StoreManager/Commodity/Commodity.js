@@ -9,10 +9,11 @@ import './Table.scss';
 import callAPI from '../../../API';
 
 import CustomizedTables from '../../../helpers/CustomizeTable';
-import { Box, Grid, Pagination, Stack } from '@mui/material';
+import { Box, Grid, InputAdornment, InputLabel, MenuItem, Pagination, Select, Stack, TextField } from '@mui/material';
 import { isAvailableArray } from '../../../helpers/utils';
 import PageHeader from '../../../helpers/PageHeader';
 import CustomizeButton from '../../../helpers/CustomizeButton';
+import { Search } from '@mui/icons-material';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -103,68 +104,65 @@ function Commodity() {
             },
         },
     ];
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
     return (
         <Box>
             <Grid container spacing={2} xs={12}>
-                <Grid item xs={12}>
+                <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
                     <PageHeader title="Loại Tài Sản" />
+                    <Grid display="flex" justifyContent="flex-end" alignItems="center">
+                        <Grid item>
+                            <TextField
+                                id="input-with-icon-adornment"
+                                label="Tìm kiếm cửa hàng..."
+                                type="search"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Search />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                size="small"
+                            />
+                        </Grid>
+                        <Grid margin="0 10px" item>
+                            <FormControl sx={{ width: 200 }}>
+                                <InputLabel id="demo-controlled-open-select-label">Tình Trạng</InputLabel>
+                                <Select
+                                    labelId="demo-controlled-open-select-label"
+                                    id="demo-controlled-open-select"
+                                    open={open}
+                                    onClose={handleClose}
+                                    onOpen={handleOpen}
+                                    value={statusFilter}
+                                    label="Tình Trạng"
+                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                    size="small"
+                                >
+                                    <MenuItem value={-1}>Tất Cả</MenuItem>
+                                    <MenuItem value={1}>Đang Hoạt Động</MenuItem>
+                                    <MenuItem value={2}>Đã Tạm Dừng</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item>
+                            <Link to="/Addliststore/add">
+                                <CustomizeButton title="Thêm mới" />
+                            </Link>
+                        </Grid>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <div className="listCommoditybody">
-                        {/* Button  Add */}
-                        <Link to="/commodity/add">
-                            <CustomizeButton title="Thêm mới" />
-                        </Link>
-                        {/* Status */}
-                        <div className="status">
-                            <span>Tình Trạng</span>
-                            {/* From status  */}
-                            <span className="fromstatus">
-                                <FormControl className="form-iteam">
-                                    <RadioGroup
-                                        className="radioItem"
-                                        aria-label="status"
-                                        name="status"
-                                        elementue={statusFilter}
-                                        onChange={(e) => setStatusFilter(e.target.value)}
-                                    >
-                                        <FormControlLabel
-                                            value="all"
-                                            control={<Radio />}
-                                            label="Tất cả"
-                                            className="radio-all"
-                                        />
-                                        <FormControlLabel
-                                            value="active"
-                                            control={<Radio />}
-                                            label="Đang hoạt động"
-                                            className="radio-active"
-                                        />
-                                        <FormControlLabel
-                                            value="stop"
-                                            control={<Radio />}
-                                            label="Đã tạm dừng"
-                                            className="radio-stop"
-                                        />
-                                    </RadioGroup>
-                                </FormControl>
-                            </span>
-                            {/* Search */}
-                            <div className="searchinput">
-                                <input
-                                    type="text"
-                                    placeholder="Tìm kiếm cửa hàng..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    {/* ================================ */}
-                    {/* =            Table Show        = */}
-                    {/* ================================ */}
-                </Grid>
-
                 <Grid item xs={12}>
                     <Box
                         padding="20px"
