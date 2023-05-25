@@ -27,7 +27,7 @@ const WareHouse = () => {
     useEffect(() => {
         API({
             method: 'get',
-            url: '/warehouse/GetAll/1',
+            url: '/warehouse/GetAll/0',
         }).then((res) => {
             setLogContract(res.data);
             console.log('aaaaa', res.data);

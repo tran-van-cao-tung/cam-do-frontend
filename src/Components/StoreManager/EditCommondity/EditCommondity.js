@@ -132,5 +132,3 @@ const EditCommondity = () => {
 
 export default EditCommondity;
 
-//Cập nhật API cấu hình hàng hoá
-// API cấu hình hàng hoá : http://tranvancaotung-001-site1.atempurl.com/api/v1/pawnableProduct/getAll/1

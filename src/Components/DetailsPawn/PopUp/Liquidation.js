@@ -61,7 +61,7 @@ const Liquidation = ({ showContractId }) => {
     }, []);
 
     useEffect(() =>{
-        if(contractDetail.status === 4){
+        if(showContractId){
             callAPI({
                 method: 'get',
                 url: `/liquidation/detail/` + showContractId,
@@ -72,7 +72,7 @@ const Liquidation = ({ showContractId }) => {
         } else{
             setLinkImg('');
         }
-    }, [contractDetail])
+    }, [showContractId])
     const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
     const uploaderOptions = {
         multi: true,

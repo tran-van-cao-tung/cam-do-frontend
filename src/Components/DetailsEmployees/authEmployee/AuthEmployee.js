@@ -90,6 +90,13 @@ function AuthEmployee() {
         } else {
             setParentCheckbox5(false);
             console.log('Ko có khách hàng');
+        } 
+        if(JSON.parse(localStorage.getItem('permis 4')) == true){
+            setParentCheckbox6(false);
+            console.log('Có báo cáo');
+        } else{
+            setParentCheckbox5(false);
+            console.log('Ko có báo cáo');
         }
     }
 
@@ -128,6 +135,13 @@ function AuthEmployee() {
             namePermission: 'string',
             permissionId: 5,
             status: localStorage.getItem('permis 4'),
+        },
+        {
+            userId: sessionStorage.getItem('selected'),
+            nameUser: 'string',
+            namePermission: 'string',
+            permissionId: 6,
+            status: localStorage.getItem('permis 5'),
         },
     ];
 

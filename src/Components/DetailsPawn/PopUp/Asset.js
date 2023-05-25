@@ -100,7 +100,6 @@ const Asset = ({ showContractId }) => {
                             <TableCell>Biên xuất kho</TableCell>
                             <TableCell>Giao dịch viên</TableCell>
                             <TableCell>Hình ảnh</TableCell>
-                            <TableCell>Ghi chú</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody
@@ -129,9 +128,6 @@ const Asset = ({ showContractId }) => {
                                     <TableCell>{item.userName}</TableCell>
                                     <TableCell>
                                         <AssetImg item={item} refresh={refreshImg} />
-                                    </TableCell>
-                                    <TableCell>
-                                        <AssetNote item={item} />
                                     </TableCell>
                                 </TableRow>
                             );

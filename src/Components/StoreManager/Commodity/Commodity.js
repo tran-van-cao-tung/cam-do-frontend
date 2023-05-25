@@ -157,7 +157,7 @@ function Commodity() {
                             </FormControl>
                         </Grid>
                         <Grid item>
-                            <Link to="/Addliststore/add">
+                            <Link to="/commodity/add">
                                 <CustomizeButton title="Thêm mới" />
                             </Link>
                         </Grid>
