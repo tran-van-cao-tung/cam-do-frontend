@@ -103,14 +103,14 @@ const EditWarehouse = () => {
                                 onChange={handleOnChangeName}
                             >
                                 <FormControlLabel
-                                    value="0"
+                                    value="1"
                                     control={<Radio />}
                                     label="Đang hoạt động"
                                     className="radio-available"
                                 />
 
                                 <FormControlLabel
-                                    value="1"
+                                    value="0"
                                     control={<Radio />}
                                     label="Đã tạm dừng"
                                     className="radio-closed"

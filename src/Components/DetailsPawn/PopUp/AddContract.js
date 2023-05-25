@@ -32,7 +32,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
     const [cycle, setCycle] = useState(0);
     const [selectedInterest, setSelectedInterest] = useState(0);
     const availableWarehouses = warehouses.filter((item) => {
-        if((item.status) === 0) {
+        if((item.status) === 1) {
             return item
         }
     })
@@ -197,7 +197,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
     //Get dữ liệu customer bằng cccd
     const handleCustomer = (e) => {
         let value = e.target.value;
-        API({
+        API({ 
             method: 'get',
             url: `customer/getByCCCD/${value}`,
         })

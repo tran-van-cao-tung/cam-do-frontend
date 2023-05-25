@@ -72,7 +72,7 @@ const WareHouse = () => {
         {
             nameHeader: 'Tình trạng',
             dataRow: (element) => {
-                return element.status === 0 ? (
+                return element.status === 1 ? (
                     <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
                 ) : (
                     <div className="MuiTableBody_root-status">Đã tạm dừng</div>
