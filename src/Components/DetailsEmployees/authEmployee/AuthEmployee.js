@@ -12,6 +12,7 @@ import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import { AuthContext } from '../../../helpers/AuthContext';
 import PageHeader from '../../../helpers/PageHeader';
+import { toast } from 'react-toastify';
 function AuthEmployee() {
     const history = useNavigate();
     const [employeeList, setEmployeeList] = useState([]);
@@ -90,11 +91,11 @@ function AuthEmployee() {
         } else {
             setParentCheckbox5(false);
             console.log('Ko có khách hàng');
-        } 
-        if(JSON.parse(localStorage.getItem('permis 4')) == true){
+        }
+        if (JSON.parse(localStorage.getItem('permis 4')) == true) {
             setParentCheckbox6(false);
             console.log('Có báo cáo');
-        } else{
+        } else {
             setParentCheckbox5(false);
             console.log('Ko có báo cáo');
         }
@@ -151,7 +152,7 @@ function AuthEmployee() {
             url: '/permission/savepermission',
             data: permissionArr,
         }).then((res) => {
-            alert('Chỉnh quyền Thành công!');
+            toast.success('Chỉnh quyền Thành công!');
         });
     }
 

@@ -10,7 +10,18 @@ import API from '../../../API';
 import edit from './../../../asset/img/edit.png';
 import ext from './../../../asset/img/ext.png';
 import './liststore.css';
-import { Box, Grid, InputAdornment, InputLabel, MenuItem, Pagination, Select, Stack, TextField } from '@mui/material';
+import {
+    Box,
+    Grid,
+    InputAdornment,
+    InputLabel,
+    MenuItem,
+    Pagination,
+    Select,
+    Stack,
+    TextField,
+    Tooltip,
+} from '@mui/material';
 import CustomizedTables from '../../../helpers/CustomizeTable';
 import { isAvailableArray } from '../../../helpers/utils';
 
@@ -19,6 +30,7 @@ import PageHeader from '../../../helpers/PageHeader';
 import CustomizeButton from '../../../helpers/CustomizeButton';
 import { Search } from '@mui/icons-material';
 import AddList from '../AddListStore/AddList';
+import EditListStore from '../EditListStore/EditListStore';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -47,18 +59,27 @@ const ListStore = () => {
         return logContract.slice(start, end);
     }, [logContract, page, pageSize]);
     // Axios
-    useEffect(() => {
+
+    const fetchCallAPI = () => {
         API({
             method: 'get',
             url: '/branch/getAll/0',
         }).then((res) => {
             setLogContract(res.data);
         });
+    };
+    useEffect(() => {
+        fetchCallAPI();
     }, []);
     const handlePagination = (e, value) => {
         setPage(value);
     };
+    const [showEditStore, setShowEditStore] = useState(false);
 
+    const handleShowEditStore = (id) => {
+        setShowEditStore(true);
+        localStorage.setItem('brandId', id);
+    };
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
     const dataTable = [
@@ -106,9 +127,9 @@ const ListStore = () => {
             nameHeader: 'Chức năng',
             dataRow: (element) => {
                 return (
-                    <Link to={`/editliststore/edit/${element.branchId}`}>
-                        <img src={edit} alt="Edit" />
-                    </Link>
+                    <Tooltip title="Cập nhật">
+                        <img onClick={(e) => handleShowEditStore(element.branchId)} src={edit} alt="Edit" />
+                    </Tooltip>
                 );
             },
         },
@@ -126,6 +147,7 @@ const ListStore = () => {
     const handleAddStore = () => {
         setShowAddStore(true);
     };
+
     return (
         <Grid container spacing={2} xs={12}>
             <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
@@ -188,6 +210,13 @@ const ListStore = () => {
                     fontSize="14px"
                 >
                     <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                    {showEditStore && (
+                        <EditListStore
+                            refresh={fetchCallAPI}
+                            showEditStore={showEditStore}
+                            setShowEditStore={setShowEditStore}
+                        />
+                    )}
                     <Box marginTop="14px">
                         <Stack spacing={2}>
                             <Pagination

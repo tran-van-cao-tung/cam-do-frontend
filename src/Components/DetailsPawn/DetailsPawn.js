@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import BtnDetails from './BtnDetails';
+
 import API from '../../API';
-import HeaderPawn from './HeaderPawn';
+
 import TablePawn from './TablePawn';
 import AddContract from './PopUp/AddContract';
 import UpdateContract from './PopUp/UpdateContract';
@@ -11,7 +11,7 @@ import Expiration from './PopUp/Expiration';
 import { AuthContext } from '../../helpers/AuthContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { isAvailableArray } from '../../helpers/utils';
-import { Grid } from '@mui/material'; // import './DetailPawn.css';
+import { Grid } from '@mui/material';
 const DetailsPawn = () => {
     const [showAddContract, setShowAddContract] = useState(false);
     const [showUpdateContract, setShowUpdateContract] = useState(false);
@@ -78,7 +78,6 @@ const DetailsPawn = () => {
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <TablePawn
-                    className="tableComponent"
                     setShowUpdateContract={setShowUpdateContract}
                     setShowliquidation={setShowliquidation}
                     setshowdetailContract={setshowdetailContract}
@@ -95,7 +94,11 @@ const DetailsPawn = () => {
                 <AddContract showAddContract={showAddContract} setShowAddContract={setShowAddContract} />
             )}
             {showUpdateContract && (
-                <UpdateContract showUpdateContract={showUpdateContract} setShowUpdateContract={setShowUpdateContract} />
+                <UpdateContract
+                    contracts={contracts}
+                    showUpdateContract={showUpdateContract}
+                    setShowUpdateContract={setShowUpdateContract}
+                />
             )}
             {showliquidation && (
                 <Liquidation showliquidation={showliquidation} setShowliquidation={setShowliquidation} />

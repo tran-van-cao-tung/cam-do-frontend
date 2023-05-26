@@ -8,15 +8,15 @@ import InputBase from '@mui/material/InputBase';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import API from '../../../API';
-import { Divider } from '@mui/material';
+import { Divider, Grid, TextField } from '@mui/material';
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
-import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
-import PageHeader from '../../../helpers/PageHeader';
 
-const Addcommondity = () => {
+import { Save } from '@mui/icons-material';
+import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
+import { toast } from 'react-toastify';
+
+const Addcommondity = ({ setShowAddCommodity, showAddCommodity }) => {
     const [code, setCode] = useState('');
     const [name, setName] = useState('');
     const [status, setStatus] = useState(0);
@@ -81,120 +81,118 @@ const Addcommondity = () => {
             },
         })
             .then((res) => {
-                console.log('Success Full');
-                alert('Lưu Thành Công');
+                toast.success('Lưu Thành Công');
             })
-            .catch((err) => console.log(err));
+            .catch((err) => toast.error('Lưu Không Thành Công'));
+    };
+    const renderContent = () => (
+        <Grid container spacing={3}>
+            {/* Left */}
+            <Grid item xs={6}>
+                <h3>Nhập thông tin hàng hoá</h3>
+                <Grid item xs={12} marginTop="15px">
+                    <TextField
+                        onChange={handleOnChangeCode}
+                        id="standard-basic"
+                        label={
+                            <p>
+                                Mã hàng <span style={{ color: 'red' }}>*</span>:
+                            </p>
+                        }
+                        fullWidth
+                        variant="standard"
+                    />
+                </Grid>
+
+                <Grid item xs={12} marginTop="10px">
+                    <TextField
+                        onChange={handleOnChangeCode}
+                        id="standard-basic"
+                        label={
+                            <p>
+                                Tên hàng hoá<span style={{ color: 'red' }}>*</span>:
+                            </p>
+                        }
+                        fullWidth
+                        variant="standard"
+                    />
+                </Grid>
+            </Grid>
+            {/* Right */}
+            <Grid item xs={6}>
+                <Grid item xs={12} marginBottom="2px" display="flex" justifyContent="space-between" alignItems="center">
+                    <h3>Cấu hình hàng hóa</h3>
+
+                    <Button className="add-btn" variant="contained" onClick={handleAddAttribute}>
+                        Thêm thuộc tính
+                    </Button>
+                </Grid>
+
+                {attributeDTOs.map((item, index) => (
+                    <Grid
+                        item
+                        xs={12}
+                        display="flex"
+                        marginBottom="10px"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        key={index}
+                    >
+                        <TextField
+                            onChange={(e) => handleChangeAttribute(e.target.value, index)}
+                            id="standard-basic"
+                            label={
+                                <p>
+                                    Thuộc tính<span style={{ color: 'red' }}>*</span>:
+                                </p>
+                            }
+                            marginTop="10px"
+                            fullWidth
+                            value={item.description}
+                            variant="standard"
+                        />
+                        <Button
+                            sx={{
+                                backgroundColor: 'red',
+                            }}
+                            className="edit-btn"
+                            marginLeft="5px"
+                            variant="contained"
+                            onClick={() => handleRemoveAttributes(index)}
+                        >
+                            -
+                        </Button>
+                    </Grid>
+                ))}
+            </Grid>
+        </Grid>
+    );
+    const handleCloseDialog = () => {
+        setShowAddCommodity(false);
     };
 
     return (
-        <>
-            <div className="Addcommondity">
-                <PageHeader title="Thêm mới cấu hình hàng hoá" />
-
-                <div className="wareh-content">
-                    <div className="add-content">
-                        {/* Left */}
-                        <div className="add-commodity-left">
-                            <h3>Nhập thông tin hàng hoá</h3>
-                            <Divider />
-                            <FormControl className="add-input-group">
-                                <FormLabel className="label">
-                                    Mã hàng&nbsp;<label style={{ color: 'red' }}>*</label>:
-                                </FormLabel>
-                                <InputBase
-                                    placeholder="XM"
-                                    inputProps={{ 'aria-label': 'search' }}
-                                    className="add-input"
-                                    name="commodityCode"
-                                    onChange={handleOnChangeCode}
-                                />
-                            </FormControl>
-
-                            <FormControl className="add-input-group">
-                                <FormLabel className="label">
-                                    Tên hàng hoá&nbsp;<label style={{ color: 'red' }}>*</label>:
-                                </FormLabel>
-                                <InputBase
-                                    placeholder="Xe máy SH"
-                                    inputProps={{ 'aria-label': 'search' }}
-                                    className="add-input"
-                                    name="typeOfProduct"
-                                    onChange={handleOnChangeName}
-                                />
-                            </FormControl>
-                            <FormControl className="add-status-group">
-                                <FormLabel className="label">
-                                    Tình trạng&nbsp;<label style={{ color: 'red' }}>*</label>:
-                                </FormLabel>
-                                <RadioGroup row name="status" defaultValue={0}>
-                                    <FormControlLabel
-                                        value="0"
-                                        control={<Radio />}
-                                        label="Đang hoạt động"
-                                        className="radio-available"
-                                        onChange={handleOnChangeStatus}
-                                    />
-
-                                    <FormControlLabel
-                                        value="1"
-                                        control={<Radio />}
-                                        label="Khoá"
-                                        className="radio-closed"
-                                        onChange={handleOnChangeStatus}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                        </div>
-                        {/* Right */}
-                        <div className="add-commodity-right">
-                            <h3>Cấu hình thuộc tính hàng hóa</h3>
-                            <Divider />
-                            <div className="add-action">
-                                <Button className="add-btn" variant="contained" onClick={handleAddAttribute}>
-                                    Thêm thuộc tính
-                                </Button>
-                            </div>
-
-                            {attributeDTOs.map((item, index) => (
-                                <FormControl className="add-input-group" key={index}>
-                                    <FormLabel className="label">
-                                        Thuộc tính&nbsp;<label style={{ color: 'red' }}>*</label>:
-                                    </FormLabel>
-                                    <InputBase
-                                        placeholder="Màu sắc"
-                                        inputProps={{ 'aria-label': 'search' }}
-                                        className="add-input"
-                                        value={item.description}
-                                        onChange={(e) => handleChangeAttribute(e.target.value, index)}
-                                    />
-                                    <Button
-                                        className="edit-btn"
-                                        variant="contained"
-                                        onClick={() => handleRemoveAttributes(index)}
-                                    >
-                                        -
-                                    </Button>
-                                </FormControl>
-                            ))}
-                        </div>
-                    </div>
-
-                    <Divider />
-
-                    <div className="add-actions">
-                        <Button onClick={handleSumbitCommondy}>
-                            <BtnSave />
-                        </Button>
-                        <Link to="/commodity">
-                            <Button>
-                                <BtnCloseAnimation />
-                            </Button>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </>
+        <CustomizeDiaglog
+            open={setShowAddCommodity}
+            onClose={handleCloseDialog}
+            title="Thêm mới cấu hình hàng hoá"
+            content={renderContent()}
+            action={
+                <Button
+                    onClick={(e) => handleSumbitCommondy(e)}
+                    variant="contained"
+                    color="success"
+                    sx={{
+                        fontSize: '16px',
+                        padding: '15px 30px',
+                    }}
+                    startIcon={<Save />}
+                >
+                    Lưu Lại
+                </Button>
+            }
+            maxWidth={DIALOG_SIZE.md}
+        />
     );
 };
 

@@ -12,7 +12,7 @@ import { Save } from '@mui/icons-material';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
 
 const AddNewCustomer = ({ setShowAddCustomer, showAddCustomer }) => {
-    const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_FW25bMK3mpqVXpSPo5c1xtLs1fF1' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 

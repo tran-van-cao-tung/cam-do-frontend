@@ -3,8 +3,7 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import './UpdateInfor.css';
 import Paper from '@mui/material/Paper';
-import saveBtn from '../../../asset/img/save1.png';
-import returnBtn from '../../../asset/img/returnBTN.png';
+
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import BtnSave from '../../ButtonUI/BtnSave/BtnSave';

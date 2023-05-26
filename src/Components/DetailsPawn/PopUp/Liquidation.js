@@ -60,20 +60,20 @@ const Liquidation = ({ showContractId }) => {
         });
     }, []);
 
-    useEffect(() =>{
-        if(showContractId){
+    useEffect(() => {
+        if (showContractId) {
             callAPI({
                 method: 'get',
                 url: `/liquidation/detail/` + showContractId,
             }).then((res) => {
                 setLiquidInfo(res.data);
                 setLinkImg(res.data.description);
-            }); 
-        } else{
+            });
+        } else {
             setLinkImg('');
         }
-    }, [showContractId])
-    const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
+    }, [showContractId]);
+    const uploader = Uploader({ apiKey: 'public_FW25bMK3mpqVXpSPo5c1xtLs1fF1' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 
@@ -100,12 +100,14 @@ const Liquidation = ({ showContractId }) => {
                 url: `/liquidation/save/${showContractId}/${userInfo.userId}
                 ?liquidationMoney=${liquidMoney}
                 &proofImg=${linkImg}`,
-            }).then((res) => {
-                toast.success('Thanh lý thành công!');
-                window.location.reload(false);
-            }).catch((err) => toast.error("Thanh lý không thành công"));
+            })
+                .then((res) => {
+                    toast.success('Thanh lý thành công!');
+                    window.location.reload(false);
+                })
+                .catch((err) => toast.error('Thanh lý không thành công'));
         }
-    }
+    };
 
     return (
         <div>
@@ -169,7 +171,7 @@ const Liquidation = ({ showContractId }) => {
                             <UploadDropzone
                                 uploader={uploader}
                                 options={uploaderOptions}
-                                onUpdate={(files) => console.log("Up hình OK")}
+                                onUpdate={(files) => console.log('Up hình OK')}
                                 onComplete={(files) => {
                                     handleImg(files.map((x) => x.fileUrl).join('\n'));
                                 }}
@@ -178,7 +180,7 @@ const Liquidation = ({ showContractId }) => {
                             />
                         </div>
                     )}
-                    <img src={linkImg} width="600px" height="375px" alt='' />
+                    <img src={linkImg} width="600px" height="375px" alt="" />
                 </div>
             </div>
             {contractDetail.status === 4 ? (
@@ -199,12 +201,7 @@ const Liquidation = ({ showContractId }) => {
                     </Button>
                 </div>
             )}
-
         </div>
-
-
-
-
     );
 };
 

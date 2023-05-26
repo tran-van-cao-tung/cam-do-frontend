@@ -32,7 +32,7 @@ const TablePawn = ({
     const handleShow = (id) => {
         setShowUpdateContract(true);
         localStorage.setItem('PawnDetailID', id);
-        console.log('Update', id);
+        console.log('Update ', id);
     };
 
     const handleShowLiquidation = (id) => {
@@ -122,7 +122,7 @@ const TablePawn = ({
             },
         },
         {
-            nameHeader: 'Ngày Đến Hạn',
+            nameHeader: 'Đến Hạn',
             dataRow: (element) => {
                 return formatDate(element.contractEndDate);
             },
@@ -164,36 +164,40 @@ const TablePawn = ({
             nameHeader: 'Chức năng',
             dataRow: (i) => {
                 return (
-                    <Box display="flex" justifyContent="start ">
-                        <Tooltip title="Đóng tiền lãi">
-                            <img
-                                onClick={(e) => {
-                                    handleShowDetailContract(i.contractId);
-                                }}
-                                src={cash}
-                                alt="..."
-                                style={{}}
-                            />
-                        </Tooltip>
+                    <Grid container spacing={1}>
+                        <Grid item xs={4}>
+                            <Tooltip title="Đóng tiền lãi">
+                                <img
+                                    onClick={(e) => {
+                                        handleShowDetailContract(i.contractId);
+                                    }}
+                                    src={cash}
+                                    alt="..."
+                                />
+                            </Tooltip>
+                        </Grid>
 
-                        <Tooltip title="Chi tiết">
-                            <img onClick={(e) => handleShow(i.contractId)} src={wallet} alt="Edit" />
-                        </Tooltip>
-
+                        <Grid item xs={4}>
+                            <Tooltip title="Chi tiết">
+                                <img onClick={(e) => handleShow(i.contractId)} src={wallet} alt="Edit" />
+                            </Tooltip>
+                        </Grid>
                         {i.status === 4 ? (
                             ''
                         ) : (
-                            <Tooltip title="Đáo hạn">
-                                <img
-                                    onClick={(e) => {
-                                        hanleShowExpiration(i.contractId);
-                                    }}
-                                    src={subwallet}
-                                    alt="Đáo hạn"
-                                />
-                            </Tooltip>
+                            <Grid item xs={4}>
+                                <Tooltip title="Đáo hạn">
+                                    <img
+                                        onClick={(e) => {
+                                            hanleShowExpiration(i.contractId);
+                                        }}
+                                        src={subwallet}
+                                        alt="Đáo hạn"
+                                    />
+                                </Tooltip>
+                            </Grid>
                         )}
-                    </Box>
+                    </Grid>
                 );
             },
             dataUnExport: true,

@@ -5,7 +5,9 @@ import edit from './../../asset/img/edit.png';
 
 import { isAvailableArray } from '../../helpers/utils.js';
 import CustomizedTables from '../../helpers/CustomizeTable.jsx';
-import { Box, Pagination, Stack } from '@mui/material';
+import { Box, Grid, InputAdornment, Pagination, Stack, TextField } from '@mui/material';
+import PageHeader from '../../helpers/PageHeader.jsx';
+import { Search } from '@mui/icons-material';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -38,7 +40,7 @@ function ListCustomer({ numPage }) {
     useEffect(() => {
         API({
             method: 'GET',
-            url: '/customer/getAllBlackList/1',
+            url: '/customer/getAllBlackList/0',
         }).then((response) => {
             setLogContract(response.data);
             setSearchAPIData(response.data);
@@ -93,18 +95,7 @@ function ListCustomer({ numPage }) {
                 return element.address;
             },
         },
-        {
-            nameHeader: 'Lý do',
-            dataRow: (element) => {
-                return element.reason;
-            },
-        },
-        {
-            nameHeader: 'Hạng TD',
-            dataRow: (element) => {
-                return <span className="rank_F">F</span>;
-            },
-        },
+
         {
             nameHeader: 'Chức năng',
             dataRow: (element) => {
@@ -117,43 +108,55 @@ function ListCustomer({ numPage }) {
         },
     ];
     return (
-        <>
-            <div className="ListCustomerr">
+        <Grid container spacing={2}>
+            <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
+                <PageHeader title="Khách Hàng Bị Báo Xấu" />
                 {/* ===================================== */}
                 {/* |             Add and Search        | */}
                 {/* ===================================== */}
-                <div className="ListCustomer">
-                    {/* Status */}
-                    <div className="status">
-                        {/* Search */}
-                        <div className="searchinput">
-                            <input
-                                type="text"
-                                class="searchTerm"
-                                placeholder="Tìm kiếm..."
-                                value={onFilter}
-                                onChange={(e) => onFilterChange(e)}
-                            ></input>
-                        </div>
-                    </div>
-                </div>
-                {/* ================================ */}
-                {/* =            Table Show        = */}
-                {/* ================================ */}
-                <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
-                <Box marginTop="14px">
-                    <Stack spacing={2}>
-                        <Pagination
-                            style={{ margin: '0 auto' }}
-                            count={totalPage}
-                            page={page}
-                            onChange={handlePagination}
-                            color="primary"
-                        />
-                    </Stack>
+                <Grid item marginRight="5px">
+                    <TextField
+                        id="input-with-icon-adornment"
+                        label="Tìm kiếm..."
+                        type="search"
+                        value={onFilter}
+                        onChange={(e) => onFilterChange(e)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Search />
+                                </InputAdornment>
+                            ),
+                        }}
+                        size="small"
+                    />
+                </Grid>
+            </Grid>
+            {/* ================================ */}
+            {/* =            Table Show        = */}
+            {/* ================================ */}
+            <Grid item xs={12}>
+                <Box
+                    padding="20px"
+                    boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
+                    borderRadius="8px"
+                    bgcolor="#fff"
+                >
+                    <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                    <Box marginTop="14px">
+                        <Stack spacing={2}>
+                            <Pagination
+                                style={{ margin: '0 auto' }}
+                                count={totalPage}
+                                page={page}
+                                onChange={handlePagination}
+                                color="primary"
+                            />
+                        </Stack>
+                    </Box>
                 </Box>
-            </div>
-        </>
+            </Grid>
+        </Grid>
     );
 }
 

@@ -18,7 +18,7 @@ import { AuthContext } from '../../../helpers/AuthContext';
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, Filler);
 
-function ChartLine({ value, setYear }) {
+function ChartLine({ value, setYear, year }) {
     const { authState } = useContext(AuthContext);
     const currentYear = new Date().getFullYear();
 
@@ -184,7 +184,7 @@ function ChartLine({ value, setYear }) {
             <div className="chartLine" style={{ margin: '30px 0 80px 0' }}>
                 <Line data={data} options={options} width={'1200px'} height={'320px'}></Line>
             </div>
-            <DetailsReport value={value} />
+            <DetailsReport value={value} year={year} />
         </>
     );
 }

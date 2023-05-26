@@ -20,7 +20,7 @@ const ReportYear = () => {
             </div>
             <div className="parperCustomer">
                 <ErrorBoundary>
-                    <ChartLine value={value} setYear={setYear} />
+                    <ChartLine value={value} setYear={setYear} year={year} />
                 </ErrorBoundary>
             </div>
         </div>

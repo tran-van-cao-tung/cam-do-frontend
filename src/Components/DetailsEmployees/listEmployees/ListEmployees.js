@@ -3,17 +3,15 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import {
     Box,
     FormControl,
-    FormControlLabel,
     Grid,
     InputAdornment,
     InputLabel,
     MenuItem,
     Pagination,
-    Radio,
-    RadioGroup,
     Select,
     Stack,
     TextField,
+    Tooltip,
 } from '@mui/material';
 
 import edit from './../../../asset/img/edit.png';
@@ -29,6 +27,8 @@ import { formatDate } from '../../../helpers/dateTimeUtils';
 import PageHeader from '../../../helpers/PageHeader';
 import CustomizeButton from '../../../helpers/CustomizeButton';
 import { Search } from '@mui/icons-material';
+import AddEmployee from '../addEmployee/AddEmployee';
+import EditEmployee from '../editEmployee/EditEmployee';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -37,8 +37,6 @@ const DEFAULT = {
 };
 
 function ListEmployees() {
-    const navigate = useNavigate();
-
     const [logContract, setLogContract] = useState([]);
     const [page, setPage] = useState(DEFAULT.pageNumber);
     const [pageSize] = useState(DEFAULT.pageSize);
@@ -56,8 +54,7 @@ function ListEmployees() {
             if (statusFilter === 'all') return true;
             return item.status === (statusFilter === 'active' ? 0 : 1);
         });
-    // Axios
-    useEffect(() => {
+    const fetchListEmployees = () => {
         if (currentBranchId) {
             API({
                 method: 'get',
@@ -66,7 +63,11 @@ function ListEmployees() {
                 setLogContract(res.data);
             });
         }
-    }, [currentBranchId, setListEmployee]);
+    };
+    // Axios
+    useEffect(() => {
+        fetchListEmployees();
+    }, []);
 
     console.log(searchedProduct);
     // ==================================
@@ -87,6 +88,12 @@ function ListEmployees() {
     }, [logContract, page, pageSize]);
     const handlePagination = (e, value) => {
         setPage(value);
+    };
+    const [showEditEmployee, setShowEditEmployee] = useState(false);
+
+    const handleShowEditEmployee = (id) => {
+        setShowEditEmployee(true);
+        localStorage.setItem('EmployeeId', id);
     };
     const dataTable = [
         {
@@ -133,19 +140,14 @@ function ListEmployees() {
             nameHeader: 'Chức năng',
             dataRow: (element) => {
                 return (
-                    <div className="MuiTableBody_root-itemLast">
-                        <Link to={`/editemployee/${element.userId}`}>
-                            <img src={edit} alt="Edit" />
-                        </Link>
-                    </div>
+                    <Tooltip title="Cập Nhật">
+                        <img src={edit} alt="Edit" onClick={(e) => handleShowEditEmployee(element.userId)} />
+                    </Tooltip>
                 );
             },
         },
     ];
 
-    const handleNavigate = () => {
-        navigate('/addemployee');
-    };
     const [open, setOpen] = React.useState(false);
 
     const handleClose = () => {
@@ -155,80 +157,94 @@ function ListEmployees() {
     const handleOpen = () => {
         setOpen(true);
     };
+
+    const [showAddEmployee, setShowAddEmployee] = useState(false);
+
+    const handleAddEmployee = () => {
+        setShowAddEmployee(true);
+    };
     return (
-        <>
-            <Grid container spacing={2}>
-                <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
-                    <PageHeader title="Danh Sách Nhân Viên" />
-                    <Grid display="flex" justifyContent="flex-end" alignItems="center">
-                        <Grid item>
-                            <TextField
-                                id="input-with-icon-adornment"
-                                label="Tìm kiếm cửa hàng..."
-                                type="search"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <Search />
-                                        </InputAdornment>
-                                    ),
-                                }}
+        <Grid container spacing={2}>
+            <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
+                <PageHeader title="Danh Sách Nhân Viên" />
+                <Grid display="flex" justifyContent="flex-end" alignItems="center">
+                    <Grid item>
+                        <TextField
+                            id="input-with-icon-adornment"
+                            label="Tìm kiếm cửa hàng..."
+                            type="search"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Search />
+                                    </InputAdornment>
+                                ),
+                            }}
+                            size="small"
+                        />
+                    </Grid>
+                    <Grid margin="0 10px" item>
+                        <FormControl sx={{ width: 200 }}>
+                            <InputLabel id="demo-controlled-open-select-label">Tình Trạng</InputLabel>
+                            <Select
+                                labelId="demo-controlled-open-select-label"
+                                id="demo-controlled-open-select"
+                                open={open}
+                                onClose={handleClose}
+                                onOpen={handleOpen}
+                                value={statusFilter}
+                                label="Tình Trạng"
+                                onChange={(e) => setStatusFilter(e.target.value)}
                                 size="small"
-                            />
-                        </Grid>
-                        <Grid margin="0 10px" item>
-                            <FormControl sx={{ width: 200 }}>
-                                <InputLabel id="demo-controlled-open-select-label">Tình Trạng</InputLabel>
-                                <Select
-                                    labelId="demo-controlled-open-select-label"
-                                    id="demo-controlled-open-select"
-                                    open={open}
-                                    onClose={handleClose}
-                                    onOpen={handleOpen}
-                                    value={statusFilter}
-                                    label="Tình Trạng"
-                                    onChange={(e) => setStatusFilter(e.target.value)}
-                                    size="small"
-                                >
-                                    <MenuItem value={-1}>Tất Cả</MenuItem>
-                                    <MenuItem value={1}>Đang Hoạt Động</MenuItem>
-                                    <MenuItem value={2}>Đã Tạm Dừng</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item>
-                            <CustomizeButton title="Thêm mới" handleClick={handleNavigate} />
-                        </Grid>
+                            >
+                                <MenuItem value={-1}>Tất Cả</MenuItem>
+                                <MenuItem value={1}>Đang Hoạt Động</MenuItem>
+                                <MenuItem value={2}>Đã Tạm Dừng</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <CustomizeButton title="Thêm mới" handleClick={handleAddEmployee} />
+                        {showAddEmployee && (
+                            <AddEmployee showAddEmployee={showAddEmployee} setShowAddEmployee={setShowAddEmployee} />
+                        )}
                     </Grid>
                 </Grid>
-                {/* ================================ */}
-                {/* =            Table Show        = */}
-                {/* ================================ */}
-                <Grid item xs={12}>
-                    <Box
-                        padding="20px"
-                        boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
-                        borderRadius="8px"
-                        bgcolor="#fff"
-                    >
-                        <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
-                        <Box marginTop="14px">
-                            <Stack spacing={2}>
-                                <Pagination
-                                    style={{ margin: '0 auto' }}
-                                    count={totalPage}
-                                    page={page}
-                                    onChange={handlePagination}
-                                    color="primary"
-                                />
-                            </Stack>
-                        </Box>
-                    </Box>
-                </Grid>
             </Grid>
-        </>
+            {/* ================================ */}
+            {/* =            Table Show        = */}
+            {/* ================================ */}
+            <Grid item xs={12}>
+                <Box
+                    padding="20px"
+                    boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
+                    borderRadius="8px"
+                    bgcolor="#fff"
+                >
+                    <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                    {showEditEmployee && (
+                        <EditEmployee
+                            refresh={fetchListEmployees}
+                            showEditEmployee={showEditEmployee}
+                            setShowEditEmployee={setShowEditEmployee}
+                        />
+                    )}
+                    <Box marginTop="14px">
+                        <Stack spacing={2}>
+                            <Pagination
+                                style={{ margin: '0 auto' }}
+                                count={totalPage}
+                                page={page}
+                                onChange={handlePagination}
+                                color="primary"
+                            />
+                        </Stack>
+                    </Box>
+                </Box>
+            </Grid>
+        </Grid>
     );
 }
 

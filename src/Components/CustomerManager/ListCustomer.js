@@ -1,17 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+
 import API from '../../../src/API.js';
 import edit from './../../asset/img/edit.png';
 
 import './CustomerManager.css';
 import { isAvailableArray } from '../../helpers/utils.js';
 import CustomizedTables from '../../helpers/CustomizeTable.jsx';
-import { Box, Grid, InputAdornment, Pagination, Stack, TextField } from '@mui/material';
+import { Box, Grid, InputAdornment, Pagination, Stack, TextField, Tooltip } from '@mui/material';
 import { formatDate } from '../../helpers/dateTimeUtils';
 import CustomizeButton from '../../helpers/CustomizeButton.jsx';
 import PageHeader from '../../helpers/PageHeader.jsx';
 import AddNewCustomer from './Popup/AddNewCustomer.js';
 import { Search } from '@mui/icons-material';
+import UpdateInfor from './Popup/UpdateInfor.js';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -26,15 +27,20 @@ function ListCustomer({ numPage }) {
     const [page, setPage] = useState(DEFAULT.pageNumber);
     const [pageSize] = useState(DEFAULT.pageSize);
 
-    useEffect(() => {
+    const fetchListCustomer = () => {
+        console.log('test Call API');
         API({
             method: 'GET',
             url: '/customer/getAll/0',
         }).then((response) => {
             setSearchAPIData(response.data);
-            console.log(response.data);
+
             setCustomer(response.data);
         });
+    };
+
+    useEffect(() => {
+        fetchListCustomer();
     }, []);
 
     const onFilterChange = (e) => {
@@ -67,6 +73,13 @@ function ListCustomer({ numPage }) {
     }, [customer, page, pageSize]);
     const handlePagination = (e, value) => {
         setPage(value);
+    };
+    const [showEditCustomer, setShowEditCustomer] = useState(false);
+
+    const handleShowEditCustomer = (id) => {
+        setShowEditCustomer(true);
+        localStorage.setItem('CustomerId', id);
+        console.log('Update ', id);
     };
 
     const dataTable = [
@@ -110,9 +123,9 @@ function ListCustomer({ numPage }) {
             nameHeader: 'Chức năng',
             dataRow: (element) => {
                 return (
-                    <Link to={`/customer-manager/updateinfo/${element.customerId}`}>
-                        <img src={edit} alt="Edit" />
-                    </Link>
+                    <Tooltip title="Cập Nhật">
+                        <img src={edit} alt="Edit" onClick={(e) => handleShowEditCustomer(element.customerId)} />
+                    </Tooltip>
                 );
             },
         },
@@ -168,6 +181,13 @@ function ListCustomer({ numPage }) {
                     bgcolor="#fff"
                 >
                     <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                    {showEditCustomer && (
+                        <UpdateInfor
+                            refresh={fetchListCustomer}
+                            showEditCustomer={showEditCustomer}
+                            setShowEditCustomer={setShowEditCustomer}
+                        />
+                    )}
                     <Box marginTop="14px">
                         <Stack spacing={2}>
                             <Pagination

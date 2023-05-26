@@ -1,15 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
 import API from '../../API';
 import edit from './../../asset/img/edit.png';
 import './package.css';
 
 import { isAvailableArray } from '../../helpers/utils';
 import CustomizedTables from '../../helpers/CustomizeTable';
-import { Box, Grid, Pagination, Stack } from '@mui/material';
+import { Box, Grid, Pagination, Stack, Tooltip } from '@mui/material';
 import PageHeader from '../../helpers/PageHeader';
 import CustomizeButton from '../../helpers/CustomizeButton';
+import AddPackage from './AddPackage';
+import EditPackage from './EditPackage';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -19,13 +20,12 @@ const DEFAULT = {
 
 const Package = () => {
     //
-    const navigate = useNavigate();
 
     const [page, setPage] = useState(DEFAULT.pageNumber);
     const [pageSize] = useState(DEFAULT.pageSize);
     const [packageList, setPackageList] = useState([]);
-    // Axios
-    useEffect(() => {
+
+    const fetchListCustomer = () => {
         API({
             method: 'get',
             url: '/package/getAll/0',
@@ -34,6 +34,10 @@ const Package = () => {
                 setPackageList(res.data);
             })
             .catch((err) => console.log('Err at API package'));
+    };
+    // Axios
+    useEffect(() => {
+        fetchListCustomer();
     }, []);
 
     const totalPage = useMemo(() => {
@@ -52,6 +56,12 @@ const Package = () => {
         setPage(value);
     };
 
+    const [showEditPagkage, setShowEditPagkage] = useState(false);
+
+    const handleShowEditPagkage = (id) => {
+        setShowEditPagkage(true);
+        localStorage.setItem('PagekageId', id);
+    };
     const dataTable = [
         {
             nameHeader: 'Tên gói vay',
@@ -117,14 +127,9 @@ const Package = () => {
             nameHeader: 'Chức năng',
             dataRow: (element) => {
                 return (
-                    <div
-                        className="MuiTableBody_root-itemLast"
-                        onClick={() => {
-                            navigate(`/editPackage/${element.packageId}`);
-                        }}
-                    >
-                        <img src={edit} alt="Edit" />
-                    </div>
+                    <Tooltip title="Cập nhật">
+                        <img src={edit} alt="Edit" onClick={(e) => handleShowEditPagkage(element.packageId)} />
+                    </Tooltip>
                 );
             },
         },
@@ -146,14 +151,17 @@ const Package = () => {
     // ==================================
     // |            Phân Trang        |
     // ==================================
-    const handleNavigate = () => {
-        navigate('/addPackage');
+
+    const [showAddPagkage, setShowAddPagkage] = useState(false);
+    const handleAddPackage = () => {
+        setShowAddPagkage(true);
     };
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
                 <PageHeader title="Điều chỉnh gói vay" />
-                <CustomizeButton title="Thêm mới" handleClick={handleNavigate} />
+                <CustomizeButton title="Thêm mới" handleClick={handleAddPackage} />
+                {showAddPagkage && <AddPackage showAddPagkage={showAddPagkage} setShowAddPagkage={setShowAddPagkage} />}
             </Grid>
 
             {/* ================================ */}
@@ -168,6 +176,13 @@ const Package = () => {
                     fontSize="14px"
                 >
                     <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
+                    {showEditPagkage && (
+                        <EditPackage
+                            refresh={fetchListCustomer}
+                            showEditPagkage={showEditPagkage}
+                            setShowEditPagkage={setShowEditPagkage}
+                        />
+                    )}
                     <Box marginTop="14px">
                         <Stack spacing={2}>
                             <Pagination

@@ -1,14 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+
 import './editemployee.css';
 import * as Yup from 'yup';
 import API from '../../../API';
 
-import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import { Button } from '@mui/material';
-import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
+
 import { toast } from 'react-toastify';
-import PageHeader from '../../../helpers/PageHeader';
+
+import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
+import { Save } from '@mui/icons-material';
 
 const validationSchema = Yup.object().shape({
     fullName: Yup.string()
@@ -21,8 +22,8 @@ const validationSchema = Yup.object().shape({
         .required('Email không được để trống'),
 });
 
-function EditEmployee() {
-    const history = useNavigate();
+function EditEmployee({ showEditEmployee, setShowEditEmployee, refresh }) {
+    const id = localStorage.getItem('EmployeeId');
     const [employee, setEmployee] = useState({
         fullName: '',
         branchId: null,
@@ -30,13 +31,28 @@ function EditEmployee() {
         address: '',
         phone: '',
     });
-    const id = useParams();
+
+    useEffect(() => {
+        API({
+            method: 'get',
+            url: `user/getUserById/` + id,
+        }).then((res) => {
+            setEmployee({
+                ...res.data,
+                fullName: res.data.fullName,
+                email: res.data.email,
+                address: res.data.address,
+                phone: res.data.phone,
+                branchId: res.data.userBranches[0].branchId,
+            });
+        });
+    }, [id]);
 
     const onSubmit = (event) => {
         event.preventDefault();
-        const userId = id.id;
+
         const data = {
-            userId: userId,
+            userId: id,
             branchId: employee.branchId,
             email: employee.email,
             fullName: employee.fullName,
@@ -54,7 +70,9 @@ function EditEmployee() {
                     url: `user/updateUser`,
                     data: data,
                 }).then((res) => {
+                    refresh();
                     toast.success('Chỉnh sửa thành công!');
+                    setShowEditEmployee(false);
                 });
             })
             .catch((error) => {
@@ -64,22 +82,6 @@ function EditEmployee() {
     };
 
     //Đổ dữ liệu user
-    useEffect(() => {
-        const slug = id.id;
-        API({
-            method: 'get',
-            url: `user/getUserById/${slug}`,
-        }).then((res) => {
-            setEmployee({
-                ...res.data,
-                fullName: res.data.fullName,
-                email: res.data.email,
-                address: res.data.address,
-                phone: res.data.phone,
-                branchId: res.data.userBranches[0].branchId,
-            });
-        });
-    }, [id.id]);
 
     const handleInput = (e) => {
         setEmployee({ ...employee, [e.target.name]: e.target.value });
@@ -100,118 +102,116 @@ function EditEmployee() {
         return branches;
     }, [branches]);
 
-    return (
-        <div className="box_employee">
-            <PageHeader title="Cập nhật nhân viên" />
+    const renderContent = () => (
+        <form /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
+            <div className="employeeAdd">
+                <div className="employee_input">
+                    <span>
+                        Họ và tên <span>*</span>:
+                    </span>
+                    <input type="text" name="fullName" onChange={(e) => handleInput(e)} value={employee.fullName} />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Tên cửa hàng <span>*</span>:
+                    </span>
+                    <select
+                        name="branchId"
+                        onChange={(e) => {
+                            handleInput(e);
+                        }}
+                        value={employee.branchId}
+                        style={{
+                            width: '576px',
+                        }}
+                    >
+                        <option>--Tên cửa hàng--</option>
+                        {branchOptions.map((item, index) => {
+                            return (
+                                <option key={index} value={item.branchId}>
+                                    {item.branchName}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Tên đăng nhập<span>*</span>:
+                    </span>
+                    <input type="text" name="username" disabled value={employee.userName} />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Email<span>*</span>:
+                    </span>
+                    <input type="text" name="email" onChange={(e) => handleInput(e)} value={employee.email} />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Địa chỉ <span>*</span>:
+                    </span>
+                    <input type="text" name="address" onChange={(e) => handleInput(e)} value={employee.address} />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Số điện thoại <span>*</span>:
+                    </span>
+                    <input type="text" name="phone" onChange={(e) => handleInput(e)} value={employee.phone} />
+                </div>
+                <div className="employee_search employee_style-search">
+                    <div className="employee_search-check employee_style-check">
+                        <span className="employee_search-heading">
+                            Tình trạng<span>*</span>:
+                        </span>
+                        <input
+                            type="radio"
+                            name="status"
+                            value="1"
+                            onChange={handleInput}
+                            checked={employee.status == 1 ? true : false}
+                        />
 
-            <div className="wareh-content">
-                <form /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
-                    <div className="employeeAdd">
-                        <div className="employee_input">
-                            <span>
-                                Họ và tên <span>*</span>:
-                            </span>
-                            <input
-                                type="text"
-                                name="fullName"
-                                onChange={(e) => handleInput(e)}
-                                value={employee.fullName}
-                            />
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Tên cửa hàng <span>*</span>:
-                            </span>
-                            <select
-                                name="branchId"
-                                onChange={(e) => {
-                                    handleInput(e);
-                                }}
-                                value={employee.branchId}
-                                style={{
-                                    width: '576px',
-                                }}
-                            >
-                                <option>--Tên cửa hàng--</option>
-                                {branchOptions.map((item, index) => {
-                                    return (
-                                        <option key={index} value={item.branchId}>
-                                            {item.branchName}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Tên đăng nhập<span>*</span>:
-                            </span>
-                            <input type="text" name="username" disabled value={employee.userName} />
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Email<span>*</span>:
-                            </span>
-                            <input type="text" name="email" onChange={(e) => handleInput(e)} value={employee.email} />
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Địa chỉ <span>*</span>:
-                            </span>
-                            <input
-                                type="text"
-                                name="address"
-                                onChange={(e) => handleInput(e)}
-                                value={employee.address}
-                            />
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Số điện thoại <span>*</span>:
-                            </span>
-                            <input type="text" name="phone" onChange={(e) => handleInput(e)} value={employee.phone} />
-                        </div>
-                        <div className="employee_search employee_style-search">
-                            <div className="employee_search-check employee_style-check">
-                                <span className="employee_search-heading">
-                                    Tình trạng<span>*</span>:
-                                </span>
-                                <input
-                                    type="radio"
-                                    name="status"
-                                    value="1"
-                                    onChange={handleInput}
-                                    checked={employee.status == 1 ? true : false}
-                                />
-                                {/* <input type="radio" name='status' onChange={(e) => handleInput(e)} value={1} /> */}
-                                <label className="check2">Đang làm việc</label>
-                                <input
-                                    type="radio"
-                                    name="status"
-                                    value="2"
-                                    onChange={handleInput}
-                                    checked={employee.status == 2 ? true : false}
-                                />
-                                {/* <input type="radio" name='status' onChange={(e) => handleInput(e)} value="2" /> */}
-                                <label className="check3">Tạm khóa</label>
-                            </div>
-                        </div>
-                        <div className="employee-btn">
-                            <div className="employee_btn-group">
-                                <Button onClick={(e) => onSubmit(e)}>
-                                    <BtnSave />
-                                </Button>
-                                <Button>
-                                    <Link to="/listemployees">
-                                        <BtnCloseAnimation />
-                                    </Link>
-                                </Button>
-                            </div>
-                        </div>
+                        <label className="check2">Đang làm việc</label>
+                        <input
+                            type="radio"
+                            name="status"
+                            value="2"
+                            onChange={handleInput}
+                            checked={employee.status == 2 ? true : false}
+                        />
+
+                        <label className="check3">Tạm khóa</label>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
+    );
+    const handleCloseDialog = () => {
+        setShowEditEmployee(false);
+    };
+    return (
+        <CustomizeDiaglog
+            open={showEditEmployee}
+            onClose={handleCloseDialog}
+            title="Cập Nhật Nhân Viên"
+            content={renderContent()}
+            action={
+                <Button
+                    onClick={(e) => onSubmit(e)}
+                    variant="contained"
+                    color="success"
+                    sx={{
+                        fontSize: '16px',
+                        padding: '15px 30px',
+                    }}
+                    startIcon={<Save />}
+                >
+                    Lưu Lại
+                </Button>
+            }
+            maxWidth={DIALOG_SIZE.lg}
+        />
     );
 }
 

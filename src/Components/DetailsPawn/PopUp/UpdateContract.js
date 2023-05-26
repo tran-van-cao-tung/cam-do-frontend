@@ -12,18 +12,21 @@ import ButtonCloseAnimation from '../../ButtonUI/BtnCloseAnimation/ButtonCloseAn
 import { Save } from '@mui/icons-material';
 import { AuthContext } from '../../../helpers/AuthContext';
 import { toast } from 'react-toastify';
-const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
+
+const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts }) => {
     const [detailContract, setDetailContract] = useState([]);
     const [warehouses, setWarehouses] = useState([]);
     const [pawnableProduct, setPawnableProduct] = useState();
     const [attributeInfo, setAttributeInfo] = useState([]);
     const [warehouse, setWarehouse] = useState({});
+
     const availableWarehouses = warehouses.filter((item) => {
-        if((item.status) === 0) {
-            return item
+        if (item.status === 1) {
+            return item;
         }
-    })
+    });
     const { userInfo } = useContext(AuthContext);
+    console.log('contracts.status', userInfo.status);
     const updateWarehouse = ({ target }) => {
         setWarehouse(target.value);
     };
@@ -41,8 +44,8 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
             },
         })
             .then((res) => {
-                console.log('Success Full');
                 toast.success('Chuyển kho thành công');
+                setShowUpdateContract(false);
             })
             .catch((err) => {
                 console.log(err);
@@ -62,7 +65,6 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
             .catch((err) => console.log(err));
     }
 
-    const [contractAttributes, setContractAttributes] = useState([]);
     async function loadContractDetail() {
         console.log('Load detail');
         try {
@@ -74,11 +76,10 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                 console.log(res.data);
                 console.log('====================');
                 setDetailContract(res.data);
-                setWarehouse(res.data.warehouseId)
+                setWarehouse(res.data.warehouseId);
                 setAttributeInfo(res.data.attributeInfos);
-                // console.log('attr info', res.data.attributeInfos[]);
             });
-        } catch (error) { }
+        } catch (error) {}
     }
 
     async function loadWarehouse() {
@@ -87,7 +88,6 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
             url: '/warehouse/GetAll/0',
         }).then((res) => {
             setWarehouses(res.data);
-            // console.log('aaaaa', res.data);
         });
     }
 
@@ -122,6 +122,8 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
             showAttribute(pawnableProduct[0].pawnableProductId);
         }
     }, [pawnableProduct]);
+
+    const count = 0;
 
     const renderContent = () => (
         <>
@@ -227,15 +229,27 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                                                     ? formatMoney(detailContract.totalProfit)
                                                     : '0 VNĐ'}
                                             </p>
-                                            <select value={warehouse} onChange={updateWarehouse}>
-                                                {availableWarehouses.map((item, index) => {
-                                                    return (
-                                                        <option key={index} value={item.warehouseId}>
-                                                            {item.warehouseName}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
+                                            {contracts.status === 4 ? (
+                                                <select value={warehouse} onChange={updateWarehouse}>
+                                                    {availableWarehouses.map((item, index) => {
+                                                        return (
+                                                            <option key={index} value={item.warehouseId}>
+                                                                {item.warehouseName}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </select>
+                                            ) : (
+                                                <select value={warehouse} onChange={updateWarehouse}>
+                                                    {availableWarehouses.map((item, index) => {
+                                                        return (
+                                                            <option key={index} value={item.warehouseId}>
+                                                                {item.warehouseName}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </select>
+                                            )}
                                         </div>
                                     </div>
                                 </Grid>
@@ -261,20 +275,20 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract }) => {
                                             <div className="user__info-label">
                                                 {attributes
                                                     ? attributes.map((item, index) => {
-                                                        return (
-                                                            <p key={index}>
-                                                                {item.description}
-                                                                {':'}
-                                                            </p>
-                                                        );
-                                                    })
+                                                          return (
+                                                              <p key={index}>
+                                                                  {item.description}
+                                                                  {':'}
+                                                              </p>
+                                                          );
+                                                      })
                                                     : ''}
                                             </div>
                                             <div className="user__info-input">
                                                 {attributes
                                                     ? attributeInfo.map((item, index) => {
-                                                        return <p>{item}</p>;
-                                                    })
+                                                          return <p>{item}</p>;
+                                                      })
                                                     : ''}
                                             </div>
                                         </div>

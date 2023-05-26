@@ -22,6 +22,7 @@ import SwipeableTextMobileStepper from './CarouselImg';
 import ModalImg from './ModalImg';
 import { useCallback } from 'react';
 import { StyledTableCell, StyledTableRow } from '../../../helpers/CustomizeTable';
+import { toast } from 'react-toastify';
 
 const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -138,7 +139,7 @@ function PayInterest({ showContractId, refreshDetail }) {
 
     //Upload img
 
-    const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_FW25bMK3mpqVXpSPo5c1xtLs1fF1' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 
@@ -213,7 +214,7 @@ function PayInterest({ showContractId, refreshDetail }) {
             url: `interestDiary/updateInterestDiary`,
             data: data,
         }).then((res) => {
-            alert('Chỉnh sửa Thành công!');
+            toast.success('Chỉnh sửa Thành công!');
         });
     };
     useEffect(() => {

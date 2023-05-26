@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 function Expiration({ setShowExpiration, showContractId, showExpiration }) {
     const history = useNavigate();
     const { userInfo } = useContext(AuthContext);
-    const uploader = Uploader({ apiKey: 'public_W142hsRDrKu5afNchEBx4f7nFNZx' }); // Your real API key.
+    const uploader = Uploader({ apiKey: 'public_FW25bMK3mpqVXpSPo5c1xtLs1fF1' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
 
@@ -39,12 +39,16 @@ function Expiration({ setShowExpiration, showContractId, showExpiration }) {
     const handleSubmit = () => {
         API({
             method: 'post',
-            url: `/contract/createContractExpiration/${localStorage.getItem('PawnDetailID')}/${userInfo.userId}/?proofImg=${linkImg}`,
-        }).then((res) => {
-            toast.success('Đáo hạn thành công!');
-            console.log(res.data);
-            window.location.reload(false);
-        }).catch((err) => toast.error("Đáo hạn không thành công"));;
+            url: `/contract/createContractExpiration/${localStorage.getItem('PawnDetailID')}/${
+                userInfo.userId
+            }/?proofImg=${linkImg}`,
+        })
+            .then((res) => {
+                toast.success('Đáo hạn thành công!');
+                console.log(res.data);
+                window.location.reload(false);
+            })
+            .catch((err) => toast.error('Đáo hạn không thành công'));
     };
     const [contractDetail, setContractDetail] = useState([]);
     useEffect(() => {
@@ -165,7 +169,7 @@ function Expiration({ setShowExpiration, showContractId, showExpiration }) {
                         width="600px"
                         height="375px"
                     />
-                    <img src={linkImg} width="600px" height="375px" alt=''/>
+                    <img src={linkImg} width="600px" height="375px" alt="" />
                 </div>
             </div>
         </>

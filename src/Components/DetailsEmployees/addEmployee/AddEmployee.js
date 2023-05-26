@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import ReplyIcon from '@mui/icons-material/Reply';
+
 import '../listEmployees/employee.css';
 import './addemployee.css';
-import PasswordInput from '../PasswordInput';
+
 import API from '../../../API';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import Swal from 'sweetalert2';
-import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
-import { Button } from '@mui/material';
-import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
-import PageHeader from '../../../helpers/PageHeader';
 
-function AddEmployee() {
+import { Button } from '@mui/material';
+
+import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
+import { Save } from '@mui/icons-material';
+import { toast } from 'react-toastify';
+
+function AddEmployee({ showAddEmployee, setShowAddEmployee }) {
     const [confirmPassword, setConfirmPassword] = useState('');
-    /*  const [password, setPassword] = useState(''); */
+
     const [branch, setBranch] = useState([]);
-    const [branchList, setBranchList] = useState([]);
 
     //đổ dữ liệu branch
     useEffect(() => {
@@ -78,10 +76,8 @@ function AddEmployee() {
 
     const onSubmit = (data) => {
         if (data.password !== confirmPassword) {
-            Swal.fire({
-                text: 'Mật khẩu không trùng khớp!',
-                icon: 'warning',
-            }).then((result) => {});
+            toast.error('Mật khẩu không trùng khớp!');
+
             return;
         }
         data.status = parseInt(data.status);
@@ -107,141 +103,151 @@ function AddEmployee() {
         });
     }, []);
 
-    return (
-        <div className="box_employee">
-            <PageHeader title="Thêm mới nhân viên" />
-
-            <div className="wareh-content">
-                <Formik initialValues={initialValues} /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
-                    <Form>
-                        <div className="employeeAdd">
-                            <div className="employee_input">
-                                <span>
-                                    Họ và tên <span>*</span>:
-                                </span>
-                                <Field id="fullName" name="fullName" />
-                                {/* <input type="text" name='fullName' onChange={(e) => handleInput(e)} value={employeeInput.fullName} /> */}
-                            </div>
-                            <ErrorMessage name="fullName" className="alert alert-danger" component="div" />
-                            <div className="employee_input">
-                                <span>
-                                    Tên cửa hàng <span>*</span>:
-                                </span>
-                                <Field
-                                    as="select"
-                                    id="branchId"
-                                    name="branchId"
-                                    style={{
-                                        width: '576px',
-                                    }} /* onChange={(e) => handleInput(e)} value={employeeInput.branchId} */
-                                >
-                                    <option>--Tên cửa hàng--</option>
-                                    {branch.map((item, index) => {
-                                        return (
-                                            <option key={index} value={item.branchId}>
-                                                {item.branchName}
-                                            </option>
-                                        );
-                                    })}
-                                </Field>
-                            </div>
-                            <ErrorMessage className="alert alert-danger" name="branchId" component="div" />
-                            <div className="employee_input">
-                                <span>
-                                    Tên đăng nhập <span>*</span>:
-                                </span>
-                                <Field id="userName" name="userName" />
-                                {/* <input type="text" name='userName' onChange={(e) => handleInput(e)} value={employeeInput.userName} /> */}
-                            </div>
-                            <ErrorMessage className="alert alert-danger" name="userName" component="div" />
-                            <div className="employee_input">
-                                <span>
-                                    Mật khẩu<span>*</span>:
-                                </span>
-                                <div className="password-input">
-                                    <Field type={showPassword1 ? 'text' : 'password'} id="password" name="password" />
-                                    <button type="button" onClick={toggleShowPassword1}>
-                                        {showPassword1 ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                                    </button>
-                                </div>
-                            </div>
-                            <ErrorMessage name="password" className="alert alert-danger" component="div" />
-                            <div className="employee_input">
-                                <span>
-                                    Nhập lại mật khẩu<span>*</span>:
-                                </span>
-                                <div className="password-input">
-                                    <Field
-                                        type={showPassword2 ? 'text' : 'password'}
-                                        id="confirmPassword"
-                                        name="confirmPassword"
-                                        onChange={handlePasswordChange}
-                                        value={confirmPassword}
-                                    />
-                                    <button type="button" onClick={toggleShowPassword2}>
-                                        {showPassword2 ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="employee_input">
-                                <span>
-                                    Email<span>*</span>:
-                                </span>
-                                <Field id="email" name="email" />
-                                {/* <input type="text" name='email' onChange={(e) => handleInput(e)} value={employeeInput.email} /> */}
-                            </div>
-                            <ErrorMessage name="email" className="alert alert-danger" component="div" />
-                            <div className="employee_input">
-                                <span>
-                                    Địa chỉ <span>*</span>:
-                                </span>
-                                <Field id="address" name="address" />
-                                {/*  <input type="text" name='address' onChange={(e) => handleInput(e)} value={employeeInput.address} /> */}
-                            </div>
-                            <ErrorMessage name="address" className="alert alert-danger" component="div" />
-                            <div className="employee_input">
-                                <span>
-                                    Số điện thoại <span>*</span>:
-                                </span>
-                                <Field id="phone" name="phone" />
-                                {/*  <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employeeInput.phone} /> */}
-                            </div>
-                            <ErrorMessage name="phone" className="alert alert-danger" component="div" />
-                            <div className="employee_input">
-                                <span>
-                                    Chức vụ <span>*</span>:
-                                </span>
-                                <Field
-                                    as="select"
-                                    id="roleId"
-                                    name="roleId"
-                                    style={{
-                                        width: '576px',
-                                    }} /* onChange={(e) => handleInput(e)} value={employeeInput.branchId} */
-                                >
-                                    <option value={2} selected>
-                                        --Quản lý--
+    const renderContent = () => (
+        <Formik initialValues={initialValues} /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
+            <Form>
+                <div className="employeeAdd">
+                    <div className="employee_input">
+                        <span>
+                            Họ và tên <span>*</span>:
+                        </span>
+                        <Field id="fullName" name="fullName" />
+                        {/* <input type="text" name='fullName' onChange={(e) => handleInput(e)} value={employeeInput.fullName} /> */}
+                    </div>
+                    <ErrorMessage name="fullName" className="alert alert-danger" component="div" />
+                    <div className="employee_input">
+                        <span>
+                            Tên cửa hàng <span>*</span>:
+                        </span>
+                        <Field
+                            as="select"
+                            id="branchId"
+                            name="branchId"
+                            style={{
+                                width: '576px',
+                            }} /* onChange={(e) => handleInput(e)} value={employeeInput.branchId} */
+                        >
+                            <option>--Tên cửa hàng--</option>
+                            {branch.map((item, index) => {
+                                return (
+                                    <option key={index} value={item.branchId}>
+                                        {item.branchName}
                                     </option>
-                                    <option value={3}>--Nhân viên--</option>
-                                </Field>
-                            </div>
-                            <div className="employee-btn">
-                                <div className="employee_btn-group">
-                                    <Button type="submit">
-                                        <BtnSave />
-                                    </Button>
-                                    <Button>
-                                        <Link to="/listemployees">
-                                            <BtnCloseAnimation />
-                                        </Link>
-                                    </Button>
-                                </div>
-                            </div>
+                                );
+                            })}
+                        </Field>
+                    </div>
+                    <ErrorMessage className="alert alert-danger" name="branchId" component="div" />
+                    <div className="employee_input">
+                        <span>
+                            Tên đăng nhập <span>*</span>:
+                        </span>
+                        <Field id="userName" name="userName" />
+                        {/* <input type="text" name='userName' onChange={(e) => handleInput(e)} value={employeeInput.userName} /> */}
+                    </div>
+                    <ErrorMessage className="alert alert-danger" name="userName" component="div" />
+                    <div className="employee_input">
+                        <span>
+                            Mật khẩu<span>*</span>:
+                        </span>
+                        <div className="password-input">
+                            <Field type={showPassword1 ? 'text' : 'password'} id="password" name="password" />
+                            <button type="button" onClick={toggleShowPassword1}>
+                                {showPassword1 ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                            </button>
                         </div>
-                    </Form>
-                </Formik>
-            </div>
-        </div>
+                    </div>
+                    <ErrorMessage name="password" className="alert alert-danger" component="div" />
+                    <div className="employee_input">
+                        <span>
+                            Nhập lại mật khẩu<span>*</span>:
+                        </span>
+                        <div className="password-input">
+                            <Field
+                                type={showPassword2 ? 'text' : 'password'}
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                onChange={handlePasswordChange}
+                                value={confirmPassword}
+                            />
+                            <button type="button" onClick={toggleShowPassword2}>
+                                {showPassword2 ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                            </button>
+                        </div>
+                    </div>
+                    <div className="employee_input">
+                        <span>
+                            Email<span>*</span>:
+                        </span>
+                        <Field id="email" name="email" />
+                        {/* <input type="text" name='email' onChange={(e) => handleInput(e)} value={employeeInput.email} /> */}
+                    </div>
+                    <ErrorMessage name="email" className="alert alert-danger" component="div" />
+                    <div className="employee_input">
+                        <span>
+                            Địa chỉ <span>*</span>:
+                        </span>
+                        <Field id="address" name="address" />
+                        {/*  <input type="text" name='address' onChange={(e) => handleInput(e)} value={employeeInput.address} /> */}
+                    </div>
+                    <ErrorMessage name="address" className="alert alert-danger" component="div" />
+                    <div className="employee_input">
+                        <span>
+                            Số điện thoại <span>*</span>:
+                        </span>
+                        <Field id="phone" name="phone" />
+                        {/*  <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employeeInput.phone} /> */}
+                    </div>
+                    <ErrorMessage name="phone" className="alert alert-danger" component="div" />
+                    <div className="employee_input">
+                        <span>
+                            Chức vụ <span>*</span>:
+                        </span>
+                        <Field
+                            as="select"
+                            id="roleId"
+                            name="roleId"
+                            style={{
+                                width: '576px',
+                            }} /* onChange={(e) => handleInput(e)} value={employeeInput.branchId} */
+                        >
+                            <option value={2} selected>
+                                --Quản lý--
+                            </option>
+                            <option value={3}>--Nhân viên--</option>
+                        </Field>
+                    </div>
+                </div>
+            </Form>
+        </Formik>
+    );
+    const handleCloseDialog = () => {
+        setShowAddEmployee(false);
+    };
+    return (
+        <>
+            <CustomizeDiaglog
+                open={showAddEmployee}
+                onClose={handleCloseDialog}
+                title="Thêm Mới Nhân Viên"
+                content={renderContent()}
+                action={
+                    <Button
+                        onClick={(e) => onSubmit(e)}
+                        variant="contained"
+                        color="success"
+                        sx={{
+                            fontSize: '16px',
+                            padding: '15px 30px',
+                        }}
+                        startIcon={<Save />}
+                    >
+                        Lưu Lại
+                    </Button>
+                }
+                maxWidth={DIALOG_SIZE.md}
+            />
+        </>
     );
 }
 

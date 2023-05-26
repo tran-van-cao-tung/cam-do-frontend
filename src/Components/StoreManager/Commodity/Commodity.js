@@ -1,7 +1,5 @@
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
+
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Commodity.css';
@@ -14,6 +12,7 @@ import { isAvailableArray } from '../../../helpers/utils';
 import PageHeader from '../../../helpers/PageHeader';
 import CustomizeButton from '../../../helpers/CustomizeButton';
 import { Search } from '@mui/icons-material';
+import Addcommondity from '../AddCommondity/Addcommondity';
 
 const DEFAULT = {
     pageNumber: 1,
@@ -113,6 +112,10 @@ function Commodity() {
     const handleOpen = () => {
         setOpen(true);
     };
+    const [showAddCommodity, setShowAddCommodity] = useState(false);
+    const handleAddCommodity = () => {
+        setShowAddCommodity(true);
+    };
     return (
         <Box>
             <Grid container spacing={2} xs={12}>
@@ -157,9 +160,13 @@ function Commodity() {
                             </FormControl>
                         </Grid>
                         <Grid item>
-                            <Link to="/commodity/add">
-                                <CustomizeButton title="Thêm mới" />
-                            </Link>
+                            <CustomizeButton title="Thêm mới" handleClick={handleAddCommodity} />
+                            {showAddCommodity && (
+                                <Addcommondity
+                                    showAddCommodity={showAddCommodity}
+                                    setShowAddCommodity={setShowAddCommodity}
+                                />
+                            )}
                         </Grid>
                     </Grid>
                 </Grid>
