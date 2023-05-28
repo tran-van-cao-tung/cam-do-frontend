@@ -111,18 +111,20 @@
 .user__info-input {
     display: grid;
     width: 55%;
-    grid-gap: 15px;
+    grid-gap: 30px;
 }
 
-.user__info-input input,
+
+/* .user__info-input input,
 .user__info-input select {
     background: rgba(255, 255, 255, 0.6);
     opacity: 0.6;
     border: 1px solid #000000;
     border-radius: 6px;
-    padding: 0 0 0 5%;
+    padding: 10px 5%;
     box-sizing: border-box;
-}
+    width: 100px
+} */
 
 .user__info-input,
 .user__info-label {
@@ -269,7 +271,8 @@
 .text__right {
     text-align: right;
 }
-.text__left{
+
+.text__left {
     text-align: left;
 }
 

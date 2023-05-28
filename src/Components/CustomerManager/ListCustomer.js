@@ -165,7 +165,11 @@ function ListCustomer({ numPage }) {
                         <CustomizeButton title="Thêm mới" handleClick={handleShowAddCustomer} />
                     </Grid>
                     {showAddCustomer && (
-                        <AddNewCustomer showAddCustomer={showAddCustomer} setShowAddCustomer={setShowAddCustomer} />
+                        <AddNewCustomer
+                            refresh={fetchListCustomer}
+                            showAddCustomer={showAddCustomer}
+                            setShowAddCustomer={setShowAddCustomer}
+                        />
                     )}
                 </Grid>
             </Grid>

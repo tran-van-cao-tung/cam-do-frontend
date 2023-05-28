@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './login.scss';
+import logo from '../../asset/logo/PawnS/3.png';
 import API from '../../API';
-import Swal from 'sweetalert2';
+
 import { AuthContext } from '../../helpers/AuthContext';
 import { toast } from 'react-toastify';
+import { Diversity2Sharp } from '@mui/icons-material';
 
 const Login = () => {
     const [userName, setUserName] = useState();
@@ -40,30 +42,34 @@ const Login = () => {
     };
 
     return (
-        <div className="container">
-            <h1>Pawns</h1>
+        <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div>
+                <img src={logo} alt="" style={{ width: '300px' }} />
+            </div>
             <div className="content-login">
                 <div className="content-login_backgroud"></div>
                 <form onSubmit={hanldeSubmit}>
                     <div className="content-login_fromtext">
-                        <p>ĐĂNG NHẬP NGƯỜI DÙNG</p>
+                        <p>ĐĂNG NHẬP</p>
                     </div>
-                    <input
-                        type="text"
-                        placeholder="Tên Đăng Nhập"
-                        onChange={(e) => {
-                            setUserName(e.target.value);
-                        }}
-                    />
-                    <input
-                        type="password"
-                        placeholder="Mật Khẩu"
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                        }}
-                    />
-                    <div className="content-login_text">
-                        <Link to="/auth/forgot">Quên mật khẩu ?</Link>
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Tên Đăng Nhập"
+                            onChange={(e) => {
+                                setUserName(e.target.value);
+                            }}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Mật Khẩu"
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                            }}
+                        />
+                        <div className="content-login_text">
+                            <Link to="/auth/forgot">Quên mật khẩu ?</Link>
+                        </div>
                     </div>
                     <button className="btn_login" type="submit">
                         Đăng Nhập

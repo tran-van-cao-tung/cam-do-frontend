@@ -8,7 +8,13 @@ import { Save } from '@mui/icons-material';
 import { Grid, TextField } from '@mui/material';
 import { toast } from 'react-toastify';
 
-const AddWareHouse = ({ showAddWareHouse, setShowAddWareHouse }) => {
+const AddWareHouse = ({ showAddWareHouse, setShowAddWareHouse, refresh }) => {
+    const [statusFilter, setStatusFilter] = useState('available');
+
+    const handleStatusFilter = (e) => {
+        setStatusFilter(e.target.value);
+    };
+
     // ================================
     // |         Add Ware Home         |
     // ================================
@@ -26,8 +32,8 @@ const AddWareHouse = ({ showAddWareHouse, setShowAddWareHouse }) => {
             },
         })
             .then((res) => {
-                toast.success('Tạo mới thành công');
-                window.location.reload(false);
+                refresh();
+                toast.success('Lưu Thành Công');
             })
             .catch((err) => toast.error('Tạo mới không thành công'));
     };

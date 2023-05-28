@@ -5,7 +5,7 @@ import bike from '../../../asset/img/bike.png';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import API from '../../../API.js';
-import { Button } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { formatMoney } from '../../../helpers/dateTimeUtils';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
 import ButtonCloseAnimation from '../../ButtonUI/BtnCloseAnimation/ButtonCloseAnimation';
@@ -13,7 +13,7 @@ import { Save } from '@mui/icons-material';
 import { AuthContext } from '../../../helpers/AuthContext';
 import { toast } from 'react-toastify';
 
-const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts }) => {
+const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts, refresh }) => {
     const [detailContract, setDetailContract] = useState([]);
     const [warehouses, setWarehouses] = useState([]);
     const [pawnableProduct, setPawnableProduct] = useState();
@@ -44,6 +44,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts }
             },
         })
             .then((res) => {
+                refresh();
                 toast.success('Chuyển kho thành công');
                 setShowUpdateContract(false);
             })
@@ -133,7 +134,6 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts }
                 <div className="mgb21">
                     <div className="heading-info-user heading-user">
                         <div className="heading-info-user">
-                            <img src={user} alt="hk" />
                             <h1 className="titile-user">Thông tin khách hàng</h1>
                         </div>
                     </div>
@@ -172,7 +172,6 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts }
                 <div className="mgb21">
                     <div className="heading-info-user heading-user">
                         <div className="heading-info-user">
-                            <img src={user} alt="hk" />
                             <h1 className="titile-user">Thông tin cầm đồ</h1>
                         </div>
                     </div>
@@ -230,25 +229,46 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts }
                                                     : '0 VNĐ'}
                                             </p>
                                             {contracts.status === 4 ? (
-                                                <select value={warehouse} onChange={updateWarehouse}>
-                                                    {availableWarehouses.map((item, index) => {
-                                                        return (
-                                                            <option key={index} value={item.warehouseId}>
-                                                                {item.warehouseName}
-                                                            </option>
-                                                        );
-                                                    })}
-                                                </select>
+                                                <Box sx={{ minWidth: 120 }}>
+                                                    <FormControl>
+                                                        <InputLabel>Kho</InputLabel>
+                                                        <Select
+                                                            disabled
+                                                            value={warehouse ?? ''}
+                                                            label="Kho"
+                                                            onChange={updateWarehouse}
+                                                        >
+                                                            {availableWarehouses.map((item, index) => {
+                                                                return (
+                                                                    <MenuItem key={index} value={item.warehouseId}>
+                                                                        {' '}
+                                                                        {item.warehouseName}
+                                                                    </MenuItem>
+                                                                );
+                                                            })}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
                                             ) : (
-                                                <select value={warehouse} onChange={updateWarehouse}>
-                                                    {availableWarehouses.map((item, index) => {
-                                                        return (
-                                                            <option key={index} value={item.warehouseId}>
-                                                                {item.warehouseName}
-                                                            </option>
-                                                        );
-                                                    })}
-                                                </select>
+                                                <Box sx={{ minWidth: 120 }}>
+                                                    <FormControl>
+                                                        <InputLabel>Kho</InputLabel>
+                                                        <Select
+                                                            value={warehouse ?? ''}
+                                                            label="Kho"
+                                                            onChange={updateWarehouse}
+                                                        >
+                                                            {availableWarehouses.map((item, index) => {
+                                                                return (
+                                                                    <MenuItem key={index} value={item.warehouseId}>
+                                                                        {' '}
+                                                                        {item.warehouseName}
+                                                                    </MenuItem>
+                                                                );
+                                                            })}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
                                             )}
                                         </div>
                                     </div>
@@ -262,7 +282,6 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts }
                 <div className="mgb21">
                     <div className="heading-info-user heading-user">
                         <div className="heading-info-user">
-                            <img src={bike} alt="hk" />
                             <h1 className="titile-user">Thông tin tài sản</h1>
                         </div>
                     </div>

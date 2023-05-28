@@ -29,7 +29,7 @@ const DetailsPawn = () => {
     });
 
     const navigate = useNavigate();
-    useEffect(() => {
+    const fetchCallAPI = () => {
         if (currentBranchId) {
             API({
                 method: 'get',
@@ -38,6 +38,9 @@ const DetailsPawn = () => {
                 setContracts(res.data);
             });
         }
+    };
+    useEffect(() => {
+        fetchCallAPI();
     }, [currentBranchId]);
 
     useEffect(() => {
@@ -91,10 +94,15 @@ const DetailsPawn = () => {
                 />
             </Grid>
             {showAddContract && (
-                <AddContract showAddContract={showAddContract} setShowAddContract={setShowAddContract} />
+                <AddContract
+                    refresh={fetchCallAPI}
+                    showAddContract={showAddContract}
+                    setShowAddContract={setShowAddContract}
+                />
             )}
             {showUpdateContract && (
                 <UpdateContract
+                    refresh={fetchCallAPI}
                     contracts={contracts}
                     showUpdateContract={showUpdateContract}
                     setShowUpdateContract={setShowUpdateContract}
@@ -112,6 +120,7 @@ const DetailsPawn = () => {
             )}
             {showExpiration && (
                 <Expiration
+                    refresh={fetchCallAPI}
                     showExpiration={showExpiration}
                     setShowExpiration={setShowExpiration}
                     showContractId={showContractId}

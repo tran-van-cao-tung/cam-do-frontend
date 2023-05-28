@@ -12,7 +12,7 @@ import { Save } from '@mui/icons-material';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
 import { toast } from 'react-toastify';
 
-const AddNewCustomer = ({ setShowAddCustomer, showAddCustomer }) => {
+const AddNewCustomer = ({ setShowAddCustomer, showAddCustomer, refresh }) => {
     const uploader = Uploader({ apiKey: 'public_FW25bMK3mpqVXpSPo5c1xtLs1fF1' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
@@ -54,11 +54,11 @@ const AddNewCustomer = ({ setShowAddCustomer, showAddCustomer }) => {
             },
         })
             .then((res) => {
+                refresh();
                 toast.success('Tạo KH thành công');
-                window.location.reload(false);
+                setShowAddCustomer(false);
             })
             .catch((err) => {
-                console.log(err);
                 toast.error('Tạo KH fail');
             });
     };

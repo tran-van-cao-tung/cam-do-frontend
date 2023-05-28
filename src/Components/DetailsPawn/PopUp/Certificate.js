@@ -25,6 +25,7 @@ const Certificate = ({ showContractId }) => {
 
     const [img, setImg] = useState([]);
     // Axios
+
     useEffect(() => {
         API({
             method: 'get',
@@ -71,7 +72,6 @@ const Certificate = ({ showContractId }) => {
                 toast.success('Lưu hình thành công');
             })
             .catch((err) => {
-                console.log(err);
                 toast.error('Lưu hình thất bại');
             });
     }

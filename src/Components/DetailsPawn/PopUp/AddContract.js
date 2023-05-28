@@ -17,7 +17,7 @@ import ButtonCloseAnimation from '../../ButtonUI/BtnCloseAnimation/ButtonCloseAn
 import { formatMoney } from '../../../helpers/dateTimeUtils';
 import { toast } from 'react-toastify';
 
-const AddContract = ({ setShowAddContract, showAddContract }) => {
+const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
     const { authState, currentBranchId, userInfo } = useContext(AuthContext);
     const [img, setImg] = useState('');
     const [refesh, setRefesh] = useState(false);
@@ -47,9 +47,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             },
         },
     };
-    useEffect(() => {
-        
-    }, []);
+    useEffect(() => {}, []);
 
     const handleImg = (inputImg) => {
         console.log('img is:', inputImg);
@@ -92,19 +90,20 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             interestRecommend: contract.interestRecommend,
             description: 'string',
         };
-        console.log(data);
-        // API({
-        //     method: 'post',
-        //     url: '/contract/createContract',
-        //     data: data,
-        // })
-        //     .then((res) => {
-        //         toast.success('Tạo hợp đồng thành công');
-        //         window.location.reload(false);
-        //     })
-        //     .catch((err) => {
-        //         toast.error('Tạo hơp đồng thất bại');
-        //     });
+        API({
+            method: 'post',
+            url: '/contract/createContract',
+            data: data,
+        })
+            .then((res) => {
+                refresh();
+                toast.success('Tạo hợp đồng thành công');
+                setShowAddContract(false);
+                // window.location.reload(false);
+            })
+            .catch((err) => {
+                toast.error('Tạo hơp đồng thất bại');
+            });
     };
 
     //get dữ liệu pawnableProduct
@@ -167,22 +166,21 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
 
     const handleSum = (e) => {
         setContract({ ...contract, [e.target.name]: e.target.value });
-        if(e.target.name === 'insuranceFee'){
+        if (e.target.name === 'insuranceFee') {
             setInsuranceFee(e.target.value);
-        } else
-        if(e.target.name === 'storageFee'){
+        } else if (e.target.name === 'storageFee') {
             setStorageFee(e.target.value);
         }
     };
 
     const handleRecommended = (e) => {
         var currentProfit = totalProfit;
-        if(!e.target.value == 0){
+        if (!e.target.value == 0) {
             var _fee = parseInt(insuranceFee) + parseInt(storageFee);
             console.log(_fee);
             setContract({ ...contract, [e.target.name]: e.target.value });
             setTotalProfit(contract.loan * (e.target.value / 100) + _fee * cycle);
-        }else{
+        } else {
             setTotalProfit(currentProfit);
         }
     };

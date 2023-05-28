@@ -113,7 +113,11 @@ const WareHouse = () => {
                 <PageHeader title="Danh sách kho" />
                 <CustomizeButton title="Thêm mới" handleClick={hanldeAddWareHouse} />
                 {showAddWareHouse && (
-                    <AddWareHouse showAddWareHouse={showAddWareHouse} setShowAddWareHouse={setShowAddWareHouse} />
+                    <AddWareHouse
+                        refresh={fetchListCustomer}
+                        showAddWareHouse={showAddWareHouse}
+                        setShowAddWareHouse={setShowAddWareHouse}
+                    />
                 )}
             </Grid>
             <Grid item xs={12}>
