@@ -10,6 +10,7 @@ import { Button, Grid, TextField } from '@mui/material';
 
 import { Save } from '@mui/icons-material';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
+import { toast } from 'react-toastify';
 
 const AddNewCustomer = ({ setShowAddCustomer, showAddCustomer }) => {
     const uploader = Uploader({ apiKey: 'public_FW25bMK3mpqVXpSPo5c1xtLs1fF1' }); // Your real API key.
@@ -53,11 +54,12 @@ const AddNewCustomer = ({ setShowAddCustomer, showAddCustomer }) => {
             },
         })
             .then((res) => {
-                alert('Tạo KH thành công');
+                toast.success('Tạo KH thành công');
+                window.location.reload(false);
             })
             .catch((err) => {
                 console.log(err);
-                alert('Tạo KH fail');
+                toast.error('Tạo KH fail');
             });
     };
     const [name, setName] = useState('');
@@ -151,27 +153,33 @@ const AddNewCustomer = ({ setShowAddCustomer, showAddCustomer }) => {
             <Grid item xs={12} display="flex" justifyContent="space-between">
                 <Grid item>
                     <p style={{ textAlign: 'center', fontWeight: 700 }}>Mặt Trước</p>
-
-                    <UploadDropzone
-                        uploader={uploader}
-                        options={uploaderOptions}
-                        onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
-                        onComplete={(files) => uploadFrontImg(files.map((x) => x.fileUrl).join('\n'))}
-                        width="600px"
-                        height="300px"
-                    />
+                    {frontImg == '' ? (
+                        <UploadDropzone
+                            uploader={uploader}
+                            options={uploaderOptions}
+                            onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
+                            onComplete={(files) => uploadFrontImg(files.map((x) => x.fileUrl).join('\n'))}
+                            width="600px"
+                            height="300px"
+                        />
+                    ) : (
+                        <img src={frontImg} alt="" style={{ width: '270px', height: '150px' }} />
+                    )}
                 </Grid>
                 <Grid item>
                     <p style={{ textAlign: 'center', fontWeight: 700 }}>Mặt Sau</p>
-
-                    <UploadDropzone
-                        uploader={uploader}
-                        options={uploaderOptions}
-                        onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
-                        onComplete={(files) => uploadBackImg(files.map((x) => x.fileUrl).join('\n'))}
-                        width="600px"
-                        height="300px"
-                    />
+                    {backImg == '' ? (
+                        <UploadDropzone
+                            uploader={uploader}
+                            options={uploaderOptions}
+                            onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
+                            onComplete={(files) => uploadBackImg(files.map((x) => x.fileUrl).join('\n'))}
+                            width="600px"
+                            height="300px"
+                        />
+                    ) : (
+                        <img src={backImg} alt="" style={{ width: '270px', height: '150px' }} />
+                    )}
                 </Grid>
             </Grid>
         </Grid>
