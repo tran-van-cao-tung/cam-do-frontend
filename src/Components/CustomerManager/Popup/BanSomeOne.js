@@ -3,6 +3,7 @@ import API from '../../../API';
 import { useNavigate } from 'react-router-dom';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 const BanSomeOne = ({ showBanReason, setShowBanReason, cccd }) => {
     const history = useNavigate();
     const [customerInfo, setCustomerInfo] = useState([]);
@@ -33,12 +34,12 @@ const BanSomeOne = ({ showBanReason, setShowBanReason, cccd }) => {
             },
         })
             .then((res) => {
-                alert('Blacklist thành công');
+                toast.success('Blacklist thành công');
                 history('/customer-manager');
             })
             .catch((err) => {
                 console.log(err);
-                alert('Blacklist fail');
+                toast.error('Blacklist fail');
             });
     };
     const [reason, setReason] = useState();

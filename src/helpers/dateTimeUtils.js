@@ -9,5 +9,8 @@ export const formatTime = (value) => {
 };
 
 export const formatMoney = (value) => {
-    return value.toLocaleString('vi-VN') + ' VNĐ';
+    if(value){
+        return value.toLocaleString('vi-VN') + ' VNĐ';
+    }
+    return
 };

@@ -88,8 +88,7 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee }) {
             url: `user/createUser`,
             data: data,
         }).then((res) => {
-            alert('thêm thành công!');
-            console.log(data);
+            toast.success('Thêm thành công!');
         });
     };
 

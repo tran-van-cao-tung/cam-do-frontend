@@ -25,17 +25,14 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
     const [pawnableProduct, setPawnableProduct] = useState([]);
     const [packagelist, setPackage] = useState([]);
     const [packageItem, setPackageItem] = useState([]);
-    const [warehouse, setWarehouse] = useState();
     const [warehouses, setWarehouses] = useState([]);
-
     const [totalProfit, setTotalProfit] = useState(0);
     const [cycle, setCycle] = useState(0);
     const [selectedInterest, setSelectedInterest] = useState(0);
-    const availableWarehouses = warehouses.filter((item) => {
-        if (item.status === 1) {
-            return item;
-        }
-    });
+    const [warehouse, setWarehouse] = useState('');
+    const [insuranceFee, setInsuranceFee] = useState('200000');
+    const [storageFee, setStorageFee] = useState('200000');
+
     const uploader = Uploader({ apiKey: 'public_FW25bMK3mpqVXpSPo5c1xtLs1fF1' }); // Your real API key.
     const uploaderOptions = {
         multi: true,
@@ -51,11 +48,8 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
         },
     };
     useEffect(() => {
-        return () => {
-            img && URL.revokeObjectURL(img.preview);
-        };
-    }, [img]);
-    const [user, setUser] = useState();
+        
+    }, []);
 
     const handleImg = (inputImg) => {
         console.log('img is:', inputImg);
@@ -65,9 +59,10 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
     async function loadWarehouse() {
         API({
             method: 'get',
-            url: '/warehouse/GetAll/0',
+            url: 'warehouse/getAllActive/0',
         }).then((res) => {
             setWarehouses(res.data);
+            setWarehouse(res.data[0].warehouseId);
         });
     }
 
@@ -89,26 +84,27 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
             pawnableProductId: contract.pawnableProductId,
             packageId: packageItem[0].packageId,
             contractAssetName: contract.contractAssetName,
-            insuranceFee: contract.insuranceFee,
-            storageFee: contract.storageFee,
+            insuranceFee: insuranceFee,
+            storageFee: storageFee,
             loan: contract.loan,
             assetImg: img,
             pawnableAttributeDTOs: contractAttributes,
             interestRecommend: contract.interestRecommend,
             description: 'string',
         };
-        API({
-            method: 'post',
-            url: '/contract/createContract',
-            data: data,
-        })
-            .then((res) => {
-                toast.success('Tạo hợp đồng thành công');
-                window.location.reload(false);
-            })
-            .catch((err) => {
-                toast.error('Tạo hơp đồng thất bại');
-            });
+        console.log(data);
+        // API({
+        //     method: 'post',
+        //     url: '/contract/createContract',
+        //     data: data,
+        // })
+        //     .then((res) => {
+        //         toast.success('Tạo hợp đồng thành công');
+        //         window.location.reload(false);
+        //     })
+        //     .catch((err) => {
+        //         toast.error('Tạo hơp đồng thất bại');
+        //     });
     };
 
     //get dữ liệu pawnableProduct
@@ -132,22 +128,6 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
         });
     }, []);
 
-    //get dữ liệu Lấy userId
-    useEffect(() => {
-        API({
-            method: 'get',
-            url: 'user/getAll/0',
-        })
-            .then((res) => {
-                setUser(
-                    res.data.filter((item, index) => {
-                        return item.userId === userInfo.userId;
-                    })[0],
-                );
-            })
-            .catch((err) => console.log(err));
-    }, [userInfo]);
-
     function getInterest(pckID) {
         API({
             method: 'get',
@@ -163,7 +143,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
 
     const handleTotalProfit = (_interest, _cycle) => {
         console.log('Calculated profit');
-        var _fee = parseInt(contract.insuranceFee) + parseInt(contract.storageFee);
+        var _fee = parseInt(insuranceFee) + parseInt(storageFee);
         console.log(_fee);
         console.log(_interest);
         console.log(_cycle);
@@ -187,12 +167,24 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
 
     const handleSum = (e) => {
         setContract({ ...contract, [e.target.name]: e.target.value });
+        if(e.target.name === 'insuranceFee'){
+            setInsuranceFee(e.target.value);
+        } else
+        if(e.target.name === 'storageFee'){
+            setStorageFee(e.target.value);
+        }
     };
 
     const handleRecommended = (e) => {
-        var _fee = parseInt(contract.insuranceFee) + parseInt(contract.storageFee);
-        setContract({ ...contract, [e.target.name]: e.target.value });
-        setTotalProfit(contract.loan * (e.target.value / 100) + _fee * cycle);
+        var currentProfit = totalProfit;
+        if(!e.target.value == 0){
+            var _fee = parseInt(insuranceFee) + parseInt(storageFee);
+            console.log(_fee);
+            setContract({ ...contract, [e.target.name]: e.target.value });
+            setTotalProfit(contract.loan * (e.target.value / 100) + _fee * cycle);
+        }else{
+            setTotalProfit(currentProfit);
+        }
     };
 
     const [customer, setCustomer] = useState();
@@ -359,7 +351,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                                 onChange={(e) => {
                                                     handleSum(e);
                                                 }}
-                                                placeholder="0"
+                                                value={insuranceFee}
                                             />
                                             <span>VNĐ</span>
                                         </div>
@@ -370,7 +362,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                                 onChange={(e) => {
                                                     handleSum(e);
                                                 }}
-                                                placeholder="0"
+                                                value={storageFee}
                                             />
                                             <span>VNĐ</span>
                                         </div>
@@ -429,7 +421,7 @@ const AddContract = ({ setShowAddContract, showAddContract }) => {
                                             onChange={(e) => handleRecommended(e)}
                                         />
                                         <select value={warehouse} onChange={updateWarehouse}>
-                                            {availableWarehouses.map((item, index) => {
+                                            {warehouses.map((item, index) => {
                                                 return (
                                                     <option key={index} value={item.warehouseId}>
                                                         {item.warehouseName}

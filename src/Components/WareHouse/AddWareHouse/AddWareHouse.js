@@ -1,10 +1,4 @@
 import Button from '@mui/material/Button';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-
 import API from '../../../API';
 import './AddWareHouse.css';
 import { useState } from 'react';
@@ -15,12 +9,6 @@ import { Grid, TextField } from '@mui/material';
 import { toast } from 'react-toastify';
 
 const AddWareHouse = ({ showAddWareHouse, setShowAddWareHouse }) => {
-    const [statusFilter, setStatusFilter] = useState('available');
-
-    const handleStatusFilter = (e) => {
-        setStatusFilter(e.target.value);
-    };
-
     // ================================
     // |         Add Ware Home         |
     // ================================
@@ -34,13 +22,14 @@ const AddWareHouse = ({ showAddWareHouse, setShowAddWareHouse }) => {
             data: {
                 warehouseName: name,
                 warehouseAddress: Address,
+                status: 1,
             },
         })
             .then((res) => {
-                console.log('Success Full');
-                toast.success('Lưu Thành Công');
+                toast.success('Tạo mới thành công');
+                window.location.reload(false);
             })
-            .catch((err) => toast.error('Lưu Không Thành Công'));
+            .catch((err) => toast.error('Tạo mới không thành công'));
     };
 
     const handleOnChangeName = (e) => {
@@ -83,35 +72,6 @@ const AddWareHouse = ({ showAddWareHouse, setShowAddWareHouse }) => {
                     />
                 </Grid>
             </Grid>
-
-            <Grid item xs={12}>
-                <FormControl className="add-status-group">
-                    <FormLabel className="label">
-                        Tình trạng&nbsp;<label style={{ color: 'red' }}>*</label>:
-                    </FormLabel>
-                    <RadioGroup
-                        row
-                        defaultValue={statusFilter}
-                        name="status"
-                        value={statusFilter}
-                        onChange={handleStatusFilter}
-                    >
-                        <FormControlLabel
-                            value="available"
-                            control={<Radio />}
-                            label="Còn chỗ"
-                            className="radio-available"
-                        />
-                        <FormControlLabel value="full" control={<Radio />} label="Hết chỗ" className="radio-full" />
-                        <FormControlLabel
-                            value="closed"
-                            control={<Radio />}
-                            label="Tạm đóng"
-                            className="radio-closed"
-                        />
-                    </RadioGroup>
-                </FormControl>
-            </Grid>
         </Grid>
     );
 
@@ -137,7 +97,7 @@ const AddWareHouse = ({ showAddWareHouse, setShowAddWareHouse }) => {
                         }}
                         startIcon={<Save />}
                     >
-                        Lưu Lại
+                        Tạo kho
                     </Button>
                 }
                 maxWidth={DIALOG_SIZE.sm}

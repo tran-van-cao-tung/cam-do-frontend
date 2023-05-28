@@ -86,10 +86,12 @@ NumericFormatCustom.propTypes = {
 export default function BasicModal({ item, refresh, refreshDetail }) {
     const [open, setOpen] = React.useState(false);
     const [showMessage, setShowMessage] = useState(false);
+    const [messageImg, setMessageImg] = useState('');
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
-        setOpen(false);
         setShowMessage(false);
+        setOpen(false);
+        setMessageImg('');
     };
     const [interestDiary, setInterestDiary] = useState({ paidMoney: '0', proofImg: [] });
 
@@ -116,16 +118,12 @@ export default function BasicModal({ item, refresh, refreshDetail }) {
         }
         setListImg(newArray);
         setShowMessage(true);
+        setMessageImg('Thêm hình thành công !');
     };
-    var messageImg = '';
-    if (showMessage) {
-        messageImg = 'Thêm ảnh thành công!';
-    }
     const handleInput = (e) => {
         setInterestDiary({ ...interestDiary, [e.target.name]: e.target.value });
         console.log('alo', interestDiary);
     };
-    const history = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
         const interestDiaryId = item.interestDiaryId;
@@ -155,7 +153,7 @@ export default function BasicModal({ item, refresh, refreshDetail }) {
                 toast.success('Thêm thành công!');
                 refresh();
                 refreshDetail();
-                setOpen(false);
+                handleClose();
             }
         });
     };
@@ -194,7 +192,7 @@ export default function BasicModal({ item, refresh, refreshDetail }) {
                             style={{ position: 'absolute', top: '40%', left: '25%', color: '#45ba30' }}
                         >
                             <div style={{ textAlign: 'center' }}>
-                                {messageImg ? (
+                                {showMessage ? (
                                     <CheckCircleOutlineIcon style={{ color: '#45ba30', fontSize: '47px' }} />
                                 ) : (
                                     ''

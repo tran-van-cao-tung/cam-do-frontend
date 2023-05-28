@@ -12,6 +12,7 @@ import { Link, useParams } from 'react-router-dom';
 import API from '../../../API';
 
 import { Divider } from '@mui/material';
+import { toast } from 'react-toastify';
 
 const EditCommondity = () => {
     const params = useParams();
@@ -41,10 +42,11 @@ const EditCommondity = () => {
             },
         })
             .then((res) => {
-                console.log('Success Full');
-                alert('Lưu Thành Công');
+                toast.success('Lưu Thành Công');
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                toast.error('Update ko thành công')
+            });
     };
     const handleOnChangeName = (e) => {
         setItem({ ...item, [e.target.name]: e.target.value });

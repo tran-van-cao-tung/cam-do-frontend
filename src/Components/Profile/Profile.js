@@ -1,11 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import callAPI from '../../API';
 import * as Yup from 'yup';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import ReplyIcon from '@mui/icons-material/Reply';
-import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Grid, TextField, Button} from '@mui/material';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../helpers/AuthContext';
@@ -30,11 +26,6 @@ const Field = ({
 
 function Profile() {
     const { authState, userInfo, currentBranchId} = useContext(AuthContext);
-
-    const history = useNavigate();
-    const [branch, setBranch] = useState([]);
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [profile, setProfile] = useState({})
 
     const validationSchema = Yup.object().shape({
@@ -47,17 +38,6 @@ function Profile() {
             .email('Nhập đúng định dạng email, ví dụ: example@gmail.com')
             .required('Email không được để trống'),
     });
-    const [showPassword1, setShowPassword1] = useState(false);
-    const [showPassword2, setShowPassword2] = useState(false);
-    const toggleShowPassword1 = () => {
-        setShowPassword1((prev) => !prev);
-    };
-    const toggleShowPassword2 = () => {
-        setShowPassword2((prev) => !prev);
-    };
-    const handlePasswordChange = (event) => {
-        setConfirmPassword(event.target.value);
-    };
 
     useEffect(() => {
         setProfile({ ...userInfo ?? {} })
@@ -99,15 +79,6 @@ function Profile() {
                 })
             });
     };
-    //đổ dữ liệu branch
-    useEffect(() => {
-        callAPI({
-            method: 'get',
-            url: `branch/getChain`,
-        }).then((res) => {
-            setBranch(res.data);
-        });
-    }, []);
     const handleOnchange = (key, value) => {
         setProfile(prev => ({
             ...prev,
@@ -210,93 +181,8 @@ function Profile() {
                                 <SaveAltIcon />
                                 <span>Lưu lại</span>
                             </Button>}
-                            content={
-                            <Button variant="contained" color="warning"
-                                onClick={() => {
-                                    history('/listemployees');
-                                }}
-                            >
-                                <ReplyIcon />
-                                <span>Quay lại</span>
-                            </Button>}
                         />
                     </Grid>
-
-                    {/* <div className="employeeAdd">
-                        <div className="employee_input">
-                            <span>
-                                Họ và tên <span>*</span>:
-                            </span>
-                            <input
-                                type="text"
-                                name="fullName"
-                                // onChange={(e) => handleInput(e)}
-                                value={userInfo.fullName}
-                            />
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Tên cửa hàng <span>*</span>:
-                            </span>
-                            <span>abc</span>
-                        </div>
-                        <div className="employee_username">
-                            <span>
-                                Tên đăng nhập <span>*</span>:
-                            </span>
-                            <span>{userInfo.userName}</span>
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Email<span>*</span>:
-                            </span>
-                            <input
-                                type="text"
-                                name="email"
-                                // onChange={(e) => handleInput(e)}
-                                value={userInfo.email}
-                            />
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Địa chỉ <span>*</span>:
-                            </span>
-                            <input
-                                type="text"
-                                name="address"
-                                // onChange={(e) => handleInput(e)}
-                                value={userInfo.address}
-                            />
-                        </div>
-                        <div className="employee_input">
-                            <span>
-                                Số điện thoại <span>*</span>:
-                            </span>
-                            <input
-                                type="text"
-                                name="phone"
-                                // onChange={(e) => handleInput(e)}
-                                value={userInfo.phone}
-                            />
-                        </div>
-                        <div className="employee-btn">
-                            <div className="employee_btn-group">
-                                <button className="employee_btn-item aqua" type="submit">
-                                    <SaveAltIcon />
-                                    <span>Lưu lại</span>
-                                </button>
-                                <button
-                                    className="employee_btn-item yellow"
-                                    onClick={() => {
-                                        history('/listemployees');
-                                    }}
-                                >
-                                    <ReplyIcon />
-                                    <span>Quay lại</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div> */}
                 </form>
             </div>
         </div >
