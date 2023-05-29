@@ -140,10 +140,10 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
             .catch((err) => console.log('err at getInterest log 145'));
     }
 
-    const [interestRecommend, setInterestRecommend] = useState(null)
+    const [interestRecommend, setInterestRecommend] = useState(0)
     const handleRecommended = (e) => {
         const value = e.target.value;
-        setInterestRecommend(!!value ? parseInt(value) : null);
+        setInterestRecommend(!!value ? parseInt(value) : 0);
     };
     const profit = useMemo(() => {
         const _interest = interestRecommend ?? selectedInterest;
