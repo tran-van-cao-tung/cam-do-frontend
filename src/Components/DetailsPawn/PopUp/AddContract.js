@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import { AuthContext } from '../../../helpers/AuthContext';
 import userImg from '../../../asset/img/user.png';
 
-import { Button } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
 
@@ -47,7 +47,7 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
             },
         },
     };
-    useEffect(() => { }, []);
+    useEffect(() => {}, []);
 
     const handleImg = (inputImg) => {
         console.log('img is:', inputImg);
@@ -135,24 +135,29 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
             .then((res) => {
                 setSelectedInterest(res.data.packageInterest);
                 setCycle(res.data.day / res.data.paymentPeriod);
-
             })
             .catch((err) => console.log('err at getInterest log 145'));
     }
 
-    const [interestRecommend, setInterestRecommend] = useState(0)
+    const [interestRecommend, setInterestRecommend] = useState(0);
     const handleRecommended = (e) => {
         const value = e.target.value;
         setInterestRecommend(!!value ? parseInt(value) : 0);
     };
     const profit = useMemo(() => {
         const _interest = interestRecommend ?? selectedInterest;
-        if (_interest == null || insuranceFee == null || storageFee == null || contract?.loan == null || cycle == null) {
-            return 0
+        if (
+            _interest == null ||
+            insuranceFee == null ||
+            storageFee == null ||
+            contract?.loan == null ||
+            cycle == null
+        ) {
+            return 0;
         }
         let _fee = parseInt(insuranceFee) + parseInt(storageFee);
-        return (contract.loan * (_interest / 100) + _fee * cycle);
-    }, [insuranceFee, storageFee, contract?.loan, selectedInterest, interestRecommend, cycle])
+        return contract.loan * (_interest / 100) + _fee * cycle;
+    }, [insuranceFee, storageFee, contract?.loan, selectedInterest, interestRecommend, cycle]);
 
     const handlePackageItem = (e) => {
         setPackageItem(
@@ -171,15 +176,14 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
 
     const handleSum = (e) => {
         const value = e.target.value;
-        const _finalValue = (!!value ? parseInt(value) : null);
-        setContract(prev => ({ ...prev, [e.target.name]: _finalValue }));
+        const _finalValue = !!value ? parseInt(value) : null;
+        setContract((prev) => ({ ...prev, [e.target.name]: _finalValue }));
         if (e.target.name === 'insuranceFee') {
             setInsuranceFee(_finalValue);
         } else if (e.target.name === 'storageFee') {
             setStorageFee(_finalValue);
         }
     };
-
 
     const [customer, setCustomer] = useState();
     //Get dữ liệu customer bằng cccd
@@ -393,7 +397,7 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
                                     </div>
                                     <div className="user__info-input">
                                         {/* Lấy dữ liệu từ Package */}
-                                        <select onChange={(e) => handlePackageItem(e)}>
+                                        <select style={{ padding: '7px 0' }} onChange={(e) => handlePackageItem(e)}>
                                             <option>---Gói Cầm---</option>
                                             {packagelist.map((item, index) => {
                                                 return (
@@ -406,23 +410,29 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
 
                                         <p className="flcenter">{packageItem?.day ?? ''} Ngày</p>
                                         {/* <input type="date" /> */}
-                                        <p className="flcenter">
-                                            {packageItem ? packageItem.packageInterest : ''}%
-                                        </p>
+                                        <p className="flcenter">{packageItem ? packageItem.packageInterest : ''}%</p>
                                         <input
+                                            style={{ padding: '5px 0' }}
                                             type="number"
                                             name="interestRecommend"
                                             onChange={(e) => handleRecommended(e)}
                                         />
-                                        <select value={warehouse} onChange={updateWarehouse}>
-                                            {warehouses.map((item, index) => {
-                                                return (
-                                                    <option key={index} value={item.warehouseId}>
-                                                        {item.warehouseName}
-                                                    </option>
-                                                );
-                                            })}
-                                        </select>
+                                        <Box sx={{ minWidth: 120 }}>
+                                            <FormControl>
+                                                <InputLabel>Kho</InputLabel>
+                                                <Select value={warehouse ?? ''} label="Kho" onChange={updateWarehouse}>
+                                                    {warehouses.map((item, index) => {
+                                                        return (
+                                                            <MenuItem key={index} value={item.warehouseId}>
+                                                                {' '}
+                                                                {item.warehouseName}
+                                                            </MenuItem>
+                                                        );
+                                                    })}
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+
                                         <p className="flend">{profit ? formatMoney(profit) : '0 VND'}</p>
                                     </div>
                                 </div>
@@ -446,28 +456,28 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
                                     <div className="user__info-label">
                                         {attributes
                                             ? attributes.map((item, index) => {
-                                                return (
-                                                    <p key={index}>
-                                                        {item.description} <span class="start-red">*</span>:
-                                                    </p>
-                                                );
-                                            })
+                                                  return (
+                                                      <p key={index}>
+                                                          {item.description} <span class="start-red">*</span>:
+                                                      </p>
+                                                  );
+                                              })
                                             : ''}
                                     </div>
                                     <div className="user__info-input">
                                         {attributes
                                             ? attributes.map((item, index) => {
-                                                return (
-                                                    <input
-                                                        type="text"
-                                                        name={index}
-                                                        onChange={(e) =>
-                                                            hanleInputAttribute(e, item.pawnableProductId, index)
-                                                        }
-                                                        placeholder={`Nhập ${item.description}`}
-                                                    />
-                                                );
-                                            })
+                                                  return (
+                                                      <input
+                                                          type="text"
+                                                          name={index}
+                                                          onChange={(e) =>
+                                                              hanleInputAttribute(e, item.pawnableProductId, index)
+                                                          }
+                                                          placeholder={`Nhập ${item.description}`}
+                                                      />
+                                                  );
+                                              })
                                             : ''}
                                     </div>
                                 </div>

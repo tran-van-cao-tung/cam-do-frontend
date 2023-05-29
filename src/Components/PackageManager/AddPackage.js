@@ -31,6 +31,7 @@ function AddPackage({ showAddPagkage, setShowAddPagkage }) {
     };
 
     const onSubmit = (data) => {
+        console.log('test');
         callAPI({
             method: 'post',
             url: `package/createPackage`,

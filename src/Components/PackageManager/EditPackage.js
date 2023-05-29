@@ -29,7 +29,7 @@ function EditPackage({ showEditPagkage, setShowEditPagkage, refresh }) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-
+        console.log('tesst');
         const data = {
             packageId: id,
             packageName: listPackage.packageName,
@@ -177,7 +177,7 @@ function EditPackage({ showEditPagkage, setShowEditPagkage, refresh }) {
             content={renderContent()}
             action={
                 <Button
-                    onClick={(e) => onSubmit(e)}
+                    onClick={(e) => onSubmit()}
                     variant="contained"
                     color="success"
                     sx={{

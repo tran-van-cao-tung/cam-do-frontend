@@ -130,9 +130,9 @@ function ListEmployees() {
             nameHeader: 'Tình trạng',
             dataRow: (element) => {
                 return element.status === 2 ? (
-                    <div className="MuiTableBody_root-status">Đã tạm đừng</div>
+                    <div className="MuiTableBody_root-status">Tạm Khóa</div>
                 ) : (
-                    <div className="MuiTableBody_root-status activity">Đang hoạt động</div>
+                    <div className="MuiTableBody_root-status activity">Đang Làm Việc</div>
                 );
             },
         },

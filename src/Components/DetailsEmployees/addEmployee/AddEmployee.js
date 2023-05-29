@@ -30,7 +30,7 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee }) {
                 setBranch(res.data);
             });
         }
-    }, [branch]);
+    }, []);
 
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
@@ -75,6 +75,7 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee }) {
     });
 
     const onSubmit = (data) => {
+        console.log(data.password);
         if (data.password !== confirmPassword) {
             toast.error('Mật khẩu không trùng khớp!');
 
@@ -91,16 +92,6 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee }) {
             toast.success('Thêm thành công!');
         });
     };
-
-    //đổ dữ liệu branch
-    useEffect(() => {
-        API({
-            method: 'get',
-            url: `branch/getChain`,
-        }).then((res) => {
-            setBranch(res.data);
-        });
-    }, []);
 
     const renderContent = () => (
         <Formik initialValues={initialValues} /* validationSchema={validationSchema} */ onSubmit={onSubmit}>

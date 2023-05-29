@@ -100,39 +100,39 @@ const Certificate = ({ showContractId }) => {
                 </>
             ) : (
                 <>
-                    <div class="grid-item">
-                        <h4>Upload ảnh Khách Hàng</h4>
-                        {/* {img.customerVerifyImg ? ( */}
-                        <a href={img.customerVerifyImg} target="_blank" rel="noopener noreferrer">
+                    <div>
+                        <p style={{ textAlign: 'center', fontWeight: 700 }}>Upload ảnh Khách Hàng</p>
+
+                        {img.customerVerifyImg == null ? (
+                            <UploadDropzone
+                                uploader={uploader}
+                                options={uploaderOptions}
+                                onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
+                                onComplete={(files) => uploadCusImg(files.map((x) => x.fileUrl).join('\n'))}
+                                width="800px"
+                                minWidth="500px"
+                                height="375px"
+                            />
+                        ) : (
                             <img class="certificateImg" src={img.customerVerifyImg} alt="" />
-                        </a>
-                        {/* ) : ( */}
-                        <UploadDropzone
-                            uploader={uploader}
-                            options={uploaderOptions}
-                            onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
-                            onComplete={(files) => uploadCusImg(files.map((x) => x.fileUrl).join('\n'))}
-                            width="600px"
-                            height="375px"
-                        />
+                        )}
                         {/* )} */}
                     </div>
-                    <div class="grid-item">
-                        <h4>Upload ảnh chứng từ HĐ</h4>
-                        {/* {img.contractVerifyImg ? ( */}
-                        <a href={img.contractVerifyImg} target="_blank" rel="noopener noreferrer">
+                    <div>
+                        <p style={{ textAlign: 'center', fontWeight: 700 }}>Upload ảnh chứng từ HĐ</p>
+                        {img.contractVerifyImg == null ? (
+                            <UploadDropzone
+                                uploader={uploader}
+                                options={uploaderOptions}
+                                onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
+                                onComplete={(files) => uploadContractImg(files.map((x) => x.fileUrl).join('\n'))}
+                                width="800px"
+                                minWidth="500px"
+                                height="375px"
+                            />
+                        ) : (
                             <img class="certificateImg" src={img.contractVerifyImg} alt="" />
-                        </a>
-                        {/* ) : ( */}
-                        <UploadDropzone
-                            uploader={uploader}
-                            options={uploaderOptions}
-                            onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
-                            onComplete={(files) => uploadContractImg(files.map((x) => x.fileUrl).join('\n'))}
-                            width="600px"
-                            height="375px"
-                        />
-                        {/* )} */}
+                        )}
                     </div>
                 </>
             )}
