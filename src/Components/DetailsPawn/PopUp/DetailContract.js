@@ -113,7 +113,7 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
                                 </th>
                             ) : detailPawn.status === 3 ? (
                                 <th style={{ textAlign: 'right' }}>
-                                    <span className="detailContract_status" style={{ color: 'rgb(255, 255, 106)' }}>
+                                    <span className="detailContract_status" style={{ color: '#a8a800' }}>
                                         Thanh Lý
                                     </span>
                                 </th>

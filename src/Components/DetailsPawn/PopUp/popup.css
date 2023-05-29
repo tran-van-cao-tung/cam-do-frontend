@@ -358,10 +358,12 @@
 /* Certificate css */
 
 .grid-container {
-    display: grid;
-    grid-template-columns: auto auto auto;
+    margin: 0 auto;
+    width: 50%;
+    display: flex;
     padding: 10px;
-    padding-left: 10%;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .grid-item {

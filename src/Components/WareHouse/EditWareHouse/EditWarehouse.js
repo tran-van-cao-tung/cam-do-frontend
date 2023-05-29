@@ -18,6 +18,8 @@ import { toast } from 'react-toastify';
 const EditWarehouse = ({ setShowEditWareHouse, showEditWareHouse, refresh }) => {
     const id = localStorage.getItem('WareHouseId');
     const [item, setItem] = useState([]);
+    const [status, setStatus] = useState(1);
+
     // Axios
     useEffect(() => {
         async function callAPI() {
@@ -37,7 +39,7 @@ const EditWarehouse = ({ setShowEditWareHouse, showEditWareHouse, refresh }) => 
             warehouseId: id,
             warehouseName: item.warehouseName,
             warehouseAddress: item.warehouseAddress,
-            status: item.status,
+            status: parseInt(status),
             contractAssets: [],
         };
         API({
@@ -53,6 +55,9 @@ const EditWarehouse = ({ setShowEditWareHouse, showEditWareHouse, refresh }) => 
 
     const handleOnChangeName = (e) => {
         setItem({ ...item, [e.target.name]: e.target.value });
+    };
+    const handleCheckBox = (e) => {
+        setStatus(e.target.value);
     };
 
     const renderContent = () => (
@@ -96,7 +101,7 @@ const EditWarehouse = ({ setShowEditWareHouse, showEditWareHouse, refresh }) => 
                     <FormLabel className="label">
                         Tình trạng&nbsp;<label style={{ color: 'red' }}>*</label>:
                     </FormLabel>
-                    <RadioGroup row name="status" defaultValue={1} onChange={handleOnChangeName}>
+                    <RadioGroup row name="status" defaultValue={1} onChange={handleCheckBox}>
                         <FormControlLabel
                             value="1"
                             control={<Radio />}
