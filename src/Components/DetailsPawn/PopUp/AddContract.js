@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import './popup.css';
 import bike from '../../../asset/img/bike.png';
 import API from '../../../API';
@@ -21,17 +21,17 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
     const { authState, currentBranchId, userInfo } = useContext(AuthContext);
     const [img, setImg] = useState('');
     const [refesh, setRefesh] = useState(false);
-    const [contract, setContract] = useState([]);
+    const [contract, setContract] = useState({});
     const [pawnableProduct, setPawnableProduct] = useState([]);
     const [packagelist, setPackage] = useState([]);
-    const [packageItem, setPackageItem] = useState([]);
+    const [packageItem, setPackageItem] = useState(null);
     const [warehouses, setWarehouses] = useState([]);
     const [totalProfit, setTotalProfit] = useState(0);
     const [cycle, setCycle] = useState(0);
     const [selectedInterest, setSelectedInterest] = useState(0);
     const [warehouse, setWarehouse] = useState('');
-    const [insuranceFee, setInsuranceFee] = useState('200000');
-    const [storageFee, setStorageFee] = useState('200000');
+    const [insuranceFee, setInsuranceFee] = useState(200000);
+    const [storageFee, setStorageFee] = useState(200000);
 
     const uploader = Uploader({ apiKey: 'public_FW25bMK3mpqVXpSPo5c1xtLs1fF1' }); // Your real API key.
     const uploaderOptions = {
@@ -47,7 +47,7 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
             },
         },
     };
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
 
     const handleImg = (inputImg) => {
         console.log('img is:', inputImg);
@@ -77,17 +77,17 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
             customerId: customer.customerId,
             userId: userInfo.userId,
             branchId: currentBranchId,
-            totalProfit: 0,
+            totalProfit: profit,
             warehouseId: warehouse,
             pawnableProductId: contract.pawnableProductId,
-            packageId: packageItem[0].packageId,
+            packageId: packageItem.packageId,
             contractAssetName: contract.contractAssetName,
             insuranceFee: insuranceFee,
             storageFee: storageFee,
             loan: contract.loan,
             assetImg: img,
             pawnableAttributeDTOs: contractAttributes,
-            interestRecommend: contract.interestRecommend,
+            interestRecommend: interestRecommend,
             description: 'string',
         };
         API({
@@ -135,23 +135,28 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
             .then((res) => {
                 setSelectedInterest(res.data.packageInterest);
                 setCycle(res.data.day / res.data.paymentPeriod);
-                handleTotalProfit(res.data.packageInterest, res.data.day / res.data.paymentPeriod);
+
             })
             .catch((err) => console.log('err at getInterest log 145'));
     }
 
-    const handleTotalProfit = (_interest, _cycle) => {
-        console.log('Calculated profit');
-        var _fee = parseInt(insuranceFee) + parseInt(storageFee);
-        console.log(_fee);
-        console.log(_interest);
-        console.log(_cycle);
-        setTotalProfit(contract.loan * (_interest / 100) + _fee * _cycle);
+    const [interestRecommend, setInterestRecommend] = useState(null)
+    const handleRecommended = (e) => {
+        const value = e.target.value;
+        setInterestRecommend(!!value ? parseInt(value) : null);
     };
+    const profit = useMemo(() => {
+        const _interest = interestRecommend ?? selectedInterest;
+        if (_interest == null || insuranceFee == null || storageFee == null || contract?.loan == null || cycle == null) {
+            return 0
+        }
+        let _fee = parseInt(insuranceFee) + parseInt(storageFee);
+        return (contract.loan * (_interest / 100) + _fee * cycle);
+    }, [insuranceFee, storageFee, contract?.loan, selectedInterest, interestRecommend, cycle])
 
     const handlePackageItem = (e) => {
         setPackageItem(
-            packagelist.filter((item) => {
+            packagelist.find((item) => {
                 return item.packageId == e.target.value;
             }),
         );
@@ -165,25 +170,16 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
     };
 
     const handleSum = (e) => {
-        setContract({ ...contract, [e.target.name]: e.target.value });
+        const value = e.target.value;
+        const _finalValue = (!!value ? parseInt(value) : null);
+        setContract(prev => ({ ...prev, [e.target.name]: _finalValue }));
         if (e.target.name === 'insuranceFee') {
-            setInsuranceFee(e.target.value);
+            setInsuranceFee(_finalValue);
         } else if (e.target.name === 'storageFee') {
-            setStorageFee(e.target.value);
+            setStorageFee(_finalValue);
         }
     };
 
-    const handleRecommended = (e) => {
-        var currentProfit = totalProfit;
-        if (!e.target.value == 0) {
-            var _fee = parseInt(insuranceFee) + parseInt(storageFee);
-            console.log(_fee);
-            setContract({ ...contract, [e.target.name]: e.target.value });
-            setTotalProfit(contract.loan * (e.target.value / 100) + _fee * cycle);
-        } else {
-            setTotalProfit(currentProfit);
-        }
-    };
 
     const [customer, setCustomer] = useState();
     //Get dữ liệu customer bằng cccd
@@ -371,7 +367,7 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
                                                 onChange={(e) => {
                                                     handleSum(e);
                                                 }}
-                                                placeholder="0"
+                                                value={contract?.loan}
                                             />
                                             <span>VNĐ</span>
                                         </div>
@@ -408,10 +404,10 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
                                             })}
                                         </select>
 
-                                        <p className="flcenter">{packageItem[0] ? packageItem[0].day : ''} Ngày</p>
+                                        <p className="flcenter">{packageItem?.day ?? ''} Ngày</p>
                                         {/* <input type="date" /> */}
                                         <p className="flcenter">
-                                            {packageItem[0] ? packageItem[0].packageInterest : ''}%
+                                            {packageItem ? packageItem.packageInterest : ''}%
                                         </p>
                                         <input
                                             type="number"
@@ -427,7 +423,7 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
                                                 );
                                             })}
                                         </select>
-                                        <p className="flend">{totalProfit ? formatMoney(totalProfit) : '0 VND'}</p>
+                                        <p className="flend">{profit ? formatMoney(profit) : '0 VND'}</p>
                                     </div>
                                 </div>
                             </Grid>
@@ -450,28 +446,28 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
                                     <div className="user__info-label">
                                         {attributes
                                             ? attributes.map((item, index) => {
-                                                  return (
-                                                      <p key={index}>
-                                                          {item.description} <span class="start-red">*</span>:
-                                                      </p>
-                                                  );
-                                              })
+                                                return (
+                                                    <p key={index}>
+                                                        {item.description} <span class="start-red">*</span>:
+                                                    </p>
+                                                );
+                                            })
                                             : ''}
                                     </div>
                                     <div className="user__info-input">
                                         {attributes
                                             ? attributes.map((item, index) => {
-                                                  return (
-                                                      <input
-                                                          type="text"
-                                                          name={index}
-                                                          onChange={(e) =>
-                                                              hanleInputAttribute(e, item.pawnableProductId, index)
-                                                          }
-                                                          placeholder={`Nhập ${item.description}`}
-                                                      />
-                                                  );
-                                              })
+                                                return (
+                                                    <input
+                                                        type="text"
+                                                        name={index}
+                                                        onChange={(e) =>
+                                                            hanleInputAttribute(e, item.pawnableProductId, index)
+                                                        }
+                                                        placeholder={`Nhập ${item.description}`}
+                                                    />
+                                                );
+                                            })
                                             : ''}
                                     </div>
                                 </div>
