@@ -1,37 +1,28 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { useState } from 'react';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import ReplyIcon from '@mui/icons-material/Reply';
-import { Link, useNavigate } from 'react-router-dom';
 import callAPI from '../../API';
-import Swal from 'sweetalert2';
-import BtnCloseAnimation from '../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import { Button } from '@mui/material';
-import BtnSave from '../ButtonUI/BtnSave/BtnSave';
-import PageHeader from '../../helpers/PageHeader';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../helpers/CustomizeDiaglog';
 import { Save } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 
 function AddPackage({ showAddPagkage, setShowAddPagkage }) {
-    const initialValues = {
-        packageId: 0,
-        packageName: '',
-        packageInterest: '',
-        paymentPeriod: '',
-        day: '',
-        limitation: '',
-        punishDay1: '',
-        punishDay2: '',
-        liquitationDay: '',
-        interestDiaryPenalty: '',
-        ransomPenalty: '',
-        interestDiaryPenalty: '',
-        ransomPenalty: '',
+    const [listPackage, setListPackage] = useState([]);
+    const data = {
+        packageName: listPackage.packageName,
+        packageInterest: listPackage.packageInterest,
+        day: listPackage.day,
+        paymentPeriod: listPackage.paymentPeriod,
+        limitation: listPackage.limitation,
+        punishDay1: listPackage.punishDay1,
+        punishDay2: listPackage.punishDay2,
+        ransomPenalty: listPackage.ransomPenalty,
+        interestDiaryPenalty: listPackage.interestDiaryPenalty,
+        liquitationDay: listPackage.liquitationDay,
+        // interestDiaryPenalty: listPackage.interestDiaryPenalty,
+        // ransomPenalty: listPackage.ransomPenalty,
     };
 
-    const onSubmit = (data) => {
-        console.log('test');
+    const onSubmit = (e) => {
         callAPI({
             method: 'post',
             url: `package/createPackage`,
@@ -40,88 +31,120 @@ function AddPackage({ showAddPagkage, setShowAddPagkage }) {
             toast.success('Thêm thành công!');
         });
     };
+
+    const handleInput = (e) => {
+        setListPackage({ ...listPackage, [e.target.name]: e.target.value });
+    };
     const renderContent = () => (
-        <Formik initialValues={initialValues} /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
-            <Form>
-                <div className="employeeAdd">
-                    <div className="employee_input">
-                        <span>
-                            Tên gói vay <span>*</span>:
-                        </span>
-                        <Field id="packageName" name="packageName" />
-                        {/* <input type="text" name='fullName' onChange={(e) => handleInput(e)} value={employeeInput.fullName} /> */}
-                    </div>
-
-                    <div className="employee_input">
-                        <span>
-                            Lãi suất <span>*</span>:
-                        </span>
-                        <Field id="packageInterest" name="packageInterest" />
-                        {/* <input type="text" name='userName' onChange={(e) => handleInput(e)} value={employeeInput.userName} /> */}
-                    </div>
-
-                    <div className="employee_input">
-                        <span>
-                            Số ngày vay<span>*</span>:
-                        </span>
-                        <Field id="day" name="day" />
-                        {/* <input type="text" name='email' onChange={(e) => handleInput(e)} value={employeeInput.email} /> */}
-                    </div>
-                    {/* <ErrorMessage name="email" className="alert alert-danger" component="div" /> */}
-                    <div className="employee_input">
-                        <span>
-                            Kỳ lãi <span>*</span>:
-                        </span>
-                        <Field id="paymentPeriod" name="paymentPeriod" />
-                        {/*  <input type="text" name='address' onChange={(e) => handleInput(e)} value={employeeInput.address} /> */}
-                    </div>
-                    {/* <ErrorMessage name="address" className="alert alert-danger" component="div" /> */}
-                    <div className="employee_input">
-                        <span>
-                            Số ngày trễ hạn <span>*</span>:
-                        </span>
-                        <Field id="limitation" name="limitation" />
-                        {/*  <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employeeInput.phone} /> */}
-                    </div>
-                    <div className="employee_input">
-                        <span>
-                            Ngày phạt đợt 1 <span>*</span>:
-                        </span>
-                        <Field id="punishDay1" name="punishDay1" />
-                        {/*  <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employeeInput.phone} /> */}
-                    </div>
-                    <div className="employee_input">
-                        <span>
-                            Ngày phạt đợt 2 <span>*</span>:
-                        </span>
-                        <Field id="punishDay2" name="punishDay2" />
-                        {/*  <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employeeInput.phone} /> */}
-                    </div>
-                    <div className="employee_input">
-                        <span>
-                            Phạt chuộc trước hạn (%) <span>*</span>:
-                        </span>
-                        <Field id="ransomPenalty" name="ransomPenalty" />
-                        {/*  <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employeeInput.phone} /> */}
-                    </div>
-                    <div className="employee_input">
-                        <span>
-                            Phạt đóng lãi trễ (%)<span>*</span>:
-                        </span>
-                        <Field id="interestDiaryPenalty" name="interestDiaryPenalty" />
-                        {/*  <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employeeInput.phone} /> */}
-                    </div>
-                    <div className="employee_input">
-                        <span>
-                            Thanh lý vào ngày<span>*</span>:
-                        </span>
-                        <Field id="liquitationDay" name="liquitationDay" />
-                        {/*  <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employeeInput.phone} /> */}
-                    </div>
-                    {/* <ErrorMessage name="phone" className="alert alert-danger" component="div" /> */}
+        <form /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
+            <div className="employeeAdd">
+                <div className="employee_input">
+                    <span>
+                        Tiền gói vay <span>*</span>:
+                    </span>
+                    <input
+                        type="text"
+                        name="packageName"
+                        onChange={(e) => handleInput(e)}
+                        value={listPackage.packageName}
+                    />
                 </div>
-            </Form>
-        </Formik>
+                <div className="employee_input">
+                    <span>
+                        Lãi suất <span>*</span>:
+                    </span>
+                    <input
+                        type="text"
+                        name="packageInterest"
+                        onChange={(e) => handleInput(e)}
+                        value={listPackage.packageInterest}
+                    />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Số ngày vay <span>*</span>:
+                    </span>
+                    <input type="text" name="day" onChange={(e) => handleInput(e)} value={listPackage.day} />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Kỳ lãi <span>*</span>:
+                    </span>
+                    <input
+                        type="text"
+                        name="paymentPeriod"
+                        onChange={(e) => handleInput(e)}
+                        value={listPackage.paymentPeriod}
+                    />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Số ngày trễ hạn <span>*</span>:
+                    </span>
+                    <input
+                        type="text"
+                        name="limitation"
+                        onChange={(e) => handleInput(e)}
+                        value={listPackage.limitation}
+                    />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Ngày phạt đợt 1 <span>*</span>:
+                    </span>
+                    <input
+                        type="text"
+                        name="punishDay1"
+                        onChange={(e) => handleInput(e)}
+                        value={listPackage.punishDay1}
+                    />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Ngày phạt đợt 2 <span>*</span>:
+                    </span>
+                    <input
+                        type="text"
+                        name="punishDay2"
+                        onChange={(e) => handleInput(e)}
+                        value={listPackage.punishDay2}
+                    />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Phạt chuộc sớm <span>*</span>:
+                    </span>
+                    <input
+                        type="text"
+                        name="ransomPenalty"
+                        onChange={(e) => handleInput(e)}
+                        value={listPackage.ransomPenalty}
+                    />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Phạt đóng lãi trễ (%)<span>*</span>:
+                    </span>
+                    <input
+                        type="text"
+                        name="interestDiaryPenalty"
+                        onChange={(e) => handleInput(e)}
+                        value={listPackage.interestDiaryPenalty}
+                    />
+                </div>
+                <div className="employee_input">
+                    <span>
+                        Thanh lý vào ngày<span>*</span>:
+                    </span>
+                    <input
+                        type="text"
+                        name="liquitationDay"
+                        onChange={(e) => handleInput(e)}
+                        value={listPackage.liquitationDay}
+                    />
+                </div>
+            </div>
+        </form>
     );
     const handleCloseDialog = () => {
         setShowAddPagkage(false);
@@ -134,8 +157,8 @@ function AddPackage({ showAddPagkage, setShowAddPagkage }) {
             content={renderContent()}
             action={
                 <Button
-                    type="submit"
                     onClick={(e) => onSubmit(e)}
+                    type="submit"
                     variant="contained"
                     color="success"
                     sx={{

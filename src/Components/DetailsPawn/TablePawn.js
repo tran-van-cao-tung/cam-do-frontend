@@ -35,12 +35,6 @@ const TablePawn = ({
         console.log('Update ', id);
     };
 
-    const handleShowLiquidation = (id) => {
-        setShowliquidation(true);
-        localStorage.setItem('PawnDetailID', id);
-        console.log('Liquid', id);
-    };
-
     const handleShowDetailContract = (id) => {
         localStorage.setItem('PawnDetailID', id);
         setshowdetailContract(true);

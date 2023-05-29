@@ -80,7 +80,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts, 
                 setWarehouse(res.data.warehouseId);
                 setAttributeInfo(res.data.attributeInfos);
             });
-        } catch (error) {}
+        } catch (error) { }
     }
 
     async function loadWarehouse() {
@@ -228,7 +228,7 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts, 
                                                     ? formatMoney(detailContract.totalProfit)
                                                     : '0 VNĐ'}
                                             </p>
-                                            {contracts.status === 4 ? (
+                                            {detailContract.status === 4 ? (
                                                 <Box sx={{ minWidth: 120 }}>
                                                     <FormControl>
                                                         <InputLabel>Kho</InputLabel>
@@ -294,20 +294,20 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts, 
                                             <div className="user__info-label">
                                                 {attributes
                                                     ? attributes.map((item, index) => {
-                                                          return (
-                                                              <p key={index}>
-                                                                  {item.description}
-                                                                  {':'}
-                                                              </p>
-                                                          );
-                                                      })
+                                                        return (
+                                                            <p key={index}>
+                                                                {item.description}
+                                                                {':'}
+                                                            </p>
+                                                        );
+                                                    })
                                                     : ''}
                                             </div>
                                             <div className="user__info-input">
                                                 {attributes
                                                     ? attributeInfo.map((item, index) => {
-                                                          return <p>{item}</p>;
-                                                      })
+                                                        return <p>{item}</p>;
+                                                    })
                                                     : ''}
                                             </div>
                                         </div>
@@ -350,21 +350,26 @@ const UpdateContract = ({ setShowUpdateContract, showUpdateContract, contracts, 
                     </Box>
                 }
                 content={renderContent()}
+
                 action={
                     <div className="btn__group">
                         <ButtonCloseAnimation onConfirm={handleCloseDialog} />
-                        <Button
-                            onClick={(e) => saveContract(e)}
-                            variant="contained"
-                            color="success"
-                            sx={{
-                                fontSize: '16px',
-                                padding: '15px 30px',
-                            }}
-                            startIcon={<Save />}
-                        >
-                            Lưu Lại
-                        </Button>
+                        {detailContract.status === 4 ? (
+                            ''
+                        ) : (
+                            <Button
+                                onClick={(e) => saveContract(e)}
+                                variant="contained"
+                                color="success"
+                                sx={{
+                                    fontSize: '16px',
+                                    padding: '15px 30px',
+                                }}
+                                startIcon={<Save />}
+                            >
+                                Lưu Lại
+                            </Button>
+                        )}
                     </div>
                 }
                 maxWidth={DIALOG_SIZE.xl}
