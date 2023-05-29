@@ -135,12 +135,6 @@ export default function AssetNote({ item }) {
             url: `logAsset/updateLogAsset/${logassetId}`,
             data: data,
         }).then((res) => {
-            console.log('abc', res.data);
-            /* MySwal.fire({
-                title: <p>Hello World</p>,
-              }).then(() => {
-                return MySwal.fire(<p>Shorthand works too</p>)
-              }) */
             if (res.data == true) {
                 toast.success('Thêm thành công!');
                 history('/detaipawn');

@@ -5,6 +5,7 @@ import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import { Box, Grid, TextField, Button} from '@mui/material';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../helpers/AuthContext';
+import { toast } from 'react-toastify';
 
 const Field = ({
     label,
@@ -63,20 +64,12 @@ function Profile() {
                     url: `user/updateUser`,
                     data: data,
                 }).then((res) => {
-                    Swal.fire({
-                        text: `Chỉnh sửa thành công!`,
-                        icon: 'success',
-                    }).then((result) => {
-                    })
+                    toast.success('Chỉnh sửa thành công!');
                 });
             })
             .catch((error) => {
                 const errorMessages = error.inner.map(e => e.message).join('. ');
-                Swal.fire({
-                    text: `${errorMessages}`,
-                    icon: 'warning',
-                }).then((result) => {
-                })
+                toast.error(errorMessages);
             });
     };
     const handleOnchange = (key, value) => {

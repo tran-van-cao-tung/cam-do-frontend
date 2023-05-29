@@ -123,6 +123,7 @@ export default function AssetExport({ item }) {
             console.log('abc', res.data);
             if (res.data == true) {
                 toast.success('Thêm thành công!');
+                handleClose();
                 history('/detaipawn');
             }
         });

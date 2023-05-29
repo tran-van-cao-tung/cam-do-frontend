@@ -11,6 +11,7 @@ import BtnSave from '../ButtonUI/BtnSave/BtnSave';
 import PageHeader from '../../helpers/PageHeader';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../helpers/CustomizeDiaglog';
 import { Save } from '@mui/icons-material';
+import { toast } from 'react-toastify';
 
 function AddPackage({ showAddPagkage, setShowAddPagkage }) {
     const initialValues = {
@@ -35,10 +36,7 @@ function AddPackage({ showAddPagkage, setShowAddPagkage }) {
             url: `package/createPackage`,
             data: data,
         }).then((res) => {
-            Swal.fire({
-                text: `Thêm thành công!`,
-                icon: 'success',
-            }).then((result) => {});
+            toast.success('Thêm thành công!');
         });
     };
     const renderContent = () => (

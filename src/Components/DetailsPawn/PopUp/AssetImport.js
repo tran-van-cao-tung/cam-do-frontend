@@ -128,14 +128,9 @@ export default function AssetImport({ item }) {
                 url: `logAsset/updateLogAsset/${logassetId}`,
                 data: data,
             }).then((res) => {
-                console.log('abc', res.data);
-                if (res.data == true) {
-                    Swal.fire({
-                        text: 'Thêm thành công!',
-                        icon: 'success',
-                    }).then((result) => {});
-                    history('/detaipawn');
-                }
+                toast.success('Thêm thành công!');
+                handleClose();
+                history('/detaipawn');
             });
         }
     };
