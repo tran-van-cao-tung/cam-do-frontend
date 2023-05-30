@@ -14,7 +14,7 @@ import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog
 import { Save } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 
-function AddEmployee({ showAddEmployee, setShowAddEmployee }) {
+function AddEmployee({ showAddEmployee, setShowAddEmployee, refresh }) {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const [branch, setBranch] = useState([]);
@@ -93,9 +93,9 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee }) {
     const onSubmit = (event) => {
         event.preventDefault();
         if (employee.password !== confirmPassword) {
-                    toast.error('Mật khẩu không trùng khớp!');
-                    return;
-                }
+            toast.error('Mật khẩu không trùng khớp!');
+            return;
+        }
         const data = {
             userName: employee.userName,
             branchId: parseInt(employee.branchId),
@@ -117,6 +117,8 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee }) {
                     data: data,
                 }).then((res) => {
                     toast.success('Thêm thành công!');
+                    handleCloseDialog();
+                    refresh();
                 });
             })
             .catch((error) => {
@@ -170,8 +172,8 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee }) {
                         Mật khẩu<span>*</span>:
                     </span>
                     <div className="password-input">
-                        <input type={showPassword1 ? 'text' : 'password'} id="password" name="password" 
-                        onChange={(e) => handleInput(e)} value={employee.password}
+                        <input type={showPassword1 ? 'text' : 'password'} id="password" name="password"
+                            onChange={(e) => handleInput(e)} value={employee.password}
                         />
                         <button type="button" onClick={toggleShowPassword1}>
                             {showPassword1 ? <VisibilityIcon /> : <VisibilityOffIcon />}
@@ -207,14 +209,14 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee }) {
                         Địa chỉ <span>*</span>:
                     </span>
                     {/* <Field id="address" name="address" /> */}
-                     <input type="text" name='address' onChange={(e) => handleInput(e)} value={employee.address} />
+                    <input type="text" name='address' onChange={(e) => handleInput(e)} value={employee.address} />
                 </div>
                 <div className="employee_input">
                     <span>
                         Số điện thoại <span>*</span>:
                     </span>
                     {/* <Field id="phone" name="phone" /> */}
-                     <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employee.phone} />
+                    <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employee.phone} />
                 </div>
                 <div className="employee_input">
                     <span>
