@@ -11,7 +11,7 @@ import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog
 
 const DetailContract = ({ setshowdetailContract, showContractId, showdetailContract }) => {
     const [detailPawn, setDetailPawn] = useState([]);
-
+    const [liquidDetail, setLiquidDetail] = useState();
     useEffect(() => {
         if (showContractId) {
             callAPI({
@@ -39,6 +39,17 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
         refreshDetail();
     }, [refreshDetail, showContractId]);
 
+    useEffect(() => {
+        if (showContractId) {
+            callAPI({
+                method: 'get',
+                url: `/liquidation/detail/${showContractId}`,
+            }).then((res) => {
+                setLiquidDetail(res.data);
+            });
+        }
+    }, [showContractId])
+    
     const renderContent = () => (
         <div className="contents">
             <div className="box__liquidation">
@@ -137,6 +148,7 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
                         contract={detailPawn}
                         showContractId={showContractId}
                         refreshDetail={refreshDetail}
+                        liquidDetail = {liquidDetail}
                     />
                 </div>
             </div>

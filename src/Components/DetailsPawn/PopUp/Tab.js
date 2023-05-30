@@ -42,7 +42,7 @@ function a11yProps(index) {
     };
 }
 
-export default function BasicTabs({ contract, showContractId, showdetailContract, setshowdetailContract, refreshDetail }) {
+export default function BasicTabs({ contract, showContractId, showdetailContract, setshowdetailContract, refreshDetail, liquidDetail }) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -58,17 +58,21 @@ export default function BasicTabs({ contract, showContractId, showdetailContract
                     onChange={handleChange}
                     aria-label="basic tabs example"
                 >
+
                     <Tab sx={{ width: '16%' }} label="Đóng tiền lãi" {...a11yProps(0)} />
                     <Tab sx={{ width: '16%' }} label="Chứng từ" {...a11yProps(1)} />
                     <Tab sx={{ width: '16%' }} label="Chuộc đồ" {...a11yProps(2)} />
                     <Tab sx={{ width: '16%' }} label="Tài sản" {...a11yProps(3)} />
                     <Tab sx={{ width: '16%' }} label="Lịch sử" {...a11yProps(4)} />
-                    <Tab sx={{ width: '16%' }} label="Thanh lý" {...a11yProps(5)} />
-
+                    {liquidDetail?.typeOfProduct === null ? (
+                        ''
+                    ) : (
+                        <Tab sx={{ width: '16%' }} label="Thanh lý" {...a11yProps(5)} />
+                    )}
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <PayInterest showContractId={showContractId} refreshDetail={refreshDetail}/>
+                <PayInterest showContractId={showContractId} refreshDetail={refreshDetail} />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Certificate showContractId={showContractId} />

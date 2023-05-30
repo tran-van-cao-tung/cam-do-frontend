@@ -87,7 +87,7 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
             loan: contract.loan,
             assetImg: img,
             pawnableAttributeDTOs: contractAttributes,
-            interestRecommend: interestRecommend,
+            interestRecommend: interestRecommend?? 0,
             description: 'string',
         };
         API({
@@ -139,7 +139,7 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
             .catch((err) => console.log('err at getInterest log 145'));
     }
 
-    const [interestRecommend, setInterestRecommend] = useState(0);
+    const [interestRecommend, setInterestRecommend] = useState(null);
     const handleRecommended = (e) => {
         const value = e.target.value;
         setInterestRecommend(!!value ? parseInt(value) : 0);
