@@ -20,7 +20,6 @@ function AuthEmployee() {
     const [value, setValue] = useState();
     const { currentBranchId } = useContext(AuthContext);
     const { permissions } = useContext(AuthContext);
-
     const updateValue = ({ target }) => {
         setValue(target.value);
     };
@@ -32,7 +31,14 @@ function AuthEmployee() {
                 url: '/user/getAll/0/' + currentBranchId,
             }).then((res) => {
                 setEmployeeList(res.data);
-                console.log('aaaaa', res.data);
+                let defaultEmployee = res.data[0];
+                if(defaultEmployee){
+                    getPermission({
+                        target: {
+                            value: defaultEmployee.userId
+                        }
+                    })
+                }
             });
         }
     }, [currentBranchId, setEmployeeList]);
@@ -92,8 +98,8 @@ function AuthEmployee() {
             setParentCheckbox5(false);
             console.log('Ko có khách hàng');
         }
-        if (JSON.parse(localStorage.getItem('permis 4')) == true) {
-            setParentCheckbox6(false);
+        if (JSON.parse(localStorage.getItem('permis 5')) == true) {
+            setParentCheckbox6(true);
             console.log('Có báo cáo');
         } else {
             setParentCheckbox5(false);

@@ -10,6 +10,7 @@ import Certificate from './Certificate';
 import PayInterest from './PayInterest';
 import Asset from './Asset';
 import Liquidation from './Liquidation';
+import { useMemo } from 'react';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
     return (
@@ -42,9 +43,12 @@ function a11yProps(index) {
     };
 }
 
-export default function BasicTabs({ contract, showContractId, showdetailContract, setshowdetailContract, refreshDetail, liquidDetail }) {
+export default function BasicTabs({ contract, showContractId, showdetailContract, setshowdetailContract, refreshDetail, 
+    liquidDetail }) {
     const [value, setValue] = React.useState(0);
-
+    const disbleLiquid = useMemo(() => 
+    liquidDetail?.typeOfProduct === null && contract.status === 4
+    ,[liquidDetail])
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -59,15 +63,19 @@ export default function BasicTabs({ contract, showContractId, showdetailContract
                     aria-label="basic tabs example"
                 >
 
-                    <Tab sx={{ width: '16%' }} label="Đóng tiền lãi" {...a11yProps(0)} />
-                    <Tab sx={{ width: '16%' }} label="Chứng từ" {...a11yProps(1)} />
-                    <Tab sx={{ width: '16%' }} label="Chuộc đồ" {...a11yProps(2)} />
-                    <Tab sx={{ width: '16%' }} label="Tài sản" {...a11yProps(3)} />
-                    <Tab sx={{ width: '16%' }} label="Lịch sử" {...a11yProps(4)} />
-                    {liquidDetail?.typeOfProduct === null ? (
-                        ''
+                    <Tab sx={{ width: '16%' }} label="Đóng tiền lãi" {...a11yProps(0)} value={0} />
+                    <Tab sx={{ width: '16%' }} label="Chứng từ" {...a11yProps(1)}  value={1}/>
+                    {disbleLiquid? (
+                        <Tab sx={{ width: '16%' }} label="Chuộc đồ" {...a11yProps(2)} value={2} />
                     ) : (
-                        <Tab sx={{ width: '16%' }} label="Thanh lý" {...a11yProps(5)} />
+                        null
+                    )}
+                    <Tab sx={{ width: '16%' }} label="Tài sản" {...a11yProps(3)} value={3}/> 
+                    <Tab sx={{ width: '16%' }} label="Lịch sử" {...a11yProps(4)} value={4}/>
+                    {disbleLiquid? (
+                        null
+                    ) : (
+                        <Tab sx={{ width: '16%' }} label="Thanh lý" {...a11yProps(5)} value={5} />
                     )}
                 </Tabs>
             </Box>
