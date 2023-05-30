@@ -133,7 +133,7 @@ const Home = () => {
                     ? 'Đóng hợp đồng'
                     : element.eventType === 5
                     ? 'Tiền lãi còn nợ'
-                    :   ''
+                    : '';
             },
         },
         {
@@ -176,7 +176,7 @@ const Home = () => {
                     fontSize="14px"
                 >
                     <Box marginBottom="12px" fontWeight="700">
-                        <h3>Giao dịch trong tháng</h3>
+                        <h3>Giao dịch trong năm</h3>
                     </Box>
                     <CustomizedTables renderedData={renderedData} dataTable={dataTable} />
                     <Box marginTop="14px">

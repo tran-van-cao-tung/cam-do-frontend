@@ -21,7 +21,7 @@ ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale
 function ChartLine({ value, setYear, year }) {
     const { authState } = useContext(AuthContext);
     const currentYear = new Date().getFullYear();
-
+    console.log('value in chart');
     const [dateYearReport] = useState([]);
     const [data, setData] = useState({
         labels: [],

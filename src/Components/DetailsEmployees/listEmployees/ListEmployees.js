@@ -208,7 +208,11 @@ function ListEmployees() {
                     <Grid item>
                         <CustomizeButton title="Thêm mới" handleClick={handleAddEmployee} />
                         {showAddEmployee && (
-                            <AddEmployee showAddEmployee={showAddEmployee} setShowAddEmployee={setShowAddEmployee} refresh={fetchListEmployees} />
+                            <AddEmployee
+                                showAddEmployee={showAddEmployee}
+                                setShowAddEmployee={setShowAddEmployee}
+                                refresh={fetchListEmployees}
+                            />
                         )}
                     </Grid>
                 </Grid>

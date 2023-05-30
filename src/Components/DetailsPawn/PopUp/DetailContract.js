@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { formatMoney } from '../../../helpers/dateTimeUtils';
+import { formatDate, formatMoney } from '../../../helpers/dateTimeUtils';
 import moment from 'moment';
 import BasicTabs from './Tab';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
@@ -77,13 +77,13 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
                         <tr>
                             <th colSpan="2">Ngày bắt đầu</th>
                             <th colSpan="1" style={{ textAlign: 'right' }}>
-                                {moment(detailPawn.contractStartDate).format('DD/MM/YYYY')}
+                                {formatDate(detailPawn.contractStartDate)}
                             </th>
                         </tr>
                         <tr>
                             <th colSpan="2">Ngày kết thúc</th>
                             <th colSpan="1" style={{ textAlign: 'right' }}>
-                                {moment(detailPawn.contractEndDate).format('DD/MM/YYYY')}
+                                {formatDate(detailPawn.contractEndDate)}
                             </th>
                         </tr>
                     </table>

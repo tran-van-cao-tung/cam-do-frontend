@@ -23,6 +23,7 @@ import ModalImg from './ModalImg';
 import { useCallback } from 'react';
 import { StyledTableCell, StyledTableRow } from '../../../helpers/CustomizeTable';
 import { toast } from 'react-toastify';
+import { formatDate } from '../../../helpers/dateTimeUtils';
 
 const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -143,8 +144,6 @@ function PayInterest({ showContractId, refreshDetail }) {
     const uploaderOptions = {
         multi: true,
 
-        // Comment out this line & use 'onUpdate' instead of
-        // 'onComplete' to have the dropzone close after upload.
         showFinishButton: true,
 
         styles: {
@@ -263,18 +262,6 @@ function PayInterest({ showContractId, refreshDetail }) {
                 </TableHead>
                 <TableBody style={{ border: '1px solid rgba(0, 0, 0, 0.1)' }}>
                     {interestDiary.map((item, index) => {
-                        /* if (item.paidMoney != 0) {
-                                    
-                                }
-                                if (show[item.interestDiaryId] === item.interestDiaryId) {
-                                }
-                                else {
-                                    if (item.paidMoney === 0) {
-
-                                    } else {
-                                        setShow({ ...show, [item.interestDiaryId]: item.interestDiaryId });
-                                    }
-                                } */
                         console.log(item.interestDiaryId);
                         return (
                             <>
@@ -284,8 +271,7 @@ function PayInterest({ showContractId, refreshDetail }) {
                                     sx={{ '& td, & th': { textAlign: 'center' } }}
                                 >
                                     <StyledTableCell>
-                                        {moment(item.dueDate).format('DD/MM/YYYY')} -{' '}
-                                        {moment(item.nextDueDate).format('DD/MM/YYYY')}
+                                        {formatDate(item.dueDate)} đến{''} {formatDate(item.nextDueDate)}
                                     </StyledTableCell>
                                     <StyledTableCell>{formatMoney(item.payment)}</StyledTableCell>
                                     <StyledTableCell>{formatMoney(item.penalty)}</StyledTableCell>
