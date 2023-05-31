@@ -30,12 +30,12 @@ function DetailsReport({ value, setYear }) {
         if (currentBranchId) {
             API({
                 method: 'get',
-                url: `/branch/getDetailYearById/${currentBranchId}/${value}`,
+                url: `/branch/getDetailYearById/${currentBranchId}/${value == undefined ? currentYear : value}`,
             }).then((res) => {
                 setYearDetail(res.data);
             });
         }
-    }, [currentBranchId, value, setYear]);
+    }, [currentBranchId, value]);
 
     useEffect(() => {
         if (currentBranchId) {
@@ -51,17 +51,6 @@ function DetailsReport({ value, setYear }) {
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
-
-    // useEffect(() => {
-    //     if (value) {
-    //         API({
-    //             method: 'get',
-    //             url: `/branch/getDetailYearById/${currentBranchId}/${value}`,
-    //         }).then((res) => {
-    //             setYearDetail(res.data);
-    //         });
-    //     }
-    // }, [value, currentBranchId]);
 
     return (
         <div className="conten">
