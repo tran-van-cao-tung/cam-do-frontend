@@ -4,8 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import CreateIcon from '@mui/icons-material/Create';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+
 import { Uploader } from 'uploader';
 import { UploadDropzone } from 'react-uploader';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';

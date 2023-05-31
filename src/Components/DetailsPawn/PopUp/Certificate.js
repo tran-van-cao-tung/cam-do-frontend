@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './popup.css';
 import API from '../../../API.js';
 import { Uploader } from 'uploader';
-import { UploadDropzone } from 'react-uploader';
+import { UploadButton, UploadDropzone } from 'react-uploader';
 
 import { toast } from 'react-toastify';
 import { useCallback } from 'react';
@@ -34,7 +34,7 @@ const Certificate = ({ showContractId }) => {
             setImg(res.data);
             // console.log('aaaaa', res.data);
         });
-    }, [showContractId]);
+    }, []);
 
     const refreshImg = useCallback(() => {
         API({
@@ -44,11 +44,11 @@ const Certificate = ({ showContractId }) => {
             setImg(res.data);
             // console.log('aaaaa', res.data);
         });
-    }, [img]);
+    }, [showContractId]);
 
     useEffect(() => {
         refreshImg();
-    }, [img]);
+    }, []);
 
     function uploadCusImg(customerImg) {
         API({
@@ -56,6 +56,7 @@ const Certificate = ({ showContractId }) => {
             url: `/contract/uploadContractImg/${showContractId}?customerImg=${customerImg}`,
         })
             .then((res) => {
+                refreshImg();
                 toast.success('Lưu hình thành công');
             })
             .catch((err) => {
@@ -69,6 +70,7 @@ const Certificate = ({ showContractId }) => {
             url: `/contract/uploadContractImg/${showContractId}?contractImg=${contractImg}`,
         })
             .then((res) => {
+                refreshImg();
                 toast.success('Lưu hình thành công');
             })
             .catch((err) => {
@@ -101,38 +103,62 @@ const Certificate = ({ showContractId }) => {
             ) : (
                 <>
                     <div>
-                        <p style={{ textAlign: 'center', fontWeight: 700 }}>Upload ảnh Khách Hàng</p>
-
-                        {img.customerVerifyImg == null ? (
-                            <UploadDropzone
+                        <div style={{ position: 'relative' }}>
+                            <p style={{ textAlign: 'center', fontWeight: 700, marginRight: '20px' }}>
+                                Upload ảnh Khách Hàng
+                            </p>
+                            <UploadButton
                                 uploader={uploader}
-                                options={uploaderOptions}
-                                onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
+                                options={{ multi: true }}
                                 onComplete={(files) => uploadCusImg(files.map((x) => x.fileUrl).join('\n'))}
-                                width="800px"
-                                minWidth="500px"
-                                height="375px"
-                            />
-                        ) : (
-                            <img class="certificateImg" src={img.customerVerifyImg} alt="" />
-                        )}
-                        {/* )} */}
+                            >
+                                {({ onClick }) => (
+                                    <button
+                                        style={{
+                                            backgroundColor: 'orange',
+                                            border: 'none',
+                                            position: 'absolute',
+                                            right: 0,
+                                            top: 0,
+                                        }}
+                                        onClick={onClick}
+                                    >
+                                        +
+                                    </button>
+                                )}
+                            </UploadButton>
+                        </div>
+
+                        <img class="certificateImg" src={img.customerVerifyImg} alt="" />
                     </div>
                     <div>
-                        <p style={{ textAlign: 'center', fontWeight: 700 }}>Upload ảnh chứng từ HĐ</p>
-                        {img.contractVerifyImg == null ? (
-                            <UploadDropzone
+                        <div style={{ position: 'relative' }}>
+                            <p style={{ textAlign: 'center', fontWeight: 700, marginRight: '20px' }}>
+                                Upload ảnh chứng từ HĐ
+                            </p>
+                            <UploadButton
                                 uploader={uploader}
-                                options={uploaderOptions}
-                                onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
+                                options={{ multi: true }}
                                 onComplete={(files) => uploadContractImg(files.map((x) => x.fileUrl).join('\n'))}
-                                width="800px"
-                                minWidth="500px"
-                                height="375px"
-                            />
-                        ) : (
-                            <img class="certificateImg" src={img.contractVerifyImg} alt="" />
-                        )}
+                            >
+                                {({ onClick }) => (
+                                    <button
+                                        style={{
+                                            backgroundColor: 'orange',
+                                            border: 'none',
+                                            position: 'absolute',
+                                            right: 0,
+                                            top: 0,
+                                        }}
+                                        onClick={onClick}
+                                    >
+                                        +
+                                    </button>
+                                )}
+                            </UploadButton>
+                        </div>
+
+                        <img class="certificateImg" src={img.contractVerifyImg} alt="" />
                     </div>
                 </>
             )}
