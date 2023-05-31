@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './popup.css';
 import callAPI from '../../../API';
-import { Button, TextField } from '@mui/material';
-import { formatDate, formatMoney } from '../../../helpers/dateTimeUtils';
+import { Button, Grid, TextField, styled } from '@mui/material';
+import { formatDate } from '../../../helpers/dateTimeUtils';
 import { Save } from '@mui/icons-material';
 import { NumericFormat } from 'react-number-format';
 import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
 
 import { Uploader } from 'uploader';
-import { UploadDropzone } from 'react-uploader';
+import { UploadButton } from 'react-uploader';
 import { AuthContext } from '../../../helpers/AuthContext';
 import { useContext } from 'react';
 import { toast } from 'react-toastify';
@@ -43,6 +44,11 @@ NumericFormatCustom.propTypes = {
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
 };
+const Item = styled(Box)(({ theme }) => ({
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
 const Liquidation = ({ showContractId }) => {
     var now = new Date().getTime();
     const { userInfo } = useContext(AuthContext);
@@ -110,98 +116,168 @@ const Liquidation = ({ showContractId }) => {
     };
 
     return (
-        <div>
-            <div className="info__asset">
-                <div className="asset">
-                    <div className="w30 text__right">
-                        <p>
-                            <b>Loại tài sản:</b>
-                        </p>
-                        <p>
-                            <b>Tên tài sản :</b>
-                        </p>
+        <>
+            <div>
+                {contractDetail.status === 4 ? (
+                    <Grid container spacing={2}>
+                        <Grid item xs={3}>
+                            <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}>Loại tài sản: </Item>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Item sx={{ textAlign: 'center', fontSize: '25px', fontWeight: 700 }}>
+                                {liquidInfo.typeOfProduct}
+                            </Item>
+                        </Grid>
 
-                        <p>
-                            <b>
+                        <Grid item xs={3}>
+                            <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}> Tên tài sản : </Item>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Item sx={{ textAlign: 'center', fontSize: '25px' }}> {liquidInfo.assetName}</Item>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}>
+                                {' '}
                                 Số tiền thanh lý<span className="start-red">*</span>:
-                            </b>
-                        </p>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={3} sx={{ textAlign: 'left' }}>
+                            <Item sx={{ textAlign: 'center', color: '#107287', fontSize: '25px', fontWeight: 400 }}>
+                                {liquidInfo.liquidationMoney}
+                            </Item>
+                        </Grid>
+                        <Grid item xs={3} sx={{ textAlign: 'center', alignItems: 'center' }}>
+                            <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}>Ngày thanh lý:</Item>{' '}
+                        </Grid>
+                        <Grid item xs={3} sx={{ textAlign: 'left' }}>
+                            <Item sx={{ textAlign: 'center', fontSize: '25px', color: '#107287' }}>
+                                {formatDate(liquidInfo.liquidationDate)}
+                            </Item>
+                        </Grid>
+                    </Grid>
+                ) : (
+                    <Grid container spacing={2}>
+                        <Grid item xs={3}>
+                            <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}>Loại tài sản: </Item>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Item sx={{ textAlign: 'center', fontSize: '25px', fontWeight: 700 }}>
+                                {liquidInfo.typeOfProduct}
+                            </Item>
+                        </Grid>
 
-                        <b>Ngày thanh lý:</b>
-                    </div>
+                        <Grid item xs={3}>
+                            <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}> Tên tài sản : </Item>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Item sx={{ textAlign: 'center', fontSize: '25px' }}> {liquidInfo.assetName}</Item>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}>
+                                {' '}
+                                Số tiền thanh lý<span className="start-red">*</span>:
+                            </Item>
+                        </Grid>
+                        <Grid item xs={3} sx={{ textAlign: 'left' }}>
+                            <Item sx={{ textAlign: 'center', color: '#107287', fontSize: '25px', fontWeight: 400 }}>
+                                <div className="box__input">
+                                    <TextField
+                                        onChange={(e) => handInputMoney(e)}
+                                        name="liquidMoney"
+                                        id="formatted-numberformat-input"
+                                        placeholder="Tiền thanh lý"
+                                        InputProps={{
+                                            inputComponent: NumericFormatCustom,
+                                        }}
+                                        variant="standard"
+                                    />
+                                </div>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={3} sx={{ textAlign: 'center', alignItems: 'center' }}>
+                            <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}>Ngày thanh lý:</Item>{' '}
+                        </Grid>
+                        <Grid item xs={3} sx={{ textAlign: 'left' }}>
+                            <Item sx={{ textAlign: 'center', fontSize: '25px', color: '#107287' }}>
+                                <p className="line__height">{formatDate(now)}</p>
+                            </Item>
+                        </Grid>
+                    </Grid>
+                )}
+
+                <Grid container spacing={2}>
                     {contractDetail.status === 4 ? (
-                        //Đã đóng
-                        <div className="w30 text__left">
-                            <p>{liquidInfo.typeOfProduct}</p>
-                            <p>{liquidInfo.assetName}</p>
-                            <div className="box__input">
-                                <p>{formatMoney(liquidInfo.liquidationMoney)}</p>
+                        <div
+                            style={{
+                                // maxWidth: '250px',
+                                boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+                                margin: '20px auto',
+                                borderRadius: '12px',
+                            }}
+                        >
+                            <div style={{ padding: '10px', fontSize: '25px', fontWeight: '700' }}>
+                                <p>Hình Ảnh Tài Sản</p>
                             </div>
-                            <p className="line__height">{formatDate(liquidInfo.liquidationDate)}</p>
+                            <img style={{ maxWidth: '800px' }} src={liquidInfo.proofImg} alt="ảnh tài sản" />
                         </div>
                     ) : (
-                        <div className="w30 text__left">
-                            <p>{contractDetail.typeOfProduct}</p>
-                            <p>{contractDetail.assetName}</p>
-                            <div className="box__input">
-                                <TextField
-                                    onChange={(e) => handInputMoney(e)}
-                                    name="liquidMoney"
-                                    id="formatted-numberformat-input"
-                                    placeholder="Tiền thanh lý"
-                                    InputProps={{
-                                        inputComponent: NumericFormatCustom,
-                                    }}
-                                    variant="standard"
-                                />
-                            </div>
-
-                            <p className="line__height">{formatDate(now)}</p>
-                        </div>
-                    )}
-                </div>
-                <div className="asset">
-                    {contractDetail.status === 4 ? (
-                        ''
-                    ) : (
-                        <div>
-                            <p>
-                                Hình ảnh <span style={{ color: 'red' }}>*</span>:
-                            </p>
-                            <UploadDropzone
-                                uploader={uploader}
-                                options={uploaderOptions}
-                                onUpdate={(files) => console.log('Up hình OK')}
-                                onComplete={(files) => {
-                                    handleImg(files.map((x) => x.fileUrl).join('\n'));
+                        <div
+                            style={{
+                                margin: '20px auto',
+                                position: 'relative',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    // maxWidth: '250px',
+                                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+                                    borderRadius: '12px',
                                 }}
-                                width="600px"
-                                height="375px"
-                            />
+                            >
+                                <div style={{ padding: '10px', fontSize: '25px', fontWeight: '700', width: '800px' }}>
+                                    <p> Upload Hình ảnh:</p>
+                                    <img src={linkImg} alt="" />
+                                </div>
+                            </div>
+                            <UploadButton
+                                uploader={uploader}
+                                options={{ multi: true }}
+                                onComplete={(files) => handleImg(files.map((x) => x.fileUrl).join('\n'))}
+                            >
+                                {({ onClick }) => (
+                                    <button
+                                        style={{
+                                            backgroundColor: 'orange',
+                                            border: 'none',
+                                            position: 'absolute',
+                                            right: '5px',
+                                            top: '5%',
+                                        }}
+                                        onClick={onClick}
+                                    >
+                                        +
+                                    </button>
+                                )}
+                            </UploadButton>
+                            <div className="btn__group">
+                                <Button
+                                    onClick={(e) => handleLiquid(e)}
+                                    variant="contained"
+                                    color="success"
+                                    sx={{
+                                        fontSize: '16px',
+                                        padding: '15px 30px',
+                                    }}
+                                    startIcon={<Save />}
+                                >
+                                    Thanh lý
+                                </Button>
+                            </div>
                         </div>
                     )}
-                    <img src={linkImg} width="600px" height="375px" alt="" />
-                </div>
+                </Grid>
             </div>
-            {contractDetail.status === 4 ? (
-                ''
-            ) : (
-                <div className="btn__group">
-                    <Button
-                        onClick={(e) => handleLiquid(e)}
-                        variant="contained"
-                        color="success"
-                        sx={{
-                            fontSize: '16px',
-                            padding: '15px 30px',
-                        }}
-                        startIcon={<Save />}
-                    >
-                        Thanh lý
-                    </Button>
-                </div>
-            )}
-        </div>
+        </>
     );
 };
 
