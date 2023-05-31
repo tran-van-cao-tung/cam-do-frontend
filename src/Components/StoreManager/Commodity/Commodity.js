@@ -27,7 +27,7 @@ function Commodity() {
     useEffect(() => {
         callAPI({
             method: 'get',
-            url: `/pawnableProduct/getAll/1`,
+            url: `/pawnableProduct/getAll/0`,
         }).then((res) => {
             console.log(res.data);
             setLogContract(res.data);

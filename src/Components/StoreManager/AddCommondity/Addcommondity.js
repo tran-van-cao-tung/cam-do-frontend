@@ -1,14 +1,8 @@
 import './AddCommondity.css';
 
 import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import InputBase from '@mui/material/InputBase';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import API from '../../../API';
-import { Divider, Grid, TextField } from '@mui/material';
+import {Grid, TextField } from '@mui/material';
 
 import React, { useState } from 'react';
 
@@ -33,10 +27,6 @@ const Addcommondity = ({ setShowAddCommodity, showAddCommodity }) => {
     };
     const handleOnChangeCode = (e) => {
         setCode(e.target.value);
-    };
-
-    const handleOnChangeStatus = (e) => {
-        setStatus(e.target.value);
     };
 
     const handleAddAttribute = () => {
@@ -106,7 +96,7 @@ const Addcommondity = ({ setShowAddCommodity, showAddCommodity }) => {
 
                 <Grid item xs={12} marginTop="10px">
                     <TextField
-                        onChange={handleOnChangeCode}
+                        onChange={handleOnChangeName}
                         id="standard-basic"
                         label={
                             <p>

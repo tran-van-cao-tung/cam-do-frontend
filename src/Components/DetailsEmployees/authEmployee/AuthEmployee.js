@@ -102,7 +102,7 @@ function AuthEmployee() {
             setParentCheckbox6(true);
             console.log('Có báo cáo');
         } else {
-            setParentCheckbox5(false);
+            setParentCheckbox6(false);
             console.log('Ko có báo cáo');
         }
     }

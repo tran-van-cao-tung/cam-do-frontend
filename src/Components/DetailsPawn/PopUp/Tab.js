@@ -47,8 +47,13 @@ export default function BasicTabs({ contract, showContractId, showdetailContract
     liquidDetail }) {
     const [value, setValue] = React.useState(0);
     const disbleLiquid = useMemo(() => 
-    liquidDetail?.typeOfProduct === null && contract.status === 4
+    liquidDetail?.typeOfProduct === null
     ,[liquidDetail])
+
+    const isClosed = useMemo(() => 
+    contract.status === 4
+    ,[contract.status])
+    
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -65,14 +70,14 @@ export default function BasicTabs({ contract, showContractId, showdetailContract
 
                     <Tab sx={{ width: '16%' }} label="Đóng tiền lãi" {...a11yProps(0)} value={0} />
                     <Tab sx={{ width: '16%' }} label="Chứng từ" {...a11yProps(1)}  value={1}/>
-                    {disbleLiquid? (
+                    {disbleLiquid || !isClosed? (
                         <Tab sx={{ width: '16%' }} label="Chuộc đồ" {...a11yProps(2)} value={2} />
                     ) : (
                         null
                     )}
                     <Tab sx={{ width: '16%' }} label="Tài sản" {...a11yProps(3)} value={3}/> 
                     <Tab sx={{ width: '16%' }} label="Lịch sử" {...a11yProps(4)} value={4}/>
-                    {disbleLiquid? (
+                    {disbleLiquid && isClosed? (
                         null
                     ) : (
                         <Tab sx={{ width: '16%' }} label="Thanh lý" {...a11yProps(5)} value={5} />
