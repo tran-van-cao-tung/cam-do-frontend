@@ -41,7 +41,6 @@ const sidebarMenu = [
         icon: <StoreMallDirectoryIcon />,
         label: 'Quản Lý Cửa Hàng',
         to: '/liststore',
-        permission: PERMISSIONS['Quản Lý Cửa Hàng'],
     },
     {
         key: 'assetManager',
@@ -116,7 +115,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const SideBar = ({ open }) => {
-    const { authState, permissions } = useContext(AuthContext);
+    const { authState, permissions, userInfo } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [collapsMap, setCollapsMap] = useState(() => {
@@ -137,7 +136,7 @@ const SideBar = ({ open }) => {
     };
 
     const hasPermission = (id) => {
-        if (lowercaseText(authState?.user?.userName) === 'admin') {
+        if (userInfo?.roleId === 1) {
             return true;
         }
         const permission = permissions.find((item) => item.permissionId === id);
