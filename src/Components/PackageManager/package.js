@@ -161,7 +161,13 @@ const Package = () => {
             <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
                 <PageHeader title="Điều chỉnh gói vay" />
                 <CustomizeButton title="Thêm mới" handleClick={handleAddPackage} />
-                {showAddPagkage && <AddPackage showAddPagkage={showAddPagkage} setShowAddPagkage={setShowAddPagkage} />}
+                {showAddPagkage && (
+                    <AddPackage
+                        refresh={fetchListCustomer}
+                        showAddPagkage={showAddPagkage}
+                        setShowAddPagkage={setShowAddPagkage}
+                    />
+                )}
             </Grid>
 
             {/* ================================ */}

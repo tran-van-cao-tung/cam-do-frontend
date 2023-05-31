@@ -4,16 +4,16 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import './details.css';
 import API from '../../../API';
-import { useParams } from 'react-router-dom';
+
 import { AuthContext } from '../../../helpers/AuthContext';
 
 function DetailsReport({ value, setYear }) {
     const currentYear = new Date().getFullYear();
-    const { authState, currentBranchId } = useContext(AuthContext);
+    const { currentBranchId } = useContext(AuthContext);
     const [detail, setDetail] = useState([]);
     const [yearDetail, setYearDetail] = useState([]);
     // setValue(currentYear);
-    const param = useParams();
+
     // Them dark mod
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -23,19 +23,19 @@ function DetailsReport({ value, setYear }) {
         color: theme.palette.text.secondary,
     }));
     console.log('value in report', value);
-    console.log('currentBranchId in report', currentBranchId);
+
     // Axios
 
     useEffect(() => {
         if (currentBranchId) {
             API({
                 method: 'get',
-                url: `/branch/getDetailById/${currentBranchId}/${value}`,
+                url: `/branch/getDetailYearById/${currentBranchId}/${value == undefined ? currentYear : value}`,
             }).then((res) => {
                 setYearDetail(res.data);
             });
         }
-    }, [currentBranchId, value, setYear]);
+    }, [currentBranchId, value]);
 
     useEffect(() => {
         if (currentBranchId) {
@@ -51,17 +51,6 @@ function DetailsReport({ value, setYear }) {
     const formatMoney = (value) => {
         return value.toLocaleString('vi-VN') + ' VNĐ';
     };
-
-    // useEffect(() => {
-    //     if (value) {
-    //         API({
-    //             method: 'get',
-    //             url: `/branch/getDetailYearById/${currentBranchId}/${value}`,
-    //         }).then((res) => {
-    //             setYearDetail(res.data);
-    //         });
-    //     }
-    // }, [value, currentBranchId]);
 
     return (
         <div className="conten">

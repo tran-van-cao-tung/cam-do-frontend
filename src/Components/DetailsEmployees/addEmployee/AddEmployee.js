@@ -139,17 +139,19 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee, refresh }) {
                         Họ và tên <span>*</span>:
                     </span>
                     {/* <Field id="fullName" name="fullName" onChange={(e) => handleInput(e)} value={employee.fullName}/> */}
-                    <input type="text" name='fullName' onChange={(e) => handleInput(e)} value={employee.fullName} />
+                    <input type="text" name="fullName" onChange={(e) => handleInput(e)} value={employee.fullName} />
                 </div>
                 <div className="employee_input">
                     <span>
                         Tên cửa hàng <span>*</span>:
                     </span>
-                    <select name="branchId"
+                    <select
+                        name="branchId"
                         onChange={(e) => {
                             handleInput(e);
                         }}
-                        value={employee.branchId}>
+                        value={employee.branchId}
+                    >
                         <option>--Tên cửa hàng--</option>
                         {branch.map((item, index) => {
                             return (
@@ -165,15 +167,19 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee, refresh }) {
                         Tên đăng nhập <span>*</span>:
                     </span>
                     {/* <Field id="userName" name="userName" onChange={(e) => handleInput(e)} value={employee.userName} /> */}
-                    <input type="text" name='userName' onChange={(e) => handleInput(e)} value={employee.userName} />
+                    <input type="text" name="userName" onChange={(e) => handleInput(e)} value={employee.userName} />
                 </div>
                 <div className="employee_input">
                     <span>
                         Mật khẩu<span>*</span>:
                     </span>
                     <div className="password-input">
-                        <input type={showPassword1 ? 'text' : 'password'} id="password" name="password"
-                            onChange={(e) => handleInput(e)} value={employee.password}
+                        <input
+                            type={showPassword1 ? 'text' : 'password'}
+                            id="password"
+                            name="password"
+                            onChange={(e) => handleInput(e)}
+                            value={employee.password}
                         />
                         <button type="button" onClick={toggleShowPassword1}>
                             {showPassword1 ? <VisibilityIcon /> : <VisibilityOffIcon />}
@@ -202,21 +208,21 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee, refresh }) {
                         Email<span>*</span>:
                     </span>
                     {/* <Field id="email" name="email" /> */}
-                    <input type="text" name='email' onChange={(e) => handleInput(e)} value={employee.email} />
+                    <input type="text" name="email" onChange={(e) => handleInput(e)} value={employee.email} />
                 </div>
                 <div className="employee_input">
                     <span>
                         Địa chỉ <span>*</span>:
                     </span>
                     {/* <Field id="address" name="address" /> */}
-                    <input type="text" name='address' onChange={(e) => handleInput(e)} value={employee.address} />
+                    <input type="text" name="address" onChange={(e) => handleInput(e)} value={employee.address} />
                 </div>
                 <div className="employee_input">
                     <span>
                         Số điện thoại <span>*</span>:
                     </span>
                     {/* <Field id="phone" name="phone" /> */}
-                    <input type="text" name='phone' onChange={(e) => handleInput(e)} value={employee.phone} />
+                    <input type="text" name="phone" onChange={(e) => handleInput(e)} value={employee.phone} />
                 </div>
                 <div className="employee_input">
                     <span>
@@ -228,7 +234,8 @@ function AddEmployee({ showAddEmployee, setShowAddEmployee, refresh }) {
                         style={{
                             width: '576px',
                         }}
-                        onChange={(e) => handleInput(e)} value={employee.roleId}
+                        onChange={(e) => handleInput(e)}
+                        value={employee.roleId}
                     >
                         <option value={2} selected>
                             --Quản lý--

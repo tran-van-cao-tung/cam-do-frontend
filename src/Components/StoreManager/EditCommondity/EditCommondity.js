@@ -13,6 +13,7 @@ import API from '../../../API';
 
 import { Divider } from '@mui/material';
 import { toast } from 'react-toastify';
+import PageHeader from '../../../helpers/PageHeader';
 
 const EditCommondity = () => {
     const params = useParams();
@@ -45,7 +46,7 @@ const EditCommondity = () => {
                 toast.success('Lưu Thành Công');
             })
             .catch((err) => {
-                toast.error('Update ko thành công')
+                toast.error('Update ko thành công');
             });
     };
     const handleOnChangeName = (e) => {
@@ -56,13 +57,12 @@ const EditCommondity = () => {
     return (
         <>
             <div className="Addcommondity">
-                <h1>Cập nhật cấu hình hàng hóa</h1>
+                <PageHeader title="Cập nhật cấu hình hàng hóa" />
+
                 <div className="wareh-content">
                     <div className="add-content">
                         {/* Left */}
                         <div className="add-commodity-left">
-                            <h3>Nhập thông tin hàng hoá</h3>
-                            <Divider />
                             <FormControl className="add-input-group">
                                 <FormLabel className="label">
                                     Mã hàng&nbsp;<label style={{ color: 'red' }}>*</label>:
@@ -133,4 +133,3 @@ const EditCommondity = () => {
 };
 
 export default EditCommondity;
-

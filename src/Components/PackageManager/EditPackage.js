@@ -29,7 +29,7 @@ function EditPackage({ showEditPagkage, setShowEditPagkage, refresh }) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log('tesst');
+
         const data = {
             packageId: id,
             packageName: listPackage.packageName,
@@ -42,8 +42,8 @@ function EditPackage({ showEditPagkage, setShowEditPagkage, refresh }) {
             ransomPenalty: listPackage.ransomPenalty,
             interestDiaryPenalty: listPackage.interestDiaryPenalty,
             liquitationDay: listPackage.liquitationDay,
-            // interestDiaryPenalty: listPackage.interestDiaryPenalty,
-            // ransomPenalty: listPackage.ransomPenalty,
+            interestDiaryPenalty: listPackage.interestDiaryPenalty,
+            ransomPenalty: listPackage.ransomPenalty,
         };
         callAPI({
             method: 'put',
@@ -177,7 +177,7 @@ function EditPackage({ showEditPagkage, setShowEditPagkage, refresh }) {
             content={renderContent()}
             action={
                 <Button
-                    onClick={(e) => onSubmit()}
+                    onClick={(e) => onSubmit(e)}
                     variant="contained"
                     color="success"
                     sx={{

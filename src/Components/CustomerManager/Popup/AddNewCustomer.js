@@ -160,7 +160,7 @@ const AddNewCustomer = ({ setShowAddCustomer, showAddCustomer, refresh }) => {
                             onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
                             onComplete={(files) => uploadFrontImg(files.map((x) => x.fileUrl).join('\n'))}
                             width="600px"
-                            height="300px"
+                            height="400px"
                         />
                     ) : (
                         <img src={frontImg} alt="" style={{ width: '270px', height: '150px' }} />
@@ -175,7 +175,7 @@ const AddNewCustomer = ({ setShowAddCustomer, showAddCustomer, refresh }) => {
                             onUpdate={(files) => console.log(files.map((x) => x.fileUrl).join('\n'))}
                             onComplete={(files) => uploadBackImg(files.map((x) => x.fileUrl).join('\n'))}
                             width="600px"
-                            height="300px"
+                            height="400px"
                         />
                     ) : (
                         <img src={backImg} alt="" style={{ width: '270px', height: '150px' }} />

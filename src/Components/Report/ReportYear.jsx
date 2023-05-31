@@ -8,7 +8,7 @@ import PageHeader from '../../helpers/PageHeader';
 const ReportYear = () => {
     const [value, setValue] = useState();
     const [year, setYear] = useState([]);
-    console.log('value', value);
+    console.log('value in Repỏt', value);
     console.log('valueYear', year);
     console.log('valuevalue', setValue);
     return (

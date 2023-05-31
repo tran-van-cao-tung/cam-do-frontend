@@ -5,7 +5,7 @@ import CustomizeDiaglog, { DIALOG_SIZE } from '../../helpers/CustomizeDiaglog';
 import { Save } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 
-function AddPackage({ showAddPagkage, setShowAddPagkage }) {
+function AddPackage({ showAddPagkage, setShowAddPagkage, refresh }) {
     const [listPackage, setListPackage] = useState([]);
     const data = {
         packageName: listPackage.packageName,
@@ -28,7 +28,9 @@ function AddPackage({ showAddPagkage, setShowAddPagkage }) {
             url: `package/createPackage`,
             data: data,
         }).then((res) => {
+            refresh();
             toast.success('Thêm thành công!');
+            setShowAddPagkage(false);
         });
     };
 

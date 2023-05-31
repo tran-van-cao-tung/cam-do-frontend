@@ -1,35 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 
-import moment from 'moment';
 import './popup.css';
 import callAPI from '../../../API';
+import { formatDate } from '../../../helpers/dateTimeUtils';
 
 function History({ showContractId }) {
-    //Ép kiểu dữ liệu date
-    const formatDate = (value) => {
-        return moment(value).format('DD/MM/YYYY');
-    };
-
-    //Ép kiểu dữ liệu vnd
-    const formatVND = (value) => {
-        return Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
-    };
     const columns = [
-        // {
-        //     field: 'STT',
-        //     headerName: 'STT',
-        //     width: 10,
-        //     textAlign: 'center',
-        //     valueGetter: (params) => {
-        //         for (let i = 0; i < rows.length; i++) {
-        //             if (params.row.logContractId === rows[i].logContractId) {
-        //                 return i + 1;
-        //             }
-        //         }
-        //     },
-        //     sortable: false,
-        // },
         {
             field: 'logTime',
             headerName: 'Ngày thực hiện',
@@ -38,33 +15,24 @@ function History({ showContractId }) {
         },
 
         { field: 'userName', headerName: 'Giao dịch viên', width: 150 },
-        // {
-        //     field: 'debt',
-        //     headerName: ' Số tiền còn nợ',
-        //     with: 200,
-        //     valueFormatter: (params) => formatVND(params.value),
-        // },
-        // {
-        //     field: 'paid',
-        //     headerName: 'Số tiền đóng lãi',
-        //     width: 180,
-        //     valueFormatter: (params) => formatVND(params.value),
-        // },
+
         {
             field: 'eventType',
             headerName: 'Loại hoạt động',
             width: 150,
             valueGetter: (params) =>
-                `${params.row.eventType === 1
-                    ? 'Tạo hợp đồng'
-                    : params.row.eventType === 2
+                `${
+                    params.row.eventType === 1
+                        ? 'Tạo hợp đồng'
+                        : params.row.eventType === 2
                         ? 'Trễ hạn đóng lãi'
                         : params.row.eventType === 3
-                            ? 'Đã đóng đủ lãi'
-                            : params.row.eventType === 4
-                                ? 'Đóng hợp đồng'
-                                : params.row.eventType === 5 ?
-                                    'Còn nợ lãi' : ""
+                        ? 'Đã đóng đủ lãi'
+                        : params.row.eventType === 4
+                        ? 'Đóng hợp đồng'
+                        : params.row.eventType === 5
+                        ? 'Còn nợ lãi'
+                        : ''
                 }`,
         },
         {
@@ -72,17 +40,18 @@ function History({ showContractId }) {
             headerName: 'Ghi chú',
             width: 500,
             valueGetter: (params) =>
-                `${params.row.eventType === 1
-                    ? `${params.row.description ? params.row.description : ''}`
-                    : params.row.eventType === 2
+                `${
+                    params.row.eventType === 1
+                        ? `${params.row.description ? params.row.description : ''}`
+                        : params.row.eventType === 2
                         ? `${params.row.description ? params.row.description : ''}`
                         : params.row.eventType === 3
-                            ? `${params.row.description ? params.row.description : ''}`
-                            : params.row.eventType === 4
-                                ? `${params.row.description ? params.row.description : ''}`
-                                : params.row.eventType === 5
-                                    ? `${params.row.description ? params.row.description : ''}`
-                                    : ""
+                        ? `${params.row.description ? params.row.description : ''}`
+                        : params.row.eventType === 4
+                        ? `${params.row.description ? params.row.description : ''}`
+                        : params.row.eventType === 5
+                        ? `${params.row.description ? params.row.description : ''}`
+                        : ''
                 }`,
         },
     ];
