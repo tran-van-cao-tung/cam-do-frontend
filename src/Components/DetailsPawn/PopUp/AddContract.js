@@ -387,7 +387,8 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
                                         <p>
                                             Chọn gói cầm <span class="start-red">*</span>:
                                         </p>
-                                        <p>Kỳ lãi:</p>
+                                        <p>Tổng ngày vay:</p>
+                                        <p>Số ngày mõi kỳ: </p>
                                         {/*
                                             <p>Ngày vay:</p> */}
                                         <p>Lãi mặc định:</p>
@@ -409,6 +410,7 @@ const AddContract = ({ setShowAddContract, showAddContract, refresh }) => {
                                         </select>
 
                                         <p className="flcenter">{packageItem?.day ?? ''} Ngày</p>
+                                        <p className="flcenter">{packageItem?.paymentPeriod ?? ''} Ngày</p>
                                         {/* <input type="date" /> */}
                                         <p className="flcenter">{packageItem ? packageItem.packageInterest : ''}%</p>
                                         <input

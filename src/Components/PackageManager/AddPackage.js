@@ -1,28 +1,35 @@
 import React, { useState } from 'react';
 import callAPI from '../../API';
-import { Button } from '@mui/material';
+import { Box, Button, Divider, Grid } from '@mui/material';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../helpers/CustomizeDiaglog';
 import { Save } from '@mui/icons-material';
 import { toast } from 'react-toastify';
+import CustomizedInput from './CustomizedInput';
+import { formatMoney } from '../../helpers/dateTimeUtils';
 
 function AddPackage({ showAddPagkage, setShowAddPagkage, refresh }) {
     const [listPackage, setListPackage] = useState([]);
-    const data = {
-        packageName: listPackage.packageName,
-        packageInterest: listPackage.packageInterest,
-        day: listPackage.day,
-        paymentPeriod: listPackage.paymentPeriod,
-        limitation: listPackage.limitation,
-        punishDay1: listPackage.punishDay1,
-        punishDay2: listPackage.punishDay2,
-        ransomPenalty: listPackage.ransomPenalty,
-        interestDiaryPenalty: listPackage.interestDiaryPenalty,
-        liquitationDay: listPackage.liquitationDay,
-        // interestDiaryPenalty: listPackage.interestDiaryPenalty,
-        // ransomPenalty: listPackage.ransomPenalty,
-    };
 
     const onSubmit = (e) => {
+        const totalDays = parseInt(listPackage.daysPerPeriod) * parseInt(listPackage.paymentPeriod);
+        const punishDay1 = parseInt(listPackage.punishDay1) + totalDays;
+        const punishDay2 = parseInt(listPackage.punishDay2) + totalDays;
+        const liquitationDay = parseInt(listPackage.liquitationDay) + totalDays;
+        const data = {
+            packageName: listPackage.packageName,
+            packageInterest: listPackage.packageInterest,
+            day: totalDays,
+            paymentPeriod: listPackage.daysPerPeriod,
+            limitation: 0,
+            punishDay1: punishDay1,
+            punishDay2: punishDay2,
+            ransomPenalty: listPackage.ransomPenalty,
+            interestDiaryPenalty: listPackage.interestDiaryPenalty,
+            liquitationDay: liquitationDay,
+            // interestDiaryPenalty: listPackage.interestDiaryPenalty,
+            // ransomPenalty: listPackage.ransomPenalty,
+        };
+        console.log(data);
         callAPI({
             method: 'post',
             url: `package/createPackage`,
@@ -34,15 +41,33 @@ function AddPackage({ showAddPagkage, setShowAddPagkage, refresh }) {
         });
     };
 
-    const handleInput = (e) => {
-        setListPackage({ ...listPackage, [e.target.name]: e.target.value });
+    const handleInput = (e, key) => {
+        setListPackage((prev) => ({
+            ...prev, [key]: e.target.value
+        }));
     };
+
+    function isNumberString(variable) {
+        return variable != null && variable != '' && typeof variable === 'string' && !isNaN(variable);
+    }
+
+    function calculateTotalDays() {
+        const total = (() => {
+            if (isNumberString(listPackage.paymentPeriod) && isNumberString(listPackage.daysPerPeriod)) {
+                return parseInt(listPackage.daysPerPeriod) * parseInt(listPackage.paymentPeriod)
+            }
+            return 0;
+        })()
+        return total;
+    }
+
+    console.log(listPackage);
     const renderContent = () => (
         <form /* validationSchema={validationSchema} */ onSubmit={onSubmit}>
-            <div className="employeeAdd">
+            {/* <div className="employeeAdd">
                 <div className="employee_input">
                     <span>
-                        Tiền gói vay <span>*</span>:
+                        Tên gói vay <span>*</span>:
                     </span>
                     <input
                         type="text"
@@ -64,13 +89,7 @@ function AddPackage({ showAddPagkage, setShowAddPagkage, refresh }) {
                 </div>
                 <div className="employee_input">
                     <span>
-                        Số ngày vay <span>*</span>:
-                    </span>
-                    <input type="text" name="day" onChange={(e) => handleInput(e)} value={listPackage.day} />
-                </div>
-                <div className="employee_input">
-                    <span>
-                        Kỳ lãi <span>*</span>:
+                        Số kỳ lãi <span>*</span>:
                     </span>
                     <input
                         type="text"
@@ -81,14 +100,9 @@ function AddPackage({ showAddPagkage, setShowAddPagkage, refresh }) {
                 </div>
                 <div className="employee_input">
                     <span>
-                        Số ngày trễ hạn <span>*</span>:
+                        Số ngày mỗi kỳ <span>*</span>:
                     </span>
-                    <input
-                        type="text"
-                        name="limitation"
-                        onChange={(e) => handleInput(e)}
-                        value={listPackage.limitation}
-                    />
+                    <input type="text" name="daysPerPeriod" onChange={(e) => handleInput(e)} value={listPackage.daysPerPeriod} />
                 </div>
                 <div className="employee_input">
                     <span>
@@ -145,7 +159,182 @@ function AddPackage({ showAddPagkage, setShowAddPagkage, refresh }) {
                         value={listPackage.liquitationDay}
                     />
                 </div>
-            </div>
+            </div> */}
+
+            <Grid container rowSpacing={2} columnSpacing={2}>
+                <Grid item xs={12}>
+                    <h4>Thông tin cơ bản</h4>
+                </Grid>
+                <Grid item xs={6}>
+                    <CustomizedInput
+                        type="text"
+                        onChange={(e) => handleInput(e, 'packageName')}
+                        value={listPackage.packageName}
+                        label={"Tên gói vay"}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <CustomizedInput
+                        type="number"
+                        onChange={(e) => handleInput(e, 'packageInterest')}
+                        value={listPackage.packageInterest}
+                        label={"Lãi suất *"}
+                    />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <h4>Thông tin kỳ lãi</h4>
+                </Grid>
+                <Grid item xs={6}>
+                    <CustomizedInput
+                        type="number"
+                        onChange={(e) => handleInput(e, 'paymentPeriod')}
+                        value={listPackage.paymentPeriod}
+                        label={"Số kỳ lãi"}
+                    />
+                    <Box
+                        fontSize={13}
+                        marginTop={'8px'}
+                    >
+                        {'Tổng số ngày vay: ' + calculateTotalDays()}
+                    </Box>
+                </Grid>
+                <Grid item xs={6}>
+                    <CustomizedInput
+                        type="number"
+                        onChange={(e) => {
+                            handleInput(e, 'daysPerPeriod');
+                            if (isNumberString(e.target.value) && isNumberString(listPackage.punishDay1)) {
+                                const punish2 = parseInt(e.target.value) + parseInt(listPackage.punishDay1);
+                                const fakeEvent = {
+                                    target: {
+                                        value: punish2
+                                    }
+                                }
+                                handleInput(fakeEvent, 'punishDay2')
+                                const liquitationDay = punish2 + parseInt(e.target.value);
+                                const fakeEvent2 = {
+                                    target: {
+                                        value: liquitationDay
+                                    }
+                                }
+                                handleInput(fakeEvent2, 'liquitationDay')
+                            } else {
+                                const fakeEvent = {
+                                    target: {
+                                        value: ''
+                                    }
+                                }
+                                handleInput(fakeEvent, 'punishDay2')
+                                handleInput(fakeEvent, 'liquitationDay')
+                            }
+                        }}
+                        value={listPackage.daysPerPeriod}
+                        label={"Số ngày mỗi kỳ *"}
+                    />
+
+                </Grid>
+
+                <Grid item xs={12}>
+                    <h4>Thông tin chuộc đồ</h4>
+                </Grid>
+                <Grid item xs={6}>
+                    <CustomizedInput
+                        type="number"
+                        onChange={(e) => {
+                            handleInput(e, 'punishDay1');
+                            if (isNumberString(e.target.value) && isNumberString(listPackage.daysPerPeriod)) {
+                                const punishDay2 = parseInt(e.target.value) + parseInt(listPackage.daysPerPeriod);
+                                const fakeEvent = {
+                                    target: {
+                                        value: punishDay2
+                                    }
+                                }
+                                handleInput(fakeEvent, 'punishDay2')
+                                const liquitationDay = punishDay2 + parseInt(listPackage.daysPerPeriod);
+                                const fakeEvent2 = {
+                                    target: {
+                                        value: liquitationDay
+                                    }
+                                }
+                                handleInput(fakeEvent2, 'liquitationDay')
+                            } else {
+                                const fakeEvent = {
+                                    target: {
+                                        value: ''
+                                    }
+                                }
+                                handleInput(fakeEvent, 'punishDay2')
+                                handleInput(fakeEvent, 'liquitationDay')
+                            }
+                        }}
+                        value={listPackage.punishDay1}
+                        label={"Ngày phạt đợt 1"}
+                    />
+                    <Box
+                        fontSize={13}
+                        marginTop={'8px'}
+                    >
+                        * Sau ngày hết hạn gói
+                    </Box>
+                </Grid>
+
+                <Grid item xs={6}>
+                    <CustomizedInput
+                        type="number"
+                        value={listPackage.punishDay2 ?? ''}
+                        label={"Ngày phạt đợt 2 "}
+                        disabled
+                    />
+                    <Box
+                        fontSize={13}
+                        marginTop={'8px'}
+                    >
+                        * Sau <b>ngày phạt đợt 1</b> một kỳ lãi
+                    </Box>
+                </Grid>
+
+                <Grid item xs={6}>
+                    <CustomizedInput
+                        type="number"
+                        onChange={(e) => handleInput(e, 'ransomPenalty')}
+                        value={listPackage.ransomPenalty}
+                        label={"Phạt chuộc (%)"}
+                    />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <h4>Thông tin đóng lãi</h4>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <CustomizedInput
+                        type="number"
+                        onChange={(e) => handleInput(e, 'interestDiaryPenalty')}
+                        value={listPackage.interestDiaryPenalty}
+                        label={"Phạt đóng lãi trễ (%)"}
+                    />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <h4>Thông tin thanh lý</h4>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <CustomizedInput
+                        type="number"
+                        value={listPackage.liquitationDay ?? ''}
+                        label={"Ngày thanh lý"}
+                        disabled
+                    />
+                    <Box
+                        fontSize={13}
+                        marginTop={'8px'}
+                    >
+                        * Sau <b>ngày phạt đợt 2</b> một kỳ lãi
+                    </Box>
+                </Grid>
+            </Grid>
         </form>
     );
     const handleCloseDialog = () => {
@@ -156,7 +345,12 @@ function AddPackage({ showAddPagkage, setShowAddPagkage, refresh }) {
             open={showAddPagkage}
             onClose={handleCloseDialog}
             title="Thêm mới gói vay"
-            content={renderContent()}
+            content={
+                <>
+                    <Box height={16} />
+                    {renderContent()}
+                </>
+            }
             action={
                 <Button
                     onClick={(e) => onSubmit(e)}
@@ -172,7 +366,8 @@ function AddPackage({ showAddPagkage, setShowAddPagkage, refresh }) {
                     Lưu Lại
                 </Button>
             }
-            maxWidth={DIALOG_SIZE.md}
+
+            maxWidth={DIALOG_SIZE.lg}
         />
     );
 }
