@@ -125,7 +125,7 @@ const Liquidation = ({ showContractId }) => {
                         </Grid>
                         <Grid item xs={3}>
                             <Item sx={{ textAlign: 'center', fontSize: '25px', fontWeight: 700 }}>
-                                {liquidInfo.typeOfProduct}
+                                {contractDetail.typeOfProduct}
                             </Item>
                         </Grid>
 
@@ -133,7 +133,7 @@ const Liquidation = ({ showContractId }) => {
                             <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}> Tên tài sản : </Item>
                         </Grid>
                         <Grid item xs={3}>
-                            <Item sx={{ textAlign: 'center', fontSize: '25px' }}> {liquidInfo.assetName}</Item>
+                            <Item sx={{ textAlign: 'center', fontSize: '25px' }}> {contractDetail.assetName}</Item>
                         </Grid>
                         <Grid item xs={3}>
                             <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}>
@@ -162,7 +162,7 @@ const Liquidation = ({ showContractId }) => {
                         </Grid>
                         <Grid item xs={3}>
                             <Item sx={{ textAlign: 'center', fontSize: '25px', fontWeight: 700 }}>
-                                {liquidInfo.typeOfProduct}
+                                {contractDetail.typeOfProduct}
                             </Item>
                         </Grid>
 
@@ -170,7 +170,7 @@ const Liquidation = ({ showContractId }) => {
                             <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}> Tên tài sản : </Item>
                         </Grid>
                         <Grid item xs={3}>
-                            <Item sx={{ textAlign: 'center', fontSize: '25px' }}> {liquidInfo.assetName}</Item>
+                            <Item sx={{ textAlign: 'center', fontSize: '25px' }}> {contractDetail.assetName}</Item>
                         </Grid>
                         <Grid item xs={3}>
                             <Item sx={{ textAlign: 'right', fontWeight: 700, fontSize: '25px' }}>
@@ -218,7 +218,7 @@ const Liquidation = ({ showContractId }) => {
                             <div style={{ padding: '10px', fontSize: '25px', fontWeight: '700' }}>
                                 <p>Hình Ảnh Tài Sản</p>
                             </div>
-                            <img style={{ maxWidth: '800px' }} src={liquidInfo.proofImg} alt="ảnh tài sản" />
+                            <img style={{ maxWidth: '800px' }} src={linkImg} alt="ảnh tài sản" />
                         </div>
                     ) : (
                         <div

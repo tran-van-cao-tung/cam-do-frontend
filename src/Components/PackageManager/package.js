@@ -88,12 +88,6 @@ const Package = () => {
             },
         },
         {
-            nameHeader: 'Số ngày trễ hạn',
-            dataRow: (element) => {
-                return element.limitation;
-            },
-        },
-        {
             nameHeader: 'Phạt đợt 1',
             dataRow: (element) => {
                 return element.punishDay1;
@@ -118,7 +112,7 @@ const Package = () => {
             },
         },
         {
-            nameHeader: 'Phạt chuộc sớm',
+            nameHeader: 'Phạt chuộc sớm %',
             dataRow: (element) => {
                 return element.ransomPenalty;
             },

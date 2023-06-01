@@ -36,7 +36,7 @@ function EditPackage({ showEditPagkage, setShowEditPagkage, refresh }) {
             packageInterest: listPackage.packageInterest,
             day: listPackage.day,
             paymentPeriod: listPackage.paymentPeriod,
-            limitation: listPackage.limitation,
+            limitation: 0,
             punishDay1: listPackage.punishDay1,
             punishDay2: listPackage.punishDay2,
             ransomPenalty: listPackage.ransomPenalty,
@@ -71,7 +71,7 @@ function EditPackage({ showEditPagkage, setShowEditPagkage, refresh }) {
                 </div>
                 <div className="employee_input">
                     <span>
-                        Lãi suất <span>*</span>:
+                        Lãi suất <span>*</span> (%):
                     </span>
                     <input
                         type="text"
@@ -97,7 +97,7 @@ function EditPackage({ showEditPagkage, setShowEditPagkage, refresh }) {
                         value={listPackage.paymentPeriod}
                     />
                 </div>
-                <div className="employee_input">
+                {/* <div className="employee_input">
                     <span>
                         Số ngày trễ hạn <span>*</span>:
                     </span>
@@ -107,7 +107,7 @@ function EditPackage({ showEditPagkage, setShowEditPagkage, refresh }) {
                         onChange={(e) => handleInput(e)}
                         value={listPackage.limitation}
                     />
-                </div>
+                </div> */}
                 <div className="employee_input">
                     <span>
                         Ngày phạt đợt 1 <span>*</span>:
