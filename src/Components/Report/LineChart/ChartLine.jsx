@@ -19,7 +19,7 @@ import { AuthContext } from '../../../helpers/AuthContext';
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, Filler);
 
 function ChartLine({ value, setYear, year }) {
-    const { authState } = useContext(AuthContext);
+    const { authState, currentBranchId} = useContext(AuthContext);
     const currentYear = new Date().getFullYear();
     console.log('value in chart');
     const [dateYearReport] = useState([]);
@@ -46,7 +46,7 @@ function ChartLine({ value, setYear, year }) {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         };
         fetch(
-            `https://tranvancaotung2-001-site1.etempurl.com/api/v1/ledger/getbyBranchId/1/${
+            `https://tranvancaotung2-001-site1.etempurl.com/api/v1/ledger/getbyBranchId/${currentBranchId}/${
                 value == null ? currentYear : value
             }`,
             { headers },
