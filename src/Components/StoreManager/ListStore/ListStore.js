@@ -193,7 +193,7 @@ const ListStore = () => {
                     </Grid>
                     <Grid item>
                         <CustomizeButton title="Thêm mới" handleClick={handleAddStore} />
-                        {showAddStore && <AddList showAddStore={showAddStore} setShowAddStore={setShowAddStore} />}
+                        {showAddStore && <AddList showAddStore={showAddStore} setShowAddStore={setShowAddStore} refresh= {fetchCallAPI} />}
                     </Grid>
                 </Grid>
             </Grid>

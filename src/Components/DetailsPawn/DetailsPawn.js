@@ -116,6 +116,7 @@ const DetailsPawn = () => {
                     showdetailContract={showdetailContract}
                     setshowdetailContract={setshowdetailContract}
                     showContractId={showContractId}
+                    contracts={contracts}
                 />
             )}
             {showExpiration && (

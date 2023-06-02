@@ -16,15 +16,17 @@ import { toast } from 'react-toastify';
 import PageHeader from '../../../helpers/PageHeader';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
 import { Save } from '@mui/icons-material';
+import { useContext } from 'react';
+import { AuthContext } from '../../../helpers/AuthContext';
 
-const AddList = ({ showAddStore, setShowAddStore }) => {
+const AddList = ({ showAddStore, setShowAddStore, refresh}) => {
     // const [id, setId] = useState();
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [fund, setFund] = useState();
     const [status, setStatus] = useState(1);
-
+    const {resetToken} = useContext(AuthContext);
     const [fundError, setFundError] = useState('');
     const handleOnChangeFund = (e) => {
         const value = JSON.parse(e.target.value);
@@ -37,6 +39,7 @@ const AddList = ({ showAddStore, setShowAddStore }) => {
         }
         // console.log(fund);
     };
+
     const handleSubmit = (e) => {
         // check điều kiện ở input
         if (
@@ -71,7 +74,10 @@ const AddList = ({ showAddStore, setShowAddStore }) => {
         })
             .then((res) => {
                 // console.log('Success Full');
+                resetToken();
                 toast.success('Lưu thành công!');
+                refresh();
+                setShowAddStore(false);
             })
             .catch((err) => console.log(err));
     };

@@ -155,7 +155,7 @@ function ChartLine({ value, setYear, year }) {
                 }
             });
         // console.log('arr', arr);
-    }, [authState.branchId, currentYear, setYear, value]);
+    }, [currentBranchId, currentYear, setYear, value]);
     console.log('year', dateYearReport);
     const options = {
         plugins: {

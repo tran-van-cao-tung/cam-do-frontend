@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './popup.css';
 import callAPI from '../../../API';
 import { Button, Grid, TextField, styled } from '@mui/material';
-import { formatDate } from '../../../helpers/dateTimeUtils';
+import { formatDate, formatMoney } from '../../../helpers/dateTimeUtils';
 import { Save } from '@mui/icons-material';
 import { NumericFormat } from 'react-number-format';
 import PropTypes from 'prop-types';
@@ -49,7 +49,7 @@ const Item = styled(Box)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
 }));
-const Liquidation = ({ showContractId }) => {
+const Liquidation = ({ showContractId, contracts }) => {
     var now = new Date().getTime();
     const { userInfo } = useContext(AuthContext);
     const [contractDetail, setContractDetail] = useState([]);
@@ -109,7 +109,8 @@ const Liquidation = ({ showContractId }) => {
             })
                 .then((res) => {
                     toast.success('Thanh lý thành công!');
-                    window.location.reload(false);
+                    // window.location.reload(false);
+                    contracts();
                 })
                 .catch((err) => toast.error('Thanh lý không thành công'));
         }
@@ -143,7 +144,7 @@ const Liquidation = ({ showContractId }) => {
                         </Grid>
                         <Grid item xs={3} sx={{ textAlign: 'left' }}>
                             <Item sx={{ textAlign: 'center', color: '#107287', fontSize: '25px', fontWeight: 400 }}>
-                                {liquidInfo.liquidationMoney}
+                                {formatMoney(liquidInfo.liquidationMoney)}
                             </Item>
                         </Grid>
                         <Grid item xs={3} sx={{ textAlign: 'center', alignItems: 'center' }}>

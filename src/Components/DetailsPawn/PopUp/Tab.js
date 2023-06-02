@@ -44,7 +44,7 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs({ contract, showContractId, showdetailContract, setshowdetailContract, refreshDetail, 
-    liquidDetail }) {
+    liquidDetail, contracts}) {
     const [value, setValue] = React.useState(0);
     const disbleLiquid = useMemo(() => 
     liquidDetail?.typeOfProduct === null
@@ -96,6 +96,7 @@ export default function BasicTabs({ contract, showContractId, showdetailContract
                     setshowdetailContract={setshowdetailContract}
                     contract={contract}
                     showContractId={showContractId}
+                    contracts = {contracts}
                 />
             </TabPanel>
             <TabPanel value={value} index={3}>
@@ -105,7 +106,7 @@ export default function BasicTabs({ contract, showContractId, showdetailContract
                 <History showContractId={showContractId} />
             </TabPanel>
             <TabPanel value={value} index={5}>
-                <Liquidation showContractId={showContractId} />
+                <Liquidation showContractId={showContractId} contracts = {contracts} />
             </TabPanel>
         </Box>
     );

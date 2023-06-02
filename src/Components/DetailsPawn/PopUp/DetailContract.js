@@ -9,7 +9,7 @@ import callAPI from '../../../API';
 import { useCallback } from 'react';
 import CustomizeDiaglog, { DIALOG_SIZE } from '../../../helpers/CustomizeDiaglog';
 
-const DetailContract = ({ setshowdetailContract, showContractId, showdetailContract }) => {
+const DetailContract = ({ setshowdetailContract, showContractId, showdetailContract, contracts }) => {
     const [detailPawn, setDetailPawn] = useState([]);
     const [liquidDetail, setLiquidDetail] = useState();
     useEffect(() => {
@@ -149,6 +149,7 @@ const DetailContract = ({ setshowdetailContract, showContractId, showdetailContr
                         showContractId={showContractId}
                         refreshDetail={refreshDetail}
                         liquidDetail = {liquidDetail}
+                        contracts = {contracts}
                     />
                 </div>
             </div>

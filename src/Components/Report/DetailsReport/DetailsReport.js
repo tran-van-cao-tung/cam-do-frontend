@@ -6,6 +6,7 @@ import './details.css';
 import API from '../../../API';
 
 import { AuthContext } from '../../../helpers/AuthContext';
+import { formatMoney } from '../../../helpers/dateTimeUtils';
 
 function DetailsReport({ value, setYear }) {
     const currentYear = new Date().getFullYear();
@@ -47,10 +48,6 @@ function DetailsReport({ value, setYear }) {
             });
         }
     }, [currentBranchId]);
-
-    const formatMoney = (value) => {
-        return value.toLocaleString('vi-VN') + ' VNĐ';
-    };
 
     return (
         <div className="conten">

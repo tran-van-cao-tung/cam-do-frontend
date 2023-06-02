@@ -12,7 +12,7 @@ import BtnSave from '../../ButtonUI/BtnSave/BtnSave';
 import BtnCloseAnimation from '../../ButtonUI/BtnCloseAnimation/BtnCloseAnimation';
 import { toast } from 'react-toastify';
 
-const Ransom = ({ showContractId, contract, showdetailContract, setshowdetailContract }) => {
+const Ransom = ({ showContractId, contract, showdetailContract, setshowdetailContract, contracts}) => {
     // Function active button (Button Deatail Contract)
     const Item = styled(Box)(({ theme }) => ({
         padding: theme.spacing(1),
@@ -40,7 +40,7 @@ const Ransom = ({ showContractId, contract, showdetailContract, setshowdetailCon
     useEffect(() => {
         API({
             method: 'get',
-            url: 'ramsom/ransombyid/' + localStorage.getItem('PawnDetailID'),
+            url: 'ramsom/ransombyid/' + showContractId,
         }).then((res) => {
             setRansom(res.data);
             // setImg(res.data);
@@ -89,7 +89,7 @@ const Ransom = ({ showContractId, contract, showdetailContract, setshowdetailCon
             console.log('link', res.data);
             console.log('id', ransomDetail.ransomId);
             setRansom(res.data);
-            window.location.reload(false);
+            contracts();
         });
     };
 

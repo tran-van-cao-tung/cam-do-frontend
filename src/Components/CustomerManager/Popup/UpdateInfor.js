@@ -44,6 +44,9 @@ const UpdateInfor = ({ showEditCustomer, setShowEditCustomer, refresh }) => {
     };
 
     const handleChangeStatus = (value) => {
+        if(value === 2){
+            handleShow();
+        }
         const newCustomerInfo = {};
         for (let key in customerInfo) {
             newCustomerInfo[key] = customerInfo[key];

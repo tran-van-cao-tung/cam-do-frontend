@@ -29,9 +29,20 @@ function App() {
     const [permissions, setPermissions] = useState([]);
     const [currentBranchId, setCurrentBranchId] = useState(null);
 
-    useEffect(() => {
-        console.log('Trigger get user data');
-        console.log('Token:', token);
+    const resetToken = () =>{
+        API({
+            method: 'post',
+            url: '/authentication/reloadToken',
+
+            data: {
+                accessToken: localStorage.getItem('accessToken'),
+            },
+        }).then((res) => {
+            localStorage.setItem('accessToken', res.data.token.accessToken);
+            setToken(res.data.token.accessToken);
+        })
+    }
+    const getUserData = () =>{
         if (token) {
             const data = {
                 accessToken: token,
@@ -58,6 +69,11 @@ function App() {
                     window.location.reload();
                 });
         }
+    }
+    useEffect(() => {
+        console.log('Trigger get user data');
+        console.log('Token:', token);
+        getUserData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
@@ -95,6 +111,8 @@ function App() {
         token,
         currentBranchId,
         setCurrentBranchId,
+        getUserData,
+        resetToken,
     };
 
     return (
